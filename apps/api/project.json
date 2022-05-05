@@ -46,6 +46,16 @@
         "jestConfig": "apps/api/jest.config.ts",
         "passWithNoTests": true
       }
+    },
+    "mikro-orm": {
+      "executor": "@alexy4744/nx-mikro-orm-cli:run",
+      "options": {
+        "config": {
+          "configPaths": ["./mikro-orm.config.ts"],
+          "tsConfigPath": "./tsconfig.json",
+          "useTsNode": true
+        }
+      }
     }
   },
   "tags": []
