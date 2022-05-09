@@ -1,0 +1,195 @@
+{
+  "uuid": "0163aec1-d8af-43d9-b0fa-187ea093daf5",
+  "lastMigration": 19,
+  "name": "Meana API",
+  "endpointPrefix": "",
+  "latency": 0,
+  "port": 3000,
+  "hostname": "0.0.0.0",
+  "routes": [
+    {
+      "uuid": "ac0317b4-2e94-42d1-bcb7-70bd6bcb2bb3",
+      "documentation": "List of connected nodes",
+      "method": "get",
+      "endpoint": "nodes",
+      "responses": [
+        {
+          "uuid": "52d9d203-ad36-40a5-aac6-f7bd708559be",
+          "body": "{\n  \"data\": [\n    {\n      \"id\": \"e0f37fb9-6704-46c6-b412-05fe3d0f1b10\",\n      \"name\": \"AWS_EC2_t2_micro\"\n      \"created_at\": \"2022-05-04 10:50:00\",\n      \"updated_at\": \"2022-05-04 10:50:00\"\n    }\n    ],\n    \"count\": 1,\n    \"total\": 1,\n    \"page\": 1,\n    \"pageCount\": 1\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "filePath": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false
+        }
+      ],
+      "enabled": true,
+      "randomResponse": false,
+      "sequentialResponse": false
+    },
+    {
+      "uuid": "44309124-0f79-492e-b940-a858cfa0de4a",
+      "documentation": "List of connected disks to node",
+      "method": "get",
+      "endpoint": "nodeDisks/:nodeId",
+      "responses": [
+        {
+          "uuid": "cee11cdb-7529-4289-81c9-43cf016b585b",
+          "body": "{\n  \"data\": [\n    {\n      \"id\": \"787294a7-5d43-4bc6-8c9e-cb7b104694b4\",\n      \"nodeId\": \"e0f37fb9-6704-46c6-b412-05fe3d0f1b10\",\n      \"path\": \"/dev/sda\",\n      \"manufacture\": \"Samsung Electronics Disk\",\n      \"model\": \"ST1000LM035-1RK1\",\n      \"serialNumber\": \"G92B-EC00\",\n      \"capacity\": \"293856480\",\n      \"firmwareVersion\": \"01.01A01\"\n      \"created_at\": \"2022-05-04 10:50:00\",\n      \"updated_at\": \"2022-05-04 10:50:00\"\n    }\n    ],\n    \"count\": 1,\n    \"total\": 1,\n    \"page\": 1,\n    \"pageCount\": 1\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "filePath": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "query",
+              "modifier": ":nodeId",
+              "value": "e0f37fb9-6704-46c6-b412-05fe3d0f1b10",
+              "operator": "equals"
+            }
+          ],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false
+        }
+      ],
+      "enabled": true,
+      "randomResponse": false,
+      "sequentialResponse": false
+    },
+    {
+      "uuid": "6836ae74-ba4c-45e6-9b33-901a19cd949c",
+      "documentation": "List of connected disks to node",
+      "method": "post",
+      "endpoint": "nodeDisks/:nodeId",
+      "responses": [
+        {
+          "uuid": "39bfabee-09b7-45e8-8bb0-6a0654d6657d",
+          "body": "{\n  \"id\": {{faker 'random.uuid'}},\n  \"nodeId\": {{body 'nodeId'}},\n  \"path\": {{body 'path'}},\n  \"manufacture\": {{body 'manufacture'}},\n  \"model\": {{body 'model'}},\n  \"serialNumber\": {{body 'serialNumber'}},\n  \"capacity\": {{body 'capacity'}},\n  \"firmwareVersion\": {{body 'firmwareVersion'}}\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "filePath": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "query",
+              "modifier": ":nodeId",
+              "value": "e0f37fb9-6704-46c6-b412-05fe3d0f1b10",
+              "operator": "equals"
+            }
+          ],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false
+        },
+        {
+          "uuid": "b22d02c6-f2d0-4930-9a45-53f7938fbba7",
+          "body": "{}",
+          "latency": 0,
+          "statusCode": 422,
+          "label": "",
+          "headers": [],
+          "filePath": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false
+        }
+      ],
+      "enabled": true,
+      "randomResponse": false,
+      "sequentialResponse": false
+    },
+    {
+      "uuid": "72d84bb0-23e8-41b6-a8bd-aeb16fdbac8e",
+      "documentation": "",
+      "method": "get",
+      "endpoint": "nodeDiskPartitions/:diskId",
+      "responses": [
+        {
+          "uuid": "95e9d23d-557f-48bd-99d3-f7385a7e2e91",
+          "body": "{\n  \"data\": [\n    {\n      \"id\": \"d74ddece-6aa8-4d7b-b3de-0f816959c150\",\n      \"diskId\": \"787294a7-5d43-4bc6-8c9e-cb7b104694b4\",\n      \"path\": \"/snap/core/4486\",\n      \"usedSpace\": \"293856\",\n      \"capacity\": \"293856480\",\n      \"fileSystem\": \"Ext3\",\n      \"created_at\": \"2022-05-04 10:50:00\",\n      \"updated_at\": \"2022-05-04 10:50:00\"\n    }\n    ],\n    \"count\": 1,\n    \"total\": 1,\n    \"page\": 1,\n    \"pageCount\": 1\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "filePath": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false
+        }
+      ],
+      "enabled": true,
+      "randomResponse": false,
+      "sequentialResponse": false
+    },
+    {
+      "uuid": "b4b6803a-d4e0-4900-99e1-7ad54e5968d1",
+      "documentation": "",
+      "method": "post",
+      "endpoint": "nodeDiskPartitions/:diskId",
+      "responses": [
+        {
+          "uuid": "cc7389ad-fca5-4cc4-9a02-7f9d2325c681",
+          "body": "    {\n      \"id\": {{faker 'random.uuid'}},\n      \"diskId\": {{body 'nodeId'}},\n      \"path\": {{body 'path'}},\n      \"usedSpace\": {{body 'usedSpace'}},\n      \"capacity\": {{body 'capacity'}},\n      \"fileSystem\": {{body 'fileSystem'}}\n    }",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "filePath": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false
+        }
+      ],
+      "enabled": true,
+      "randomResponse": false,
+      "sequentialResponse": false
+    }
+  ],
+  "proxyMode": false,
+  "proxyHost": "",
+  "proxyRemovePrefix": false,
+  "tlsOptions": {
+    "enabled": false,
+    "type": "CERT",
+    "pfxPath": "",
+    "certPath": "",
+    "keyPath": "",
+    "caPath": "",
+    "passphrase": ""
+  },
+  "cors": true,
+  "headers": [
+    {
+      "key": "Content-Type",
+      "value": "application/json"
+    }
+  ],
+  "proxyReqHeaders": [
+    {
+      "key": "",
+      "value": ""
+    }
+  ],
+  "proxyResHeaders": [
+    {
+      "key": "",
+      "value": ""
+    }
+  ]
+}
