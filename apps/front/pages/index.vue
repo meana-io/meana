@@ -1,5 +1,4 @@
 <template>
-  <NuxtTutorial />
 </template>
 
 <script lang="ts">
