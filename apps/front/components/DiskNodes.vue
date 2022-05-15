@@ -3,28 +3,21 @@
     :items="servers" 
     open-on-click
     activatable
+    color="none"
     @update:active="test">
   </v-treeview>   
 </template>
 
-
 <script>
   export default {
-    name: 'DiskNodes',
-    
+    name: 'DiskNode',
     data() {
       return {
-        servers: [],
+        servers: this.apiRoute,
       }
     },
     props: {
-      apiRoute: String
-    },
-    mounted() {
-      fetch(this.apiRoute)
-      .then(res => res.json())
-      .then(data => this.servers = data)
-      .catch(err => console.log(err))
+      apiRoute: Array
     },
     methods: {
       test() {
