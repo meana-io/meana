@@ -1,11 +1,10 @@
 <template>
-  <Disks data-app />
+  <Layout />
 </template>
 
 <script lang="ts">
-import Layout from "../components/Layout.vue";
-  export default {
-    components: { Layout }
-}
+import Layout from '../components/Layout.vue';
+export default {
+  components: { Layout },
+};
 </script>
-
