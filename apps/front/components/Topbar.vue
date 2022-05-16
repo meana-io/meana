@@ -1,0 +1,10 @@
+<template>
+    <v-app-bar
+      app
+      clipped-right
+      flat
+      height="72"
+      dark
+    >
+    </v-app-bar>
+</template>

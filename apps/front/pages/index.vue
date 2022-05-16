@@ -1,9 +1,11 @@
 <template>
-  <NuxtTutorial />
+  <Layout />
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
-
-export default Vue.extend({});
+import Layout from "../components/Layout.vue";
+  export default {
+    components: { Layout }
+}
 </script>
+
