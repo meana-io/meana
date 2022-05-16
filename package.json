@@ -39,6 +39,7 @@
     "@nuxt/types": "^2.15.7",
     "@nuxt/typescript-build": "^2.1.0",
     "@nuxtjs/eslint-config-typescript": "^9.0.0",
+    "@nuxtjs/vuetify": "^1.12.3",
     "@nx-plus/nuxt": "^13.0.1",
     "@types/jest": "27.4.1",
     "@types/node": "16.11.7",
