@@ -1,5 +1,5 @@
 <template>
-  <Layout />
+  <Disks data-app />
 </template>
 
 <script lang="ts">

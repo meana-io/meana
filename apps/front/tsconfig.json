@@ -4,7 +4,11 @@
     "esModuleInterop": true,
     "allowJs": true,
     "noEmit": true,
-    "types": ["node", "@nuxt/types"]
+    "types": [
+      "node",
+      "@nuxt/types"
+    ],
+    "jsx": "preserve"
   },
   "include": ["**/*.ts", "**/*.js", "**/*.vue"]
 }
