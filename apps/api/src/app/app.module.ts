@@ -7,10 +7,12 @@ import {NodeDisk} from "./domains/node-disks/entities/node-disk.entity";
 import {Node} from "./domains/nodes/entities/node.entity";
 import {NodesModule} from "./domains/nodes/nodes.module";
 import {NodeDisksModule} from "./domains/node-disks/node-disks.module";
+import {NodeDiskPartition} from "./domains/node-disk-partitions/entities/node-disk-partition.entity";
+import {NodeDiskPartitionsModule} from "./domains/node-disk-partitions/node-disk-partitions.module";
 
 @Module({
-  imports: [NodesModule, NodeDisksModule, MikroOrmModule.forRoot({
-    entities: [Node, NodeDisk],
+  imports: [NodesModule, NodeDisksModule, NodeDiskPartitionsModule, MikroOrmModule.forRoot({
+    entities: [Node, NodeDisk, NodeDiskPartition],
     dbName: 'meana',
     user: 'postgres',
     password: '',
