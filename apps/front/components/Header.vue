@@ -26,7 +26,6 @@
         @change="$emit('set:partition', $event)"
       />
     </v-col>
-    <pre>{{ JSON.stringify(disks) }}</pre>
   </v-row>
 </template>
 

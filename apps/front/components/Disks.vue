@@ -49,7 +49,7 @@ interface IDiskState {
 }
 
 const useDisk = () => {
-  const state: IDiskState = reactive({
+  const state = reactive<IDiskState>({
     disks: [],
     selectedDisk: {},
   });
@@ -72,7 +72,7 @@ interface IPartitionState {
 }
 
 const usePartition = (selectedDisk: IDisk | {}) => {
-  const state: IPartitionState = reactive({
+  const state = reactive<IPartitionState>({
     partitions: [],
     selectedPartiton: {},
   });
