@@ -1,4 +1,4 @@
-interface Disk {
+interface IDisk {
   id: string;
   nodeId: string;
   path: string;
@@ -11,4 +11,4 @@ interface Disk {
   updated_at: string;
 }
 
-export default Disk;
+export default IDisk;

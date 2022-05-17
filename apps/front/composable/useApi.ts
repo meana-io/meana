@@ -1,5 +1,4 @@
 import { toRefs, reactive } from '@vue/composition-api';
-import api from '../utils/axios';
 
 interface State<T> {
   isLoading: boolean;
@@ -8,9 +7,13 @@ interface State<T> {
   data: T;
 }
 
-type method = 'get' | 'post' | 'put' | 'patch' | 'delete';
+// type method = 'get' | 'post' | 'put' | 'patch' | 'delete';
+// const useApi = async <T>(url: string, method: method = 'get') => {
 
-const useApi = async <T>(url: string, method: method = 'get') => {
+type Body = Record<string, unknown> | undefined;
+type ServiceInstance = (args: string | number | {}) => any;
+
+const useApi = async <T>(serviceInstance: ServiceInstance, body?: Body) => {
   const state = reactive<State<T>>({
     isLoading: true,
     hasError: false,
@@ -20,7 +23,7 @@ const useApi = async <T>(url: string, method: method = 'get') => {
 
   const sendRequest = async () => {
     try {
-      const { data } = await api[method](url);
+      const { data } = await serviceInstance(body);
       state.data = data;
       state.isLoading = false;
     } catch (error: unknown) {

@@ -1,21 +1,27 @@
 <template>
   <v-navigation-drawer app width="300">
-    <v-list>
-      <v-list-item-content>
-        <v-img>
-          <img
-            height="45px"
-            width="225px"
-            red
-            src="https://scontent.fpoz3-1.fna.fbcdn.net/v/t1.15752-9/280581963_308773821439203_575958233435608819_n.png?_nc_cat=109&ccb=1-6&_nc_sid=ae9488&_nc_ohc=I2l4D8RkiQkAX-hR7o-&_nc_ht=scontent.fpoz3-1.fna&oh=03_AVKzdqe6s6Bg7eS3HPDV7qm6VrEE1RjMWh7gSwldIA9vQw&oe=62A38839"
-          />
-        </v-img>
-      </v-list-item-content>
-      <v-list-item v-for="n in 5" :key="n" link>
-        <v-list-item-content>
-          <v-list-item-title>Item {{ n }}</v-list-item-title>
-        </v-list-item-content>
-      </v-list-item>
-    </v-list>
+    <DiskNodes
+      :api-route="[
+        { id: 1, name: 'server 1' },
+        { id: 2, name: 'server 2' },
+        {
+          id: 3,
+          name: 'Home',
+          children: [
+            { id: 4, name: 'server 3' },
+            { id: 5, name: 'server 4' },
+            { id: 6, name: 'server 5' },
+          ],
+        },
+      ]"
+    />
   </v-navigation-drawer>
 </template>
+
+<script lang="ts">
+import DiskNodes from './DiskNodes.vue';
+
+export default {
+  components: { DiskNodes },
+};
+</script>

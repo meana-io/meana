@@ -26,16 +26,17 @@
         @change="$emit('set:partition', $event)"
       />
     </v-col>
+    <pre>{{ JSON.stringify(disks) }}</pre>
   </v-row>
 </template>
 
 <script setup lang="ts">
-import Partition from '../types/Partition';
-import Disk from '../types/Disk';
+import IPartition from '../interfaces/IPartition';
+import IDisk from '../interfaces/IDisk';
 
 interface HeaderProps {
-  disks: Disk[];
-  partitions: Partition[];
+  disks: IDisk[];
+  partitions: IPartition[];
 }
 
 defineProps<HeaderProps>();

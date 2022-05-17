@@ -5,10 +5,10 @@
 </template>
 
 <script setup lang="ts">
-import Disk from '../types/Disk';
+import IDisk from '../interfaces/IDisk';
 
 interface GeneralProps {
-  disk: Disk;
+  disk: IDisk;
 }
 
 defineProps<GeneralProps>();

@@ -22,7 +22,7 @@ type FileSystem =
   | 'ReiserFS'
   | 'ScoutFS';
 
-interface Partition {
+interface IPartition {
   id: string;
   diskId: string;
   path: string;
@@ -33,4 +33,4 @@ interface Partition {
   updated_at: string;
 }
 
-export default Partition;
+export default IPartition;
