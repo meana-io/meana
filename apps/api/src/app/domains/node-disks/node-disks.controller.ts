@@ -27,7 +27,7 @@ export class NodeDisksController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.nodeDisksService.findOne(+id);
+    return this.nodeDisksService.findOne(id);
   }
 
   @Patch(':id')
@@ -35,11 +35,11 @@ export class NodeDisksController {
     @Param('id') id: string,
     @Body() updateNodeDiskDto: UpdateNodeDiskDto
   ) {
-    return this.nodeDisksService.update(+id, updateNodeDiskDto);
+    return this.nodeDisksService.update(id, updateNodeDiskDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.nodeDisksService.remove(+id);
+    return this.nodeDisksService.remove(id);
   }
 }

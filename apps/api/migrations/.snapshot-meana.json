@@ -72,8 +72,8 @@
           "nullable": false,
           "mappedType": "string"
         },
-        "node_id_uuid": {
-          "name": "node_id_uuid",
+        "node_uuid": {
+          "name": "node_uuid",
           "type": "varchar(255)",
           "unsigned": false,
           "autoincrement": false,
@@ -171,10 +171,10 @@
       ],
       "checks": [],
       "foreignKeys": {
-        "node_disk_node_id_uuid_foreign": {
-          "constraintName": "node_disk_node_id_uuid_foreign",
+        "node_disk_node_uuid_foreign": {
+          "constraintName": "node_disk_node_uuid_foreign",
           "columnNames": [
-            "node_id_uuid"
+            "node_uuid"
           ],
           "localTableName": "public.node_disk",
           "referencedColumnNames": [

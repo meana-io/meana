@@ -6,9 +6,10 @@ import {MikroOrmModule} from "@mikro-orm/nestjs";
 import {NodeDisk} from "./domains/node-disks/entities/node-disk.entity";
 import {Node} from "./domains/nodes/entities/node.entity";
 import {NodesModule} from "./domains/nodes/nodes.module";
+import {NodeDisksModule} from "./domains/node-disks/node-disks.module";
 
 @Module({
-  imports: [NodesModule, MikroOrmModule.forRoot({
+  imports: [NodesModule, NodeDisksModule, MikroOrmModule.forRoot({
     entities: [Node, NodeDisk],
     dbName: 'meana',
     user: 'postgres',

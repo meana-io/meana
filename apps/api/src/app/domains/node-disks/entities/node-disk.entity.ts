@@ -7,7 +7,7 @@ export class NodeDisk {
     uuid: string = v4();
 
     @ManyToOne('Node', { nullable: true})
-    nodeId: string;
+    node: string;
 
     @Property({ nullable: true })
     path?: string;
