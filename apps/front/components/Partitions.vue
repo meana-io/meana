@@ -6,6 +6,18 @@
       >
       <v-col>{{ partition[key] }}</v-col>
     </v-row>
+    <v-row>
+      <v-col cols="12">
+        <span class="text-h6">Partitions space</span>
+      </v-col>
+      <v-col cols="12">
+        <ApexCharts
+          type="donut"
+          :options="{ labels: ['Free', 'Used'] }"
+          :series="[partition.capacity - partition.usedSpace, partition.usedSpace]"
+        />
+      </v-col>
+    </v-row>
   </div>
 </template>
 
