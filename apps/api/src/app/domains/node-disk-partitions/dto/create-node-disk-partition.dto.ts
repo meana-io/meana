@@ -6,6 +6,7 @@ export class CreateNodeDiskPartitionDto {
     nodeDisk: string
 
     @IsString()
+    @IsOptional()
     path?: string
 
     @IsString()

@@ -6,6 +6,7 @@ export class CreateNodeDiskDto {
     node: string
 
     @IsString()
+    @IsOptional()
     path?: string
 
     @IsString()
