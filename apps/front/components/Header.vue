@@ -1,7 +1,7 @@
 <template>
   <v-row align="center">
     <v-col cols="12" sm="2">
-      <p class="text-subtitle-2 text-center">Disks</p>
+      <p class="text-h6 text-center">Disks</p>
     </v-col>
     <v-col cols="12" sm="4">
       <v-select

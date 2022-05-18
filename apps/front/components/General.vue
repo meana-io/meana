@@ -6,38 +6,30 @@
       >
       <v-col>{{ disk[key] }}</v-col>
     </v-row>
-    <ApexCharts
-      width="500"
-      type="pie"
-      :options="chartOptions"
-      :series="series"
-    />
+    <v-row v-if="partitions.length > 0">
+      <v-col cols="12">
+        <span class="text-h6">Disk partitions</span>
+      </v-col>
+      <v-col cols="12">
+        <ApexCharts
+          type="donut"
+          :options="{ labels: partitions.map((p) => p.path) }"
+          :series="partitions.map((p) => p.capacity)"
+        />
+      </v-col>
+    </v-row>
   </div>
 </template>
 
 <script setup lang="ts">
 import IDisk from '../interfaces/IDisk';
+import IPartition from '../interfaces/IPartition';
 
 import { toTitleCase } from '../utils/text';
 
-const chartOptions = {
-  chart: {
-    id: 'vuechart-example',
-  },
-  xaxis: {
-    categories: [1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998],
-  },
-};
-
-const series = [
-  {
-    name: 'series-1',
-    data: [30, 40, 35, 50, 49, 60, 70, 91],
-  },
-];
-
 interface GeneralProps {
   disk: IDisk;
+  partitions: IPartition[];
 }
 
 defineProps<GeneralProps>();

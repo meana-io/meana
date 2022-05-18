@@ -12,7 +12,7 @@
     </v-row>
     <v-row>
       <v-col cols="6">
-        <General :disk="selectedDisk" />
+        <General :disk="selectedDisk" :partitions="partitions" />
       </v-col>
       <v-divider vertical />
       <v-col cols="6">
