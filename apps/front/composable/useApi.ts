@@ -1,4 +1,4 @@
-import { toRefs, reactive } from '@vue/composition-api';
+import { toRefs, reactive } from '@nuxtjs/composition-api';
 
 interface State<T> {
   isLoading: boolean;

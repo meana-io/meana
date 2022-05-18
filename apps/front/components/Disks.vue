@@ -29,7 +29,7 @@ import {
   toRefs,
   reactive,
   onBeforeMount,
-} from '@vue/composition-api';
+} from '@nuxtjs/composition-api';
 
 import IDisk from '../interfaces/IDisk';
 import IPartition from '../interfaces/IPartition';
@@ -48,14 +48,14 @@ interface IDiskState {
   selectedDisk: IDisk | {};
 }
 
-const useDisk = () => {
+const useDisk = (nodeId: string) => {
   const state = reactive<IDiskState>({
     disks: [],
     selectedDisk: {},
   });
 
   onBeforeMount(async () => {
-    const { data } = await useApi<IDisk>(DiskService.getAll);
+    const { data } = await useApi<IDisk>(DiskService.getAllNodeDisks, nodeId);
     state.disks = data.value;
   });
 

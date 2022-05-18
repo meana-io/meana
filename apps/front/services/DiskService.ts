@@ -1,8 +1,8 @@
 import api from '../utils/http';
 
 class DiskService {
-  getAll(): Promise<any> {
-    return api.get('/disks');
+  getAllNodeDisks(nodeId: string): Promise<any> {
+    return api.get(`/disks?nodeId=${nodeId}`);
   }
 }
 
