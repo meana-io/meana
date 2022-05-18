@@ -14,7 +14,6 @@
       <v-col cols="6">
         <General :disk="selectedDisk" :partitions="partitions" />
       </v-col>
-      <v-divider vertical />
       <v-col cols="6">
         <Partitions :partition="selectedPartiton" />
       </v-col>
