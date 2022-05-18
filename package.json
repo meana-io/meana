@@ -21,11 +21,15 @@
     "@nuxtjs/composition-api": "^0.32.0",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.13.2",
+    "@nuxtjs/vuetify": "^1.12.3",
+    "apexcharts": "^3.35.2",
+    "axios": "^0.27.2",
     "core-js": "^3.15.1",
     "nuxt": "^2.15.7",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.0.0",
-    "tslib": "^2.3.0"
+    "tslib": "^2.3.0",
+    "vue-apexcharts": "^1.6.2"
   },
   "devDependencies": {
     "@alexy4744/nx-mikro-orm-cli": "^1.1.1",
