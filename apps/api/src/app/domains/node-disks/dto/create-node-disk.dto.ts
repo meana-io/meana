@@ -27,4 +27,8 @@ export class CreateNodeDiskDto {
     @IsString()
     @IsOptional()
     firmwareVersion?: string
+
+    @IsString()
+    @IsOptional()
+    name?: string
 }

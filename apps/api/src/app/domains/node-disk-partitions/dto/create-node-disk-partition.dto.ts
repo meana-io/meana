@@ -19,4 +19,8 @@ export class CreateNodeDiskPartitionDto {
     @IsString()
     @IsOptional()
     fileSystem?: string
+
+    @IsString()
+    @IsOptional()
+    name?: string
 }

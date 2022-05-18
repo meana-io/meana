@@ -6,7 +6,7 @@ export class NodeDisk {
     @PrimaryKey()
     uuid: string = v4();
 
-    @ManyToOne('Node', { nullable: true})
+    @Property({ nullable: true })
     node: string;
 
     @Property({ nullable: true })
@@ -26,6 +26,9 @@ export class NodeDisk {
 
     @Property({ nullable: true })
     firmwareVersion?: string;
+
+    @Property({ nullable: true })
+    name?: string;
 
     @Property()
     createdAt: Date = new Date();

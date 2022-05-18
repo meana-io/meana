@@ -15,13 +15,58 @@
           "nullable": false,
           "mappedType": "string"
         },
+        "node_disk": {
+          "name": "node_disk",
+          "type": "varchar(255)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "mappedType": "string"
+        },
+        "path": {
+          "name": "path",
+          "type": "varchar(255)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "mappedType": "string"
+        },
+        "used_space": {
+          "name": "used_space",
+          "type": "varchar(255)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "mappedType": "string"
+        },
+        "capacity": {
+          "name": "capacity",
+          "type": "varchar(255)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "mappedType": "string"
+        },
+        "file_system": {
+          "name": "file_system",
+          "type": "varchar(255)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "mappedType": "string"
+        },
         "name": {
           "name": "name",
           "type": "varchar(255)",
           "unsigned": false,
           "autoincrement": false,
           "primary": false,
-          "nullable": false,
+          "nullable": true,
           "mappedType": "string"
         },
         "created_at": {
@@ -45,11 +90,11 @@
           "mappedType": "datetime"
         }
       },
-      "name": "node",
+      "name": "node_disk_partition",
       "schema": "public",
       "indexes": [
         {
-          "keyName": "node_pkey",
+          "keyName": "node_disk_partition_pkey",
           "columnNames": [
             "uuid"
           ],
@@ -72,8 +117,8 @@
           "nullable": false,
           "mappedType": "string"
         },
-        "node_uuid": {
-          "name": "node_uuid",
+        "node": {
+          "name": "node",
           "type": "varchar(255)",
           "unsigned": false,
           "autoincrement": false,
@@ -135,6 +180,15 @@
           "nullable": true,
           "mappedType": "string"
         },
+        "name": {
+          "name": "name",
+          "type": "varchar(255)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "mappedType": "string"
+        },
         "created_at": {
           "name": "created_at",
           "type": "timestamptz(0)",
@@ -170,21 +224,7 @@
         }
       ],
       "checks": [],
-      "foreignKeys": {
-        "node_disk_node_uuid_foreign": {
-          "constraintName": "node_disk_node_uuid_foreign",
-          "columnNames": [
-            "node_uuid"
-          ],
-          "localTableName": "public.node_disk",
-          "referencedColumnNames": [
-            "uuid"
-          ],
-          "referencedTableName": "public.node",
-          "deleteRule": "set null",
-          "updateRule": "cascade"
-        }
-      }
+      "foreignKeys": {}
     },
     {
       "columns": {
@@ -197,49 +237,13 @@
           "nullable": false,
           "mappedType": "string"
         },
-        "node_disk_uuid": {
-          "name": "node_disk_uuid",
+        "name": {
+          "name": "name",
           "type": "varchar(255)",
           "unsigned": false,
           "autoincrement": false,
           "primary": false,
-          "nullable": true,
-          "mappedType": "string"
-        },
-        "path": {
-          "name": "path",
-          "type": "varchar(255)",
-          "unsigned": false,
-          "autoincrement": false,
-          "primary": false,
-          "nullable": true,
-          "mappedType": "string"
-        },
-        "used_space": {
-          "name": "used_space",
-          "type": "varchar(255)",
-          "unsigned": false,
-          "autoincrement": false,
-          "primary": false,
-          "nullable": true,
-          "mappedType": "string"
-        },
-        "capacity": {
-          "name": "capacity",
-          "type": "varchar(255)",
-          "unsigned": false,
-          "autoincrement": false,
-          "primary": false,
-          "nullable": true,
-          "mappedType": "string"
-        },
-        "file_system": {
-          "name": "file_system",
-          "type": "varchar(255)",
-          "unsigned": false,
-          "autoincrement": false,
-          "primary": false,
-          "nullable": true,
+          "nullable": false,
           "mappedType": "string"
         },
         "created_at": {
@@ -263,11 +267,11 @@
           "mappedType": "datetime"
         }
       },
-      "name": "node_disk_partition",
+      "name": "node",
       "schema": "public",
       "indexes": [
         {
-          "keyName": "node_disk_partition_pkey",
+          "keyName": "node_pkey",
           "columnNames": [
             "uuid"
           ],
@@ -277,21 +281,7 @@
         }
       ],
       "checks": [],
-      "foreignKeys": {
-        "node_disk_partition_node_disk_uuid_foreign": {
-          "constraintName": "node_disk_partition_node_disk_uuid_foreign",
-          "columnNames": [
-            "node_disk_uuid"
-          ],
-          "localTableName": "public.node_disk_partition",
-          "referencedColumnNames": [
-            "uuid"
-          ],
-          "referencedTableName": "public.node_disk",
-          "deleteRule": "set null",
-          "updateRule": "cascade"
-        }
-      }
+      "foreignKeys": {}
     }
   ]
 }
