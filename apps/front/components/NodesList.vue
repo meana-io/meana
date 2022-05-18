@@ -1,5 +1,5 @@
 <template>
-  <v-navigation-drawer app width="500">
+  <v-navigation-drawer app width="200">
     <v-treeview
       :items="nodes"
       open-on-click
@@ -7,7 +7,6 @@
       color="none"
       @update:active="setActiveNode"
     />
-    <pre>{{ JSON.stringify(activeNode, null, 2) }}</pre>
   </v-navigation-drawer>
 </template>
 
@@ -50,8 +49,7 @@ export default defineComponent({
     const router = useRouter();
 
     watch(activeNode, (newActiveNode) => {
-      console.log(newActiveNode);
-      router.push({ name: 'nodes', params: { nodeId: newActiveNode } });
+      router.push(`/nodes/${newActiveNode}`);
     });
 
     return {

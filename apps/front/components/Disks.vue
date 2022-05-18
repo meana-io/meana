@@ -29,6 +29,7 @@ import {
   toRefs,
   reactive,
   onBeforeMount,
+  useRoute,
 } from '@nuxtjs/composition-api';
 
 import IDisk from '../interfaces/IDisk';
@@ -102,7 +103,9 @@ export default defineComponent({
     Partitions,
   },
   setup() {
-    const { setDisk, disks, selectedDisk } = useDisk();
+    const route = useRoute();
+
+    const { setDisk, disks, selectedDisk } = useDisk(route.value.params.nodes);
 
     const { setPartition, partitions, selectedPartiton } =
       usePartition(selectedDisk);
