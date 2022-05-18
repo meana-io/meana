@@ -1,12 +1,9 @@
 <template>
-  <v-navigation-drawer app clipped right>
+  <v-navigation-drawer app clipped right width="75">
     <v-list>
       <v-list-item v-for="icon in icons" :key="icon" link>
-        <v-list-item-icon>
-          <v-icon>{{ icon }}</v-icon>
-        </v-list-item-icon>
         <v-list-item-content>
-          <v-list-item-title> {{ icon }}</v-list-item-title>
+          <v-icon>{{ icon }}</v-icon>
         </v-list-item-content>
       </v-list-item>
     </v-list>

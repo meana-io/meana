@@ -1,5 +1,5 @@
 <template>
-  <v-navigation-drawer app width="300">
+  <v-navigation-drawer app width="200">
     <DiskNodes :nodes="nodes" />
   </v-navigation-drawer>
 </template>

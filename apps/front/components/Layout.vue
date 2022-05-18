@@ -2,7 +2,7 @@
   <v-app>
     <Topbar />
     <NodesList />
-    <LeftMenu />
+    <RightMenu />
     <Content />
   </v-app>
 </template>
@@ -11,8 +11,8 @@
 import Topbar from './Topbar.vue';
 import NodesList from './NodesList.vue';
 import Content from './Content.vue';
-import LeftMenu from './LeftMenu.vue';
+import RightMenu from './RightMenu.vue';
 export default {
-  components: { Content, LeftMenu, NodesList, Topbar },
+  components: { Content, RightMenu, NodesList, Topbar },
 };
 </script>

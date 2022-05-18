@@ -5,5 +5,3 @@
     </v-container>
   </v-main>
 </template>
-
-<style></style>
