@@ -1,6 +1,13 @@
 import { AppProps } from 'next/app';
 import Head from 'next/head';
-import './styles.css';
+
+import { CacheProvider } from '@emotion/react';
+import { ThemeProvider, CssBaseline } from '@mui/material';
+
+import createEmotionCache from '../utility/createEmotionCache';
+import lightTheme from '../styles/theme/lightTheme';
+
+const clientSideEmotionCache = createEmotionCache();
 
 function CustomApp({ Component, pageProps }: AppProps) {
   return (
@@ -8,9 +15,12 @@ function CustomApp({ Component, pageProps }: AppProps) {
       <Head>
         <title>Welcome to front!</title>
       </Head>
-      <main className="app">
-        <Component {...pageProps} />
-      </main>
+      <CacheProvider value={clientSideEmotionCache}>
+        <ThemeProvider theme={lightTheme}>
+          <CssBaseline />
+          <Component {...pageProps} />
+        </ThemeProvider>
+      </CacheProvider>
     </>
   );
 }
