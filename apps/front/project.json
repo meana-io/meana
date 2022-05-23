@@ -1,49 +1,58 @@
 {
   "root": "apps/front",
+  "sourceRoot": "apps/front",
   "projectType": "application",
-  "sourceRoot": "apps/front/src",
   "targets": {
     "build": {
-      "executor": "@nx-plus/nuxt:browser",
+      "executor": "@nrwl/next:build",
+      "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "production",
       "options": {
-        "buildDir": "dist/apps/front"
+        "root": "apps/front",
+        "outputPath": "dist/apps/front"
       },
       "configurations": {
+        "development": {},
         "production": {}
       }
     },
     "serve": {
-      "executor": "@nx-plus/nuxt:server",
+      "executor": "@nrwl/next:server",
+      "defaultConfiguration": "development",
       "options": {
-        "browserTarget": "front:build",
+        "buildTarget": "front:build",
         "dev": true
       },
       "configurations": {
+        "development": {
+          "buildTarget": "front:build:development",
+          "dev": true
+        },
         "production": {
-          "browserTarget": "front:build:production",
+          "buildTarget": "front:build:production",
           "dev": false
         }
       }
     },
-    "static": {
-      "executor": "@nx-plus/nuxt:static",
+    "export": {
+      "executor": "@nrwl/next:export",
       "options": {
-        "browserTarget": "front:build:production"
-      }
-    },
-    "lint": {
-      "executor": "@nrwl/linter:eslint",
-      "outputs": ["{options.outputFile}"],
-      "options": {
-        "lintFilePatterns": ["apps/front/**/*.{ts,tsx,vue}"]
+        "buildTarget": "front:build:production"
       }
     },
     "test": {
       "executor": "@nrwl/jest:jest",
       "outputs": ["coverage/apps/front"],
       "options": {
-        "jestConfig": "apps/front/jest.config.js",
+        "jestConfig": "apps/front/jest.config.ts",
         "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["apps/front/**/*.{ts,tsx,js,jsx}"]
       }
     }
   },
