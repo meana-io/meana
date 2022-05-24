@@ -1,9 +1,14 @@
 import { NextPage } from 'next';
 
-import VerticalTabs from '@/components/Tab';
+import MainLayout from '@/layouts/Main';
+import Disks from '@/components/Disks';
 
 const Index: NextPage = () => {
-  return <VerticalTabs />;
+  return (
+    <MainLayout>
+      <Disks />
+    </MainLayout>
+  );
 };
 
 export default Index;
