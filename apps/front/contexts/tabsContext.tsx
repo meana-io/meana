@@ -1,6 +1,6 @@
 import React, { createContext, useState } from 'react';
 
-export interface TabsContextProps {
+interface TabsContextProps {
   initialTab?: number;
   activeTab: number;
   onChangeActiveTab: (

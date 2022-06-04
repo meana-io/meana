@@ -1,5 +1,5 @@
-import { TabsContext } from '@/contexts/tabsContext';
 import { useContext } from 'react';
+import { TabsContext } from '@/contexts/TabsContext';
 
 const useTabs = () => {
   const context = useContext(TabsContext);

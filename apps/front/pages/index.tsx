@@ -1,20 +1,20 @@
 import { NextPage } from 'next';
-import { Box, Toolbar } from '@mui/material';
+import { Box } from '@mui/material';
 
 import MainLayout from '@/layouts/Main';
 import Disks from '@/components/Disks';
-import useTabs from '@/hooks/useTabs';
+
+import TabsProvider from '@/contexts/TabsContext';
 
 const Index: NextPage = () => {
-  const { activeTab } = useTabs();
-
   return (
-    <MainLayout>
-      <Toolbar />
-      <Box>
-        <Disks activeTab={activeTab} index={0} />
-      </Box>
-    </MainLayout>
+    <TabsProvider>
+      <MainLayout>
+        <Box>
+          <Disks index={0} />
+        </Box>
+      </MainLayout>
+    </TabsProvider>
   );
 };
 

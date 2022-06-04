@@ -1,30 +1,23 @@
-import { Box, Typography } from '@mui/material';
+import useTabs from '@/hooks/useTabs';
+import { Box } from '@mui/material';
 
 interface TabPanelProps {
   children?: React.ReactNode;
   index: number;
-  value: number;
 }
 
-const TabPanel: React.FC<TabPanelProps> = ({
-  children,
-  value,
-  index,
-  ...other
-}) => {
+const TabPanel: React.FC<TabPanelProps> = ({ children, index, ...other }) => {
+  const { activeTab } = useTabs();
+
   return (
     <div
       role="tabpanel"
-      hidden={value !== index}
+      hidden={activeTab !== index}
       id={`vertical-tabpanel-${index}`}
       aria-labelledby={`vertical-tab-${index}`}
       {...other}
     >
-      {value === index && (
-        <Box sx={{ p: 3 }}>
-          <Typography>{children}</Typography>
-        </Box>
-      )}
+      {activeTab === index && <Box sx={{ p: 3 }}>{children}</Box>}
     </div>
   );
 };

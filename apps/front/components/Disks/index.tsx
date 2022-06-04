@@ -1,14 +1,13 @@
 import TabPanel from '../Tabs/TabPanel';
 
 interface DisksProps {
-  activeTab: number;
   index: number;
 }
 
-const Disks: React.FC<DisksProps> = ({ activeTab, index }) => {
+const Disks: React.FC<DisksProps> = ({ index }) => {
   return (
-    <TabPanel value={activeTab} index={index}>
-      <p>DisksDetails</p>
+    <TabPanel index={index}>
+      <div>DisksDetails</div>
     </TabPanel>
   );
 };
