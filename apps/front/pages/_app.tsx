@@ -13,7 +13,7 @@ function CustomApp({ Component, pageProps }: AppProps) {
   return (
     <>
       <Head>
-        <title>Welcome to front!</title>
+        <title>Meana</title>
       </Head>
       <CacheProvider value={clientSideEmotionCache}>
         <ThemeProvider theme={lightTheme}>

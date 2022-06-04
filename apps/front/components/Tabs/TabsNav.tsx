@@ -1,5 +1,7 @@
 import { Tabs, Tab } from '@mui/material';
 
+import useTabs from '@/hooks/useTabs';
+
 const a11yProps = (index: number) => {
   return {
     id: `vertical-tab-${index}`,
@@ -14,17 +16,17 @@ interface Tab {
 
 interface TabsNavProps {
   tabs: Tab[];
-  activeTab: number;
-  changeTab: (event: React.SyntheticEvent, newValue: number) => void;
 }
 
-const TabsNav: React.FC<TabsNavProps> = ({ activeTab, changeTab, tabs }) => {
+const TabsNav: React.FC<TabsNavProps> = ({ tabs }) => {
+  const { activeTab, onChangeActiveTab } = useTabs();
+
   return (
     <Tabs
       orientation="vertical"
       variant="scrollable"
       value={activeTab}
-      onChange={changeTab}
+      onChange={onChangeActiveTab}
     >
       {tabs.map(({ label, icon }, index) => (
         <Tab key={index} aria-label={label} icon={icon} {...a11yProps(index)} />

@@ -9,7 +9,7 @@ const TopNavbar: React.FC = () => {
       sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}
     >
       <Toolbar>
-        <Typography variant="h6" noWrap component="div">
+        <Typography variant="h6" noWrap component="p">
           Meana
         </Typography>
       </Toolbar>
