@@ -10,15 +10,15 @@ const TabPanel: React.FC<TabPanelProps> = ({ children, index, ...other }) => {
   const { activeTab } = useTabs();
 
   return (
-    <div
+    <Box
       role="tabpanel"
       hidden={activeTab !== index}
       id={`vertical-tabpanel-${index}`}
       aria-labelledby={`vertical-tab-${index}`}
       {...other}
     >
-      {activeTab === index && <Box sx={{ p: 3 }}>{children}</Box>}
-    </div>
+      {activeTab === index && children}
+    </Box>
   );
 };
 

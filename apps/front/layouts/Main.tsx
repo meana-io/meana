@@ -1,8 +1,11 @@
-import { Box, Toolbar, Drawer } from '@mui/material';
+import { Toolbar } from '@mui/material';
 
-import TopNavbar from '@/components/TopNavbar';
-import MainDrawer from '@/components/MainDrawer';
-import TabsNav from '@/components/Tabs/TabsNav';
+import TopNavbar from '@/components/Layout/TopNavbar';
+import NodeListDrawer from '@/components/Layout/NodeListDrawer';
+import ServerDetailsDrawer from '@/components/Layout/ServerDetailsDrawer';
+import LayoutContent from '@/components/Layout/LayoutContent';
+
+import Node from '@/types/node';
 
 import AccessAlarmIcon from '@mui/icons-material/AccessAlarm';
 import ThreeDRotation from '@mui/icons-material/ThreeDRotation';
@@ -14,22 +17,20 @@ const TABS = [
 
 interface MainLayoutProps {
   children: React.ReactNode;
+  nodes: Node[];
 }
 
-const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
+const MainLayout: React.FC<MainLayoutProps> = ({ children, nodes }) => {
   return (
-    <Box sx={{ display: 'flex' }}>
+    <>
       <TopNavbar />
-      <MainDrawer />
-      <Box component="main" sx={{ pt: 3 }}>
+      <NodeListDrawer nodes={nodes} />
+      <ServerDetailsDrawer tabs={TABS} />
+      <LayoutContent component="main" pt={2}>
         <Toolbar />
-        <Drawer variant="permanent" anchor="right">
-          <Toolbar />
-          <TabsNav tabs={TABS} />
-        </Drawer>
         {children}
-      </Box>
-    </Box>
+      </LayoutContent>
+    </>
   );
 };
 

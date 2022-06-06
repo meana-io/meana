@@ -9,7 +9,7 @@ const a11yProps = (index: number) => {
   };
 };
 
-interface Tab {
+export interface Tab {
   label: string;
   icon: React.ReactElement;
 }
