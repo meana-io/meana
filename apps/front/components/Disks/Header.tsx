@@ -39,6 +39,7 @@ const Header: React.FC<HeaderProps> = ({
               labelId="disk"
               id="disk"
               label="Disk"
+              defaultValue=""
               onChange={(event: SelectChangeEvent) =>
                 handleDiskChange(event.target.value)
               }
@@ -56,6 +57,7 @@ const Header: React.FC<HeaderProps> = ({
               labelId="partition"
               id="partition"
               label="Partition"
+              defaultValue=""
               onChange={(event: SelectChangeEvent) =>
                 handlePartitionChange(event.target.value)
               }

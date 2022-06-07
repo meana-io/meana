@@ -15,8 +15,8 @@ interface DisksProps {
 }
 
 const Disks: React.FC<DisksProps> = ({ disks, partitions }) => {
-  const [disk, setDisk] = useState<Disk | null>(null);
-  const [partition, setPartition] = useState<Partition | null>(null);
+  const [disk, setDisk] = useState<Disk | undefined>(undefined);
+  const [partition, setPartition] = useState<Partition | undefined>(undefined);
 
   const handleDiskChange = (diskId: string) => {
     const selectedDisk = disks.find((d) => d.id === diskId);
@@ -26,6 +26,10 @@ const Disks: React.FC<DisksProps> = ({ disks, partitions }) => {
   const handlePartitionChange = (partitionId: string) => {
     const selectedPartition = partitions.find((d) => d.id === partitionId);
     setPartition(selectedPartition);
+  };
+
+  const getPartitonsByDiskId = (diskId: string) => {
+    return partitions.filter((p) => p.diskId === diskId);
   };
 
   return (
@@ -43,11 +47,32 @@ const Disks: React.FC<DisksProps> = ({ disks, partitions }) => {
           <DiskDetails disk={disk} />
         </Grid>
         <Grid item xs={6}>
-          {/* <PartitionDetails partition={partition} /> */}
+          <PartitionDetails partition={partition} />
         </Grid>
       </Grid>
-      <Grid item xs={6}>
-        <ChartCard />
+
+      <Grid item spacing={2} container direction="row" xs={12}>
+        <Grid item xs={6}>
+          {disk && (
+            <ChartCard
+              title="Disk space"
+              labels={getPartitonsByDiskId(disk?.id).map((p) => p?.path)}
+              series={getPartitonsByDiskId(disk?.id).map((p) => p?.capacity)}
+            />
+          )}
+        </Grid>
+        <Grid item xs={6}>
+          {partition && (
+            <ChartCard
+              title="Partiton space"
+              labels={['Used', 'Free']}
+              series={[
+                partition?.capacity - partition?.usedSpace,
+                partition?.usedSpace,
+              ]}
+            />
+          )}
+        </Grid>
       </Grid>
     </Grid>
   );

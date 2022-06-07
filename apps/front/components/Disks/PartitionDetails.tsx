@@ -1,35 +1,36 @@
-import {
-  Card,
-  CardActions,
-  CardContent,
-  Button,
-  Typography,
-} from '@mui/material';
+import { Card, CardContent, Typography } from '@mui/material';
 
-const DisksDetails: React.FC = () => {
+import { toTitleCase } from '@/utility/toTitleCase';
+import Partition from '@/types/partition';
+
+interface PartitionDetailsProps {
+  partition: Partition;
+}
+
+const PartitionDetails: React.FC<PartitionDetailsProps> = ({ partition }) => {
+  const keysToDisplay: (keyof Partition)[] = [
+    'path',
+    'usedSpace',
+    'capacity',
+    'fileSystem',
+  ];
+
   return (
     <Card>
       <CardContent>
-        <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-          Word of the Day
-        </Typography>
-        <Typography variant="h5" component="div">
-          bessnt
-        </Typography>
-        <Typography sx={{ mb: 1.5 }} color="text.secondary">
-          adjective
-        </Typography>
-        <Typography variant="body2">
-          well meaning and kindly.
-          <br />
-          {'"a benevolent smile"'}
+        <Typography component="div" variant="h4">
+          Partition - {partition?.path}
         </Typography>
       </CardContent>
-      <CardActions>
-        <Button size="small">Learn More</Button>
-      </CardActions>
+      <CardContent>
+        {keysToDisplay.map((key) => (
+          <Typography key={key} component="div" variant="h6">
+            {toTitleCase(key)}: {partition?.[key] ?? 'N/A'}
+          </Typography>
+        ))}
+      </CardContent>
     </Card>
   );
 };
 
-export default DisksDetails;
+export default PartitionDetails;
