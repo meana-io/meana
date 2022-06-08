@@ -2,6 +2,7 @@
   "version": 2,
   "projects": {
     "api": "apps/api",
+    "api-agent": "apps/api-agent",
     "front": "apps/front",
     "front-e2e": "apps/front-e2e"
   }
