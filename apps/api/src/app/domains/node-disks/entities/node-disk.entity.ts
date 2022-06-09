@@ -1,11 +1,12 @@
 import {Column, Model, Table} from "sequelize-typescript";
 import {DateTime} from "luxon";
+import { NodeDisk as LocalNodeDisk } from "../../../../../../../shared/Entities/NodeDisk"
 
 @Table({
     tableName: 'node_disks',
     timestamps: false
 })
-export class NodeDisk extends Model {
+export class NodeDisk extends Model implements LocalNodeDisk {
     @Column({
         defaultValue: DateTime.now().toISO(),
         primaryKey: true
