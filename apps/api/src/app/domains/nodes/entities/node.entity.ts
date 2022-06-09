@@ -1,17 +1,11 @@
-import {Entity, PrimaryKey, Property} from "@mikro-orm/core";
+import { Column, Model, Table } from 'sequelize-typescript';
 import { v4 } from 'uuid';
 
-@Entity()
-export class Node {
-    @PrimaryKey()
-    uuid: string = v4();
+@Table
+export class Node extends Model {
+    @Column({ defaultValue: v4(), primaryKey: true})
+    uuid: string;
 
-    @Property({ nullable: false})
+    @Column
     name: string;
-
-    @Property()
-    createdAt: Date = new Date();
-
-    @Property({ onUpdate: () => new Date() })
-    updatedAt: Date = new Date();
 }

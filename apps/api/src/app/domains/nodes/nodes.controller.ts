@@ -2,14 +2,12 @@ import {
   Controller,
   Get,
   Post,
-  Body,
-  Patch,
-  Param,
-  Delete,
+  Body, Param, Patch, Delete,
 } from '@nestjs/common';
 import { NodesService } from './nodes.service';
 import { CreateNodeDto } from './dto/create-node.dto';
-import { UpdateNodeDto } from './dto/update-node.dto';
+import {UpdateNodeDto} from "./dto/update-node.dto";
+import {FindAllDto} from "../../common/findAll.dto";
 
 @Controller('nodes')
 export class NodesController {
@@ -21,8 +19,8 @@ export class NodesController {
   }
 
   @Get()
-  findAll() {
-    return this.nodesService.findAll();
+  findAll(@Body() findAllDto: FindAllDto) {
+    return this.nodesService.findAll(findAllDto);
   }
 
   @Get(':id')
@@ -37,6 +35,6 @@ export class NodesController {
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.nodesService.remove(id);
+    return this.nodesService.deleteOne(id);
   }
 }

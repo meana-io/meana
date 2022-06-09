@@ -1,53 +1,47 @@
-import {Injectable, NotFoundException} from '@nestjs/common';
-import {CreateNodeDto} from './dto/create-node.dto';
-import {UpdateNodeDto} from './dto/update-node.dto';
+import {Injectable} from '@nestjs/common';
 import {Node} from "./entities/node.entity";
-import {EntityRepository, wrap} from "@mikro-orm/core";
-import {InjectRepository} from "@mikro-orm/nestjs";
+import {InjectModel} from "@nestjs/sequelize";
+import {CreateNodeDto} from "./dto/create-node.dto";
+import {UpdateNodeDto} from "./dto/update-node.dto";
+import {FindAllDto} from "../../common/findAll.dto";
 
 @Injectable()
 export class NodesService {
-  constructor(@InjectRepository(Node) private readonly nodeRepository: EntityRepository<Node>) {
+  constructor(@InjectModel(Node) private nodeModel: typeof Node) {
   }
   async create(createNodeDto: CreateNodeDto) {
-    const node = this.nodeRepository.create(createNodeDto)
-    await this.nodeRepository.persistAndFlush(node)
-
-    return node;
+    return await this.nodeModel.create({ ...createNodeDto })
   }
 
-  async findAll() {
-    return await this.nodeRepository.findAll()
+  async findAll(findAllDto: FindAllDto) {
+    console.log(findAllDto)
+
+    return await this.nodeModel.findAll(findAllDto)
   }
 
-  async findOne(id: string) {
-    try {
-      return await this.nodeRepository.findOneOrFail({uuid: id});
-    } catch (e) {
-      throw new NotFoundException()
-    }
+  async findOne(uuid: string) {
+    return await this.nodeModel.findOne({ where: {
+        uuid
+        }})
   }
 
-  async update(id: string, updateNodeDto: UpdateNodeDto) {
-    try {
-      const node = await this.nodeRepository.findOneOrFail({uuid: id});
-      const newEntity = wrap(node).assign({ ...updateNodeDto })
-      await this.nodeRepository.persistAndFlush(newEntity)
+  async update(uuid: string, updateNodeDto: UpdateNodeDto) {
+    const node = await this.nodeModel.findOne({ where: {
+      uuid
+      }})
 
-      return newEntity
-    } catch (e) {
-      throw new NotFoundException()
-    }
+    await node.update({ ...updateNodeDto })
+    await node.save();
+
+    return node
   }
 
-  async remove(id: string) {
-    try {
-      const node = await this.nodeRepository.findOneOrFail({uuid: id});
-      await this.nodeRepository.removeAndFlush(node)
+  async deleteOne(uuid: string) {
+    const node = await this.nodeModel.findOne({ where: {
+      uuid
+      }})
+    await node.destroy()
 
-      return node
-    } catch (e) {
-      throw new NotFoundException()
-    }
+    return node
   }
 }

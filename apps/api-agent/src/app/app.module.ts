@@ -3,7 +3,6 @@ import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import {SequelizeModule} from "@nestjs/sequelize";
-import {Cat} from "./dto/cat.entity";
 
 @Module({
   imports: [

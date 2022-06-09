@@ -1,5 +1,5 @@
 import { Sequelize } from 'sequelize-typescript';
-import {NodeDisk} from "../domains/node-disks/entities/node-disk.entity";
+import {Node} from "../domains/nodes/entities/node.entity"
 
 export const databaseProviders = [
     {
@@ -13,7 +13,7 @@ export const databaseProviders = [
                 password: 'password',
                 database: 'meana',
             });
-            sequelize.addModels([NodeDisk]);
+            sequelize.addModels([Node]);
             await sequelize.sync();
             return sequelize;
         },
