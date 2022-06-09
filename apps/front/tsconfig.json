@@ -1,14 +1,49 @@
 {
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
-    "esModuleInterop": true,
+    "jsx": "preserve",
+    "jsxImportSource": "@emotion/react",
     "allowJs": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "strict": false,
+    "forceConsistentCasingInFileNames": true,
     "noEmit": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "incremental": true,
     "types": [
-      "node",
-      "@nuxt/types"
+      "jest",
+      "node"
     ],
-    "jsx": "preserve"
+    "baseUrl": ".",
+    "paths": {
+      "@/types/*": [
+        "types/*"
+      ],
+      "@/contexts/*": [
+        "contexts/*"
+      ],
+      "@/layouts/*": [
+        "layouts/*"
+      ],
+      "@/components/*": [
+        "components/*"
+      ],
+      "@/hooks/*": [
+        "hooks/*"
+      ],
+      "@/styles/*": [
+        "styles/*"
+      ],
+      "@/utility/*": [
+        "utility/*"
+      ],
+      "@/pages/*": [
+        "pages/*"
+      ],
+    }
   },
-  "include": ["**/*.ts", "**/*.js", "**/*.vue"]
+  "include": ["**/*.ts", "**/*.tsx", "**/*.js", "**/*.jsx", "next-env.d.ts"],
+  "exclude": ["node_modules", "jest.config.ts"]
 }
