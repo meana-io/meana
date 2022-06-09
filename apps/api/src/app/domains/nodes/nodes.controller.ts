@@ -23,18 +23,18 @@ export class NodesController {
     return this.nodesService.findAll(findAllDto);
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.nodesService.findOne(id);
+  @Get(':uuid')
+  findOne(@Param('uuid') uuid: string) {
+    return this.nodesService.findOne(uuid);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateNodeDto: UpdateNodeDto) {
-    return this.nodesService.update(id, updateNodeDto);
+  @Patch(':uuid')
+  update(@Param('uuid') uuid: string, @Body() updateNodeDto: UpdateNodeDto) {
+    return this.nodesService.update(uuid, updateNodeDto);
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.nodesService.deleteOne(id);
+  @Delete(':uuid')
+  remove(@Param('uuid') uuid: string) {
+    return this.nodesService.deleteOne(uuid);
   }
 }

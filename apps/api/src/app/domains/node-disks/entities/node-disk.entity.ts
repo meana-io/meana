@@ -1,38 +1,48 @@
-import {Entity, ManyToOne, PrimaryKey, Property} from "@mikro-orm/core";
-import { v4 } from 'uuid';
+import {BelongsTo, Column, ForeignKey, Model, Table} from "sequelize-typescript";
+import { DateTime } from "luxon";
+import { Node } from "../../nodes/entities/node.entity"
 
-@Entity()
-export class NodeDisk {
-    @PrimaryKey()
-    uuid: string = v4();
+@Table({
+    tableName: 'node_disks',
+    timestamps: false
+})
+export class NodeDisk extends Model {
+    @Column({
+        defaultValue: DateTime.now().toISO(),
+        primaryKey: true
+    })
+    time: string
 
-    @Property({ nullable: true })
-    node: string;
+    @Column
+    nodeId: string;
 
-    @Property({ nullable: true })
+    @Column({
+        allowNull: true,
+    })
     path?: string;
 
-    @Property({ nullable: true })
+    @Column({
+        allowNull: true,
+    })
     manufacture?: string;
 
-    @Property({ nullable: true })
+    @Column({
+        allowNull: true,
+    })
     model?: string;
 
-    @Property({ nullable: true })
+    @Column({
+        allowNull: true,
+    })
     serialNumber?: string;
 
-    @Property({ nullable: true })
+    @Column({
+        allowNull: true,
+    })
     capacity?: string;
 
-    @Property({ nullable: true })
+    @Column({
+        allowNull: true,
+    })
     firmwareVersion?: string;
-
-    @Property({ nullable: true })
-    name?: string;
-
-    @Property()
-    createdAt: Date = new Date();
-
-    @Property({ onUpdate: () => new Date() })
-    updatedAt: Date = new Date();
 }

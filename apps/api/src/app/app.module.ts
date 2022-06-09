@@ -5,16 +5,18 @@ import {AppService} from './app.service';
 import {Node} from "./domains/nodes/entities/node.entity";
 import {NodesModule} from "./domains/nodes/nodes.module";
 import {SequelizeModule} from "@nestjs/sequelize";
+import {NodeDisk} from "./domains/node-disks/entities/node-disk.entity";
+import {NodeDisksModule} from "./domains/node-disks/node-disks.module";
 
 @Module({
-  imports: [NodesModule, SequelizeModule.forRoot({
+  imports: [NodesModule, NodeDisksModule, SequelizeModule.forRoot({
     dialect: 'postgres',
     host: 'localhost',
     port: 5433,
     username: 'postgres',
     password: 'password',
     database: 'meana',
-    models: [Node],
+    models: [Node, NodeDisk],
   })],
   controllers: [AppController],
   providers: [AppService],
