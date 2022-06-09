@@ -14,8 +14,6 @@ export class NodesService {
   }
 
   async findAll(findAllDto: FindAllDto) {
-    console.log(findAllDto)
-
     return await this.nodeModel.findAll(findAllDto)
   }
 

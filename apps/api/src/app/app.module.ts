@@ -7,16 +7,18 @@ import {NodesModule} from "./domains/nodes/nodes.module";
 import {SequelizeModule} from "@nestjs/sequelize";
 import {NodeDisk} from "./domains/node-disks/entities/node-disk.entity";
 import {NodeDisksModule} from "./domains/node-disks/node-disks.module";
+import {NodeDiskPartition} from "./domains/node-disk-partitions/entities/node-disk-partition.entity";
+import {NodeDiskPartitionsModule} from "./domains/node-disk-partitions/node-disk-partitions.module";
 
 @Module({
-  imports: [NodesModule, NodeDisksModule, SequelizeModule.forRoot({
+  imports: [NodesModule, NodeDisksModule, NodeDiskPartitionsModule, SequelizeModule.forRoot({
     dialect: 'postgres',
     host: 'localhost',
     port: 5433,
     username: 'postgres',
     password: 'password',
     database: 'meana',
-    models: [Node, NodeDisk],
+    models: [Node, NodeDisk, NodeDiskPartition],
   })],
   controllers: [AppController],
   providers: [AppService],

@@ -1,34 +1,33 @@
 'use strict';
 
-const {DataTypes} = require("sequelize");
 module.exports = {
   async up (queryInterface, Sequelize) {
     const transaction = await queryInterface.sequelize.transaction();
 
     try {
-      await queryInterface.createTable('node_disks', {
+      await queryInterface.createTable('node_disk_partitions', {
         time: {
           type: 'TIMESTAMPTZ',
         },
-        nodeId: {
+        nodeDiskId: {
           type: Sequelize.STRING
         },
         path: {
           type: Sequelize.STRING
         },
-        manufacture: {
-          type: Sequelize.STRING
-        },
-        model: {
-          type: Sequelize.STRING
-        },
-        serialNumber: {
+        usedSpace: {
           type: Sequelize.STRING
         },
         capacity: {
           type: Sequelize.STRING
         },
-        firmwareVersion: {
+        serialNumber: {
+          type: Sequelize.STRING
+        },
+        fileSystem: {
+          type: Sequelize.STRING
+        },
+        name: {
           type: Sequelize.STRING
         },
       });
@@ -40,7 +39,7 @@ module.exports = {
     const transaction2 = await queryInterface.sequelize.transaction();
 
     try {
-      await queryInterface.sequelize.query("SELECT create_hypertable('node_disks','time');")
+      await queryInterface.sequelize.query("SELECT create_hypertable('node_disk_partitions','time');")
       await transaction.commit()
     } catch (e) {
       await transaction2.rollback()

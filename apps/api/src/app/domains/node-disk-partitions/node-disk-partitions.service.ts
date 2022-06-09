@@ -1,53 +1,45 @@
-import {Injectable, NotFoundException} from '@nestjs/common';
-import { CreateNodeDiskPartitionDto } from './dto/create-node-disk-partition.dto';
-import { UpdateNodeDiskPartitionDto } from './dto/update-node-disk-partition.dto';
-import {InjectRepository} from "@mikro-orm/nestjs";
-import {EntityRepository, wrap} from "@mikro-orm/core";
+import {Injectable} from '@nestjs/common';
+import {CreateNodeDiskPartitionDto} from './dto/create-node-disk-partition.dto';
+import {UpdateNodeDiskPartitionDto} from './dto/update-node-disk-partition.dto';
 import {NodeDiskPartition} from "./entities/node-disk-partition.entity";
+import {InjectModel} from "@nestjs/sequelize";
+import {FindAllDto} from "../../common/findAll.dto";
 
 @Injectable()
 export class NodeDiskPartitionsService {
-  constructor(@InjectRepository(NodeDiskPartition) private readonly nodeDiskPartitionRepository: EntityRepository<NodeDiskPartition>) {
+  constructor(@InjectModel(NodeDiskPartition) private nodeDiskPartitionModel: typeof NodeDiskPartition) {
   }
   async create(createNodeDiskPartitionDto: CreateNodeDiskPartitionDto) {
-    const node = this.nodeDiskPartitionRepository.create(createNodeDiskPartitionDto)
-    await this.nodeDiskPartitionRepository.persistAndFlush(node)
-
-    return node;
+    return await this.nodeDiskPartitionModel.create({ ...createNodeDiskPartitionDto })
   }
 
-  async findAll() {
-    return await this.nodeDiskPartitionRepository.findAll()
+  async findAll(findAllDto: FindAllDto) {
+    return await this.nodeDiskPartitionModel.findAll(findAllDto)
   }
 
-  async findOne(id: string) {
-    try {
-      return await this.nodeDiskPartitionRepository.findOneOrFail({uuid: id});
-    } catch (e) {
-      throw new NotFoundException()
-    }
+  async findOne(uuid: string) {
+    return await this.nodeDiskPartitionModel.findOne({ where: {
+        uuid
+      }})
   }
 
-  async update(id: string, updateNodeDiskPartitionDto: UpdateNodeDiskPartitionDto) {
-    try {
-      const nodeDisk = await this.nodeDiskPartitionRepository.findOneOrFail({uuid: id});
-      const newEntity = wrap(nodeDisk).assign({ ...updateNodeDiskPartitionDto })
-      await this.nodeDiskPartitionRepository.persistAndFlush(newEntity)
+  async update(uuid: string, updateNodeDiskPartitionDto: UpdateNodeDiskPartitionDto) {
+    const node = await this.nodeDiskPartitionModel.findOne({ where: {
+        uuid
+      }})
 
-      return newEntity
-    } catch (e) {
-      throw new NotFoundException()
-    }
+    await node.update({ ...updateNodeDiskPartitionDto })
+    await node.save();
+
+    return node
   }
 
-  async remove(id: string) {
-    try {
-      const node = await this.nodeDiskPartitionRepository.findOneOrFail({uuid: id});
-      await this.nodeDiskPartitionRepository.removeAndFlush(node)
+  async deleteOne(uuid: string) {
+    const node = await this.nodeDiskPartitionModel.findOne({ where: {
+        uuid
+      }})
+    await node.destroy()
 
-      return node
-    } catch (e) {
-      throw new NotFoundException()
-    }
+    return node
   }
 }

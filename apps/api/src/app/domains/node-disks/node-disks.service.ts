@@ -14,8 +14,6 @@ export class NodeDisksService {
   }
 
   async findAll(findAllDto: FindAllDto) {
-    console.log(findAllDto)
-
     return await this.nodeDiskModel.findAll(findAllDto)
   }
 

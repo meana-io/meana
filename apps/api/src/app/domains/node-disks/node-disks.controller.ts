@@ -24,8 +24,8 @@ export class NodeDisksController {
   }
 
   @Patch(':uuid')
-  update(@Param('uuid') uuid: string, @Body() updateNodeDto: UpdateNodeDiskDto) {
-    return this.nodeDisksService.update(uuid, updateNodeDto);
+  update(@Param('uuid') uuid: string, @Body() updateNodeDiskDto: UpdateNodeDiskDto) {
+    return this.nodeDisksService.update(uuid, updateNodeDiskDto);
   }
 
   @Delete(':uuid')

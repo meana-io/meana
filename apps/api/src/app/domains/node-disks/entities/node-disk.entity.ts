@@ -1,6 +1,5 @@
-import {BelongsTo, Column, ForeignKey, Model, Table} from "sequelize-typescript";
-import { DateTime } from "luxon";
-import { Node } from "../../nodes/entities/node.entity"
+import {Column, Model, Table} from "sequelize-typescript";
+import {DateTime} from "luxon";
 
 @Table({
     tableName: 'node_disks',

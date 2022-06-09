@@ -3,7 +3,7 @@ import {IsOptional, IsString, IsUUID} from "class-validator";
 export class CreateNodeDiskPartitionDto {
     @IsUUID(4)
     @IsString()
-    nodeDisk: string
+    nodeDiskId: string
 
     @IsString()
     @IsOptional()
