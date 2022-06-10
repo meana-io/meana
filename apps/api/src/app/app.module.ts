@@ -13,8 +13,8 @@ import {NodeDiskPartitionsModule} from "./domains/node-disk-partitions/node-disk
 @Module({
   imports: [NodesModule, NodeDisksModule, NodeDiskPartitionsModule, SequelizeModule.forRoot({
     dialect: 'postgres',
-    host: 'localhost',
-    port: 5433,
+    host: 'docker_postgres_1',
+    port: 5432,
     username: 'postgres',
     password: 'password',
     database: 'meana',

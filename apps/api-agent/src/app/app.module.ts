@@ -15,8 +15,8 @@ import {GlobalModule} from "./Domains/global/global.module";
     GlobalModule,
     SequelizeModule.forRoot({
       dialect: 'postgres',
-      host: 'localhost',
-      port: 5433,
+      host: 'docker_postgres_1',
+      port: 5432,
       username: 'postgres',
       password: 'password',
       database: 'meana',
