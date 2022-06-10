@@ -10,14 +10,20 @@ export class NodesService {
   constructor(@InjectModel(Node) private nodeModel: typeof Node) {
   }
   async create(createNodeDto: CreateNodeDto) {
+    this.nodeModel.removeAttribute('id')
+
     return await this.nodeModel.create({ ...createNodeDto })
   }
 
   async findAll(findAllDto: FindAllDto) {
+    this.nodeModel.removeAttribute('id')
+
     return await this.nodeModel.findAll(findAllDto)
   }
 
   async findOne(uuid: string) {
+    this.nodeModel.removeAttribute('id')
+
     return await this.nodeModel.findOne({ where: {
         uuid
         }})

@@ -1,12 +1,13 @@
 import {Column, Model, Table} from "sequelize-typescript";
 import {DateTime} from "luxon";
 import { NodeDiskPartition as LocalNodeDiskPartition } from "../../../../../../../shared/Entities/NodeDiskPartition"
+import {InferAttributes} from "sequelize";
 
 @Table({
     tableName: 'node_disk_partitions',
     timestamps: false
 })
-export class NodeDiskPartition extends Model implements LocalNodeDiskPartition {
+export class NodeDiskPartition extends Model<InferAttributes<NodeDiskPartition>> implements LocalNodeDiskPartition {
     @Column({
         defaultValue: DateTime.now().toISO(),
         primaryKey: true
@@ -14,7 +15,7 @@ export class NodeDiskPartition extends Model implements LocalNodeDiskPartition {
     time: string
 
     @Column
-    nodeDiskId: string;
+    diskSerialNumber: string;
 
     @Column({
         allowNull: true,

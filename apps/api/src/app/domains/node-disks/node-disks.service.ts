@@ -16,30 +16,30 @@ export class NodeDisksService {
   async findAll(findAllDto: FindAllDto) {
     return await this.nodeDiskModel.findAll(findAllDto)
   }
-
-  async findOne(uuid: string) {
-    return await this.nodeDiskModel.findOne({ where: {
-        uuid
-      }})
-  }
-
-  async update(uuid: string, updateNodeDiskDto: UpdateNodeDiskDto) {
-    const node = await this.nodeDiskModel.findOne({ where: {
-        uuid
-      }})
-
-    await node.update({ ...updateNodeDiskDto })
-    await node.save();
-
-    return node
-  }
-
-  async deleteOne(uuid: string) {
-    const node = await this.nodeDiskModel.findOne({ where: {
-        uuid
-      }})
-    await node.destroy()
-
-    return node
-  }
+  //
+  // async findOne(uuid: string) {
+  //   return await this.nodeDiskModel.findOne({ where: {
+  //       serialNumber: uuid
+  //     }})
+  // }
+  //
+  // async update(uuid: string, updateNodeDiskDto: UpdateNodeDiskDto) {
+  //   const node = await this.nodeDiskModel.findOne({ where: {
+  //       serialNumber: uuid
+  //     }})
+  //
+  //   await node.update({ ...updateNodeDiskDto })
+  //   await node.save();
+  //
+  //   return node
+  // }
+  //
+  // async deleteOne(uuid: string) {
+  //   const node = await this.nodeDiskModel.findOne({ where: {
+  //       serialNumber: uuid
+  //     }})
+  //   await node.destroy()
+  //
+  //   return node
+  // }
 }

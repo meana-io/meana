@@ -9,7 +9,7 @@ module.exports = {
         time: {
           type: 'TIMESTAMPTZ',
         },
-        nodeDiskId: {
+        diskSerialNumber: {
           type: Sequelize.STRING
         },
         path: {
