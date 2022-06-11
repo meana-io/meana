@@ -25,6 +25,7 @@
     "@nestjs/common": "^8.0.0",
     "@nestjs/core": "^8.0.0",
     "@nestjs/mapped-types": "*",
+    "@nestjs/sequelize": "^8.0.0",
     "@nestjs/platform-express": "^8.0.0",
     "@nrwl/next": "14.1.7",
     "apexcharts": "^3.35.3",
