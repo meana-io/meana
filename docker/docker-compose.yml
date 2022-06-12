@@ -16,5 +16,7 @@ services:
     image: "timescale/timescaledb-ha:pg14-latest"
     environment:
      - POSTGRES_PASSWORD=password
+    volumes:
+     - /var/lib/docker/volumes/postgres:/var/lib/postgresql/data
     ports:
       - "5434:5432"
