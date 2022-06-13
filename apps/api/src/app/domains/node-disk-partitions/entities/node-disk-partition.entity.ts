@@ -1,6 +1,5 @@
-import {Column, Model, Table} from "sequelize-typescript";
-import {DateTime} from "luxon";
-import { NodeDiskPartition as LocalNodeDiskPartition } from "../../../../../../../shared/Entities/NodeDiskPartition"
+import {Column, Model, Sequelize, Table} from "sequelize-typescript";
+import {NodeDiskPartition as LocalNodeDiskPartition} from "../../../../../../../shared/Entities/NodeDiskPartition"
 import {InferAttributes} from "sequelize";
 
 @Table({
@@ -9,7 +8,7 @@ import {InferAttributes} from "sequelize";
 })
 export class NodeDiskPartition extends Model<InferAttributes<NodeDiskPartition>> implements LocalNodeDiskPartition {
     @Column({
-        defaultValue: DateTime.now().toISO(),
+        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
         primaryKey: true
     })
     time: string
