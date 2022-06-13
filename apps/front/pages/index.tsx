@@ -1,4 +1,5 @@
 import { NextPage, GetServerSideProps } from 'next';
+// import api from '@/utility/axios';
 import axios from 'axios';
 
 import TabPanel from '@/components/Tabs/TabPanel';
@@ -27,31 +28,36 @@ const Index: NextPage<IndexPageProps> = ({ nodes, disks, partitions }) => {
         <TabPanel index={0}>
           <Disks disks={disks} partitions={partitions} />
         </TabPanel>
-        <TabPanel index={1}>
-          <Ram rams={disks} />
-        </TabPanel>
+        <TabPanel index={1}>{/* <Ram rams={disks} /> */}</TabPanel>
       </MainLayout>
     </TabsProvider>
   );
 };
 
+const arrayUniqueByKey = (arr, key: string) => [
+  ...new Map(arr.map((item) => [item[key], item])).values(),
+];
+
+const sortByNewest = (arr) =>
+  arr.sort(
+    (a, b) => new Date(a.getTime).getTime() - new Date(b.getTime).getTime()
+  );
+
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  // const nodes_url = 'http://localhost:4000/nodes';
-  // const disks_url = 'http://localhost:4000/disks';
-  // const partitions_url = 'http://localhost:4000/partitions';
+  const [nodes, disks, partitions] = await Promise.all([
+    axios.get('http://135.125.190.40:3333/api/nodes'),
+    axios.get('http://135.125.190.40:3333/api/node-disks'),
+    axios.get('http://135.125.190.40:3333/api/node-disk-partitions'),
+  ]);
 
-  // const [nodes, disks, partitions] = await Promise.all([
-  //   axios.get(nodes_url),
-  //   axios.get(disks_url),
-  //   axios.get(partitions_url),
-  // ]);
-
+  const disksByNewest = sortByNewest(disks.data);
+  const partitionByNewest = sortByNewest(partitions.data);
 
   return {
     props: {
-      nodes: [],
-      disks: [],
-      partitions: [],
+      nodes: nodes.data,
+      disks: arrayUniqueByKey(disksByNewest, 'serialNumber'),
+      partitions: arrayUniqueByKey(partitionByNewest, 'diskSerialNumber'),
     },
   };
 };
