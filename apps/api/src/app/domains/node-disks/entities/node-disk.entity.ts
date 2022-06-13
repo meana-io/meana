@@ -46,4 +46,9 @@ export class NodeDisk extends Model<InferAttributes<NodeDisk>> implements LocalN
         allowNull: true,
     })
     firmwareVersion?: string;
+
+    @Column({
+        allowNull: true,
+    })
+    name?: string;
 }

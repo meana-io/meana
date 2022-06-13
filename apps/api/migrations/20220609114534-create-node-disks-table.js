@@ -31,6 +31,9 @@ module.exports = {
         firmwareVersion: {
           type: Sequelize.STRING
         },
+        name: {
+          type: Sequelize.STRING
+        }
       });
       await transaction.commit()
     } catch (e) {
