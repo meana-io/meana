@@ -34,7 +34,9 @@ export class GlobalService {
     createGlobalDto.disks.forEach(async (disk: Disk) => {
       const createdDisk = await this.nodeDiskModel.create({...disk, nodeId: node.uuid})
 
-      await this.nodeDiskPartitionModel.bulkCreate(disk.partitions.map(obj => ({ ...obj, diskSerialNumber: createdDisk.serialNumber})))
+      if (disk.partitions !== null) {
+        await this.nodeDiskPartitionModel.bulkCreate(disk.partitions.map(obj => ({ ...obj, diskSerialNumber: createdDisk.serialNumber})))
+      }
     })
 
     await this.nodeRamModel.create({ ...createGlobalDto.ram, nodeId: node.uuid })
