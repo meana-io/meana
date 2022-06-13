@@ -1,4 +1,4 @@
-import {Injectable} from '@nestjs/common';
+import {HttpException, Injectable, NotFoundException} from '@nestjs/common';
 import {CreateGlobalDto, Disk} from "./dto/create-global.dto";
 import {InjectModel} from "@nestjs/sequelize";
 /* eslint-disable @nrwl/nx/enforce-module-boundaries */
@@ -7,6 +7,7 @@ import {NodeDisk} from "../../../../../api/src/app/domains/node-disks/entities/n
 import {
   NodeDiskPartition
 } from "../../../../../api/src/app/domains/node-disk-partitions/entities/node-disk-partition.entity";
+import {NodeRam} from "../../../../../api/src/app/domains/node-ram/entities/node-ram.entity";
 
 /* eslint-enable @nrwl/nx/enforce-module-boundaries */
 
@@ -15,7 +16,8 @@ export class GlobalService {
   constructor(
       @InjectModel(Node) private nodeModel: typeof Node,
       @InjectModel(NodeDisk) private nodeDiskModel: typeof NodeDisk,
-      @InjectModel(NodeDiskPartition) private nodeDiskPartitionModel: typeof NodeDiskPartition
+      @InjectModel(NodeDiskPartition) private nodeDiskPartitionModel: typeof NodeDiskPartition,
+      @InjectModel(NodeRam) private nodeRamModel: typeof NodeRam
   ) {}
   async insert(createGlobalDto: CreateGlobalDto) {
     this.nodeModel.removeAttribute('id')
@@ -24,13 +26,18 @@ export class GlobalService {
         name: createGlobalDto.name
       }
     })
-    // console.log(createGlobalDto)
+
+    if (node === null) {
+      throw new HttpException('Node not found!', 404)
+    }
 
     createGlobalDto.disks.forEach(async (disk: Disk) => {
       const createdDisk = await this.nodeDiskModel.create({...disk, nodeId: node.uuid})
 
       await this.nodeDiskPartitionModel.bulkCreate(disk.partitions.map(obj => ({ ...obj, diskSerialNumber: createdDisk.serialNumber})))
     })
+
+    await this.nodeRamModel.create({ ...createGlobalDto.ram, nodeId: node.uuid })
 
     // const disks = await this.nodeDiskModel.bulkCreate(createGlobalDto.disks.map(obj => ({ ...obj, nodeId: node.uuid})))
 
