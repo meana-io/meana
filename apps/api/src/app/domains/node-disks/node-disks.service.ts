@@ -1,53 +1,45 @@
-import {Injectable, NotFoundException} from '@nestjs/common';
-import { CreateNodeDiskDto } from './dto/create-node-disk.dto';
-import { UpdateNodeDiskDto } from './dto/update-node-disk.dto';
-import {InjectRepository} from "@mikro-orm/nestjs";
-import {EntityRepository, wrap} from "@mikro-orm/core";
+import {Injectable} from '@nestjs/common';
+import {UpdateNodeDiskDto} from './dto/update-node-disk.dto';
 import {NodeDisk} from "./entities/node-disk.entity";
+import {InjectModel} from "@nestjs/sequelize";
+import {FindAllDto} from "../../common/findAll.dto";
+import {CreateNodeDiskDto} from "./dto/create-node-disk.dto";
 
 @Injectable()
 export class NodeDisksService {
-  constructor(@InjectRepository(NodeDisk) private readonly nodeDiskRepository: EntityRepository<NodeDisk>) {
+  constructor(@InjectModel(NodeDisk) private nodeDiskModel: typeof NodeDisk) {
   }
   async create(createNodeDiskDto: CreateNodeDiskDto) {
-    const node = this.nodeDiskRepository.create(createNodeDiskDto)
-    await this.nodeDiskRepository.persistAndFlush(node)
-
-    return node;
+    return await this.nodeDiskModel.create({ ...createNodeDiskDto })
   }
 
-  async findAll() {
-    return await this.nodeDiskRepository.findAll()
+  async findAll(findAllDto: FindAllDto) {
+    return await this.nodeDiskModel.findAll(findAllDto)
   }
-
-  async findOne(id: string) {
-    try {
-      return await this.nodeDiskRepository.findOneOrFail({uuid: id});
-    } catch (e) {
-      throw new NotFoundException()
-    }
-  }
-
-  async update(id: string, updateNodeDiskDto: UpdateNodeDiskDto) {
-    try {
-      const nodeDisk = await this.nodeDiskRepository.findOneOrFail({uuid: id});
-      const newEntity = wrap(nodeDisk).assign({ ...updateNodeDiskDto })
-      await this.nodeDiskRepository.persistAndFlush(newEntity)
-
-      return newEntity
-    } catch (e) {
-      throw new NotFoundException()
-    }
-  }
-
-  async remove(id: string) {
-    try {
-      const node = await this.nodeDiskRepository.findOneOrFail({uuid: id});
-      await this.nodeDiskRepository.removeAndFlush(node)
-
-      return node
-    } catch (e) {
-      throw new NotFoundException()
-    }
-  }
+  //
+  // async findOne(uuid: string) {
+  //   return await this.nodeDiskModel.findOne({ where: {
+  //       serialNumber: uuid
+  //     }})
+  // }
+  //
+  // async update(uuid: string, updateNodeDiskDto: UpdateNodeDiskDto) {
+  //   const node = await this.nodeDiskModel.findOne({ where: {
+  //       serialNumber: uuid
+  //     }})
+  //
+  //   await node.update({ ...updateNodeDiskDto })
+  //   await node.save();
+  //
+  //   return node
+  // }
+  //
+  // async deleteOne(uuid: string) {
+  //   const node = await this.nodeDiskModel.findOne({ where: {
+  //       serialNumber: uuid
+  //     }})
+  //   await node.destroy()
+  //
+  //   return node
+  // }
 }

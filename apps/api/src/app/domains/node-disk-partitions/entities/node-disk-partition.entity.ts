@@ -1,32 +1,44 @@
-import {Entity, ManyToOne, PrimaryKey, Property} from "@mikro-orm/core";
-import { v4 } from 'uuid';
+import {Column, Model, Table} from "sequelize-typescript";
+import {DateTime} from "luxon";
+import { NodeDiskPartition as LocalNodeDiskPartition } from "../../../../../../../shared/Entities/NodeDiskPartition"
+import {InferAttributes} from "sequelize";
 
-@Entity()
-export class NodeDiskPartition {
-    @PrimaryKey()
-    uuid: string = v4();
+@Table({
+    tableName: 'node_disk_partitions',
+    timestamps: false
+})
+export class NodeDiskPartition extends Model<InferAttributes<NodeDiskPartition>> implements LocalNodeDiskPartition {
+    @Column({
+        defaultValue: DateTime.now().toISO(),
+        primaryKey: true
+    })
+    time: string
 
-    @Property({ nullable: true })
-    nodeDisk: string;
+    @Column
+    diskSerialNumber: string;
 
-    @Property({ nullable: true })
+    @Column({
+        allowNull: true,
+    })
     path?: string;
 
-    @Property({ nullable: true })
+    @Column({
+        allowNull: true,
+    })
     usedSpace?: string;
 
-    @Property({ nullable: true })
+    @Column({
+        allowNull: true,
+    })
     capacity?: string;
 
-    @Property({ nullable: true })
+    @Column({
+        allowNull: true,
+    })
     fileSystem?: string;
 
-    @Property({ nullable: true })
+    @Column({
+        allowNull: true,
+    })
     name?: string;
-
-    @Property()
-    createdAt: Date = new Date();
-
-    @Property({ onUpdate: () => new Date() })
-    updatedAt: Date = new Date();
 }
