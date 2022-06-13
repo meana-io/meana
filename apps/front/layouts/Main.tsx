@@ -11,8 +11,8 @@ import AccessAlarmIcon from '@mui/icons-material/AccessAlarm';
 import ThreeDRotation from '@mui/icons-material/ThreeDRotation';
 
 const TABS = [
-  { label: 'processor', icon: <AccessAlarmIcon /> },
-  { label: 'disks', icon: <ThreeDRotation /> },
+  { label: 'disks', icon: <AccessAlarmIcon /> },
+  { label: 'ram', icon: <ThreeDRotation /> },
 ];
 
 interface MainLayoutProps {
