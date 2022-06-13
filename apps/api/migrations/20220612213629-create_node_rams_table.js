@@ -5,29 +5,17 @@ module.exports = {
     const transaction = await queryInterface.sequelize.transaction();
 
     try {
-      await queryInterface.createTable('node_disk_partitions', {
+      await queryInterface.createTable('node_rams', {
         time: {
           type: 'TIMESTAMPTZ',
         },
-        diskSerialNumber: {
+        nodeId: {
           type: Sequelize.STRING
         },
-        path: {
+        total: {
           type: Sequelize.STRING
         },
-        usedSpace: {
-          type: Sequelize.STRING
-        },
-        capacity: {
-          type: Sequelize.STRING
-        },
-        serialNumber: {
-          type: Sequelize.STRING
-        },
-        fileSystem: {
-          type: Sequelize.STRING
-        },
-        name: {
+        used: {
           type: Sequelize.STRING
         },
       });
@@ -39,7 +27,7 @@ module.exports = {
     const transaction2 = await queryInterface.sequelize.transaction();
 
     try {
-      await queryInterface.sequelize.query("SELECT create_hypertable('node_disk_partitions','time');")
+      await queryInterface.sequelize.query("SELECT create_hypertable('node_rams','time');")
       await transaction.commit()
     } catch (e) {
       await transaction2.rollback()
@@ -47,6 +35,6 @@ module.exports = {
   },
 
   async down (queryInterface, Sequelize) {
-    await queryInterface.dropTable('node_disk_partitions');
+    await queryInterface.dropTable('node_rams');
   }
 };
