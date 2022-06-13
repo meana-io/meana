@@ -13,6 +13,6 @@ export class NodeRamService {
   }
 
   async findAll(findAllDto: FindAllDto) {
-    return await this.nodeRamModel.findAll(findAllDto)
+    return await this.nodeRamModel.findAll({limit: 100,  ...findAllDto})
   }
 }
