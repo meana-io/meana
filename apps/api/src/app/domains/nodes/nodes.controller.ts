@@ -2,14 +2,12 @@ import {
   Controller,
   Get,
   Post,
-  Body,
-  Patch,
-  Param,
-  Delete,
+  Body, Param, Patch, Delete,
 } from '@nestjs/common';
 import { NodesService } from './nodes.service';
 import { CreateNodeDto } from './dto/create-node.dto';
-import { UpdateNodeDto } from './dto/update-node.dto';
+import {UpdateNodeDto} from "./dto/update-node.dto";
+import {FindAllDto} from "../../common/findAll.dto";
 
 @Controller('nodes')
 export class NodesController {
@@ -21,22 +19,22 @@ export class NodesController {
   }
 
   @Get()
-  findAll() {
-    return this.nodesService.findAll();
+  findAll(@Body() findAllDto: FindAllDto) {
+    return this.nodesService.findAll(findAllDto);
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.nodesService.findOne(id);
+  @Get(':uuid')
+  findOne(@Param('uuid') uuid: string) {
+    return this.nodesService.findOne(uuid);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateNodeDto: UpdateNodeDto) {
-    return this.nodesService.update(id, updateNodeDto);
+  @Patch(':uuid')
+  update(@Param('uuid') uuid: string, @Body() updateNodeDto: UpdateNodeDto) {
+    return this.nodesService.update(uuid, updateNodeDto);
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.nodesService.remove(id);
+  @Delete(':uuid')
+  remove(@Param('uuid') uuid: string) {
+    return this.nodesService.deleteOne(uuid);
   }
 }
