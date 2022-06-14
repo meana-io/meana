@@ -1,6 +1,7 @@
 import { Card, CardContent, Typography } from '@mui/material';
 
-import { toTitleCase } from '@/utility/toTitleCase';
+import { formatBytes } from '@/utility/formatBytes';
+
 import Ram from '@/types/ram';
 
 interface RamDetailsProps {
@@ -8,24 +9,20 @@ interface RamDetailsProps {
 }
 
 const RamDetails: React.FC<RamDetailsProps> = ({ ram }) => {
-  const keysToDisplay: (keyof Ram)[] = [
-    'path',
-    'capacity',
-  ];
-
   return (
     <Card>
       <CardContent>
         <Typography component="div" variant="h4">
-          Ram - {ram?.path}
+          Ram
         </Typography>
       </CardContent>
       <CardContent>
-        {keysToDisplay.map((key) => (
-          <Typography key={key} component="div" variant="h6">
-            {toTitleCase(key)}: {ram?.[key] ?? 'N/A'}
-          </Typography>
-        ))}
+        <Typography component="div" variant="h6">
+          Used Space: {formatBytes(parseInt(ram?.used || '0', 10)) ?? 'N/A'}
+        </Typography>
+        <Typography component="div" variant="h6">
+          Capacity: {formatBytes(parseInt(ram?.total || '0', 10)) ?? 'N/A'}
+        </Typography>
       </CardContent>
     </Card>
   );
