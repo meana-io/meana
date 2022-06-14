@@ -26,27 +26,29 @@ const Index: NextPage<IndexPageProps> = ({ nodes, disks, partitions }) => {
           <Disks disks={disks} partitions={partitions} />
         </TabPanel>
         <TabPanel index={1}>Hello world</TabPanel>
+        
       </MainLayout>
     </TabsProvider>
   );
 };
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  const nodes_url = 'http://localhost:4000/nodes';
-  const disks_url = 'http://localhost:4000/disks';
-  const partitions_url = 'http://localhost:4000/partitions';
+  // const nodes_url = 'http://localhost:4000/nodes';
+  // const disks_url = 'http://localhost:4000/disks';
+  // const partitions_url = 'http://localhost:4000/partitions';
 
-  const [nodes, disks, partitions] = await Promise.all([
-    axios.get(nodes_url),
-    axios.get(disks_url),
-    axios.get(partitions_url),
-  ]);
+  // const [nodes, disks, partitions] = await Promise.all([
+  //   axios.get(nodes_url),
+  //   axios.get(disks_url),
+  //   axios.get(partitions_url),
+  // ]);
+
 
   return {
     props: {
-      nodes: nodes.data,
-      disks: disks.data,
-      partitions: partitions.data,
+      nodes: [],
+      disks: [],
+      partitions: [],
     },
   };
 };
