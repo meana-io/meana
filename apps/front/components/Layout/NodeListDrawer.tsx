@@ -7,6 +7,7 @@ import {
   ListItemText,
   Toolbar,
 } from '@mui/material/';
+
 import Node from '@/types/node';
 
 export const NODE_LIST_DRAWER_WIDTH = 168 as const;
@@ -26,8 +27,8 @@ const NodeListDrawer: React.FC<NodeListDrawerProps> = ({ nodes }) => {
     <Drawer variant="permanent" anchor="left">
       <Toolbar />
       <List>
-        {nodes.map(({ id, name }) => (
-          <ListItem key={id} disablePadding>
+        {nodes.map(({ uuid, name }) => (
+          <ListItem key={uuid} disablePadding>
             <ListItemButton>
               <ListItemText primary={name} />
             </ListItemButton>

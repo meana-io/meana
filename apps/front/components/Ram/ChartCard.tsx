@@ -10,8 +10,8 @@ interface ChartCardProps {
 }
 
 const ChartCard: React.FC<ChartCardProps> = ({ title, series, labels }) => {
-  const state = {
-    options: {},
+  const options = {
+    labels,
   };
 
   return (
@@ -23,12 +23,7 @@ const ChartCard: React.FC<ChartCardProps> = ({ title, series, labels }) => {
       </CardContent>
 
       <Box p={2}>
-        <Chart
-          options={state.options}
-          series={series}
-          labels={labels} 
-          type="donut"
-        />
+        <Chart options={options} series={series} type="donut" />
       </Box>
     </Card>
   );

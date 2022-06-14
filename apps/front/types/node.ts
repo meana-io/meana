@@ -1,6 +1,4 @@
 export default interface Node {
-  id: string;
+  uuid: string;
   name: string;
-  created_at: string;
-  updated_at: string;
 }
