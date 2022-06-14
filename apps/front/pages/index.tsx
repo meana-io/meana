@@ -7,7 +7,7 @@ import TabPanel from '@/components/Tabs/TabPanel';
 import MainLayout from '@/layouts/Main';
 import Disks from '@/components/Disks';
 
-import TabsProvider from '@/contexts/TabsContext';
+import TabsProvider from '@/contexts/tabsContext';
 
 import Disk from '@/types/disk';
 import Partition from '@/types/partition';
