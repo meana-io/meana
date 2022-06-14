@@ -78,8 +78,12 @@ const Disks: React.FC<DisksProps> = ({ disks, partitions }) => {
           {disk && (
             <ChartCard
               title="Disk space"
-              labels={partitions.map(({ path }) => path)}
-              series={partitions.map(({ capacity }) => parseInt(capacity, 10))}
+              labels={getPartitonsByDiskId(disk.serialNumber).map(
+                ({ path }) => path
+              )}
+              series={getPartitonsByDiskId(disk.serialNumber).map(
+                ({ capacity }) => parseInt(capacity, 10)
+              )}
             />
           )}
         </Grid>
