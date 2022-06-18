@@ -44,9 +44,9 @@ const Header: React.FC<HeaderProps> = ({
                 handleDiskChange(event.target.value)
               }
             >
-              {disks.map(({ id, path }) => (
-                <MenuItem key={id} value={id}>
-                  {path}
+              {disks.map(({ serialNumber, name }) => (
+                <MenuItem key={serialNumber} value={serialNumber}>
+                  {name}
                 </MenuItem>
               ))}
             </Select>
@@ -62,8 +62,8 @@ const Header: React.FC<HeaderProps> = ({
                 handlePartitionChange(event.target.value)
               }
             >
-              {partitions.map(({ id, path }) => (
-                <MenuItem key={id} value={id}>
+              {partitions.map(({ path, diskSerialNumber }) => (
+                <MenuItem key={diskSerialNumber} value={diskSerialNumber}>
                   {path}
                 </MenuItem>
               ))}

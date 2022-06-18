@@ -23,7 +23,7 @@ const ChartCard: React.FC<ChartCardProps> = ({ title, series, labels }) => {
       </CardContent>
 
       <Box p={2}>
-        <Chart options={options} series={series} labels={labels} type="donut" />
+        <Chart options={options} series={series} type="donut" />
       </Box>
     </Card>
   );
