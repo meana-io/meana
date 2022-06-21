@@ -44,7 +44,7 @@ export default function ServerForm() {
 
   return (
     <div>
-      <Button onClick={handleOpen}>Add New Server</Button>
+      <Button onClick={handleOpen} size="large">Add New Server</Button>
       <Modal
         open={open}
         aria-labelledby="modal-modal-title"
@@ -62,21 +62,6 @@ export default function ServerForm() {
               {...register("serverName")}
               label="Server Name"
               autoFocus
-            />
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              {...register("login")}
-              label="Login"
-            />
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              {...register("password")}
-              label="Password"
-              type="password"
             />
             <Grid>
               <Grid item>
