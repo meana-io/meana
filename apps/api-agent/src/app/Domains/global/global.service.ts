@@ -1,5 +1,5 @@
-import {HttpException, Injectable, NotFoundException} from '@nestjs/common';
-import {CreateGlobalDto, Disk} from "./dto/create-global.dto";
+import {HttpException, Injectable} from '@nestjs/common';
+import {CreateGlobalDto} from "./dto/create-global.dto";
 import {InjectModel} from "@nestjs/sequelize";
 /* eslint-disable @nrwl/nx/enforce-module-boundaries */
 import {Node} from "../../../../../api/src/app/domains/nodes/entities/node.entity";
@@ -23,7 +23,7 @@ export class GlobalService {
     this.nodeModel.removeAttribute('id')
     const node = await this.nodeModel.findOne({
       where: {
-        name: createGlobalDto.name
+        uuid: createGlobalDto.nodeUuid
       }
     })
 
@@ -31,25 +31,18 @@ export class GlobalService {
       throw new HttpException('Node not found!', 404)
     }
 
-    createGlobalDto.disks.forEach(async (disk: Disk) => {
+    for (const disk of createGlobalDto.disks) {
       const createdDisk = await this.nodeDiskModel.create({...disk, nodeId: node.uuid})
 
       if (disk.partitions !== null) {
-        await this.nodeDiskPartitionModel.bulkCreate(disk.partitions.map(obj => ({ ...obj, diskSerialNumber: createdDisk.serialNumber})))
+        await this.nodeDiskPartitionModel.bulkCreate(
+            disk.partitions.map(
+                obj => ({ ...obj, diskIdentifier: `${node.name}/${createdDisk.name}`})
+            ))
       }
-    })
+    }
 
     await this.nodeRamModel.create({ ...createGlobalDto.ram, nodeId: node.uuid })
-
-    // const disks = await this.nodeDiskModel.bulkCreate(createGlobalDto.disks.map(obj => ({ ...obj, nodeId: node.uuid})))
-
-    // createGlobalDto.disks.forEach((disk: Disk) => {
-    //   console.log(disks)
-    //
-    //   // await this.nodeDiskPartitionModel.bulkCreate(disk.partitions.map(obj => ({ ...obj, nodeDiskId})))
-    // })
-
-    // await this.nodeDiskPartitionModel.bulkCreate(createGlobalDto.nodeDiskPartitions.map(obj => ({ ...obj, nodeDiskId})))
 
     return createGlobalDto
   }

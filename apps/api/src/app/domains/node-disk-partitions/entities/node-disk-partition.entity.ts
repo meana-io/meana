@@ -14,7 +14,7 @@ export class NodeDiskPartition extends Model<InferAttributes<NodeDiskPartition>>
     time: string
 
     @Column
-    diskSerialNumber: string;
+    diskIdentifier: string;
 
     @Column({
         allowNull: true,

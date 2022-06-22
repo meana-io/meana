@@ -7,7 +7,7 @@ export interface Disk extends NodeDisk {
 }
 
 export class CreateGlobalDto {
-    name: string
+    nodeUuid: string
     disks: Disk[]
     ram: NodeRam
 }
