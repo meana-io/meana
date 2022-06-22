@@ -1,6 +1,6 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
-import { Grid, Box } from '@mui/material';
+import { Grid } from '@mui/material';
 
 import Header from './Header';
 import DiskDetails from './DiskDetails';
@@ -14,23 +14,45 @@ interface DisksProps {
   partitions: Partition[];
 }
 
+const calcualteDiskSapce = (disk: Disk, partitions: Partition[]) => {
+  const diskSpace = parseInt(disk.capacity, 10);
+  const used = partitions.reduce(
+    (acc, partition) => acc + parseInt(partition.usedSpace, 10),
+    0
+  );
+
+  return [diskSpace, diskSpace - used];
+};
+
+const calcualtePartitionSapce = (partition: Partition) => {
+  const capacity = parseInt(partition.capacity, 10);
+  const usedSpace = parseInt(partition.usedSpace, 10);
+  return [capacity - usedSpace, usedSpace];
+};
+
 const Disks: React.FC<DisksProps> = ({ disks, partitions }) => {
   const [disk, setDisk] = useState<Disk | undefined>(undefined);
   const [partition, setPartition] = useState<Partition | undefined>(undefined);
 
-  const handleDiskChange = (diskId: string) => {
-    const selectedDisk = disks.find((d) => d.id === diskId);
+  const handleDiskChange = (serialNumber: string) => {
+    const selectedDisk = disks.find((d) => d.serialNumber === serialNumber);
     setDisk(selectedDisk);
   };
 
-  const handlePartitionChange = (partitionId: string) => {
-    const selectedPartition = partitions.find((d) => d.id === partitionId);
+  const handlePartitionChange = (diskSerialNumber: string) => {
+    const selectedPartition = partitions.find(
+      (d) => d.diskSerialNumber === diskSerialNumber
+    );
     setPartition(selectedPartition);
   };
 
-  const getPartitonsByDiskId = (diskId: string) => {
-    return partitions.filter((p) => p.diskId === diskId);
+  const getPartitonsByDiskId = (diskSerialNumber: string) => {
+    return partitions.filter((p) => p.diskSerialNumber === diskSerialNumber);
   };
+
+  useEffect(() => {
+    setPartition(undefined);
+  }, [disk]);
 
   return (
     <Grid container spacing={2} direction="column">
@@ -38,7 +60,7 @@ const Disks: React.FC<DisksProps> = ({ disks, partitions }) => {
         <Header
           disks={disks}
           handleDiskChange={handleDiskChange}
-          partitions={partitions}
+          partitions={getPartitonsByDiskId(disk?.serialNumber)}
           handlePartitionChange={handlePartitionChange}
         />
       </Grid>
@@ -56,8 +78,12 @@ const Disks: React.FC<DisksProps> = ({ disks, partitions }) => {
           {disk && (
             <ChartCard
               title="Disk space"
-              labels={getPartitonsByDiskId(disk?.id).map((p) => p?.path)}
-              series={getPartitonsByDiskId(disk?.id).map((p) => p?.capacity)}
+              labels={getPartitonsByDiskId(disk.serialNumber).map(
+                ({ path }) => path
+              )}
+              series={getPartitonsByDiskId(disk.serialNumber).map(
+                ({ capacity }) => parseInt(capacity, 10)
+              )}
             />
           )}
         </Grid>
@@ -66,10 +92,7 @@ const Disks: React.FC<DisksProps> = ({ disks, partitions }) => {
             <ChartCard
               title="Partiton space"
               labels={['Used', 'Free']}
-              series={[
-                partition?.capacity - partition?.usedSpace,
-                partition?.usedSpace,
-              ]}
+              series={calcualtePartitionSapce(partition)}
             />
           )}
         </Grid>

@@ -1,17 +1,14 @@
-import {Entity, PrimaryKey, Property} from "@mikro-orm/core";
-import { v4 } from 'uuid';
+import {Column, Model, Table} from 'sequelize-typescript';
+import {Node as LocalNode} from "../../../../../../../shared/Entities/Node"
 
-@Entity()
-export class Node {
-    @PrimaryKey()
-    uuid: string = v4();
+@Table({
+    tableName: 'nodes'
+})
 
-    @Property({ nullable: false})
+export class Node extends Model implements LocalNode {
+    @Column
+    uuid: string
+
+    @Column
     name: string;
-
-    @Property()
-    createdAt: Date = new Date();
-
-    @Property({ onUpdate: () => new Date() })
-    updatedAt: Date = new Date();
 }
