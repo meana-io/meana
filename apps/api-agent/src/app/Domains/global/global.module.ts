@@ -9,9 +9,10 @@ import {
   NodeDiskPartition
 } from "../../../../../api/src/app/domains/node-disk-partitions/entities/node-disk-partition.entity";
 import {NodeRam} from "../../../../../api/src/app/domains/node-ram/entities/node-ram.entity";
+import {NodeCpu} from "../../../../../api/src/app/domains/node-cpu/entities/node-cpu.entity";
 
 @Module({
-  imports: [SequelizeModule.forFeature([NodeDiskPartition, NodeDisk, Node, NodeRam])],
+  imports: [SequelizeModule.forFeature([NodeDiskPartition, NodeDisk, Node, NodeRam, NodeCpu])],
   controllers: [GlobalController],
   providers: [GlobalService],
 })

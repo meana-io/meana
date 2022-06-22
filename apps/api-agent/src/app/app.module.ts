@@ -10,6 +10,7 @@ import {NodeDiskPartition} from "../../../api/src/app/domains/node-disk-partitio
 import {GlobalModule} from "./Domains/global/global.module";
 import {Dialect} from "sequelize";
 import {NodeRam} from "../../../api/src/app/domains/node-ram/entities/node-ram.entity";
+import {NodeCpu} from "../../../api/src/app/domains/node-cpu/entities/node-cpu.entity";
 /* eslint-enable @nrwl/nx/enforce-module-boundaries */
 
 @Module({
@@ -22,7 +23,7 @@ import {NodeRam} from "../../../api/src/app/domains/node-ram/entities/node-ram.e
       username: process.env.DB_USERNAME,
       password: process.env.DB_PASSWORD,
       database: process.env.DB_DATABASE,
-      models: [Node, NodeDisk, NodeDiskPartition, NodeRam],
+      models: [Node, NodeDisk, NodeDiskPartition, NodeRam, NodeCpu],
     }),
   ],
   controllers: [AppController],

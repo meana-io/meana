@@ -8,6 +8,7 @@ import {
   NodeDiskPartition
 } from "../../../../../api/src/app/domains/node-disk-partitions/entities/node-disk-partition.entity";
 import {NodeRam} from "../../../../../api/src/app/domains/node-ram/entities/node-ram.entity";
+import {NodeCpu} from "../../../../../api/src/app/domains/node-cpu/entities/node-cpu.entity";
 
 /* eslint-enable @nrwl/nx/enforce-module-boundaries */
 
@@ -17,7 +18,8 @@ export class GlobalService {
       @InjectModel(Node) private nodeModel: typeof Node,
       @InjectModel(NodeDisk) private nodeDiskModel: typeof NodeDisk,
       @InjectModel(NodeDiskPartition) private nodeDiskPartitionModel: typeof NodeDiskPartition,
-      @InjectModel(NodeRam) private nodeRamModel: typeof NodeRam
+      @InjectModel(NodeRam) private nodeRamModel: typeof NodeRam,
+      @InjectModel(NodeCpu) private nodeCpuModel: typeof NodeCpu
   ) {}
   async insert(createGlobalDto: CreateGlobalDto) {
     this.nodeModel.removeAttribute('id')
@@ -43,6 +45,7 @@ export class GlobalService {
     }
 
     await this.nodeRamModel.create({ ...createGlobalDto.ram, nodeId: node.uuid })
+    await this.nodeCpuModel.create({ ...createGlobalDto.cpu, nodeId: node.uuid })
 
     return createGlobalDto
   }

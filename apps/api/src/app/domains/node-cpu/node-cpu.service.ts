@@ -1,26 +1,19 @@
-import { Injectable } from '@nestjs/common';
-import { CreateNodeCpuDto } from './dto/create-node-cpu.dto';
-import { UpdateNodeCpuDto } from './dto/update-node-cpu.dto';
+import {Injectable} from '@nestjs/common';
+import {CreateNodeDiskDto} from "../node-disks/dto/create-node-disk.dto";
+import {FindAllDto} from "../../common/findAll.dto";
+import {InjectModel} from "@nestjs/sequelize";
+import {NodeCpu} from "./entities/node-cpu.entity";
 
 @Injectable()
 export class NodeCpuService {
-  create(createNodeCpuDto: CreateNodeCpuDto) {
-    return 'This action adds a new nodeCpu';
+  constructor(@InjectModel(NodeCpu) private nodeCpuModel: typeof NodeCpu) {
   }
 
-  findAll() {
-    return `This action returns all nodeCpu`;
+  async create(createNodeDiskDto: CreateNodeDiskDto) {
+    return await this.nodeCpuModel.create({ ...createNodeDiskDto })
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} nodeCpu`;
-  }
-
-  update(id: number, updateNodeCpuDto: UpdateNodeCpuDto) {
-    return `This action updates a #${id} nodeCpu`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} nodeCpu`;
+  async findAll(findAllDto: FindAllDto) {
+    return await this.nodeCpuModel.findAll({limit: 100,  ...findAllDto})
   }
 }
