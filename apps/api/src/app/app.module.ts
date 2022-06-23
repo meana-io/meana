@@ -13,9 +13,10 @@ import {Dialect} from "sequelize";
 import {NodeRamModule} from "./domains/node-ram/node-ram.module";
 import {NodeRam} from "./domains/node-ram/entities/node-ram.entity";
 import {NodeCpu} from "./domains/node-cpu/entities/node-cpu.entity";
+import {NodeCpuModule} from "./domains/node-cpu/node-cpu.module";
 
 @Module({
-  imports: [NodesModule, NodeDisksModule, NodeDiskPartitionsModule, NodeRamModule, NodeCpu, SequelizeModule.forRoot({
+  imports: [NodesModule, NodeDisksModule, NodeDiskPartitionsModule, NodeRamModule, NodeCpuModule, SequelizeModule.forRoot({
     dialect: process.env.DB_DIALECT as Dialect,
     host: process.env.DB_HOST,
     port: +process.env.DB_PORT,
