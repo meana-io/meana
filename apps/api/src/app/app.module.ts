@@ -4,7 +4,6 @@ import {AppController} from './app.controller';
 import {AppService} from './app.service';
 import {NodesModule} from "./domains/nodes/nodes.module";
 import {SequelizeModule} from "@nestjs/sequelize";
-import {NodeDisk} from "./domains/node-disks/entities/node-disk.entity";
 import {NodeDisksModule} from "./domains/node-disks/node-disks.module";
 import {NodeDiskPartition} from "./domains/node-disk-partitions/entities/node-disk-partition.entity";
 import {NodeDiskPartitionsModule} from "./domains/node-disk-partitions/node-disk-partitions.module";
@@ -14,6 +13,7 @@ import {NodeRam} from "./domains/node-ram/entities/node-ram.entity";
 import {NodeCpu} from "./domains/node-cpu/entities/node-cpu.entity";
 import {NodeCpuModule} from "./domains/node-cpu/node-cpu.module";
 import {NodeEntity} from "../../../../libs/shared/Entities/node.entity";
+import {NodeDiskEntity} from "../../../../libs/shared/Entities/node-disk.entity";
 
 @Module({
   imports: [NodesModule, NodeDisksModule, NodeDiskPartitionsModule, NodeRamModule, NodeCpuModule, SequelizeModule.forRoot({
@@ -23,7 +23,7 @@ import {NodeEntity} from "../../../../libs/shared/Entities/node.entity";
     username: process.env.DB_USERNAME,
     password: process.env.DB_PASSWORD,
     database: process.env.DB_DATABASE,
-    models: [NodeEntity, NodeDisk, NodeDiskPartition, NodeRam, NodeCpu],
+    models: [NodeEntity, NodeDiskEntity, NodeDiskPartition, NodeRam, NodeCpu],
   })],
   controllers: [AppController],
   providers: [AppService],

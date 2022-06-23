@@ -1,13 +1,12 @@
 import {Injectable} from '@nestjs/common';
-import {UpdateNodeDiskDto} from './dto/update-node-disk.dto';
-import {NodeDisk} from "./entities/node-disk.entity";
 import {InjectModel} from "@nestjs/sequelize";
 import {FindAllDto} from "../../common/findAll.dto";
 import {CreateNodeDiskDto} from "./dto/create-node-disk.dto";
+import {NodeDiskEntity} from "../../../../../../libs/shared/Entities/node-disk.entity";
 
 @Injectable()
 export class NodeDisksService {
-  constructor(@InjectModel(NodeDisk) private nodeDiskModel: typeof NodeDisk) {
+  constructor(@InjectModel(NodeDiskEntity) private nodeDiskModel: typeof NodeDiskEntity) {
   }
   async create(createNodeDiskDto: CreateNodeDiskDto) {
     return await this.nodeDiskModel.create({ ...createNodeDiskDto })

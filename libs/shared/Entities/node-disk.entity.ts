@@ -1,12 +1,12 @@
 import {Column, Model, Sequelize, Table} from "sequelize-typescript";
-import {NodeDisk as LocalNodeDisk} from "../../../../../../../shared/Entities/NodeDisk"
 import {InferAttributes} from "sequelize";
+import {NodeDisk} from "../Types/NodeDisk";
 
 @Table({
     tableName: 'node_disks',
     timestamps: false
 })
-export class NodeDisk extends Model<InferAttributes<NodeDisk>> implements LocalNodeDisk {
+export class NodeDiskEntity extends Model<InferAttributes<NodeDiskEntity>> implements NodeDisk {
     @Column({
         defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
         primaryKey: true
