@@ -2,7 +2,6 @@ import {Module} from '@nestjs/common';
 
 import {AppController} from './app.controller';
 import {AppService} from './app.service';
-import {Node} from "./domains/nodes/entities/node.entity";
 import {NodesModule} from "./domains/nodes/nodes.module";
 import {SequelizeModule} from "@nestjs/sequelize";
 import {NodeDisk} from "./domains/node-disks/entities/node-disk.entity";
@@ -14,6 +13,7 @@ import {NodeRamModule} from "./domains/node-ram/node-ram.module";
 import {NodeRam} from "./domains/node-ram/entities/node-ram.entity";
 import {NodeCpu} from "./domains/node-cpu/entities/node-cpu.entity";
 import {NodeCpuModule} from "./domains/node-cpu/node-cpu.module";
+import {NodeEntity} from "../../../../libs/shared/Entities/node.entity";
 
 @Module({
   imports: [NodesModule, NodeDisksModule, NodeDiskPartitionsModule, NodeRamModule, NodeCpuModule, SequelizeModule.forRoot({
@@ -23,7 +23,7 @@ import {NodeCpuModule} from "./domains/node-cpu/node-cpu.module";
     username: process.env.DB_USERNAME,
     password: process.env.DB_PASSWORD,
     database: process.env.DB_DATABASE,
-    models: [Node, NodeDisk, NodeDiskPartition, NodeRam, NodeCpu],
+    models: [NodeEntity, NodeDisk, NodeDiskPartition, NodeRam, NodeCpu],
   })],
   controllers: [AppController],
   providers: [AppService],

@@ -1,13 +1,13 @@
 import {Injectable} from '@nestjs/common';
-import {Node} from "./entities/node.entity";
 import {InjectModel} from "@nestjs/sequelize";
 import {CreateNodeDto} from "./dto/create-node.dto";
 import {UpdateNodeDto} from "./dto/update-node.dto";
 import {FindAllDto} from "../../common/findAll.dto";
+import {NodeEntity} from "../../../../../../libs/shared/Entities/node.entity";
 
 @Injectable()
 export class NodesService {
-  constructor(@InjectModel(Node) private nodeModel: typeof Node) {
+  constructor(@InjectModel(NodeEntity) private nodeModel: typeof NodeEntity) {
   }
   async create(createNodeDto: CreateNodeDto) {
     this.nodeModel.removeAttribute('id')
