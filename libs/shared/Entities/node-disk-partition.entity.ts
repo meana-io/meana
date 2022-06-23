@@ -1,12 +1,12 @@
 import {Column, Model, Sequelize, Table} from "sequelize-typescript";
-import {NodeDiskPartition as LocalNodeDiskPartition} from "../../../../../../../shared/Entities/NodeDiskPartition"
 import {InferAttributes} from "sequelize";
+import {NodeDiskPartition} from "../Types/NodeDiskPartition";
 
 @Table({
     tableName: 'node_disk_partitions',
     timestamps: false
 })
-export class NodeDiskPartition extends Model<InferAttributes<NodeDiskPartition>> implements LocalNodeDiskPartition {
+export class NodeDiskPartitionEntity extends Model<InferAttributes<NodeDiskPartitionEntity>> implements NodeDiskPartition {
     @Column({
         defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
         primaryKey: true

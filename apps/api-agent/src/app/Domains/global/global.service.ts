@@ -2,13 +2,11 @@ import {HttpException, Injectable} from '@nestjs/common';
 import {CreateGlobalDto} from "./dto/create-global.dto";
 import {InjectModel} from "@nestjs/sequelize";
 /* eslint-disable @nrwl/nx/enforce-module-boundaries */
-import {
-  NodeDiskPartition
-} from "../../../../../api/src/app/domains/node-disk-partitions/entities/node-disk-partition.entity";
 import {NodeRam} from "../../../../../api/src/app/domains/node-ram/entities/node-ram.entity";
 import {NodeCpu} from "../../../../../api/src/app/domains/node-cpu/entities/node-cpu.entity";
 import {NodeEntity} from "../../../../../../libs/shared/Entities/node.entity";
 import {NodeDiskEntity} from "../../../../../../libs/shared/Entities/node-disk.entity";
+import {NodeDiskPartitionEntity} from "../../../../../../libs/shared/Entities/node-disk-partition.entity";
 
 /* eslint-enable @nrwl/nx/enforce-module-boundaries */
 
@@ -17,7 +15,7 @@ export class GlobalService {
   constructor(
       @InjectModel(NodeEntity) private nodeModel: typeof NodeEntity,
       @InjectModel(NodeDiskEntity) private nodeDiskModel: typeof NodeDiskEntity,
-      @InjectModel(NodeDiskPartition) private nodeDiskPartitionModel: typeof NodeDiskPartition,
+      @InjectModel(NodeDiskPartitionEntity) private nodeDiskPartitionModel: typeof NodeDiskPartitionEntity,
       @InjectModel(NodeRam) private nodeRamModel: typeof NodeRam,
       @InjectModel(NodeCpu) private nodeCpuModel: typeof NodeCpu
   ) {}
