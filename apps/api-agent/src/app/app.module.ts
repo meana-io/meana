@@ -6,11 +6,11 @@ import {SequelizeModule} from "@nestjs/sequelize";
 /* eslint-disable @nrwl/nx/enforce-module-boundaries */
 import {GlobalModule} from "./Domains/global/global.module";
 import {Dialect} from "sequelize";
-import {NodeRam} from "../../../api/src/app/domains/node-ram/entities/node-ram.entity";
 import {NodeCpu} from "../../../api/src/app/domains/node-cpu/entities/node-cpu.entity";
 import {NodeEntity} from "../../../../libs/shared/Entities/node.entity";
 import {NodeDiskEntity} from "../../../../libs/shared/Entities/node-disk.entity";
 import {NodeDiskPartitionEntity} from "../../../../libs/shared/Entities/node-disk-partition.entity";
+import {NodeRamEntity} from "../../../../libs/shared/Entities/node-ram.entity";
 
 /* eslint-enable @nrwl/nx/enforce-module-boundaries */
 
@@ -24,7 +24,7 @@ import {NodeDiskPartitionEntity} from "../../../../libs/shared/Entities/node-dis
       username: process.env.DB_USERNAME,
       password: process.env.DB_PASSWORD,
       database: process.env.DB_DATABASE,
-      models: [NodeEntity, NodeDiskEntity, NodeDiskPartitionEntity, NodeRam, NodeCpu],
+      models: [NodeEntity, NodeDiskEntity, NodeDiskPartitionEntity, NodeRamEntity, NodeCpu],
     }),
   ],
   controllers: [AppController],
