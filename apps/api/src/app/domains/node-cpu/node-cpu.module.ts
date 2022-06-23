@@ -2,10 +2,10 @@ import {Module} from '@nestjs/common';
 import {NodeCpuService} from './node-cpu.service';
 import {NodeCpuController} from './node-cpu.controller';
 import {SequelizeModule} from "@nestjs/sequelize";
-import {NodeCpu} from "./entities/node-cpu.entity";
+import {NodeCpuEntity} from "../../../../../../libs/shared/Entities/node-cpu.entity";
 
 @Module({
-  imports: [SequelizeModule.forFeature([NodeCpu])],
+  imports: [SequelizeModule.forFeature([NodeCpuEntity])],
   controllers: [NodeCpuController],
   providers: [NodeCpuService],
 })

@@ -1,11 +1,12 @@
 import {Column, Model, Sequelize, Table} from "sequelize-typescript";
 import {InferAttributes} from "sequelize";
+import {NodeCpu} from "../Types/NodeCpu";
 
 @Table({
     tableName: 'node_cpu',
     timestamps: false
 })
-export class NodeCpu extends Model<InferAttributes<NodeCpu>> {
+export class NodeCpuEntity extends Model<InferAttributes<NodeCpuEntity>> implements NodeCpu {
     @Column({
         defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
         primaryKey: true
