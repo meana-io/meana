@@ -1,30 +1,23 @@
-import { Box, Card, CardContent, Typography } from '@mui/material';
+import { Card, CardContent, CardHeader } from '@mui/material';
 import dynamic from 'next/dynamic';
 
 const Chart = dynamic(() => import('react-apexcharts'), { ssr: false });
 
 interface ChartCardProps {
   title: string;
-  series: number[];
-  labels: string[];
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  data: any[];
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  options: any;
 }
 
-const ChartCard: React.FC<ChartCardProps> = ({ title, series, labels }) => {
-  const options = {
-    labels,
-  };
-
+const ChartCard: React.FC<ChartCardProps> = ({ title, options, data }) => {
   return (
     <Card>
+      <CardHeader title={title} />
       <CardContent>
-        <Typography component="div" variant="h4">
-          {title}
-        </Typography>
+        <Chart options={options} series={data} type="area" />
       </CardContent>
-
-      <Box p={2}>
-        <Chart options={options} series={series} type="donut" />
-      </Box>
     </Card>
   );
 };

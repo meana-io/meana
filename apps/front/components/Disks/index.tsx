@@ -31,7 +31,7 @@ const calcualtePartitionSapce = (partition: Partition) => {
 };
 
 const Disks: React.FC<DisksProps> = ({ disks, partitions }) => {
-  const [disk, setDisk] = useState<Disk | undefined>(undefined);
+  const [disk, setDisk] = useState<Disk | undefined>(disks[0]);
   const [partition, setPartition] = useState<Partition | undefined>(undefined);
 
   const handleDiskChange = (serialNumber: string) => {
@@ -65,16 +65,16 @@ const Disks: React.FC<DisksProps> = ({ disks, partitions }) => {
         />
       </Grid>
       <Grid item spacing={2} container direction="row" xs={12}>
-        <Grid item xs={6}>
+        <Grid item xs={12} md={6}>
           <DiskDetails disk={disk} />
         </Grid>
-        <Grid item xs={6}>
+        <Grid item xs={12} md={6}>
           <PartitionDetails partition={partition} />
         </Grid>
       </Grid>
 
       <Grid item spacing={2} container direction="row" xs={12}>
-        <Grid item xs={6}>
+        <Grid item xs={12} md={6}>
           {disk && (
             <ChartCard
               title="Disk space"
@@ -87,7 +87,7 @@ const Disks: React.FC<DisksProps> = ({ disks, partitions }) => {
             />
           )}
         </Grid>
-        <Grid item xs={6}>
+        <Grid item xs={12} md={6}>
           {partition && (
             <ChartCard
               title="Partiton space"

@@ -1,7 +1,7 @@
 import {
   Box,
   Card,
-  Typography,
+  CardHeader,
   CardContent,
   InputLabel,
   MenuItem,
@@ -28,10 +28,8 @@ const Header: React.FC<HeaderProps> = ({
 }) => {
   return (
     <Card>
+      <CardHeader title="Disks" />
       <CardContent>
-        <Typography component="div" variant="h4" fontWeight={500} mb={2}>
-          Disks
-        </Typography>
         <Box display="flex" flex={1} gap={2}>
           <FormControl fullWidth>
             <InputLabel id="disk">Disk</InputLabel>
