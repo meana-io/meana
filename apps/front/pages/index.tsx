@@ -13,17 +13,20 @@ import Disk from '@/types/disk';
 import Partition from '@/types/partition';
 import Node from '@/types/node';
 import NodeRam from '@/types/ram';
+import NodeCpu from '@/types/cpu';
 
 import Ram from '@/components/Ram';
+import Cpu from '@/components/Cpu';
 
 interface IndexPageProps {
   disks: Disk[];
   nodes: Node[];
   partitions: Partition[];
   ram: NodeRam;
+  cpu: NodeCpu;
 }
 
-const Index: NextPage<IndexPageProps> = ({ nodes, disks, partitions, ram }) => {
+const Index: NextPage<IndexPageProps> = ({ nodes, disks, partitions, ram, cpu }) => {
   return (
     <TabsProvider>
       <MainLayout nodes={nodes}>
@@ -32,6 +35,9 @@ const Index: NextPage<IndexPageProps> = ({ nodes, disks, partitions, ram }) => {
         </TabPanel>
         <TabPanel index={1}>
           <Ram ram={ram} />
+        </TabPanel>
+        <TabPanel index={2}>
+          <Cpu cpu={cpu} />
         </TabPanel>
       </MainLayout>
     </TabsProvider>
