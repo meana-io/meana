@@ -28,14 +28,14 @@ const Index: NextPage<IndexPageProps> = ({ nodes, disks, partitions, ram }) => {
 };
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  const [nodes] = await Promise.all([
-    axios.get('http://135.125.190.40:3333/api/nodes'),
-  ]);
+  const { data: nodes } = await axios.get(
+    'http://135.125.190.40:3333/api/nodes'
+  );
 
   return {
     props: {
-      nodes: nodes.data,
+      nodes: nodes,
     },
   };
-};
+};;
 export default Index;

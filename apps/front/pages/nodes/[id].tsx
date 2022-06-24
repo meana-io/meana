@@ -13,17 +13,26 @@ import Disk from '@/types/disk';
 import Partition from '@/types/partition';
 import Node from '@/types/node';
 import NodeRam from '@/types/ram';
+import NodeCpu from '@/types/cpu';
 
 import Ram from '@/components/Ram';
+import Cpu from '@/components/Cpu';
 
 interface IndexPageProps {
   disks: Disk[];
   nodes: Node[];
   partitions: Partition[];
   ram: NodeRam[];
+  cpu: NodeCpu;
 }
 
-const Index: NextPage<IndexPageProps> = ({ nodes, disks, partitions, ram }) => {
+const Index: NextPage<IndexPageProps> = ({
+  nodes,
+  disks,
+  partitions,
+  ram,
+  cpu,
+}) => {
   return (
     <TabsProvider>
       <MainLayout nodes={nodes}>
@@ -32,6 +41,9 @@ const Index: NextPage<IndexPageProps> = ({ nodes, disks, partitions, ram }) => {
         </TabPanel>
         <TabPanel index={1}>
           <Ram ram={ram} />
+        </TabPanel>
+        <TabPanel index={2}>
+          <Cpu cpu={cpu} />
         </TabPanel>
       </MainLayout>
     </TabsProvider>
@@ -54,8 +66,8 @@ const getDisksIndentifiers = (nodeName: string, disks: Disk[]) => {
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const nodeId = context.query.id as string;
 
-  const { data: node } = await axios.get(
-    `http://135.125.190.40:3333/api/nodes/${nodeId}`
+  const { data: nodes } = await axios.get(
+    `http://135.125.190.40:3333/api/nodes`
   );
 
   const { data: nodeDisks } = await axios.get(
@@ -67,6 +79,10 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
         },
       },
     }
+  );
+
+  const { data: node } = await axios.get(
+    `http://135.125.190.40:3333/api/nodes/${nodeId}`
   );
 
   const partitionQuery = getDisksIndentifiers(node.name, nodeDisks);
@@ -93,17 +109,31 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       },
     }
   );
+
+  const { data: nodeCpu } = await axios.get(
+    'http://135.125.190.40:3333/api/node-cpu',
+    {
+      data: {
+        where: {
+          nodeId,
+        },
+        linit: 1,
+      },
+    }
+  );
+
   const disksByNewest = sortByNewest(nodeDisks);
   const partitionByNewest = sortByNewest(nodePartitions);
   const ramByNewest = sortByNewest(nodeRam);
 
   return {
     props: {
-      nodes: [],
+      nodes: nodes,
       disks: arrayUniqueByKey(disksByNewest, 'name'),
       partitions: arrayUniqueByKey(partitionByNewest, 'diskIdentifier'),
       ram: ramByNewest,
+      cpu: nodeCpu[0] || [],
     },
   };
-};
+};;;;
 export default Index;

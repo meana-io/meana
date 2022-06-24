@@ -41,7 +41,6 @@ const Disks: React.FC<DisksProps> = ({ disks, partitions }) => {
 
   const handlePartitionChange = (path: string) => {
     const selectedPartition = partitions.find((d) => d.path === path);
-    console.log(partitions);
     setPartition(selectedPartition);
   };
 
