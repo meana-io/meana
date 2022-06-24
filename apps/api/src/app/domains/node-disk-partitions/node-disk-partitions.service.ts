@@ -13,7 +13,7 @@ export class NodeDiskPartitionsService {
   }
 
   async findAll(findAllDto: FindAllDto) {
-    return await this.nodeDiskPartitionModel.findAll({limit: 100,  ...findAllDto})
+    return await this.nodeDiskPartitionModel.findAll({order: ['time', 'DESC'], limit: 100,  ...findAllDto})
   }
   //
   // async findOne(nodeDiskId: string) {
