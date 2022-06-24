@@ -1,4 +1,4 @@
-import { Card, CardContent, Typography } from '@mui/material';
+import { Card, CardContent, CardHeader, Typography } from '@mui/material';
 
 import { toTitleCase } from '@/utility/toTitleCase';
 import Disk from '@/types/disk';
@@ -13,11 +13,7 @@ const DiskDetails: React.FC<DiskDetailsProps> = ({ disk }) => {
 
   return (
     <Card>
-      <CardContent>
-        <Typography component="div" variant="h4">
-          Disk - {disk?.name}
-        </Typography>
-      </CardContent>
+      <CardHeader title={`Disk - ${disk?.name}`} />
       <CardContent>
         {keysToDisplay.map((key, index) => (
           <Typography key={index} component="div" variant="h6">

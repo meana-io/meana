@@ -34,20 +34,18 @@ const Disks: React.FC<DisksProps> = ({ disks, partitions }) => {
   const [disk, setDisk] = useState<Disk | undefined>(undefined);
   const [partition, setPartition] = useState<Partition | undefined>(undefined);
 
-  const handleDiskChange = (serialNumber: string) => {
-    const selectedDisk = disks.find((d) => d.serialNumber === serialNumber);
+  const handleDiskChange = (diskName: string) => {
+    const selectedDisk = disks.find((d) => d.name === diskName);
     setDisk(selectedDisk);
   };
 
-  const handlePartitionChange = (diskSerialNumber: string) => {
-    const selectedPartition = partitions.find(
-      (d) => d.diskSerialNumber === diskSerialNumber
-    );
+  const handlePartitionChange = (path: string) => {
+    const selectedPartition = partitions.find((d) => d.path === path);
     setPartition(selectedPartition);
   };
 
-  const getPartitonsByDiskId = (diskSerialNumber: string) => {
-    return partitions.filter((p) => p.diskSerialNumber === diskSerialNumber);
+  const getPartitonsByDiskId = (diskName: string) => {
+    return partitions.filter((p) => p.diskIdentifier.includes(diskName));
   };
 
   useEffect(() => {
@@ -60,34 +58,32 @@ const Disks: React.FC<DisksProps> = ({ disks, partitions }) => {
         <Header
           disks={disks}
           handleDiskChange={handleDiskChange}
-          partitions={getPartitonsByDiskId(disk?.serialNumber)}
+          partitions={getPartitonsByDiskId(disk?.name)}
           handlePartitionChange={handlePartitionChange}
         />
       </Grid>
       <Grid item spacing={2} container direction="row" xs={12}>
-        <Grid item xs={6}>
+        <Grid item xs={12} md={6}>
           <DiskDetails disk={disk} />
         </Grid>
-        <Grid item xs={6}>
+        <Grid item xs={12} md={6}>
           <PartitionDetails partition={partition} />
         </Grid>
       </Grid>
 
       <Grid item spacing={2} container direction="row" xs={12}>
-        <Grid item xs={6}>
+        <Grid item xs={12} md={6}>
           {disk && (
             <ChartCard
               title="Disk space"
-              labels={getPartitonsByDiskId(disk.serialNumber).map(
-                ({ path }) => path
-              )}
-              series={getPartitonsByDiskId(disk.serialNumber).map(
-                ({ capacity }) => parseInt(capacity, 10)
+              labels={getPartitonsByDiskId(disk.name).map(({ path }) => path)}
+              series={getPartitonsByDiskId(disk.name).map(({ capacity }) =>
+                parseInt(capacity, 10)
               )}
             />
           )}
         </Grid>
-        <Grid item xs={6}>
+        <Grid item xs={12} md={6}>
           {partition && (
             <ChartCard
               title="Partiton space"

@@ -1,4 +1,6 @@
 import { styled } from '@mui/material/styles';
+import Link from 'next/link';
+
 import {
   Drawer as MuiDrawer,
   List,
@@ -28,11 +30,13 @@ const NodeListDrawer: React.FC<NodeListDrawerProps> = ({ nodes }) => {
       <Toolbar />
       <List>
         {nodes.map(({ uuid, name }) => (
-          <ListItem key={uuid} disablePadding>
-            <ListItemButton>
-              <ListItemText primary={name} />
-            </ListItemButton>
-          </ListItem>
+          <Link key={uuid} passHref href={`/nodes/${uuid}`}>
+            <ListItem disablePadding>
+              <ListItemButton>
+                <ListItemText primary={name} />
+              </ListItemButton>
+            </ListItem>
+          </Link>
         ))}
       </List>
     </Drawer>
