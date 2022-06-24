@@ -15,6 +15,7 @@ import Node from '@/types/node';
 import NodeRam from '@/types/ram';
 
 import Ram from '@/components/Ram';
+import { useEffect } from 'react';
 
 interface IndexPageProps {
   disks: Disk[];
@@ -24,6 +25,18 @@ interface IndexPageProps {
 }
 
 const Index: NextPage<IndexPageProps> = ({ nodes, disks, partitions, ram }) => {
+  useEffect(async () => {
+    const data = await axios.get('http://135.125.190.40:3333/api/nodes', {
+      params: {
+        where: {
+          name: 'dawod',
+        },
+      },
+    });
+
+    console.log(data.data);
+  });
+
   return (
     <TabsProvider>
       <MainLayout nodes={nodes}>
@@ -49,11 +62,19 @@ const sortByNewest = (arr) =>
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const [nodes, disks, partitions, ram] = await Promise.all([
-    axios.get('http://135.125.190.40:3333/api/nodes'),
+    axios.get('http://135.125.190.40:3333/api/nodes', {
+      params: {
+        where: {
+          name: 'dawod',
+        },
+      },
+    }),
     axios.get('http://135.125.190.40:3333/api/node-disks'),
     axios.get('http://135.125.190.40:3333/api/node-disk-partitions'),
     axios.get('http://135.125.190.40:3333/api/node-ram'),
   ]);
+
+  console.log(nodes.data);
 
   const disksByNewest = sortByNewest(disks.data);
   const partitionByNewest = sortByNewest(partitions.data);

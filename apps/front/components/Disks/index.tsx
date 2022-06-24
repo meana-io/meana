@@ -31,23 +31,22 @@ const calcualtePartitionSapce = (partition: Partition) => {
 };
 
 const Disks: React.FC<DisksProps> = ({ disks, partitions }) => {
-  const [disk, setDisk] = useState<Disk | undefined>(disks[0]);
+  const [disk, setDisk] = useState<Disk | undefined>(undefined);
   const [partition, setPartition] = useState<Partition | undefined>(undefined);
 
-  const handleDiskChange = (serialNumber: string) => {
-    const selectedDisk = disks.find((d) => d.serialNumber === serialNumber);
+  const handleDiskChange = (diskName: string) => {
+    const selectedDisk = disks.find((d) => d.name === diskName);
     setDisk(selectedDisk);
   };
 
-  const handlePartitionChange = (diskSerialNumber: string) => {
-    const selectedPartition = partitions.find(
-      (d) => d.diskSerialNumber === diskSerialNumber
-    );
+  const handlePartitionChange = (path: string) => {
+    const selectedPartition = partitions.find((d) => d.path === path);
+    console.log(partitions);
     setPartition(selectedPartition);
   };
 
-  const getPartitonsByDiskId = (diskSerialNumber: string) => {
-    return partitions.filter((p) => p.diskSerialNumber === diskSerialNumber);
+  const getPartitonsByDiskId = (diskName: string) => {
+    return partitions.filter((p) => p.diskIdentifier.includes(diskName));
   };
 
   useEffect(() => {
@@ -60,7 +59,7 @@ const Disks: React.FC<DisksProps> = ({ disks, partitions }) => {
         <Header
           disks={disks}
           handleDiskChange={handleDiskChange}
-          partitions={getPartitonsByDiskId(disk?.serialNumber)}
+          partitions={getPartitonsByDiskId(disk?.name)}
           handlePartitionChange={handlePartitionChange}
         />
       </Grid>
@@ -78,11 +77,9 @@ const Disks: React.FC<DisksProps> = ({ disks, partitions }) => {
           {disk && (
             <ChartCard
               title="Disk space"
-              labels={getPartitonsByDiskId(disk.serialNumber).map(
-                ({ path }) => path
-              )}
-              series={getPartitonsByDiskId(disk.serialNumber).map(
-                ({ capacity }) => parseInt(capacity, 10)
+              labels={getPartitonsByDiskId(disk.name).map(({ path }) => path)}
+              series={getPartitonsByDiskId(disk.name).map(({ capacity }) =>
+                parseInt(capacity, 10)
               )}
             />
           )}

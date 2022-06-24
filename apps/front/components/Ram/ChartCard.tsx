@@ -16,7 +16,7 @@ const ChartCard: React.FC<ChartCardProps> = ({ title, options, data }) => {
     <Card>
       <CardHeader title={title} />
       <CardContent>
-        <Chart options={options} series={data} type="area" />
+        <Chart options={options} series={data} type="area" height={300} />
       </CardContent>
     </Card>
   );

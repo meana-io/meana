@@ -17,7 +17,7 @@ interface HeaderProps {
   disks: Disk[];
   partitions: Partition[];
   handlePartitionChange: (partitionId: string) => void;
-  handleDiskChange: (diskId: string) => void;
+  handleDiskChange: (diskName: string) => void;
 }
 
 const Header: React.FC<HeaderProps> = ({
@@ -42,8 +42,8 @@ const Header: React.FC<HeaderProps> = ({
                 handleDiskChange(event.target.value)
               }
             >
-              {disks.map(({ serialNumber, name }) => (
-                <MenuItem key={serialNumber} value={serialNumber}>
+              {disks.map(({ name }) => (
+                <MenuItem key={name} value={name}>
                   {name}
                 </MenuItem>
               ))}
@@ -56,12 +56,12 @@ const Header: React.FC<HeaderProps> = ({
               id="partition"
               label="Partition"
               defaultValue=""
-              onChange={(event: SelectChangeEvent) =>
-                handlePartitionChange(event.target.value)
-              }
+              onChange={(event: SelectChangeEvent) => {
+                handlePartitionChange(event.target.value);
+              }}
             >
-              {partitions.map(({ path, diskSerialNumber }) => (
-                <MenuItem key={diskSerialNumber} value={diskSerialNumber}>
+              {partitions.map(({ path }, index) => (
+                <MenuItem key={index} value={path}>
                   {path}
                 </MenuItem>
               ))}

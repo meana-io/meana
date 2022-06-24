@@ -1,11 +1,32 @@
 import { Grid } from '@mui/material';
 
+import RamDetails from './RamDetails';
 import ChartCard from './ChartCard';
 import Ram from '@/types/ram';
 
 interface RamProps {
   ram: Ram[];
 }
+
+const generateDayWiseTimeSeries = (baseval, count, yrange) => {
+  let i = 0;
+  const series = [];
+  while (i < count) {
+    const x = baseval;
+    const y =
+      Math.floor(Math.random() * (yrange.max - yrange.min + 1)) + yrange.min;
+
+    series.push([x, y]);
+    baseval += 86400000;
+    i++;
+  }
+  return series;
+};
+
+const data = generateDayWiseTimeSeries(new Date('22 Apr 2017').getTime(), 115, {
+  min: 30,
+  max: 90,
+});
 
 const RAM_USAGE_CHART_CONFIG = {
   chart: {
@@ -49,14 +70,25 @@ const ramToChart = (ram: Ram[]) => {
     },
   ];
 };
+
 const Ram: React.FC<RamProps> = ({ ram }) => {
+  const chartData = ramToChart(ram);
+  chartData.data.length = 20;
+  data.length = 20;
+
+  console.log(chartData.data);
+  console.log(data);
+
   return (
     <Grid container spacing={2} direction="column">
-      <Grid item xs={12} md={6}>
+      <Grid item xs={12}>
         <ChartCard
           title="Ram usage"
           options={RAM_USAGE_CHART_CONFIG}
-          data={ramToChart(ram)}
+          data={{
+            name: 'usage',
+            data,
+          }}
         />
       </Grid>
     </Grid>

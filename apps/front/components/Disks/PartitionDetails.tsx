@@ -1,4 +1,4 @@
-import { Card, CardContent, Typography } from '@mui/material';
+import { Card, CardContent, CardHeader, Typography } from '@mui/material';
 
 import Partition from '@/types/partition';
 
@@ -10,15 +10,11 @@ interface PartitionDetailsProps {
 }
 
 const PartitionDetails: React.FC<PartitionDetailsProps> = ({ partition }) => {
-  const keysToDisplay: (keyof Partition)[] = ['path', 'fileSystem'];
+  const keysToDisplay: (keyof Partition)[] = ['path', 'fileSystem', 'name'];
 
   return (
     <Card>
-      <CardContent>
-        <Typography component="div" variant="h4">
-          Partition - {partition?.path}
-        </Typography>
-      </CardContent>
+      <CardHeader title={`Partition - ${partition?.path}`} />
       <CardContent>
         {keysToDisplay.map((key) => (
           <Typography key={key} component="div" variant="h6">

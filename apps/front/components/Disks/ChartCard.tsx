@@ -18,7 +18,13 @@ const ChartCard: React.FC<ChartCardProps> = ({ title, series, labels }) => {
     <Card>
       <CardHeader title={title} />
       <CardContent>
-        <Chart options={options} series={series} labels={labels} type="donut" />
+        <Chart
+          options={options}
+          series={series}
+          labels={labels}
+          type="donut"
+          height={200}
+        />
       </CardContent>
     </Card>
   );
