@@ -3,4 +3,5 @@ export interface NodeCpu {
     coresQuantity?: string;
     manufacture?: string;
     model?: string;
+    usage?: string;
 }

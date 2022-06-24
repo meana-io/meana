@@ -35,4 +35,9 @@ export class NodeCpuEntity extends Model<InferAttributes<NodeCpuEntity>> impleme
         allowNull: true,
     })
     model?: string;
+
+    @Column({
+        allowNull: true,
+    })
+    usage?: string;
 }

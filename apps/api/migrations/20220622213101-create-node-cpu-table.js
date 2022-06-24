@@ -24,6 +24,9 @@ module.exports = {
         model: {
           type: Sequelize.STRING
         },
+        usage: {
+          type: Sequelize.STRING
+        },
       });
       await transaction.commit()
     } catch (e) {
