@@ -68,10 +68,10 @@ const Ram: React.FC<RamProps> = ({ ram }) => {
   return (
     <Grid container spacing={2} direction="column">
       <Grid item spacing={2} container direction="row" xs={12}>
-        <Grid item xs={6}>
+        <Grid item xs={12} md={6}>
           <RamDetails ram={ram} />
         </Grid>
-        <Grid item xs={6}>
+        <Grid item xs={12} md={6}>
           <ChartCard
             title="Ram usage"
             options={RAM_USAGE_CHART_CONFIG}
