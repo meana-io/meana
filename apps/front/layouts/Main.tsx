@@ -7,12 +7,14 @@ import LayoutContent from '@/components/Layout/LayoutContent';
 
 import Node from '@/types/node';
 
-import AccessAlarmIcon from '@mui/icons-material/AccessAlarm';
-import ThreeDRotation from '@mui/icons-material/ThreeDRotation';
+import DiscFullIcon from '@mui/icons-material/DiscFull';
+import SdStorageIcon from '@mui/icons-material/SdStorage';
+import MemoryIcon from '@mui/icons-material/Memory';
 
 const TABS = [
-  { label: 'disks', icon: <AccessAlarmIcon /> },
-  { label: 'ram', icon: <ThreeDRotation /> },
+  { label: 'disks', icon: <DiscFullIcon /> },
+  { label: 'ram', icon: <SdStorageIcon /> },
+  { label: 'processor', icon: <MemoryIcon /> },
 ];
 
 interface MainLayoutProps {
