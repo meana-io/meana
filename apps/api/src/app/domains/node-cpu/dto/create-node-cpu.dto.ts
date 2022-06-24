@@ -24,4 +24,8 @@ export class CreateNodeCpuDto {
     @IsString()
     @IsOptional()
     model?: string
+
+    @IsString()
+    @IsOptional()
+    usage?: string
 }
