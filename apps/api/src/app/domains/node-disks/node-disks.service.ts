@@ -13,7 +13,7 @@ export class NodeDisksService {
   }
 
   async findAll(findAllDto: FindAllDto) {
-    return await this.nodeDiskModel.findAll({order: ['time', 'DESC'], limit: 100,  ...findAllDto})
+    return await this.nodeDiskModel.findAll({order: [['time', 'DESC']], limit: 100,  ...findAllDto})
   }
   //
   // async findOne(uuid: string) {

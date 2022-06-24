@@ -14,6 +14,6 @@ export class NodeCpuService {
   }
 
   async findAll(findAllDto: FindAllDto) {
-    return await this.nodeCpuModel.findAll({order: ['time', 'DESC'], limit: 100,  ...findAllDto})
+    return await this.nodeCpuModel.findAll({order: [['time', 'DESC']], limit: 100,  ...findAllDto})
   }
 }
