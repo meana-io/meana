@@ -5,14 +5,17 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  const { data } = await axios.get(`http://135.125.190.40:3333/api/node-cpu`, {
-    data: {
-      where: {
-        nodeId: req.query.id,
+  const { data } = await axios.get(
+    `http://vps-5c7e69c7.vps.ovh.net:3333/api/node-cpu`,
+    {
+      data: {
+        where: {
+          nodeId: req.query.id,
+        },
+        linit: 50,
       },
-      linit: 50,
-    },
-  });
+    }
+  );
 
   res.json(data);
 }

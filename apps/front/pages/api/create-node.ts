@@ -6,7 +6,7 @@ export default async function handler(
   res: NextApiResponse
 ) {
   const { data } = await axios.post(
-    `http://135.125.190.40:3333/api/nodes`,
+    `http://vps-5c7e69c7.vps.ovh.net:3333/api/nodes`,
     req.body
   );
 
