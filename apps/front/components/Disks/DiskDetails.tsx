@@ -12,8 +12,8 @@ const DiskDetails: React.FC<DiskDetailsProps> = ({ disk }) => {
   const keysToDisplay: (keyof Disk)[] = ['manufacture', 'model'];
 
   return (
-    <Card>
-      <CardHeader title={`Disk - ${disk?.name}`} />
+    <Card sx={{ height: '100%' }}>
+      <CardHeader title={`Disk - ${disk?.name || ''}`} />
       <CardContent>
         {keysToDisplay.map((key, index) => (
           <Typography key={index} component="div" variant="h6">

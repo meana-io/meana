@@ -2,42 +2,31 @@ import { useState } from 'react';
 import { Box, Button, Typography, Modal, TextField, Grid } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import axios from 'axios';
-import { useMutation } from 'react-query';
+import { useRouter } from 'next/router';
+import Node from '@/types/node';
 
 interface CreateNodeFormData {
   name: string;
 }
 
-const createNode = (data) => {
-  return axios.post('http://135.125.190.40:3333/api/nodes', data);
-};
-
-
 const ServerForm: React.FC = () => {
   const { register, handleSubmit } = useForm();
+  const [newNode, setNewNode] = useState<Node>(undefined);
+  const router = useRouter();
 
-  const [open, setOpen] = useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
-
-  const { mutate } = useMutation(createNode);
+  const handleClose = () => {
+    router.push('/');
+  };
 
   const onCreateNode = async (data: CreateNodeFormData) => {
-    try {
-      await mutate(data);
-      // Todo was successfully created
-    } catch (error) {
-      // Uh oh, something went wrong
-    }
+    const { data: node } = await axios.post('/api/create-node', data);
+    setNewNode(node);
   };
 
   return (
     <>
-      <Button onClick={handleOpen} size="large">
-        Add New Server
-      </Button>
       <Modal
-        open={open}
+        open={true}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
@@ -47,7 +36,7 @@ const ServerForm: React.FC = () => {
             top: '45%',
             left: '50%',
             transform: 'translate(-50%, -50%)',
-            width: 400,
+            width: 500,
             bgcolor: 'background.paper',
             boxShadow: 24,
             p: 4,
@@ -93,11 +82,23 @@ const ServerForm: React.FC = () => {
                   sx={{ mt: 1, mb: 2 }}
                   onClick={handleClose}
                 >
-                  Reject
+                  Close
                 </Button>
               </Grid>
             </Grid>
           </Box>
+          {newNode && (
+            <Typography>
+              Node UUID:
+              <TextField
+                margin="normal"
+                label="Node UUID"
+                fullWidth
+                value={newNode?.uuid}
+                autoFocus
+              />
+            </Typography>
+          )}
         </Box>
       </Modal>
     </>

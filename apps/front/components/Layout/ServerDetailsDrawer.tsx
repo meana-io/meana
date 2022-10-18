@@ -1,7 +1,7 @@
 import { Toolbar, Drawer as MuiDrawer } from '@mui/material';
 import { styled } from '@mui/material/styles';
 
-import TabsNav, { type Tab } from '@/components/Tabs/TabsNav';
+import TabsNav, { Tab } from '@/components/Tabs/TabsNav';
 
 export const SERVER_DETAILS_DRAWER_WIDTH = 90 as const;
 

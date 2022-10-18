@@ -5,10 +5,11 @@ import axios from 'axios';
 import { Grid } from '@mui/material';
 
 import ChartCard from './ChartCard';
-import Ram from '@/types/ram';
+import NodeRam from '@/types/ram';
+import RamDetails from './RamDetails';
 
 interface RamProps {
-  ram: Ram[];
+  ram: NodeRam[];
 }
 
 const RAM_USAGE_CHART_CONFIG = {
@@ -31,6 +32,13 @@ const RAM_USAGE_CHART_CONFIG = {
   dataLabels: {
     enabled: false,
   },
+  yaxis: {
+    min: 0,
+    max: 100,
+    labels: {
+      formatter: (value) => `${value}%`,
+    },
+  },
   xaxis: {
     type: 'datetime',
   },
@@ -43,38 +51,29 @@ const toPercentage = (used: string, total: string) => {
   return Math.floor((parseInt(used, 10) / parseInt(total, 10)) * 100);
 };
 
-const ramToChart = (ram: Ram[]) => {
+const ramToChart = (ram: NodeRam[]) => {
   return [
     {
       name: 'Usage',
       data: ram.map(({ total, used, time }) => {
-        return [new Date(time).getTime(), toPercentage(used, total)];
+        return [new Date(time).getTime() + 7200000, toPercentage(used, total)];
       }),
     },
   ];
 };
+
 const Ram: React.FC<RamProps> = ({ ram }) => {
   const router = useRouter();
   const { id: nodeId } = router.query;
 
-  console.log(nodeId);
   const [ramUsage, setRamUsage] = useState(ram);
 
   useEffect(() => {
     const intervalId = setInterval(async () => {
-      const { data: nodeRam } = await axios.get(
-        'http://135.125.190.40:3333/api/node-ram',
-        {
-          data: {
-            where: {
-              nodeId,
-            },
-            linit: 50,
-          },
-        }
+      const { data: currentRamUsage } = await axios.get(
+        `/api/ram?id=${nodeId}`
       );
-
-      setRamUsage(nodeRam);
+      setRamUsage(currentRamUsage);
     }, 1000);
 
     return () => {
@@ -84,6 +83,9 @@ const Ram: React.FC<RamProps> = ({ ram }) => {
 
   return (
     <Grid container spacing={2} direction="column">
+      <Grid item xs={12} md={6}>
+        <RamDetails ram={ramUsage[ramUsage.length - 1]} />
+      </Grid>
       <Grid item xs={12} md={6}>
         <ChartCard
           title="Ram usage"

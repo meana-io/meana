@@ -14,7 +14,7 @@ const CpuDetails: React.FC<CpuDetailsProps> = ({ cpu }) => {
       <CardHeader title="CPU" />
       <CardContent>
         <Typography component="div" variant="h6">
-          Frequency: {formatBytes(parseInt(cpu?.frequency || '0', 10)) ?? 'N/A'}
+          Frequency: {cpu?.frequency}
         </Typography>
         <Typography component="div" variant="h6">
           CoresQuantity: {cpu?.coresQuantity}

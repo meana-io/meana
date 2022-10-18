@@ -10,11 +10,11 @@ interface PartitionDetailsProps {
 }
 
 const PartitionDetails: React.FC<PartitionDetailsProps> = ({ partition }) => {
-  const keysToDisplay: (keyof Partition)[] = ['path', 'fileSystem', 'name'];
+  const keysToDisplay: (keyof Partition)[] = ['path', 'fileSystem'];
 
   return (
     <Card>
-      <CardHeader title={`Partition - ${partition?.path}`} />
+      <CardHeader title={`Partition - ${partition?.path || ''}`} />
       <CardContent>
         {keysToDisplay.map((key) => (
           <Typography key={key} component="div" variant="h6">
