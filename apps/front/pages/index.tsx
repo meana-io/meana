@@ -29,7 +29,7 @@ const Index: NextPage<IndexPageProps> = ({ nodes, disks, partitions, ram }) => {
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const { data: nodes } = await axios.get(
-    'http://135.125.190.40:3333/api/nodes'
+    'http://vps-5c7e69c7.vps.ovh.net:3333/api/nodes'
   );
 
   return {

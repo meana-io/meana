@@ -5,4 +5,5 @@ export default interface Cpu {
   coresQuantity?: string;
   manufacture?: string;
   model?: string;
+  usage?: string;
 }

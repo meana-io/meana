@@ -15,7 +15,7 @@ const ChartCard: React.FC<ChartCardProps> = ({ title, series, labels }) => {
   };
 
   return (
-    <Card>
+    <Card sx={{ height: '100%' }}>
       <CardHeader title={title} />
       <CardContent>
         <Chart

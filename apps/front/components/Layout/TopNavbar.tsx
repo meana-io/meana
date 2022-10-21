@@ -1,7 +1,6 @@
-import AppBar from '@mui/material/AppBar';
-import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
-import ServerForm from '../AddServer/ServerForm';
+import Link from 'next/link';
+
+import { AppBar, Toolbar, Typography, Button } from '@mui/material';
 
 const TopNavbar: React.FC = () => {
   return (
@@ -13,7 +12,9 @@ const TopNavbar: React.FC = () => {
         <Typography variant="h6" noWrap component="p">
           Meana
         </Typography>
-        <ServerForm/>
+        <Link href="/add-new-node" passHref>
+          <Button size="large">Add New Server</Button>
+        </Link>
       </Toolbar>
     </AppBar>
   );

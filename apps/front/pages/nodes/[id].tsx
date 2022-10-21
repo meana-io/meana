@@ -1,5 +1,5 @@
 import { NextPage, GetServerSideProps } from 'next';
-// import api from '@/utility/axios';
+import api from '@/utility/axios';
 import axios from 'axios';
 
 import TabPanel from '@/components/Tabs/TabPanel';
@@ -23,7 +23,7 @@ interface IndexPageProps {
   nodes: Node[];
   partitions: Partition[];
   ram: NodeRam[];
-  cpu: NodeCpu;
+  cpu: NodeCpu[];
 }
 
 const Index: NextPage<IndexPageProps> = ({
@@ -66,58 +66,45 @@ const getDisksIndentifiers = (nodeName: string, disks: Disk[]) => {
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const nodeId = context.query.id as string;
 
-  const { data: nodes } = await axios.get(
-    `http://135.125.190.40:3333/api/nodes`
-  );
+  const { data: nodes } = await api.get(`/nodes`);
 
-  const { data: nodeDisks } = await axios.get(
-    'http://135.125.190.40:3333/api/node-disks',
-    {
-      data: {
-        where: {
-          nodeId,
-        },
+  const { data: nodeDisks } = await api.get('/node-disks', {
+    data: {
+      where: {
+        nodeId,
       },
-    }
-  );
+    },
+  });
 
-  const { data: node } = await axios.get(
-    `http://135.125.190.40:3333/api/nodes/${nodeId}`
-  );
+  const { data: node } = await api.get(`/nodes/${nodeId}`);
 
   const partitionQuery = getDisksIndentifiers(node.name, nodeDisks);
 
-  const { data: nodePartitions } = await axios.get(
-    'http://135.125.190.40:3333/api/node-disk-partitions',
-    {
-      data: {
-        where: {
-          diskIdentifier: partitionQuery,
-        },
+  const { data: nodePartitions } = await api.get('/node-disk-partitions', {
+    data: {
+      where: {
+        diskIdentifier: partitionQuery,
       },
-    }
-  );
+    },
+  });
 
-  const { data: nodeRam } = await axios.get(
-    'http://135.125.190.40:3333/api/node-ram',
+  const { data: nodeRam } = await api.get('/node-ram', {
+    data: {
+      where: {
+        nodeId,
+      },
+      linit: 50,
+    },
+  });
+
+  const { data: nodeCpu } = await axios.get(
+    'http://vps-5c7e69c7.vps.ovh.net:3333/api/node-cpu',
     {
       data: {
         where: {
           nodeId,
         },
         linit: 50,
-      },
-    }
-  );
-
-  const { data: nodeCpu } = await axios.get(
-    'http://135.125.190.40:3333/api/node-cpu',
-    {
-      data: {
-        where: {
-          nodeId,
-        },
-        linit: 1,
       },
     }
   );
@@ -132,7 +119,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       disks: arrayUniqueByKey(disksByNewest, 'name'),
       partitions: arrayUniqueByKey(partitionByNewest, 'diskIdentifier'),
       ram: ramByNewest,
-      cpu: nodeCpu[0] || [],
+      cpu: nodeCpu,
     },
   };
 };;;;
