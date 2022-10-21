@@ -2,10 +2,10 @@ import {Module} from '@nestjs/common';
 import {NodeRamService} from './node-ram.service';
 import {NodeRamController} from './node-ram.controller';
 import {SequelizeModule} from "@nestjs/sequelize";
-import {NodeRam} from "./entities/node-ram.entity";
+import {NodeRamEntity} from "../../../../../../libs/shared/Entities/node-ram.entity";
 
 @Module({
-  imports: [SequelizeModule.forFeature([NodeRam])],
+  imports: [SequelizeModule.forFeature([NodeRamEntity])],
   controllers: [NodeRamController],
   providers: [NodeRamService],
 })

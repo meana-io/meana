@@ -3,15 +3,14 @@ import {GlobalService} from './global.service';
 import {GlobalController} from './global.controller';
 import {SequelizeModule} from "@nestjs/sequelize";
 /* eslint-disable @nrwl/nx/enforce-module-boundaries */
-import {NodeDisk} from "../../../../../api/src/app/domains/node-disks/entities/node-disk.entity";
-import {Node} from "../../../../../api/src/app/domains/nodes/entities/node.entity";
-import {
-  NodeDiskPartition
-} from "../../../../../api/src/app/domains/node-disk-partitions/entities/node-disk-partition.entity";
-import {NodeRam} from "../../../../../api/src/app/domains/node-ram/entities/node-ram.entity";
+import {NodeEntity} from "../../../../../../libs/shared/Entities/node.entity";
+import {NodeDiskEntity} from "../../../../../../libs/shared/Entities/node-disk.entity";
+import {NodeDiskPartitionEntity} from "../../../../../../libs/shared/Entities/node-disk-partition.entity";
+import {NodeRamEntity} from "../../../../../../libs/shared/Entities/node-ram.entity";
+import {NodeCpuEntity} from "../../../../../../libs/shared/Entities/node-cpu.entity";
 
 @Module({
-  imports: [SequelizeModule.forFeature([NodeDiskPartition, NodeDisk, Node, NodeRam])],
+  imports: [SequelizeModule.forFeature([NodeDiskPartitionEntity, NodeDiskEntity, NodeEntity, NodeRamEntity, NodeCpuEntity])],
   controllers: [GlobalController],
   providers: [GlobalService],
 })

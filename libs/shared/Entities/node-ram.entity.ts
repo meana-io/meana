@@ -1,15 +1,14 @@
-import {Column, Model, Table} from "sequelize-typescript";
+import {Column, Model, Sequelize, Table} from "sequelize-typescript";
 import {InferAttributes} from "sequelize";
-import { NodeRam as LocalNodeRam } from "../../../../../../../shared/Entities/NodeRam"
-import {DateTime} from "luxon";
+import {NodeRam} from "../Types/NodeRam";
 
 @Table({
     tableName: 'node_rams',
     timestamps: false
 })
-export class NodeRam extends Model<InferAttributes<NodeRam>> implements LocalNodeRam {
+export class NodeRamEntity extends Model<InferAttributes<NodeRamEntity>> implements NodeRam {
     @Column({
-        defaultValue: DateTime.now().toISO(),
+        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
         primaryKey: true
     })
     time: string

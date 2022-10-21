@@ -1,21 +1,20 @@
-import {Column, Model, Table} from "sequelize-typescript";
-import {DateTime} from "luxon";
-import { NodeDiskPartition as LocalNodeDiskPartition } from "../../../../../../../shared/Entities/NodeDiskPartition"
+import {Column, Model, Sequelize, Table} from "sequelize-typescript";
 import {InferAttributes} from "sequelize";
+import {NodeDiskPartition} from "../Types/NodeDiskPartition";
 
 @Table({
     tableName: 'node_disk_partitions',
     timestamps: false
 })
-export class NodeDiskPartition extends Model<InferAttributes<NodeDiskPartition>> implements LocalNodeDiskPartition {
+export class NodeDiskPartitionEntity extends Model<InferAttributes<NodeDiskPartitionEntity>> implements NodeDiskPartition {
     @Column({
-        defaultValue: DateTime.now().toISO(),
+        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
         primaryKey: true
     })
     time: string
 
     @Column
-    diskSerialNumber: string;
+    diskIdentifier: string;
 
     @Column({
         allowNull: true,

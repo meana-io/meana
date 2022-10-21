@@ -1,18 +1,18 @@
 import {Injectable} from '@nestjs/common';
 import {InjectModel} from "@nestjs/sequelize";
 import {FindAllDto} from "../../common/findAll.dto";
-import {NodeRam} from "./entities/node-ram.entity";
 import {CreateNodeRamDto} from "./dto/create-node-ram.dto";
+import {NodeRamEntity} from "../../../../../../libs/shared/Entities/node-ram.entity";
 
 @Injectable()
 export class NodeRamService {
-  constructor(@InjectModel(NodeRam) private nodeRamModel: typeof NodeRam) {
+  constructor(@InjectModel(NodeRamEntity) private nodeRamModel: typeof NodeRamEntity) {
   }
   async create(createNodeRamDto: CreateNodeRamDto) {
     return await this.nodeRamModel.create({ ...createNodeRamDto })
   }
 
   async findAll(findAllDto: FindAllDto) {
-    return await this.nodeRamModel.findAll(findAllDto)
+    return await this.nodeRamModel.findAll({order: [['time', 'DESC']], limit: 100,  ...findAllDto})
   }
 }

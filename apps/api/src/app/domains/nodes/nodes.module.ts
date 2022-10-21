@@ -1,12 +1,12 @@
-import { Module } from '@nestjs/common';
-import { NodesService } from './nodes.service';
-import { NodesController } from './nodes.controller';
+import {Module} from '@nestjs/common';
+import {NodesService} from './nodes.service';
+import {NodesController} from './nodes.controller';
 import {EntityRepository} from "@mikro-orm/core";
-import {Node} from "./entities/node.entity";
 import {SequelizeModule} from "@nestjs/sequelize";
+import {NodeEntity} from "../../../../../../libs/shared/Entities/node.entity";
 
 @Module({
-  imports: [SequelizeModule.forFeature([Node])],
+  imports: [SequelizeModule.forFeature([NodeEntity])],
   controllers: [NodesController],
   providers: [NodesService, EntityRepository],
 })
