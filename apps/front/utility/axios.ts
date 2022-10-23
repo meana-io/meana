@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const instance = axios.create({
-  baseURL: 'http://vps-5c7e69c7.vps.ovh.net:3333/api',
+  baseURL: `${process.env.NEXT_PUBLIC_API_URL}/api`,
 });
 
 export default instance;

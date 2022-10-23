@@ -29,7 +29,7 @@ const NodeListDrawer: React.FC<NodeListDrawerProps> = ({ nodes }) => {
     <Drawer variant="permanent" anchor="left">
       <Toolbar />
       <List>
-        {nodes.map(({ uuid, name }) => (
+        {nodes?.map(({ uuid, name }) => (
           <Link key={uuid} passHref href={`/nodes/${uuid}`}>
             <ListItem disablePadding>
               <ListItemButton>

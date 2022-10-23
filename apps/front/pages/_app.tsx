@@ -2,8 +2,11 @@ import { AppProps } from 'next/app';
 import Head from 'next/head';
 import { useState } from 'react';
 
-import { QueryClient, QueryClientProvider, Hydrate } from 'react-query';
-import { ReactQueryDevtools } from 'react-query/devtools';
+import {
+  Hydrate,
+  QueryClient,
+  QueryClientProvider,
+} from '@tanstack/react-query';
 
 import { CacheProvider as EmotionCacheProvider } from '@emotion/react';
 import { ThemeProvider, CssBaseline } from '@mui/material';
@@ -28,7 +31,6 @@ const App = ({ Component, pageProps }: AppProps) => {
               <CssBaseline />
               <Component {...pageProps} />
             </ThemeProvider>
-            <ReactQueryDevtools initialIsOpen={false} />
           </EmotionCacheProvider>
         </Hydrate>
       </QueryClientProvider>

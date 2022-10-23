@@ -10,6 +10,8 @@ import Node from '@/types/node';
 import DiscFullIcon from '@mui/icons-material/DiscFull';
 import SdStorageIcon from '@mui/icons-material/SdStorage';
 import MemoryIcon from '@mui/icons-material/Memory';
+import { useQuery } from '@tanstack/react-query';
+import instance from '@/utility/axios';
 
 const TABS = [
   { label: 'disks', icon: <DiscFullIcon /> },
@@ -19,10 +21,16 @@ const TABS = [
 
 interface MainLayoutProps {
   children: React.ReactNode;
-  nodes: Node[];
 }
 
-const MainLayout: React.FC<MainLayoutProps> = ({ children, nodes }) => {
+const getNodes = async (): Promise<Node[]> => {
+  const { data: nodes } = await instance.get('/nodes');
+  return nodes;
+};
+
+const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
+  const { data: nodes } = useQuery(['getNodes'], getNodes);
+
   return (
     <>
       <TopNavbar />

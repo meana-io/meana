@@ -1,12 +1,11 @@
-import { Grid } from '@mui/material';
+import { useRouter } from 'next/router';
+import { CircularProgress, Grid } from '@mui/material';
 
 // import ChartCard from './ChartCard';
 import NodeCpu from '@/types/cpu';
 import CpuDetails from './CpuDetails';
 import ChartCard from './ChartCard';
-import { useEffect, useState } from 'react';
-import { useRouter } from 'next/router';
-import axios from 'axios';
+import useNodeCpu from '@/hooks/useNodeCpu';
 
 const CPU_USAGE_CHART_CONFIG = {
   chart: {
@@ -43,10 +42,6 @@ const CPU_USAGE_CHART_CONFIG = {
   },
 };
 
-interface CpuProps {
-  cpu: NodeCpu[];
-}
-
 const getCPUUsage = (cpu: NodeCpu[]) => {
   return [
     {
@@ -61,24 +56,15 @@ const getCPUUsage = (cpu: NodeCpu[]) => {
   ];
 };
 
-const Cpu: React.FC<CpuProps> = ({ cpu }) => {
+const Cpu: React.FC = () => {
   const router = useRouter();
   const { id: nodeId } = router.query;
-  const [cpuUsage, setCpuUsage] = useState(cpu);
 
-  useEffect(() => {
-    const intervalId = setInterval(async () => {
-      const { data: currentCpuUsage } = await axios.get(
-        `/api/cpu?id=${nodeId}`
-      );
-      setCpuUsage(currentCpuUsage);
-    }, 1000);
+  const { data: cpu, isLoading } = useNodeCpu(nodeId as string);
 
-    return () => {
-      clearInterval(intervalId);
-    };
-  }, []);
-
+  if (isLoading) {
+    return <CircularProgress />;
+  }
   return (
     <Grid container spacing={2} direction="column">
       <Grid item spacing={2} container direction="row" xs={12}>
@@ -89,7 +75,7 @@ const Cpu: React.FC<CpuProps> = ({ cpu }) => {
           <ChartCard
             title="CPU usage"
             options={CPU_USAGE_CHART_CONFIG}
-            data={getCPUUsage(cpuUsage)}
+            data={getCPUUsage(cpu)}
           />
         </Grid>
       </Grid>

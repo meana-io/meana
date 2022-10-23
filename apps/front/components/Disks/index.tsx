@@ -1,18 +1,16 @@
 import { useEffect, useState } from 'react';
+import { useRouter } from 'next/router';
 
-import { Grid } from '@mui/material';
+import { Grid, CircularProgress } from '@mui/material';
 
+import Disk from '@/types/disk';
+import Partition from '@/types/partition';
+import useNodeDisks from '@/hooks/useNodeDisks';
 import Header from './Header';
 import DiskDetails from './DiskDetails';
 import PartitionDetails from './PartitionDetails';
 import ChartCard from './ChartCard';
-import Disk from '@/types/disk';
-import Partition from '@/types/partition';
-
-interface DisksProps {
-  disks: Disk[];
-  partitions: Partition[];
-}
+import useNodePartitions from '@/hooks/useNodePartitions';
 
 const calcualteDiskSapce = (disk: Disk, partitions: Partition[]) => {
   const diskSpace = parseInt(disk.capacity, 10);
@@ -30,10 +28,18 @@ const calcualtePartitionSapce = (partition: Partition) => {
   return [capacity - usedSpace, usedSpace];
 };
 
-const Disks: React.FC<DisksProps> = ({ disks, partitions }) => {
+const Disks: React.FC = () => {
   const [disk, setDisk] = useState<Disk | undefined>(undefined);
   const [partition, setPartition] = useState<Partition | undefined>(undefined);
 
+  const router = useRouter();
+  const { id: nodeId } = router.query;
+  const { data: disks, isLoading } = useNodeDisks(nodeId as string);
+
+  const { data: partitions } = useNodePartitions(disk?.name, {
+    // The query will not execute until the userId exists
+    enabled: !isLoading,
+  });
   const handleDiskChange = (diskName: string) => {
     const selectedDisk = disks.find((d) => d.name === diskName);
     setDisk(selectedDisk);
@@ -45,13 +51,16 @@ const Disks: React.FC<DisksProps> = ({ disks, partitions }) => {
   };
 
   const getPartitonsByDiskId = (diskName: string) => {
-    return partitions.filter((p) => p.diskIdentifier.includes(diskName));
+    return partitions?.filter((p) => p.diskIdentifier.includes(diskName));
   };
 
   useEffect(() => {
     setPartition(undefined);
   }, [disk]);
 
+  if (isLoading) {
+    return <CircularProgress />;
+  }
   return (
     <Grid container spacing={2} direction="column">
       <Grid item>
@@ -98,3 +107,5 @@ const Disks: React.FC<DisksProps> = ({ disks, partitions }) => {
 };
 
 export default Disks;
+
+
