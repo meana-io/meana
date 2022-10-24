@@ -1,21 +1,15 @@
-import { NextPage, GetServerSideProps } from 'next';
+import { NextPage } from 'next';
 
 import TabPanel from '@/components/Tabs/TabPanel';
 
 import MainLayout from '@/layouts/Main';
-// import Disks from '@/components/Disks';
+import Disks from '@/components/Disks';
 
 import TabsProvider from '@/contexts/tabsContext';
 
 import Ram from '@/components/Ram';
 import Cpu from '@/components/Cpu';
 import ErrorBoundry from '@/components/Error';
-import dynamic from 'next/dynamic';
-
-const Disks = dynamic(() => import('../../components/Disks'), {
-  ssr: false,
-  suspense: true,
-});
 
 const Index: NextPage = () => {
   return (
