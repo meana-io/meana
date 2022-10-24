@@ -60,14 +60,10 @@ const ramToChart = (ram: NodeRam[]) => {
 const Ram: React.FC = () => {
   const router = useRouter();
   const { id: nodeId } = router.query;
-  const { data: ram, isLoading } = useGetNodeRam(nodeId as string, {
+  const { data: ram } = useGetNodeRam(nodeId as string, {
     // Refetch the data every 10 seconds
     refetchInterval: 1000 * 10,
   });
-
-  if (isLoading) {
-    return <div> Loading</div>;
-  }
 
   return (
     <Grid container spacing={2} direction="column">

@@ -59,12 +59,8 @@ const getCPUUsage = (cpu: NodeCpu[]) => {
 const Cpu: React.FC = () => {
   const router = useRouter();
   const { id: nodeId } = router.query;
+  const { data: cpu } = useGetNodeCpu(nodeId as string);
 
-  const { data: cpu, isLoading } = useGetNodeCpu(nodeId as string);
-
-  if (isLoading) {
-    return <CircularProgress />;
-  }
   return (
     <Grid container spacing={2} direction="column">
       <Grid item spacing={2} container direction="row" xs={12}>
