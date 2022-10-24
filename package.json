@@ -43,6 +43,7 @@
     "react": "18.1.0",
     "react-apexcharts": "^1.4.0",
     "react-dom": "18.1.0",
+    "react-error-boundary": "^3.1.4",
     "react-hook-form": "^7.32.0",
     "reflect-metadata": "^0.1.13",
     "regenerator-runtime": "0.13.7",

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 
-import { Grid, CircularProgress } from '@mui/material';
+import { Grid } from '@mui/material';
 
 import Disk from '@/types/disk';
 import Partition from '@/types/partition';
@@ -40,6 +40,7 @@ const Disks: React.FC = () => {
     // The query will not execute until the userId exists
     enabled: !isLoading,
   });
+
   const handleDiskChange = (diskName: string) => {
     const selectedDisk = disks.find((d) => d.name === diskName);
     setDisk(selectedDisk);
@@ -58,9 +59,6 @@ const Disks: React.FC = () => {
     setPartition(undefined);
   }, [disk]);
 
-  if (isLoading) {
-    return <CircularProgress />;
-  }
   return (
     <Grid container spacing={2} direction="column">
       <Grid item>
@@ -71,7 +69,7 @@ const Disks: React.FC = () => {
           handlePartitionChange={handlePartitionChange}
         />
       </Grid>
-      <Grid item spacing={2} container direction="row" xs={12}>
+      {/* <Grid item spacing={2} container direction="row" xs={12}>
         <Grid item xs={12} md={6}>
           <DiskDetails disk={disk} />
         </Grid>
@@ -101,7 +99,7 @@ const Disks: React.FC = () => {
             />
           )}
         </Grid>
-      </Grid>
+      </Grid> */}
     </Grid>
   );
 };

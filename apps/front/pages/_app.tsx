@@ -16,9 +16,16 @@ import lightTheme from '../styles/theme/lightTheme';
 
 const clientSideEmotionCache = createEmotionCache();
 
-const App = ({ Component, pageProps }: AppProps) => {
-  const [queryClient] = useState(() => new QueryClient());
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      suspense: true,
+      useErrorBoundary: true,
+    },
+  },
+});
 
+const App = ({ Component, pageProps }: AppProps) => {
   return (
     <>
       <Head>
