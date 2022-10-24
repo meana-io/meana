@@ -9,7 +9,7 @@ module.exports = {
         time: {
           type: 'TIMESTAMPTZ',
         },
-        diskSerialNumber: {
+        diskIdentifier: {
           type: Sequelize.STRING
         },
         path: {
@@ -47,6 +47,6 @@ module.exports = {
   },
 
   async down (queryInterface, Sequelize) {
-    await queryInterface.dropTable('node_disk_partitions');
+      await queryInterface.dropTable('node_disk_partitions');
   }
 };
