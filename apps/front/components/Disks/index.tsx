@@ -5,12 +5,12 @@ import { Grid } from '@mui/material';
 
 import Disk from '@/types/disk';
 import Partition from '@/types/partition';
-import useNodeDisks from '@/hooks/useNodeDisks';
 import Header from './Header';
 import DiskDetails from './DiskDetails';
 import PartitionDetails from './PartitionDetails';
 import ChartCard from './ChartCard';
-import useNodePartitions from '@/hooks/useNodePartitions';
+import { useGetNodeDisks } from '@/hooks/queries/useNodeDisks';
+import { useGetNodePartitions } from '@/hooks/queries/useNodePartitions';
 
 const calcualteDiskSapce = (disk: Disk, partitions: Partition[]) => {
   const diskSpace = parseInt(disk.capacity, 10);
@@ -34,9 +34,9 @@ const Disks: React.FC = () => {
 
   const router = useRouter();
   const { id: nodeId } = router.query;
-  const { data: disks, isLoading } = useNodeDisks(nodeId as string);
+  const { data: disks, isLoading } = useGetNodeDisks(nodeId as string);
 
-  const { data: partitions } = useNodePartitions(disk?.name, {
+  const { data: partitions } = useGetNodePartitions(disk?.name, {
     // The query will not execute until the userId exists
     enabled: !isLoading,
   });

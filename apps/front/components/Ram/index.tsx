@@ -5,7 +5,7 @@ import { Grid } from '@mui/material';
 import ChartCard from './ChartCard';
 import NodeRam from '@/types/ram';
 import RamDetails from './RamDetails';
-import useNodeRam from '@/hooks/useNodeRam';
+import { useGetNodeRam } from '@/hooks/queries/useNodeRam';
 
 const RAM_USAGE_CHART_CONFIG = {
   chart: {
@@ -60,7 +60,7 @@ const ramToChart = (ram: NodeRam[]) => {
 const Ram: React.FC = () => {
   const router = useRouter();
   const { id: nodeId } = router.query;
-  const { data: ram, isLoading } = useNodeRam(nodeId as string, {
+  const { data: ram, isLoading } = useGetNodeRam(nodeId as string, {
     // Refetch the data every 10 seconds
     refetchInterval: 1000 * 10,
   });

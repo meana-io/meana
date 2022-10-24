@@ -5,7 +5,7 @@ import { CircularProgress, Grid } from '@mui/material';
 import NodeCpu from '@/types/cpu';
 import CpuDetails from './CpuDetails';
 import ChartCard from './ChartCard';
-import useNodeCpu from '@/hooks/useNodeCpu';
+import { useGetNodeCpu } from '@/hooks/queries/useNodeCpu';
 
 const CPU_USAGE_CHART_CONFIG = {
   chart: {
@@ -60,7 +60,7 @@ const Cpu: React.FC = () => {
   const router = useRouter();
   const { id: nodeId } = router.query;
 
-  const { data: cpu, isLoading } = useNodeCpu(nodeId as string);
+  const { data: cpu, isLoading } = useGetNodeCpu(nodeId as string);
 
   if (isLoading) {
     return <CircularProgress />;

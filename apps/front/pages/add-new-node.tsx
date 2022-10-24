@@ -2,38 +2,14 @@ import { NextPage } from 'next';
 import { Box, Button, Typography, Modal, TextField, Grid } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/router';
-
-import Node from '@/types/node';
-import instance from '@/utility/axios';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-
-interface CreateNodeFormData {
-  name: string;
-}
-
-const createNode = async (data: CreateNodeFormData): Promise<Node> => {
-  const { data: node } = await instance.post('/nodes', data);
-  return node;
-};
-
-const useCreateNode = () => {
-  const queryClient = useQueryClient();
-  return useMutation(createNode, {
-    onError: () => {
-      alert('there was an error');
-    },
-    onSettled: () => {
-      queryClient.invalidateQueries(['getNodes']);
-    },
-  });
-};
+import { useCreateNode } from '@/hooks/queries/useNode';
 
 const AddNewNode: NextPage = () => {
   const { mutate, isLoading, data: node } = useCreateNode();
   const { register, handleSubmit } = useForm();
   const router = useRouter();
 
-  const onSubmit = (data: CreateNodeFormData) => {
+  const onSubmit = (data) => {
     mutate(data);
   };
 
