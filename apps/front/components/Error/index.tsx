@@ -5,12 +5,22 @@ import BaseLoader from './Loader';
 
 interface ErrorBoundryProps {
   children: React.ReactNode;
+  errorMessage?: string;
+  loader?: React.ReactNode;
 }
 
-const ErrorBoundry: React.FC<ErrorBoundryProps> = ({ children }) => {
+const ErrorBoundry: React.FC<ErrorBoundryProps> = ({
+  children,
+  errorMessage,
+  loader,
+}) => {
   return (
-    <ReactErrorBoundary fallback={<BaseErrorMessage />}>
-      <Suspense fallback={<BaseLoader />}>{children}</Suspense>
+    <ReactErrorBoundary
+      fallback={<BaseErrorMessage>{errorMessage}</BaseErrorMessage>}
+    >
+      <Suspense fallback={loader ? loader : <BaseLoader />}>
+        {children}
+      </Suspense>
     </ReactErrorBoundary>
   );
 };

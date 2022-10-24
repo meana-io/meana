@@ -1,10 +1,14 @@
 import { Alert, AlertTitle } from '@mui/material';
 
-const ErrorMessage: React.FC = () => {
+interface ErrorMessageProps {
+  children?: React.ReactNode;
+}
+
+const ErrorMessage: React.FC<ErrorMessageProps> = ({ children }) => {
   return (
     <Alert severity="error">
       <AlertTitle>Error</AlertTitle>
-      Could not fetch data.
+      {children ? children : 'Could not fetch data.'}
     </Alert>
   );
 };

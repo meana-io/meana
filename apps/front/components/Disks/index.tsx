@@ -69,7 +69,7 @@ const Disks: React.FC = () => {
           handlePartitionChange={handlePartitionChange}
         />
       </Grid>
-      {/* <Grid item spacing={2} container direction="row" xs={12}>
+      <Grid item spacing={2} container direction="row" xs={12}>
         <Grid item xs={12} md={6}>
           <DiskDetails disk={disk} />
         </Grid>
@@ -99,7 +99,7 @@ const Disks: React.FC = () => {
             />
           )}
         </Grid>
-      </Grid> */}
+      </Grid>
     </Grid>
   );
 };

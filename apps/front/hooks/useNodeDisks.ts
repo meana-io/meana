@@ -5,7 +5,7 @@ import { useQuery } from '@tanstack/react-query';
 type NodeId = string;
 
 export const getDisksByNodeId = async (nodeId: NodeId): Promise<Disk[]> => {
-  const { data: nodeDisks } = await instance.get('/node-disks-a', {
+  const { data: nodeDisks } = await instance.get('/node-disks', {
     data: {
       where: {
         nodeId,
