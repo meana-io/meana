@@ -1,16 +1,11 @@
-import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
-import axios from 'axios';
 
 import { Grid } from '@mui/material';
 
 import ChartCard from './ChartCard';
 import NodeRam from '@/types/ram';
 import RamDetails from './RamDetails';
-
-interface RamProps {
-  ram: NodeRam[];
-}
+import { useGetNodeRam } from '@/hooks/queries/useNodeRam';
 
 const RAM_USAGE_CHART_CONFIG = {
   chart: {
@@ -62,35 +57,24 @@ const ramToChart = (ram: NodeRam[]) => {
   ];
 };
 
-const Ram: React.FC<RamProps> = ({ ram }) => {
+const Ram: React.FC = () => {
   const router = useRouter();
   const { id: nodeId } = router.query;
-
-  const [ramUsage, setRamUsage] = useState(ram);
-
-  useEffect(() => {
-    const intervalId = setInterval(async () => {
-      const { data: currentRamUsage } = await axios.get(
-        `/api/ram?id=${nodeId}`
-      );
-      setRamUsage(currentRamUsage);
-    }, 1000);
-
-    return () => {
-      clearInterval(intervalId);
-    };
-  }, []);
+  const { data: ram } = useGetNodeRam(nodeId as string, {
+    // Refetch the data every 10 seconds
+    refetchInterval: 1000 * 10,
+  });
 
   return (
     <Grid container spacing={2} direction="column">
       <Grid item xs={12} md={6}>
-        <RamDetails ram={ramUsage[ramUsage.length - 1]} />
+        <RamDetails ram={ram[ram?.length - 1]} />
       </Grid>
       <Grid item xs={12} md={6}>
         <ChartCard
           title="Ram usage"
           options={RAM_USAGE_CHART_CONFIG}
-          data={ramToChart(ramUsage)}
+          data={ramToChart(ram)}
         />
       </Grid>
     </Grid>

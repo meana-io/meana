@@ -60,7 +60,7 @@ const Header: React.FC<HeaderProps> = ({
                 handlePartitionChange(event.target.value);
               }}
             >
-              {partitions.map(({ path }, index) => (
+              {partitions?.map(({ path }, index) => (
                 <MenuItem key={index} value={path}>
                   {path}
                 </MenuItem>
