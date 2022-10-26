@@ -1,3 +1,5 @@
+import axios from 'axios';
+
 declare module 'axios' {
   export interface AxiosInstance {
     request<T>(config: AxiosRequestConfig): Promise<T>;
