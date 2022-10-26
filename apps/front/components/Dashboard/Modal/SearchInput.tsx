@@ -1,4 +1,4 @@
-import { InputBase } from '@mui/material';
+import { InputBase, TextFieldProps } from '@mui/material';
 import styled from '@emotion/styled';
 import { Search as SearchIcon } from '@mui/icons-material';
 
@@ -23,9 +23,7 @@ export const StyledInputBase = styled(InputBase)(({ theme }) => ({
   width: '100%',
 }));
 
-interface SearchInputProps {}
-
-const SearchInput: React.FC<SearchInputProps> = ({}) => {
+const SearchInput: React.FC<TextFieldProps> = ({ onChange }) => {
   return (
     <Search>
       <SearchIconWrapper>
@@ -33,6 +31,7 @@ const SearchInput: React.FC<SearchInputProps> = ({}) => {
       </SearchIconWrapper>
       <StyledInputBase
         autoFocus
+        onChange={(e) => onChange(e.target.value)}
         placeholder="Search…"
         inputProps={{ 'aria-label': 'search' }}
       />

@@ -39,10 +39,8 @@ const objectEquals = (a: object, b: object) =>
 
 const Index: NextPage = () => {
   const onLayoutChange = (layout) => {
-    // console.log(layout);
+    console.log(layout);
   };
-
-  console.log(BASE_LAYOUT);
 
   return (
     <MainLayout>
