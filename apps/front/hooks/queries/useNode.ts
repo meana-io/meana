@@ -21,7 +21,7 @@ interface CreateNodeFormData {
 export const useCreateNode = () => {
   const queryClient = useQueryClient();
   return useMutation(
-    (data: CreateNodeFormData) => instance.post('/nodes', data),
+    (data: CreateNodeFormData) => instance.post<Node>('/nodes', data),
     {
       onError: () => {
         alert('there was an error');
@@ -33,16 +33,17 @@ export const useCreateNode = () => {
   );
 };
 
-type NodeId = string;
-
 export const useDeleteNode = () => {
   const queryClient = useQueryClient();
-  return useMutation((nodeId: NodeId) => instance.delete(`/nodes/${nodeId}`), {
-    onError: () => {
-      alert('there was an error');
-    },
-    onSettled: () => {
-      queryClient.invalidateQueries([NODE.GET_NODES]);
-    },
-  });
+  return useMutation(
+    (nodeId: Pick<Node, 'uuid'>) => instance.delete(`/nodes/${nodeId}`),
+    {
+      onError: () => {
+        alert('there was an error');
+      },
+      onSettled: () => {
+        queryClient.invalidateQueries([NODE.GET_NODES]);
+      },
+    }
+  );
 };
