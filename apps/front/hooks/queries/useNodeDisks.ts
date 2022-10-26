@@ -1,13 +1,14 @@
 import Disk from '@/types/disk';
-import Node from '@/types/node';
 import instance from '@/utility/axios';
 import { useQuery } from '@tanstack/react-query';
+
+type NodeId = string;
 
 export enum DISK {
   GET_DISKS = 'GET_DISKS',
 }
 
-export const useGetNodeDisks = (nodeId: Pick<Node, 'uuid'>, options?) => {
+export const useGetNodeDisks = (nodeId: NodeId, options?) => {
   return useQuery<Disk[]>(
     [DISK.GET_DISKS, nodeId],
     () =>
