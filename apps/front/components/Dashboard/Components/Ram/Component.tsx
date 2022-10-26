@@ -3,11 +3,11 @@ import { formatBytes } from '@/utility/formatBytes';
 import { Card, CardContent, Typography } from '@mui/material';
 
 interface RamComponentProps {
-  nodeId: string;
+  query: string;
 }
 
-const RamComponent: React.FC<RamComponentProps> = ({ nodeId }) => {
-  const { data: ram } = useGetNodeRam(nodeId);
+const RamComponent: React.FC<RamComponentProps> = ({ query }) => {
+  const { data: ram } = useGetNodeRam(query);
 
   return (
     <Card>

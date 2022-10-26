@@ -1,4 +1,4 @@
-import { ChangeEvent, useState } from 'react';
+import { useState } from 'react';
 import {
   Fab,
   Dialog,
@@ -12,28 +12,31 @@ import { Add as AddIcon } from '@mui/icons-material';
 import SearchInput from './SearchInput';
 import ComponentsList from './ComponentsList';
 
-import { RamPreview, RamForm } from '../Components/Ram';
-import { CpuPreview, CpuForm } from '../Components/Cpu';
+import { RamPreview, RamForm, RamComponent } from '../Components/Ram';
+import { CpuPreview, CpuForm, CpuComponent } from '../Components/Cpu';
 
 export type Component = {
   title: string;
   key: string;
   previewComponent: React.ElementType;
   formComponent: React.ElementType;
+  component: React.ElementType;
 };
 
-const COMPONENTS = [
+export const COMPONENTS = [
   {
     title: 'RAM',
     key: 'ram_component',
     previewComponent: RamPreview,
     formComponent: RamForm,
+    component: RamComponent,
   },
   {
     title: 'CPU',
     key: 'cpu_component',
     previewComponent: CpuPreview,
     formComponent: CpuForm,
+    component: CpuComponent,
   },
 ];
 

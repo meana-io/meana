@@ -2,11 +2,11 @@ import { useGetNodeCpu } from '@/hooks/queries/useNodeCpu';
 import { Card, CardContent, CardHeader, Typography } from '@mui/material';
 
 interface CpuComponentProps {
-  nodeId: string;
+  query: string;
 }
 
-const CpuComponent: React.FC<CpuComponentProps> = ({ nodeId }) => {
-  const { data: cpu } = useGetNodeCpu(nodeId);
+const CpuComponent: React.FC<CpuComponentProps> = ({ query }) => {
+  const { data: cpu } = useGetNodeCpu(query);
   return (
     <Card>
       <CardHeader title="CPU" />
