@@ -1,7 +1,5 @@
 import { Card, CardContent, CardHeader, Typography } from '@mui/material';
 
-import { formatBytes } from '@/utility/formatBytes';
-
 import Cpu from '@/types/cpu';
 
 interface CpuDetailsProps {
