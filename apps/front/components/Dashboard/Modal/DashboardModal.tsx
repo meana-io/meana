@@ -46,9 +46,7 @@ const DashboardModal: React.FC = () => {
 
   const [filterdComponents, setFilterdComponents] = useState(COMPONENTS);
 
-  const filterComponents = (
-    word: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
+  const filterComponents = (word: string) => {
     setFilterdComponents(
       COMPONENTS.filter(({ title }) => title.toLowerCase().includes(word))
     );
