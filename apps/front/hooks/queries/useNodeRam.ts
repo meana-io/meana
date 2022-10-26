@@ -1,13 +1,14 @@
-import Node from '@/types/node';
 import Ram from '@/types/ram';
 import instance from '@/utility/axios';
 import { useQuery } from '@tanstack/react-query';
+
+type NodeId = string;
 
 export enum RAM {
   GET_RAM = 'GET_RAM',
 }
 
-export const useGetNodeRam = (nodeId: Pick<Node, 'uuid'>, options?) => {
+export const useGetNodeRam = (nodeId: NodeId, options?) => {
   return useQuery<Ram[]>(
     [RAM.GET_RAM, nodeId],
     () =>
