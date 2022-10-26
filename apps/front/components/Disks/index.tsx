@@ -22,6 +22,19 @@ const calcualteDiskSapce = (disk: Disk, partitions: Partition[]) => {
   return [diskSpace, diskSpace - used];
 };
 
+const arrayUniqueByKey = (arr, key: string) => [
+  ...new Map(arr.map((item) => [item[key], item])).values(),
+];
+
+const sortByNewest = (arr) =>
+  arr.sort((a, b) => new Date(a.time).getTime() - new Date(b.time).getTime());
+
+const getDisksIndentifiers = (nodeName: string, disks: Disk[]) => {
+  return [
+    ...new Set(disks.map(({ name: diskName }) => `${nodeName}/${diskName}`)),
+  ];
+};
+
 const calcualtePartitionSapce = (partition: Partition) => {
   const capacity = parseInt(partition.capacity, 10);
   const usedSpace = parseInt(partition.usedSpace, 10);
@@ -33,8 +46,8 @@ const Disks: React.FC = () => {
   const [partition, setPartition] = useState<Partition | undefined>(undefined);
 
   const router = useRouter();
-  const { id: nodeId } = router.query;
-  const { data: disks, isLoading } = useGetNodeDisks(nodeId as string);
+  const nodeId = router.query.id as string;
+  const { data: disks, isLoading } = useGetNodeDisks(nodeId);
 
   const { data: partitions } = useGetNodePartitions(disk?.name, {
     // The query will not execute until the userId exists

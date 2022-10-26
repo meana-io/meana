@@ -1,7 +1,6 @@
 import { useRouter } from 'next/router';
-import { CircularProgress, Grid } from '@mui/material';
+import { Grid } from '@mui/material';
 
-// import ChartCard from './ChartCard';
 import NodeCpu from '@/types/cpu';
 import CpuDetails from './CpuDetails';
 import ChartCard from './ChartCard';

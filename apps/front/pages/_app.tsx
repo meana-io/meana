@@ -1,11 +1,8 @@
 import { AppProps } from 'next/app';
 import Head from 'next/head';
 
-import {
-  Hydrate,
-  QueryClient,
-  QueryClientProvider,
-} from '@tanstack/react-query';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
 import { CacheProvider as EmotionCacheProvider } from '@emotion/react';
 import { ThemeProvider, CssBaseline } from '@mui/material';
@@ -31,14 +28,13 @@ const App = ({ Component, pageProps }: AppProps) => {
         <title>Meana</title>
       </Head>
       <QueryClientProvider client={queryClient}>
-        <Hydrate state={pageProps.dehydratedState}>
-          <EmotionCacheProvider value={clientSideEmotionCache}>
-            <ThemeProvider theme={lightTheme}>
-              <CssBaseline />
-              <Component {...pageProps} />
-            </ThemeProvider>
-          </EmotionCacheProvider>
-        </Hydrate>
+        <EmotionCacheProvider value={clientSideEmotionCache}>
+          <ThemeProvider theme={lightTheme}>
+            <CssBaseline />
+            <Component {...pageProps} />
+          </ThemeProvider>
+        </EmotionCacheProvider>
+        <ReactQueryDevtools initialIsOpen={false} />
       </QueryClientProvider>
     </>
   );

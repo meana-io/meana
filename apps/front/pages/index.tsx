@@ -1,12 +1,11 @@
-import { NextPage } from 'next';
-
-import MainLayout from '@/layouts/Main';
 import TabsProvider from '@/contexts/tabsContext';
+import MainLayout from '@/layouts/Main';
+import { NextPage } from 'next';
 
 const Index: NextPage = () => {
   return (
     <TabsProvider>
-      <MainLayout>Please select Node</MainLayout>
+      <MainLayout>Hello world</MainLayout>
     </TabsProvider>
   );
 };

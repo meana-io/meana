@@ -43,7 +43,7 @@ const NodeListDrawer: React.FC<NodeListDrawerProps> = ({ nodes }) => {
             <ListItem
               disablePadding
               secondaryAction={
-                index !== 0 && (
+                index > 2 && (
                   <IconButton
                     disabled={isLoading}
                     edge="end"

@@ -15,7 +15,7 @@ export const useGetNodeDisks = (nodeId: NodeId, options?) => {
       instance.get('/node-disks', {
         data: {
           where: {
-            nodeId,
+            nodeId: 'd6b12c6f-2a1b-4132-ba0a-aa55d14f7ea2',
           },
         },
       }),
