@@ -11,39 +11,12 @@ import { Add as AddIcon } from '@mui/icons-material';
 
 import SearchInput from './SearchInput';
 import ComponentsList from './ComponentsList';
-
-import { RamPreview, RamForm, RamComponent } from '../Components/Ram';
-import { CpuPreview, CpuForm, CpuComponent } from '../Components/Cpu';
-
-export type Component = {
-  title: string;
-  key: string;
-  previewComponent: React.ElementType;
-  formComponent: React.ElementType;
-  component: React.ElementType;
-};
-
-export const COMPONENTS = [
-  {
-    title: 'RAM',
-    key: 'ram_component',
-    previewComponent: RamPreview,
-    formComponent: RamForm,
-    component: RamComponent,
-  },
-  {
-    title: 'CPU',
-    key: 'cpu_component',
-    previewComponent: CpuPreview,
-    formComponent: CpuForm,
-    component: CpuComponent,
-  },
-];
+import { COMPONENTS } from '../Components';
 
 const MODAL_POSITION = 24;
 
 const DashboardModal: React.FC = () => {
-  const [open, setOpen] = useState(true);
+  const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 

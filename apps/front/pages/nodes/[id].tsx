@@ -10,7 +10,7 @@ import TabsProvider from '@/contexts/tabsContext';
 
 import Ram from '@/components/Ram';
 import Cpu from '@/components/Cpu';
-import ErrorBoundry from '@/components/Error';
+import ErrorBoundary from '@/components/Error';
 
 import DiscFullIcon from '@mui/icons-material/DiscFull';
 import SdStorageIcon from '@mui/icons-material/SdStorage';
@@ -28,19 +28,19 @@ const Index: NextPage = () => {
       <MainLayout>
         <ServerDetailsDrawer tabs={TABS} />
         <TabPanel index={0}>
-          <ErrorBoundry>
+          <ErrorBoundary>
             <Disks />
-          </ErrorBoundry>
+          </ErrorBoundary>
         </TabPanel>
         <TabPanel index={1}>
-          <ErrorBoundry>
+          <ErrorBoundary>
             <Ram />
-          </ErrorBoundry>
+          </ErrorBoundary>
         </TabPanel>
         <TabPanel index={2}>
-          <ErrorBoundry>
+          <ErrorBoundary>
             <Cpu />
-          </ErrorBoundry>
+          </ErrorBoundary>
         </TabPanel>
       </MainLayout>
     </TabsProvider>

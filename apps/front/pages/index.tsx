@@ -1,24 +1,17 @@
 import { NextPage } from 'next';
 
 import { Responsive, WidthProvider } from 'react-grid-layout';
-import {
-  Card,
-  CardContent,
-  Typography,
-  CardActions,
-  Button,
-} from '@mui/material';
-
 
 import MainLayout from '@/layouts/Main';
 import DashboardModal from '@/components/Dashboard/Modal/DashboardModal';
 
-import { COMPONENTS } from '@/components/Dashboard/Modal/DashboardModal';
-import ErrorBoundry from '@/components/Error';
+import ErrorBoundary from '@/components/Error';
+import {
+  COMPONENTS,
+  COMPONENT_HEIGHT,
+} from '@/components/Dashboard/Components';
 
 const ResponsiveReactGridLayout = WidthProvider(Responsive);
-
-const CARD_HEIGHT = 310 as const;
 
 const generateBaseLayout = (n = 7) => {
   const maxInRow = 6;
@@ -74,19 +67,22 @@ const Index: NextPage = () => {
         layouts={{
           lg: BASE_LAYOUT,
         }}
-        rowHeight={CARD_HEIGHT}
+        rowHeight={COMPONENT_HEIGHT}
         useCSSTransforms={true}
         measureBeforeMount={false}
         onLayoutChange={onLayoutChange}
       >
         {COMPONENTS_CONFIG.map(({ i, key, query }) => {
-          const { component: Component } = COMPONENTS_OBJ[key];
-
-          return (
-            <ErrorBoundry key={i}>
-              <Component query={query} />
-            </ErrorBoundry>
-          );
+          if (COMPONENTS_OBJ[key]) {
+            const { component: Component } = COMPONENTS_OBJ[key];
+            return (
+              <div key={i}>
+                <ErrorBoundary>
+                  <Component key={i} query={query} />
+                </ErrorBoundary>
+              </div>
+            );
+          }
         })}
       </ResponsiveReactGridLayout>
       <DashboardModal />

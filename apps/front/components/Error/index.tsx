@@ -3,13 +3,13 @@ import { ErrorBoundary as ReactErrorBoundary } from 'react-error-boundary';
 import BaseErrorMessage from './ErrorMessage';
 import BaseLoader from './Loader';
 
-interface ErrorBoundryProps {
+interface ErrorBoundaryProps {
   children: React.ReactNode;
   errorMessage?: string;
   loader?: React.ReactNode;
 }
 
-const ErrorBoundry: React.FC<ErrorBoundryProps> = ({
+const ErrorBoundary: React.FC<ErrorBoundaryProps> = ({
   children,
   errorMessage,
   loader,
@@ -25,4 +25,4 @@ const ErrorBoundry: React.FC<ErrorBoundryProps> = ({
   );
 };
 
-export default ErrorBoundry;
+export default ErrorBoundary;
