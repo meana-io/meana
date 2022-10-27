@@ -2,16 +2,23 @@ import {
   Controller,
   Get,
   Post,
-  Body, Param, Patch, Delete,
+  Body,
+  Param,
+  Patch,
+  Delete,
+  Query,
 } from '@nestjs/common';
 import { NodesService } from './nodes.service';
 import { CreateNodeDto } from './dto/create-node.dto';
-import {UpdateNodeDto} from "./dto/update-node.dto";
-import {FindAllDto} from "../../common/findAll.dto";
+import { UpdateNodeDto } from './dto/update-node.dto';
+import { ApiService } from '../../common/services/api.service';
 
 @Controller('nodes')
 export class NodesController {
-  constructor(private readonly nodesService: NodesService) {}
+  constructor(
+    private readonly nodesService: NodesService,
+    private readonly apiService: ApiService
+  ) {}
 
   @Post()
   async create(@Body() createNodeDto: CreateNodeDto) {
@@ -19,8 +26,21 @@ export class NodesController {
   }
 
   @Get()
-  findAll(@Body() findAllDto: FindAllDto) {
-    return this.nodesService.findAll(findAllDto);
+  findAll(
+    @Query('fields')
+    fields?: string,
+    @Query('limit') limit?: number,
+    @Query('sort') sort?: string[],
+    @Query('search') search?: string
+  ) {
+    const findOptions = this.apiService.prepareGetManyOptions(
+      fields,
+      limit,
+      sort,
+      search
+    );
+
+    return this.nodesService.findAll(findOptions);
   }
 
   @Get(':uuid')

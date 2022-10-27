@@ -1,19 +1,24 @@
-import {Injectable} from '@nestjs/common';
-import {CreateNodeDiskPartitionDto} from './dto/create-node-disk-partition.dto';
-import {InjectModel} from "@nestjs/sequelize";
-import {FindAllDto} from "../../common/findAll.dto";
-import {NodeDiskPartitionEntity} from "../../../../../../libs/shared/Entities/node-disk-partition.entity";
+import { Injectable } from '@nestjs/common';
+import { CreateNodeDiskPartitionDto } from './dto/create-node-disk-partition.dto';
+import { InjectModel } from '@nestjs/sequelize';
+import { FindAllDto } from '../../common/findAll.dto';
+import { NodeDiskPartitionEntity } from '../../../../../../libs/shared/Entities/node-disk-partition.entity';
+import { FindOptions } from 'sequelize';
 
 @Injectable()
 export class NodeDiskPartitionsService {
-  constructor(@InjectModel(NodeDiskPartitionEntity) private nodeDiskPartitionModel: typeof NodeDiskPartitionEntity) {
-  }
+  constructor(
+    @InjectModel(NodeDiskPartitionEntity)
+    private nodeDiskPartitionModel: typeof NodeDiskPartitionEntity
+  ) {}
   async create(createNodeDiskPartitionDto: CreateNodeDiskPartitionDto) {
-    return await this.nodeDiskPartitionModel.create({ ...createNodeDiskPartitionDto })
+    return await this.nodeDiskPartitionModel.create({
+      ...createNodeDiskPartitionDto,
+    });
   }
 
-  async findAll(findAllDto: FindAllDto) {
-    return await this.nodeDiskPartitionModel.findAll({order: [['time', 'DESC']], limit: 100,  ...findAllDto})
+  async findAll(findOptions: FindOptions) {
+    return await this.nodeDiskPartitionModel.findAll(findOptions);
   }
   //
   // async findOne(nodeDiskId: string) {

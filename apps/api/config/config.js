@@ -4,7 +4,7 @@ module.exports = {
     "username": "postgres",
     "password": "password",
     "database": "meana",
-    "port": 5433,
+    "port": 5432,
     "host": "localhost",
     "dialect": "postgres"
 }

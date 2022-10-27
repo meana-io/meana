@@ -1,11 +1,14 @@
-import {Body, Controller, Get, Post,} from '@nestjs/common';
-import {NodeDisksService} from './node-disks.service';
-import {CreateNodeDiskDto} from './dto/create-node-disk.dto';
-import {FindAllDto} from "../../common/findAll.dto";
+import { Body, Controller, Get, Post, Query } from '@nestjs/common';
+import { NodeDisksService } from './node-disks.service';
+import { CreateNodeDiskDto } from './dto/create-node-disk.dto';
+import { ApiService } from '../../common/services/api.service';
 
 @Controller('node-disks')
 export class NodeDisksController {
-  constructor(private readonly nodeDisksService: NodeDisksService) {}
+  constructor(
+    private readonly nodeDisksService: NodeDisksService,
+    private readonly apiService: ApiService
+  ) {}
 
   @Post()
   async create(@Body() createNodeDiskDto: CreateNodeDiskDto) {
@@ -13,8 +16,21 @@ export class NodeDisksController {
   }
 
   @Get()
-  findAll(@Body() findAllDto: FindAllDto) {
-    return this.nodeDisksService.findAll(findAllDto);
+  findAll(
+    @Query('fields')
+    fields?: string,
+    @Query('limit') limit?: number,
+    @Query('sort') sort?: string[],
+    @Query('search') search?: string
+  ) {
+    const findOptions = this.apiService.prepareGetManyOptions(
+      fields,
+      limit,
+      sort,
+      search
+    );
+
+    return this.nodeDisksService.findAll(findOptions);
   }
 
   // @Get(':uuid')
