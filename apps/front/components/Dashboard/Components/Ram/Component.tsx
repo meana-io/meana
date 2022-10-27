@@ -12,11 +12,12 @@ const RamComponent: React.FC<RamComponentProps> = ({ query }) => {
 
   return (
     <BaseCardComponent title="Ram">
-      <Typography>
-        Used Space: {formatBytes(parseInt(ram[0]?.used || '0', 10)) ?? 'N/A'}
+      <Typography component="div" variant="h6">
+        Used Space: {ram.at(-1)?.used}
+        {/* {formatBytes(parseInt(ram.at(-1)?.used || '0', 10)) ?? 'N/A'} */}
       </Typography>
       <Typography component="div" variant="h6">
-        Capacity: {formatBytes(parseInt(ram[0]?.total || '0', 10)) ?? 'N/A'}
+        Capacity: {formatBytes(parseInt(ram.at(-1)?.total || '0', 10)) ?? 'N/A'}
       </Typography>
     </BaseCardComponent>
   );

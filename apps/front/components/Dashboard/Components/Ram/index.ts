@@ -1,3 +1,13 @@
-export { default as RamComponent } from './Component';
-export { default as RamPreview } from './Preview';
-export { default as RamForm } from './Form';
+import RamComponent from './Component';
+import RamPreview from './Preview';
+import RamForm from './Form';
+
+const config = {
+  title: 'RAM',
+  key: 'ram_component',
+  previewComponent: RamPreview,
+  formComponent: RamForm,
+  component: RamComponent,
+};
+
+export default config;

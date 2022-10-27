@@ -1,3 +1,13 @@
-export { default as CpuComponent } from './Component';
-export { default as CpuPreview } from './Preview';
-export { default as CpuForm } from './Form';
+import CpuComponent from './Component';
+import CpuPreview from './Preview';
+import CpuForm from './Form';
+
+const config = {
+  title: 'CUP',
+  key: 'cpu_component',
+  previewComponent: CpuPreview,
+  formComponent: CpuForm,
+  component: CpuComponent,
+};
+
+export default config;

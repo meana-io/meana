@@ -57,7 +57,7 @@ const COMPONENTS_OBJ = arrayToObj(COMPONENTS);
 
 const Index: NextPage = () => {
   const onLayoutChange = (layout) => {
-    console.log(layout);
+    // console.log(layout);
   };
 
   return (

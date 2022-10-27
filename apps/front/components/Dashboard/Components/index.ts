@@ -1,5 +1,5 @@
-import { RamPreview, RamForm, RamComponent } from '../Components/Ram';
-import { CpuPreview, CpuForm, CpuComponent } from '../Components/Cpu';
+import RAM_CONFIG from '../Components/Ram';
+import CPU_CONFIG from '../Components/Cpu';
 
 export const COMPONENT_HEIGHT = 250 as const;
 
@@ -11,19 +11,4 @@ export type Component = {
   component: React.ElementType;
 };
 
-export const COMPONENTS: Component[] = [
-  {
-    title: 'RAM',
-    key: 'ram_component',
-    previewComponent: RamPreview,
-    formComponent: RamForm,
-    component: RamComponent,
-  },
-  {
-    title: 'CPU',
-    key: 'cpu_component',
-    previewComponent: CpuPreview,
-    formComponent: CpuForm,
-    component: CpuComponent,
-  },
-];
+export const COMPONENTS: Component[] = [RAM_CONFIG, CPU_CONFIG];

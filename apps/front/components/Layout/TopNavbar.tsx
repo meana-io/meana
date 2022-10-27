@@ -9,9 +9,11 @@ const TopNavbar: React.FC = () => {
       sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}
     >
       <Toolbar>
-        <Typography variant="h6" noWrap component="p">
-          Meana
-        </Typography>
+        <Link href="/">
+          <Typography variant="h6" noWrap component="p">
+            Meana
+          </Typography>
+        </Link>
         <Link href="/add-new-node" passHref>
           <Button size="large">Add New Server</Button>
         </Link>

@@ -8,6 +8,7 @@ interface CpuComponentProps {
 
 const CpuComponent: React.FC<CpuComponentProps> = ({ query }) => {
   const { data: cpu } = useGetNodeCpu(query);
+
   return (
     <BaseCardComponent title="CPU">
       <Typography component="div" variant="h6">
