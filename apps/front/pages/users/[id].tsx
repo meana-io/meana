@@ -1,75 +1,56 @@
-import { Box, Button, Typography, TextField, Grid } from '@mui/material';
-import { useForm} from 'react-hook-form';
-import { useRouter } from 'next/router';
-import { useState } from 'react';
 import React from 'react';
+import { useRouter } from 'next/router';
+import { useFormik } from 'formik';
+import * as yup from 'yup';
+import {Button, Grid, Box, TextField, Typography} from '@mui/material';
+import { useForm } from 'react-hook-form';
 
-
-interface State {
-    firstName: string;
-    lastName: string;
-    login: string;
-    password: string;
-    email: string;
-}
-
+const validationSchema = yup.object({
+  firstName: yup
+    .string()
+    .required('First name is required'),
+  lastName: yup
+    .string()
+    .required('Last Name is required'),
+  login: yup
+    .string()
+    .required('Login is required'),
+  email: yup
+    .string()
+    .email('Enter a valid email')
+    .required('Email is required'),
+  password: yup
+    .string()
+    .min(8, 'Password should be of minimum 8 characters length')
+    .required('Password is required'),
+});
 
 const CreateUser: React.FC = () => { 
-
-  // const [values, setValues] = React.useState<State>({
-  //   firstName: '',
-  //   lastName: '',
-  //   login: '',
-  //   password: '',
-  //   email: '',
-  // });
-
   const { register, handleSubmit} = useForm();
   const router = useRouter();
+  const formik = useFormik({
+    initialValues: {
+      firstName: '',
+      lastName: '',
+      login: '',
+      email: '',
+      password: '',
+    },
+    validationSchema: validationSchema,
+    onSubmit: (values) => {
+      console.log(values);
+    },
+  });
 
-  const [firstName, setFirstName] = useState('')
-  const [lastName, setLastName] = useState('')
-  const [login, setLogin] = useState('')
-  const [password, setPassword] = useState('')
-  const [email, setEmail] = useState('')
-
-  // const createUser = async (data: State) => {
-  //   console.log(data.firstName, data.lastName, data.login, data.password, data.email)
-  // };
-
-  const createUser = (data) => {
-    console.log(data)
-  };
-
-  const handleFirstNameChange = (event) => {
-    setFirstName(event.target.value);
-  };
-
-  const handleLastNameChange = (event) => {
-    setLastName(event.target.value);
-  };
   
-  const handleLoginChange = (event) => {
-    setLogin(event.target.value);
-  };
-  
-  const handlePasswordChange = (event) => {
-    setPassword(event.target.value);
-  };
-
-  const handleEmailChange = (event) => {
-    setEmail(event.target.value);
-  };
-
-
   const handleClose = () => {
     router.push('/');
   };
 
-
-    return (
-
-        <Grid
+  return (
+    <div>
+      <form onSubmit={formik.handleSubmit}>
+      <Grid
         container
         spacing={0}
         direction="column"
@@ -96,105 +77,88 @@ const CreateUser: React.FC = () => {
           >
             Add User
           </Typography>
-          
-          <Box
-            component="form"
-            onSubmit={handleSubmit(createUser)}
-            noValidate
-            sx={{ mt: 1 }}
-          >
-            <div className="firstname-lastname">
-
-            <TextField
-              margin="normal"
-              required
-              sx={{mr: 1,width: '48%' }}
-              {...register('firstName')}
-              label="First Name"
-              autoFocus
-              onChange={handleFirstNameChange}
-              value={firstName}
-            />
-            <TextField
-              margin="normal"
-              required
-              sx={{ml: 1,width: '48%' }}
-              {...register('lastName')}
-              label="Last Name"
-              autoFocus
-              onChange={handleLastNameChange}
-              value={lastName}
-            />
-            </div>
-            <div className="login-pass">
-            <TextField
-              margin="normal"
-              required
-              sx={{mr: 1,width: '48%' }}
-              {...register('login')}
-              label="Login"
-              autoFocus
-              onChange={handleLoginChange}
-              value={login}
-            />
-            <TextField
-              margin="normal"
-              required
-              sx={{ml: 1,width: '48%' }}
-              {...register('password')}
-              label="Password"
-              autoFocus
-              onChange={handlePasswordChange}
-              value={password}
-            />
-            </div>
-            <div className="email">
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              type='email'
-              {...register('email', {
-                required: 'Email is required',
-                pattern: {
-                    value: /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-                    message: 'Please enter a valid email',
-                },
-            })} 
-              label="Email"
-              autoFocus
-              onChange={handleEmailChange}
-              value={email}
-              
-            />
-            </div>
-            <Grid>
-            <Grid item>
-                <Button
-                  fullWidth
-                  variant="contained"
-                  sx={{ mt: 1, mb: 2 }}
-                  onClick={handleClose}
-                >
-                  Cancel
-                </Button>
-              </Grid>
-              <Grid item>
-                <Button
-                  type="submit"
-                  fullWidth
-                  variant="contained"
-                  sx={{ mt: 1, mb: 2 }}
-                  disabled={!firstName || !lastName || !login || !password || !email}
-                >
-                  Update
-                </Button>
-              </Grid>
-              
-            </Grid>
-          </Box>
-            </Box>
+          <div className="first-last">
+        <TextField
+          sx={{mr: 1,width: '48%' }}
+          margin="normal"
+          id="firstName"
+          name="firstName"
+          label="First Name"
+          {...register('firstName')}
+          value={formik.values.firstName}
+          onChange={formik.handleChange}
+          error={formik.touched.firstName && Boolean(formik.errors.firstName)}
+          helperText={formik.touched.firstName && formik.errors.firstName}
+        />
+        <TextField
+          sx={{ml: 1,width: '48%' }}
+          margin="normal"
+          id="lastName"
+          name="lastName"
+          label="Last Name"
+          {...register('lastName')}
+          value={formik.values.lastName}
+          onChange={formik.handleChange}
+          error={formik.touched.lastName && Boolean(formik.errors.lastName)}
+          helperText={formik.touched.lastName && formik.errors.lastName}
+        />
+        </div>
+        <div className="log-ap">
+        <TextField
+          sx={{mr: 1,width: '48%' }}
+          margin="normal"
+          id="login"
+          name="login"
+          label="Login"
+          {...register('login')}
+          value={formik.values.login}
+          onChange={formik.handleChange}
+          error={formik.touched.login && Boolean(formik.errors.login)}
+          helperText={formik.touched.login && formik.errors.login}
+        />
+        <TextField
+          sx={{ml: 1,width: '48%' }}
+          margin="normal"
+          id="password"
+          name="password"
+          label="Password"
+          type="password"
+          {...register('password')}
+          value={formik.values.password}
+          onChange={formik.handleChange}
+          error={formik.touched.password && Boolean(formik.errors.password)}
+          helperText={formik.touched.password && formik.errors.password}
+        />
+        </div>
+        <div className="email">
+        <TextField
+          fullWidth
+          margin="normal"
+          id="email"
+          name="email"
+          label="Email"
+          {...register('email')}
+          value={formik.values.email}
+          onChange={formik.handleChange}
+          error={formik.touched.email && Boolean(formik.errors.email)}
+          helperText={formik.touched.email && formik.errors.email}
+        />
+        </div>
+        <Grid>
+        <Button color="primary" variant="contained" fullWidth sx={{ mt: 1, mb: 2 }} onClick={handleClose}>
+          Cancel
+        </Button>
         </Grid>
-)};
+        <Grid>
+        <Button disabled={!formik.isValid || !formik.dirty} color="primary" variant="contained" fullWidth type="submit" sx={{ mt: 1, mb: 2 }}>
+          Update
+        </Button>
+        </Grid>
+        </Box>
+        </Grid>
+      </form>
+    </div>
+  );
+};
 
 export default CreateUser;
