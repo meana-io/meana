@@ -1,19 +1,21 @@
-import {Injectable} from '@nestjs/common';
-import {InjectModel} from "@nestjs/sequelize";
-import {FindAllDto} from "../../common/findAll.dto";
-import {CreateNodeDiskDto} from "./dto/create-node-disk.dto";
-import {NodeDiskEntity} from "../../../../../../libs/shared/Entities/node-disk.entity";
+import { Injectable } from '@nestjs/common';
+import { InjectModel } from '@nestjs/sequelize';
+import { FindAllDto } from '../../common/findAll.dto';
+import { CreateNodeDiskDto } from './dto/create-node-disk.dto';
+import { NodeDiskEntity } from '../../../../../../libs/shared/Entities/node-disk.entity';
+import { FindOptions } from 'sequelize';
 
 @Injectable()
 export class NodeDisksService {
-  constructor(@InjectModel(NodeDiskEntity) private nodeDiskModel: typeof NodeDiskEntity) {
-  }
+  constructor(
+    @InjectModel(NodeDiskEntity) private nodeDiskModel: typeof NodeDiskEntity
+  ) {}
   async create(createNodeDiskDto: CreateNodeDiskDto) {
-    return await this.nodeDiskModel.create({ ...createNodeDiskDto })
+    return await this.nodeDiskModel.create({ ...createNodeDiskDto });
   }
 
-  async findAll(findAllDto: FindAllDto) {
-    return await this.nodeDiskModel.findAll({order: [['time', 'DESC']], limit: 100,  ...findAllDto})
+  async findAll(findOptions: FindOptions) {
+    return await this.nodeDiskModel.findAll(findOptions);
   }
   //
   // async findOne(uuid: string) {

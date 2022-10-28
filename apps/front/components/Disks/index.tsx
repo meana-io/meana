@@ -1,18 +1,16 @@
 import { useEffect, useState } from 'react';
+import { useRouter } from 'next/router';
 
 import { Grid } from '@mui/material';
 
+import Disk from '@/types/disk';
+import Partition from '@/types/partition';
 import Header from './Header';
 import DiskDetails from './DiskDetails';
 import PartitionDetails from './PartitionDetails';
 import ChartCard from './ChartCard';
-import Disk from '@/types/disk';
-import Partition from '@/types/partition';
-
-interface DisksProps {
-  disks: Disk[];
-  partitions: Partition[];
-}
+import { useGetNodeDisks } from '@/hooks/queries/useNodeDisks';
+import { useGetNodePartitions } from '@/hooks/queries/useNodePartitions';
 
 const calcualteDiskSapce = (disk: Disk, partitions: Partition[]) => {
   const diskSpace = parseInt(disk.capacity, 10);
@@ -24,15 +22,37 @@ const calcualteDiskSapce = (disk: Disk, partitions: Partition[]) => {
   return [diskSpace, diskSpace - used];
 };
 
+const arrayUniqueByKey = (arr, key: string) => [
+  ...new Map(arr.map((item) => [item[key], item])).values(),
+];
+
+const sortByNewest = (arr) =>
+  arr.sort((a, b) => new Date(a.time).getTime() - new Date(b.time).getTime());
+
+const getDisksIndentifiers = (nodeName: string, disks: Disk[]) => {
+  return [
+    ...new Set(disks.map(({ name: diskName }) => `${nodeName}/${diskName}`)),
+  ];
+};
+
 const calcualtePartitionSapce = (partition: Partition) => {
   const capacity = parseInt(partition.capacity, 10);
   const usedSpace = parseInt(partition.usedSpace, 10);
   return [capacity - usedSpace, usedSpace];
 };
 
-const Disks: React.FC<DisksProps> = ({ disks, partitions }) => {
+const Disks: React.FC = () => {
   const [disk, setDisk] = useState<Disk | undefined>(undefined);
   const [partition, setPartition] = useState<Partition | undefined>(undefined);
+
+  const router = useRouter();
+  const nodeId = router.query.id as string;
+  const { data: disks, isLoading } = useGetNodeDisks(nodeId);
+
+  const { data: partitions } = useGetNodePartitions(disk?.name, {
+    // The query will not execute until the userId exists
+    enabled: !isLoading,
+  });
 
   const handleDiskChange = (diskName: string) => {
     const selectedDisk = disks.find((d) => d.name === diskName);
@@ -45,7 +65,7 @@ const Disks: React.FC<DisksProps> = ({ disks, partitions }) => {
   };
 
   const getPartitonsByDiskId = (diskName: string) => {
-    return partitions.filter((p) => p.diskIdentifier.includes(diskName));
+    return partitions?.filter((p) => p.diskIdentifier.includes(diskName));
   };
 
   useEffect(() => {
@@ -98,3 +118,5 @@ const Disks: React.FC<DisksProps> = ({ disks, partitions }) => {
 };
 
 export default Disks;
+
+

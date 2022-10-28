@@ -1,11 +1,14 @@
-import {Body, Controller, Get, Post,} from '@nestjs/common';
-import {NodeCpuService} from './node-cpu.service';
-import {CreateNodeDiskDto} from "../node-disks/dto/create-node-disk.dto";
-import {FindAllDto} from "../../common/findAll.dto";
+import { Body, Controller, Get, Post, Query } from '@nestjs/common';
+import { NodeCpuService } from './node-cpu.service';
+import { CreateNodeDiskDto } from '../node-disks/dto/create-node-disk.dto';
+import { ApiService } from '../../common/services/api.service';
 
 @Controller('node-cpu')
 export class NodeCpuController {
-  constructor(private readonly nodeCpuService: NodeCpuService) {}
+  constructor(
+    private readonly nodeCpuService: NodeCpuService,
+    private readonly apiService: ApiService
+  ) {}
 
   @Post()
   async create(@Body() createNodeCpuDto: CreateNodeDiskDto) {
@@ -13,8 +16,21 @@ export class NodeCpuController {
   }
 
   @Get()
-  findAll(@Body() findAllDto: FindAllDto) {
-    return this.nodeCpuService.findAll(findAllDto);
+  findAll(
+    @Query('fields')
+    fields?: string,
+    @Query('limit') limit?: number,
+    @Query('sort') sort?: string[],
+    @Query('search') search?: string
+  ) {
+    const findOptions = this.apiService.prepareGetManyOptions(
+      fields,
+      limit,
+      sort,
+      search
+    );
+
+    return this.nodeCpuService.findAll(findOptions);
   }
   //
   // @Get(':id')

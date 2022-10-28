@@ -1,9 +1,8 @@
 import { AppProps } from 'next/app';
 import Head from 'next/head';
-import { useState } from 'react';
 
-import { QueryClient, QueryClientProvider, Hydrate } from 'react-query';
-import { ReactQueryDevtools } from 'react-query/devtools';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
 import { CacheProvider as EmotionCacheProvider } from '@emotion/react';
 import { ThemeProvider, CssBaseline } from '@mui/material';
@@ -13,24 +12,29 @@ import lightTheme from '../styles/theme/lightTheme';
 
 const clientSideEmotionCache = createEmotionCache();
 
-const App = ({ Component, pageProps }: AppProps) => {
-  const [queryClient] = useState(() => new QueryClient());
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      suspense: true,
+      useErrorBoundary: true,
+    },
+  },
+});
 
+const App = ({ Component, pageProps }: AppProps) => {
   return (
     <>
       <Head>
         <title>Meana</title>
       </Head>
       <QueryClientProvider client={queryClient}>
-        <Hydrate state={pageProps.dehydratedState}>
-          <EmotionCacheProvider value={clientSideEmotionCache}>
-            <ThemeProvider theme={lightTheme}>
-              <CssBaseline />
-              <Component {...pageProps} />
-            </ThemeProvider>
-            <ReactQueryDevtools initialIsOpen={false} />
-          </EmotionCacheProvider>
-        </Hydrate>
+        <EmotionCacheProvider value={clientSideEmotionCache}>
+          <ThemeProvider theme={lightTheme}>
+            <CssBaseline />
+            <Component {...pageProps} />
+          </ThemeProvider>
+        </EmotionCacheProvider>
+        <ReactQueryDevtools initialIsOpen={false} />
       </QueryClientProvider>
     </>
   );
