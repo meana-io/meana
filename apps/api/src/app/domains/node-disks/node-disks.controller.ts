@@ -20,12 +20,14 @@ export class NodeDisksController {
     @Query('fields')
     fields?: string,
     @Query('limit') limit?: number,
+    @Query('offset') offset?: number,
     @Query('sort') sort?: string[],
     @Query('search') search?: string
   ) {
     const findOptions = this.apiService.prepareGetManyOptions(
       fields,
       limit,
+      offset,
       sort,
       search
     );
