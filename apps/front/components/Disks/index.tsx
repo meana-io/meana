@@ -9,8 +9,8 @@ import Header from './Header';
 import DiskDetails from './DiskDetails';
 import PartitionDetails from './PartitionDetails';
 import ChartCard from './ChartCard';
-import { useGetNodeDisks } from '@/hooks/queries/useNodeDisks';
-import { useGetNodePartitions } from '@/hooks/queries/useNodePartitions';
+import { useGetNodeDisksList } from '@/api/disks';
+import { useGetNodeDiskPartitionsList } from '@/api/diskPartitions';
 
 const calcualteDiskSapce = (disk: Disk, partitions: Partition[]) => {
   const diskSpace = parseInt(disk.capacity, 10);
@@ -47,12 +47,12 @@ const Disks: React.FC = () => {
 
   const router = useRouter();
   const nodeId = router.query.id as string;
-  const { data: disks, isLoading } = useGetNodeDisks(nodeId);
+  const { data: disks, isLoading: isLoadingDisks } =
+    useGetNodeDisksList(nodeId);
 
-  const { data: partitions } = useGetNodePartitions(disk?.name, {
-    // The query will not execute until the userId exists
-    enabled: !isLoading,
-  });
+  const { data: partitions } = useGetNodeDiskPartitionsList(
+    `${nodeId}/${'example'}`
+  );
 
   const handleDiskChange = (diskName: string) => {
     const selectedDisk = disks.find((d) => d.name === diskName);
@@ -71,6 +71,10 @@ const Disks: React.FC = () => {
   useEffect(() => {
     setPartition(undefined);
   }, [disk]);
+
+  if (isLoadingDisks) {
+    return <div>Loading disks..</div>;
+  }
 
   return (
     <Grid container spacing={2} direction="column">
@@ -93,24 +97,24 @@ const Disks: React.FC = () => {
 
       <Grid item spacing={2} container direction="row" xs={12}>
         <Grid item xs={12} md={6}>
-          {disk && (
+          {/* {disk && (
             <ChartCard
               title="Disk space"
-              labels={getPartitonsByDiskId(disk.name).map(({ path }) => path)}
-              series={getPartitonsByDiskId(disk.name).map(({ capacity }) =>
+              labels={getPartitonsByDiskId(disk.name)?.map(({ path }) => path)}
+              series={getPartitonsByDiskId(disk.name)?.map(({ capacity }) =>
                 parseInt(capacity, 10)
               )}
             />
-          )}
+          )} */}
         </Grid>
         <Grid item xs={12} md={6}>
-          {partition && (
+          {/* {partition && (
             <ChartCard
               title="Partiton space"
               labels={['Used', 'Free']}
               series={calcualtePartitionSapce(partition)}
             />
-          )}
+          )} */}
         </Grid>
       </Grid>
     </Grid>
