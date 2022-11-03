@@ -2,15 +2,21 @@ import { NextPage } from 'next';
 import { Box, Button, Typography, Modal, TextField, Grid } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/router';
-import { useCreateNode } from '@/hooks/queries/useNode';
+import { CreateNodeFormData, useCreateNode } from '@/api/nodes';
 
 const AddNewNode: NextPage = () => {
-  const { mutate, isLoading, data: node } = useCreateNode();
+  const { mutateAsync, isLoading, data: node } = useCreateNode();
   const { register, handleSubmit } = useForm();
   const router = useRouter();
 
-  const onSubmit = (data) => {
-    mutate(data);
+  const onAdd = async ({ name }: CreateNodeFormData) => {
+    try {
+      await mutateAsync({
+        name,
+      });
+    } catch (e) {
+      alert(`Cannot add the node: ${name}`);
+    }
   };
 
   const handleClose = () => {
@@ -45,7 +51,7 @@ const AddNewNode: NextPage = () => {
         </Typography>
         <Box
           component="form"
-          onSubmit={handleSubmit(onSubmit)}
+          onSubmit={handleSubmit(onAdd)}
           noValidate
           sx={{ mt: 1 }}
         >

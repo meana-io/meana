@@ -12,6 +12,7 @@ import {
 
 import Disk from '@/types/disk';
 import Partition from '@/types/partition';
+import { useRouter } from 'next/router';
 
 interface HeaderProps {
   disks: Disk[];
@@ -26,6 +27,8 @@ const Header: React.FC<HeaderProps> = ({
   disks,
   partitions,
 }) => {
+  const router = useRouter();
+  const nodeId = router.query.id as string;
   return (
     <Card>
       <CardHeader title="Disks" />
@@ -42,9 +45,12 @@ const Header: React.FC<HeaderProps> = ({
                 handleDiskChange(event.target.value)
               }
             >
-              {disks.map(({ name }) => (
-                <MenuItem key={name} value={name}>
-                  {name}
+              {disks?.map(({ name }, i) => (
+                <MenuItem
+                  key={`${name}-${i}-${nodeId}`}
+                  value={`${name}-${i}-${nodeId}`}
+                >
+                  {name}-{i}-{nodeId}
                 </MenuItem>
               ))}
             </Select>
