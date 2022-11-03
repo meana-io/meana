@@ -4,10 +4,7 @@ import { Responsive, WidthProvider } from 'react-grid-layout';
 import MainLayout from '@/layouts/Main';
 import DashboardModal from '@/components/Dashboard/Modal/DashboardModal';
 
-import {
-  Components,
-  COMPONENT_HEIGHT,
-} from '@/components/Dashboard/Components';
+import { COMPONENT_HEIGHT } from '@/components/Dashboard/Components';
 import GetComponent from '@/components/GetComponent';
 import { useEffect, useState } from 'react';
 
@@ -69,7 +66,7 @@ const COMPONENTS_CONFIG = {
 
 const BASE_LAYOUT = generateBaseLayout();
 
-const creaetNewLayout = (layout: any, components: Components) =>
+const creaetNewLayout = (layout: any, components: any) =>
   layout.reduce((config, { i, w, x, y, h }) => {
     config[i] = {
       x,
@@ -87,14 +84,12 @@ const setItem = (data: object) => {
 };
 
 const Index: NextPage = () => {
-  const [layout, setLayout] = useState([]);
-  const [hasLayoutChanged, setHasLayoutChanged] = useState(false);
+  const [layout, setLayout] = useState<any>(BASE_LAYOUT);
   const onLayoutChange = (layout) => {
-    console.log({ layout });
-    // const newLayout = creaetNewLayoutObject(layout, COMPONENTS_CONFIG);
-    // console.log(newLayout);
+    const newLayout = creaetNewLayout(layout, COMPONENTS_CONFIG);
+    console.log(newLayout);
     // setItem(newLayout);
-  };;
+  };
 
   useEffect(() => {
     const getItem = () => {
@@ -103,7 +98,7 @@ const Index: NextPage = () => {
       );
     };
 
-    setLayout(getItem());
+    setLayout(getItem() || BASE_LAYOUT);
   }, [setLayout]);
 
   return (
