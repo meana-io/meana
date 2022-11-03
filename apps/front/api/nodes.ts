@@ -15,7 +15,7 @@ export const useGetNodesList = (options?) => {
   );
 };
 
-interface CreateNodeFormData {
+export interface CreateNodeFormData {
   name: string;
 }
 

@@ -2,18 +2,14 @@ import { NextPage } from 'next';
 import { Box, Button, Typography, Modal, TextField, Grid } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/router';
-import { useCreateNode } from '@/api/nodes';
-
-type NodeFormData = {
-  name: string;
-};
+import { CreateNodeFormData, useCreateNode } from '@/api/nodes';
 
 const AddNewNode: NextPage = () => {
   const { mutateAsync, isLoading, data: node } = useCreateNode();
   const { register, handleSubmit } = useForm();
   const router = useRouter();
 
-  const onAdd = async ({ name }: NodeFormData) => {
+  const onAdd = async ({ name }: CreateNodeFormData) => {
     try {
       await mutateAsync({
         name,
