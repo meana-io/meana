@@ -16,6 +16,8 @@ import { NodeRamEntity } from '../../../../libs/shared/Entities/node-ram.entity'
 import { NodeCpuEntity } from '../../../../libs/shared/Entities/node-cpu.entity';
 import { SettingsEntity } from '../../../../libs/shared/Entities/settings.entity';
 import { SettingsModule } from './domains/settings/settings.module';
+import { UsersModule } from './domains/users/users.module';
+import { UserEntity } from '../../../../libs/shared/Entities/user.entity';
 
 @Module({
   imports: [
@@ -25,6 +27,7 @@ import { SettingsModule } from './domains/settings/settings.module';
     NodeRamModule,
     NodeCpuModule,
     SettingsModule,
+    UsersModule,
     SequelizeModule.forRoot({
       dialect: process.env.DB_DIALECT as Dialect,
       host: process.env.DB_HOST,
@@ -39,6 +42,7 @@ import { SettingsModule } from './domains/settings/settings.module';
         NodeRamEntity,
         NodeCpuEntity,
         SettingsEntity,
+        UserEntity,
       ],
     }),
   ],
