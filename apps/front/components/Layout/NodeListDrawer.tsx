@@ -28,9 +28,7 @@ interface NodeListDrawerProps {
 }
 
 const NodeListDrawer: React.FC<NodeListDrawerProps> = ({ nodes }) => {
-  const { mutateAsync, isLoading } = useDeleteNode((oldData, deleteId) =>
-    oldData.filter(({ uuid }) => uuid !== deleteId)
-  );
+  const { mutateAsync, isLoading } = useDeleteNode();
 
   const onDelete = async (id: string) => {
     try {
