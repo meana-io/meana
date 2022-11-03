@@ -1,20 +1,38 @@
-import {Body, Controller, Get, Post,} from '@nestjs/common';
-import {FindAllDto} from "../../common/findAll.dto";
-import {NodeDiskPartitionsService} from "./node-disk-partitions.service";
-import {CreateNodeDiskPartitionDto} from "./dto/create-node-disk-partition.dto";
+import { Body, Controller, Get, Post, Query } from '@nestjs/common';
+import { NodeDiskPartitionsService } from './node-disk-partitions.service';
+import { CreateNodeDiskPartitionDto } from './dto/create-node-disk-partition.dto';
+import { ApiService } from '../../common/services/api.service';
 
 @Controller('node-disk-partitions')
 export class NodeDiskPartitionsController {
-  constructor(private readonly nodeDiskPartitionsService: NodeDiskPartitionsService) {}
+  constructor(
+    private readonly nodeDiskPartitionsService: NodeDiskPartitionsService,
+    private readonly apiService: ApiService
+  ) {}
 
   @Post()
   async create(@Body() createNodeDiskPartitionDto: CreateNodeDiskPartitionDto) {
-    return await this.nodeDiskPartitionsService.create(createNodeDiskPartitionDto);
+    return await this.nodeDiskPartitionsService.create(
+      createNodeDiskPartitionDto
+    );
   }
 
   @Get()
-  findAll(@Body() findAllDto: FindAllDto) {
-    return this.nodeDiskPartitionsService.findAll(findAllDto);
+  findAll(
+    @Query('fields')
+    fields?: string,
+    @Query('limit') limit?: number,
+    @Query('sort') sort?: string[],
+    @Query('search') search?: string
+  ) {
+    const findOptions = this.apiService.prepareGetManyOptions(
+      fields,
+      limit,
+      sort,
+      search
+    );
+
+    return this.nodeDiskPartitionsService.findAll(findOptions);
   }
 
   // @Get(':uuid')
