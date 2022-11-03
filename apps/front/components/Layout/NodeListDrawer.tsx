@@ -8,12 +8,10 @@ import {
   ListItemButton,
   ListItemText,
   Toolbar,
-  IconButton,
+  ListSubheader,
+  Divider,
 } from '@mui/material/';
-import { Clear as ClearIcon } from '@mui/icons-material';
-
 import Node from '@/types/node';
-import { useDeleteNode } from '@/api/nodes';
 
 export const NODE_LIST_DRAWER_WIDTH = 168 as const;
 
@@ -23,50 +21,46 @@ const Drawer = styled(MuiDrawer, {
   width: NODE_LIST_DRAWER_WIDTH,
 }));
 
+interface MenuItemProps {
+  name: string;
+  href: string;
+}
+
+const MenuItem: React.FC<MenuItemProps> = ({ name, href }) => {
+  return (
+    <ListItem disablePadding>
+      <Link passHref href={href}>
+        <ListItemButton>
+          <ListItemText primary={name} />
+        </ListItemButton>
+      </Link>
+    </ListItem>
+  );
+};
+
 interface NodeListDrawerProps {
   nodes: Node[];
 }
 
 const NodeListDrawer: React.FC<NodeListDrawerProps> = ({ nodes }) => {
-  const { mutateAsync, isLoading } = useDeleteNode();
-
-  const onDelete = async (id: string) => {
-    try {
-      await mutateAsync(id);
-    } catch (e) {
-      console.log(e);
-      // alert('error');
-    }
-  };
-
   return (
-    <Drawer variant="permanent" anchor="left">
+    <Drawer
+      variant="permanent"
+      anchor="left"
+      PaperProps={{
+        sx: { width: 200 },
+      }}
+    >
       <Toolbar />
-      <List>
-        {nodes?.map(({ uuid, name }, index) => (
-          <Link key={uuid} passHref href={`/nodes/${uuid}`}>
-            <ListItem
-              disablePadding
-              secondaryAction={
-                index > 2 && (
-                  <IconButton
-                    disabled={isLoading}
-                    edge="end"
-                    aria-label="delete"
-                    onClick={() => onDelete(uuid)}
-                  >
-                    <ClearIcon />
-                  </IconButton>
-                )
-              }
-            >
-              <ListItemButton>
-                <ListItemText primary={name} />
-              </ListItemButton>
-            </ListItem>
-          </Link>
+      <List
+        dense
+        subheader={<ListSubheader component="div">Nodes</ListSubheader>}
+      >
+        {nodes?.map(({ uuid, name }) => (
+          <MenuItem key={uuid} href={`/nodes/${uuid}`} name={name} />
         ))}
       </List>
+      <Divider />
     </Drawer>
   );
 };

@@ -64,6 +64,8 @@ const Cpu: React.FC = () => {
     return <div>Loading...</div>;
   }
 
+  console.log(getCPUUsage(cpu));
+
   return (
     <Grid container spacing={2} direction="column">
       <Grid item spacing={2} container direction="row" xs={12}>
