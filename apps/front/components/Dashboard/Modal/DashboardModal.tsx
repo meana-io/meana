@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { ChangeEvent, useState } from 'react';
 import {
   Fab,
   Dialog,
@@ -22,9 +22,15 @@ const DashboardModal: React.FC = () => {
 
   const [filterdComponents, setFilterdComponents] = useState(COMPONENTS);
 
-  const filterComponents = (word: string) => {
+  const filterComponents = (
+    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     setFilterdComponents(
-      COMPONENTS.filter(({ title }) => title.toLowerCase().includes(word))
+      Object.fromEntries(
+        Object.entries(COMPONENTS).filter(([_, { title }]) =>
+          title.toLowerCase().includes(event.target.value ?? '')
+        )
+      )
     );
   };
 

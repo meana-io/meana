@@ -11,4 +11,11 @@ export type Component = {
   component: React.ElementType;
 };
 
-export const COMPONENTS: Component[] = [RAM_CONFIG, CPU_CONFIG];
+export type Components = {
+  [key: string]: Component;
+};
+
+export const COMPONENTS: Components = {
+  [RAM_CONFIG.key]: RAM_CONFIG,
+  [CPU_CONFIG.key]: CPU_CONFIG,
+};

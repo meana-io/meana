@@ -1,3 +1,4 @@
+import { Component } from '@/components/Dashboard/Components';
 import { createContext, useState } from 'react';
 
 interface DashboardContextProps {
@@ -20,7 +21,7 @@ const DashboardProvider: React.FC<DashboardProviderProps> = ({
   initiaLayout,
 }) => {
   const [layout, setLayout] = useState<any>([]);
-  const [components, setComponents] = useState<any>([]);
+  const [components, setComponents] = useState<Component[]>([]);
 
   const onLayoutChange = (newLayout) => {
     setLayout(newLayout);

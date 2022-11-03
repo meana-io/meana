@@ -1,4 +1,5 @@
 import '@/styles/globals.css';
+import { useState } from 'react';
 import { AppProps } from 'next/app';
 import Head from 'next/head';
 
@@ -17,18 +18,20 @@ import lightTheme from '../styles/theme/lightTheme';
 
 const clientSideEmotionCache = createEmotionCache();
 
-const queryClient = new QueryClient({
-  defaultOptions: {
-    queries: {
-      suspense: true,
-      useErrorBoundary: true,
-    },
-  },
-});
-
 const App = ({ Component, pageProps }: AppProps) => {
+  const [queryClient] = useState(
+    () =>
+      new QueryClient({
+        defaultOptions: {
+          queries: {
+            useErrorBoundary: true,
+          },
+        },
+      })
+  );
+
   return (
-    <>
+    <div>
       <Head>
         <title>Meana</title>
       </Head>
@@ -43,7 +46,7 @@ const App = ({ Component, pageProps }: AppProps) => {
         </Hydrate>
         <ReactQueryDevtools initialIsOpen={false} />
       </QueryClientProvider>
-    </>
+    </div>
   );
 };
 

@@ -1,26 +1,25 @@
-import { Suspense } from 'react';
+import { Alert, AlertTitle } from '@mui/material';
 import { ErrorBoundary as ReactErrorBoundary } from 'react-error-boundary';
-import BaseErrorMessage from './ErrorMessage';
-import BaseLoader from './Loader';
 
 interface ErrorBoundaryProps {
   children: React.ReactNode;
   errorMessage?: string;
-  loader?: React.ReactNode;
 }
 
 const ErrorBoundary: React.FC<ErrorBoundaryProps> = ({
   children,
   errorMessage,
-  loader,
 }) => {
   return (
     <ReactErrorBoundary
-      fallback={<BaseErrorMessage>{errorMessage}</BaseErrorMessage>}
+      fallback={
+        <Alert severity="error">
+          <AlertTitle>Error</AlertTitle>
+          {errorMessage ? errorMessage : 'Could not fetch data.'}
+        </Alert>
+      }
     >
-      <Suspense fallback={loader ? loader : <BaseLoader />}>
-        {children}
-      </Suspense>
+      {children}
     </ReactErrorBoundary>
   );
 };

@@ -6,7 +6,7 @@ const ComponentPreview: React.FC<CardProps> = ({
   children,
 }) => {
   return (
-    <Card onClick={onClick} sx={{ cursor: 'pointer' }}>
+    <Card onClick={onClick} sx={{ cursor: 'pointer', height: 250 }}>
       <CardHeader title={title} />
       <CardContent>{children}</CardContent>
     </Card>

@@ -7,8 +7,8 @@ import {
   Button,
   DialogContentText,
 } from '@mui/material';
-
-import { Component } from './DashboardModal';
+import { Box } from '@mui/system';
+import { Component } from '../Components';
 
 interface ListItemProps {
   component: Component;
@@ -17,8 +17,11 @@ interface ListItemProps {
 const ListItem: React.FC<ListItemProps> = ({ component }) => {
   const [open, setOpen] = useState(false);
 
-  const { previewComponent: PreviewComponent, formComponent: FormComponent } =
-    component;
+  const {
+    previewComponent: PreviewComponent,
+    formComponent: FormComponent,
+    title,
+  } = component;
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -32,13 +35,14 @@ const ListItem: React.FC<ListItemProps> = ({ component }) => {
     <>
       <PreviewComponent onClick={handleClickOpen} />
       <Dialog open={open} onClose={handleClose}>
-        <DialogTitle>Subscribe</DialogTitle>
+        <DialogTitle>{title} Component</DialogTitle>
         <DialogContent>
           <DialogContentText>
-            To subscribe to this website, please enter your email address here.
-            We will send updates occasionally.
+            Set the component to be displayed on the dashboard.
           </DialogContentText>
-          <FormComponent />
+          <Box mt={2}>
+            <FormComponent />
+          </Box>
         </DialogContent>
         <DialogActions>
           <Button color="error" onClick={handleClose}>

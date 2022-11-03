@@ -31,7 +31,7 @@ const SearchInput: React.FC<TextFieldProps> = ({ onChange }) => {
       </SearchIconWrapper>
       <StyledInputBase
         autoFocus
-        onChange={(e) => onChange(e.target.value)}
+        onChange={(event) => onChange(event)}
         placeholder="Search…"
         inputProps={{ 'aria-label': 'search' }}
       />

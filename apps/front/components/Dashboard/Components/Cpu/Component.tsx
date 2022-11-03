@@ -1,4 +1,4 @@
-import { useGetNodeCpu } from '@/hooks/queries/useNodeCpu';
+import { useGetNodeCpu } from '@/api/cpu';
 import { Typography } from '@mui/material';
 import BaseCardComponent from '../Base';
 
@@ -7,7 +7,13 @@ interface CpuComponentProps {
 }
 
 const CpuComponent: React.FC<CpuComponentProps> = ({ query }) => {
-  const { data: cpu } = useGetNodeCpu(query);
+  const { data: cpu } = useGetNodeCpu(query, {
+    limit: 1,
+  });
+
+  if (!cpu) {
+    return <BaseCardComponent title="CPU">Loading</BaseCardComponent>;
+  }
 
   return (
     <BaseCardComponent title="CPU">

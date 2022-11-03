@@ -28,19 +28,19 @@ const Index: NextPage = () => {
       <MainLayout>
         <ServerDetailsDrawer tabs={TABS} />
         <TabPanel index={0}>
-          <ErrorBoundary>
-            <Disks />
-          </ErrorBoundary>
+          {/* <ErrorBoundary> */}
+          <Disks />
+          {/* </ErrorBoundary> */}
         </TabPanel>
         <TabPanel index={1}>
-          <ErrorBoundary>
-            <Ram />
-          </ErrorBoundary>
+          {/* <ErrorBoundary> */}
+          <Ram />
+          {/* </ErrorBoundary> */}
         </TabPanel>
         <TabPanel index={2}>
-          <ErrorBoundary>
-            <Cpu />
-          </ErrorBoundary>
+          {/* <ErrorBoundary> */}
+          <Cpu />
+          {/* </ErrorBoundary> */}
         </TabPanel>
       </MainLayout>
     </TabsProvider>

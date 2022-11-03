@@ -1,18 +1,22 @@
-import { TextField } from '@mui/material';
+import { useGetNodesList } from '@/api/nodes';
+import { FormControl, InputLabel, MenuItem, Select } from '@mui/material';
 
 interface CpuFormProps {}
 
 const CpuForm: React.FC<CpuFormProps> = ({}) => {
+  const { data: nodes } = useGetNodesList();
+
   return (
-    <TextField
-      autoFocus
-      margin="dense"
-      id="query"
-      label="Select"
-      type="text"
-      fullWidth
-      variant="standard"
-    />
+    <FormControl fullWidth>
+      <InputLabel id="select-node">Select Node</InputLabel>
+      <Select labelId="select-node" id="node-select" label="Node">
+        {nodes.map(({ name, uuid }) => (
+          <MenuItem key={uuid} value={uuid}>
+            {name}
+          </MenuItem>
+        ))}
+      </Select>
+    </FormControl>
   );
 };
 

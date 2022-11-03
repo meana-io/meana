@@ -4,7 +4,7 @@ import { Grid } from '@mui/material';
 import NodeCpu from '@/types/cpu';
 import CpuDetails from './CpuDetails';
 import ChartCard from './ChartCard';
-import { useGetNodeCpu } from '@/hooks/queries/useNodeCpu';
+import { useGetNodeCpu } from '@/api/cpu';
 
 const CPU_USAGE_CHART_CONFIG = {
   chart: {
@@ -57,8 +57,12 @@ const getCPUUsage = (cpu: NodeCpu[]) => {
 
 const Cpu: React.FC = () => {
   const router = useRouter();
-  const { id: nodeId } = router.query;
-  const { data: cpu } = useGetNodeCpu(nodeId as string);
+  const nodeId = router.query.id as string;
+  const { data: cpu, isLoading } = useGetNodeCpu(nodeId);
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <Grid container spacing={2} direction="column">

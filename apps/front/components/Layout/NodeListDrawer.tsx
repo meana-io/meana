@@ -13,7 +13,7 @@ import {
 import { Clear as ClearIcon } from '@mui/icons-material';
 
 import Node from '@/types/node';
-import { useDeleteNode } from '@/hooks/queries/useNode';
+import { useDeleteNode } from '@/api/nodes';
 
 export const NODE_LIST_DRAWER_WIDTH = 168 as const;
 
@@ -28,17 +28,24 @@ interface NodeListDrawerProps {
 }
 
 const NodeListDrawer: React.FC<NodeListDrawerProps> = ({ nodes }) => {
-  const { mutate, isLoading } = useDeleteNode();
+  const { mutateAsync, isLoading } = useDeleteNode((oldData, deleteId) =>
+    oldData.filter(({ uuid }) => uuid !== deleteId)
+  );
 
-  const handleClick = (nodeId: string) => {
-    return () => mutate(nodeId);
+  const onDelete = async (id: string) => {
+    try {
+      await mutateAsync(id);
+    } catch (e) {
+      console.log(e);
+      // alert('error');
+    }
   };
 
   return (
     <Drawer variant="permanent" anchor="left">
       <Toolbar />
       <List>
-        {nodes.map(({ uuid, name }, index) => (
+        {nodes?.map(({ uuid, name }, index) => (
           <Link key={uuid} passHref href={`/nodes/${uuid}`}>
             <ListItem
               disablePadding
@@ -48,7 +55,7 @@ const NodeListDrawer: React.FC<NodeListDrawerProps> = ({ nodes }) => {
                     disabled={isLoading}
                     edge="end"
                     aria-label="delete"
-                    onClick={handleClick(uuid)}
+                    onClick={() => onDelete(uuid)}
                   >
                     <ClearIcon />
                   </IconButton>

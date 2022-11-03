@@ -3,15 +3,14 @@ import { Toolbar } from '@mui/material';
 import TopNavbar from '@/components/Layout/TopNavbar';
 import NodeListDrawer from '@/components/Layout/NodeListDrawer';
 import LayoutContent from '@/components/Layout/LayoutContent';
-
-import { useGetNodes } from '@/hooks/queries/useNode';
+import { useGetNodesList } from '@/api/nodes';
 
 interface MainLayoutProps {
   children: React.ReactNode;
 }
 
 const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
-  const { data: nodes } = useGetNodes();
+  const { data: nodes } = useGetNodesList();
 
   return (
     <>
