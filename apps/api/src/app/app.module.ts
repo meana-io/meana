@@ -18,6 +18,7 @@ import { SettingsEntity } from '../../../../libs/shared/Entities/settings.entity
 import { SettingsModule } from './domains/settings/settings.module';
 import { UsersModule } from './domains/users/users.module';
 import { UserEntity } from '../../../../libs/shared/Entities/user.entity';
+import { ActiveDevicesEntity } from '../../../../libs/shared/Entities/active-devices.entity';
 
 @Module({
   imports: [
@@ -43,6 +44,7 @@ import { UserEntity } from '../../../../libs/shared/Entities/user.entity';
         NodeCpuEntity,
         SettingsEntity,
         UserEntity,
+        ActiveDevicesEntity,
       ],
     }),
   ],

@@ -4,9 +4,10 @@ import { NodeDisksController } from './node-disks.controller';
 import { SequelizeModule } from '@nestjs/sequelize';
 import { NodeDiskEntity } from '../../../../../../libs/shared/Entities/node-disk.entity';
 import { ApiService } from '../../common/services/api.service';
+import { ActiveDevicesEntity } from '../../../../../../libs/shared/Entities/active-devices.entity';
 
 @Module({
-  imports: [SequelizeModule.forFeature([NodeDiskEntity])],
+  imports: [SequelizeModule.forFeature([NodeDiskEntity, ActiveDevicesEntity])],
   controllers: [NodeDisksController],
   providers: [NodeDisksService, ApiService],
 })

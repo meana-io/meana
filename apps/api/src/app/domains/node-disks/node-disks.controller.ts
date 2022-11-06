@@ -10,6 +10,11 @@ export class NodeDisksController {
     private readonly apiService: ApiService
   ) {}
 
+  @Get('get-latest-disks')
+  getLatestDisks(@Query('nodeUuid') nodeUuid: string) {
+    return this.nodeDisksService.getLatestDisks(nodeUuid);
+  }
+
   @Post()
   async create(@Body() createNodeDiskDto: CreateNodeDiskDto) {
     return await this.nodeDisksService.create(createNodeDiskDto);
