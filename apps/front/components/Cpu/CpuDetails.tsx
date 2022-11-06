@@ -1,30 +1,29 @@
-import { Card, CardContent, CardHeader, Typography } from '@mui/material';
+import { Grid } from '@mui/material';
 
 import Cpu from '@/types/cpu';
+import { toTitleCase } from '@/utility/toTitleCase';
+import CustomCard from '../CustomCard/CustomCard';
 
 interface CpuDetailsProps {
   cpu: Cpu;
 }
 
 const CpuDetails: React.FC<CpuDetailsProps> = ({ cpu }) => {
+  const keysToDisplay: (keyof Cpu)[] = [
+    'frequency',
+    'coresQuantity',
+    'manufacture',
+    'model',
+  ];
+
   return (
-    <Card>
-      <CardHeader title="CPU" />
-      <CardContent>
-        <Typography component="div" variant="h6">
-          Frequency: {cpu?.frequency}
-        </Typography>
-        <Typography component="div" variant="h6">
-          CoresQuantity: {cpu?.coresQuantity}
-        </Typography>
-        <Typography component="div" variant="h6">
-          Manufacture: {cpu?.manufacture}
-        </Typography>
-        <Typography component="div" variant="h6">
-          Model: {cpu?.model}
-        </Typography>
-      </CardContent>
-    </Card>
+    <Grid container spacing={2}>
+      {keysToDisplay.map((key) => (
+        <Grid xs={12} md={12} lg={3} item key={key}>
+          <CustomCard title={toTitleCase(key)} value={cpu[key] || 'N/A'} />
+        </Grid>
+      ))}
+    </Grid>
   );
 };
 

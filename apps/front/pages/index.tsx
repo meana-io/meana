@@ -2,10 +2,6 @@ import { NextPage } from 'next';
 import { Responsive, WidthProvider } from 'react-grid-layout';
 
 import MainLayout from '@/layouts/Main';
-import DashboardModal from '@/components/Dashboard/Modal/DashboardModal';
-
-import { COMPONENT_HEIGHT } from '@/components/Dashboard/Components';
-import GetComponent from '@/components/GetComponent';
 import { useEffect, useState } from 'react';
 
 const ResponsiveReactGridLayout = WidthProvider(Responsive);
@@ -103,7 +99,7 @@ const Index: NextPage = () => {
 
   return (
     <MainLayout>
-      <ResponsiveReactGridLayout
+      {/* <ResponsiveReactGridLayout
         className="layout"
         layouts={{
           lg: layout,
@@ -115,20 +111,11 @@ const Index: NextPage = () => {
           xs: 1,
           xxs: 1,
         }}
-        rowHeight={COMPONENT_HEIGHT}
+        rowHeight={123}
         useCSSTransforms={true}
         measureBeforeMount={false}
         onLayoutChange={onLayoutChange}
-      >
-        {Object.entries(COMPONENTS_CONFIG).map(
-          ([position, { i, key, query }]) => (
-            <div key={position}>
-              <GetComponent componentName={key} query={query} />
-            </div>
-          )
-        )}
-      </ResponsiveReactGridLayout>
-      <DashboardModal />
+      ></ResponsiveReactGridLayout> */}
     </MainLayout>
   );
 };

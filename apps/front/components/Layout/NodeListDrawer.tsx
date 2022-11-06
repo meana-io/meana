@@ -13,7 +13,7 @@ import {
 } from '@mui/material/';
 import Node from '@/types/node';
 
-export const NODE_LIST_DRAWER_WIDTH = 168 as const;
+export const NODE_LIST_DRAWER_WIDTH = 200 as const;
 
 const Drawer = styled(MuiDrawer, {
   shouldForwardProp: (prop) => prop !== 'open',
@@ -48,7 +48,7 @@ const NodeListDrawer: React.FC<NodeListDrawerProps> = ({ nodes }) => {
       variant="permanent"
       anchor="left"
       PaperProps={{
-        sx: { width: 200 },
+        sx: { width: NODE_LIST_DRAWER_WIDTH },
       }}
     >
       <Toolbar />

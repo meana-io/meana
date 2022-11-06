@@ -1,30 +1,31 @@
-import { Card, CardContent, CardHeader, Typography } from '@mui/material';
+import { Grid } from '@mui/material';
 
 import { toTitleCase } from '@/utility/toTitleCase';
 import Disk from '@/types/disk';
 
-import { formatBytes } from '@/utility/formatBytes';
+import CustomCard from '../CustomCard/CustomCard';
 
 interface DiskDetailsProps {
   disk: Disk;
 }
 const DiskDetails: React.FC<DiskDetailsProps> = ({ disk }) => {
-  const keysToDisplay: (keyof Disk)[] = ['manufacture', 'model'];
+  const keysToDisplay: (keyof Disk)[] = [
+    'name',
+    'capacity',
+    'model',
+    'manufacture',
+    'serialNumber',
+    'firmwareVersion',
+  ];
 
   return (
-    <Card sx={{ height: '100%' }}>
-      <CardHeader title={`Disk - ${disk?.name || ''}`} />
-      <CardContent>
-        {keysToDisplay.map((key, index) => (
-          <Typography key={index} component="div" variant="h6">
-            {toTitleCase(key)}: {disk?.[key] ?? 'N/A'}
-          </Typography>
-        ))}
-        <Typography component="div" variant="h6">
-          Capacity: {formatBytes(parseInt(disk?.capacity || '0', 10)) ?? 'N/A'}
-        </Typography>
-      </CardContent>
-    </Card>
+    <Grid container spacing={2}>
+      {keysToDisplay.map((key) => (
+        <Grid xs={12} md={12} lg={4} item key={key}>
+          <CustomCard title={toTitleCase(key)} value={disk[key] || 'N/A'} />
+        </Grid>
+      ))}
+    </Grid>
   );
 };
 

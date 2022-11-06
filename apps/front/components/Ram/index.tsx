@@ -6,6 +6,7 @@ import ChartCard from './ChartCard';
 import NodeRam from '@/types/ram';
 import RamDetails from './RamDetails';
 import { useGetNodeRam } from '@/api/ram';
+import AreaChartCard from '../ChartCards/AreaChartCard';
 
 const RAM_USAGE_CHART_CONFIG = {
   chart: {
@@ -46,7 +47,7 @@ const toPercentage = (used: string, total: string) => {
   return Math.floor((parseInt(used, 10) / parseInt(total, 10)) * 100);
 };
 
-const ramToChart = (ram: NodeRam[]) => {
+const getRAMUsage = (ram: NodeRam[]) => {
   return [
     {
       name: 'Usage',
@@ -72,11 +73,7 @@ const Ram: React.FC = () => {
         <RamDetails ram={ram.at(-1)} />
       </Grid>
       <Grid item xs={12} md={6}>
-        <ChartCard
-          title="Ram usage"
-          options={RAM_USAGE_CHART_CONFIG}
-          data={ramToChart(ram)}
-        />
+        <AreaChartCard title="RAM usage" series={getRAMUsage(ram)} detailed />
       </Grid>
     </Grid>
   );
