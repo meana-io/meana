@@ -3,13 +3,13 @@ import AddToFavorites from '../AddToFavorites/AddToFavorites';
 
 interface CustomCardProps {
   title: string;
-  value: string | number;
+  value: string;
 }
 
 const CustomCard: React.FC<CustomCardProps> = ({ title, value }) => {
   return (
     <Paper variant="elevation">
-      <Box display="flex" flexDirection="column" minHeight="100%">
+      <Box display="flex" flexDirection="column">
         <Box p={3} display="flex" flexDirection="column">
           <Box
             display="flex"

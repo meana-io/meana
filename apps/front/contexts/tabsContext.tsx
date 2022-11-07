@@ -21,7 +21,7 @@ interface TabsProviderProps {
 
 const TabsProvider: React.FC<TabsProviderProps> = ({
   children,
-  initialTab = 1,
+  initialTab = 0,
 }) => {
   const [activeTab, setActiveTab] = useState<number>(initialTab);
 

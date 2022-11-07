@@ -15,13 +15,12 @@ const DiskDetails: React.FC<DiskDetailsProps> = ({ disk }) => {
     'model',
     'manufacture',
     'serialNumber',
-    'firmwareVersion',
   ];
 
   return (
-    <Grid container spacing={2}>
+    <Grid container spacing={2} item xs={12} lg={6}>
       {keysToDisplay.map((key) => (
-        <Grid xs={12} md={12} lg={4} item key={key}>
+        <Grid xs={12} lg={6} xl={4} item key={key}>
           <CustomCard title={toTitleCase(key)} value={disk[key] || 'N/A'} />
         </Grid>
       ))}

@@ -3,36 +3,13 @@ import { useRouter } from 'next/router';
 
 import { Grid } from '@mui/material';
 
-import Disk from '@/types/disk';
-import Partition from '@/types/partition';
 import Header from './Header';
 import DiskDetails from './DiskDetails';
 import PartitionDetails from './PartitionDetails';
-import ChartCard from './ChartCard';
-import { useGetNodeDisksList } from '@/api/disks';
-import { useGetNodeDiskPartitionsList } from '@/api/diskPartitions';
 import DonutCartCard from '../ChartCards/DonutCartCard';
-
-const partitions = [
-  {
-    time: '2022-10-21T21:00:05.215Z',
-    diskIdentifier: 'test-node/null',
-    path: '/dev/sda1',
-    usedSpace: '239675',
-    capacity: '321324',
-    fileSystem: 'Ext4',
-    name: 'new disk',
-  },
-  {
-    time: '2022-10-21T21:00:05.215Z',
-    diskIdentifier: 'test-node/null',
-    path: '/dev/sda2',
-    usedSpace: '234678',
-    capacity: '328314',
-    fileSystem: 'Ext4',
-    name: 'new disk 2',
-  },
-];
+import { useGetNodeDisksAndPartitions } from '@/api/disks';
+import Partition from '@/types/partition';
+import Disk from '@/types/disk';
 
 const getPartitionFreeAndUsedSpace = (partition: Partition) => {
   const usedSpace = parseInt(partition.usedSpace, 10);
@@ -40,59 +17,54 @@ const getPartitionFreeAndUsedSpace = (partition: Partition) => {
   return [capacity - usedSpace, usedSpace];
 };
 
-const getDiskPartitionsPaths = (partitions: Partition[]) => {
-  return partitions.map(({ path }) => path);
+const calculatePartitionUasage = (partition: Partition) => {
+  const [free, used] = getPartitionFreeAndUsedSpace(partition);
+
+  return (used / (free + used) * 100).toFixed(2);;
 };
 
-const getDiskPartitionsCapacity = (partitions: Partition[]) => {
-  return partitions.map(({ capacity }) => parseInt(capacity, 10));
+const getDiskPartitionsPaths = (disk: Disk) => {
+  return disk?.partitions.map(({ path }) => path);
 };
 
-const calculateDiskUasage = (partitions: Partition[]) => {
-  const totalUsedSpace = partitions.reduce(
+const getDiskPartitionsCapacity = (disk: Disk) => {
+  return disk.partitions?.map(({ capacity }) => parseInt(capacity, 10));
+};
+
+const calculateDiskUasage = (disk: Disk) => {
+  const totalUsedSpace = disk.partitions?.reduce(
     (total, { usedSpace }) => total + parseInt(usedSpace, 10),
     0
   );
-  const totalSpace = partitions.reduce(
-    (total, { capacity }) => total + parseInt(capacity, 10),
-    0
-  );
+  const totalSpace = parseInt(disk.capacity, 10);
 
   return ((totalUsedSpace / totalSpace) * 100).toFixed(2);
 };
 
 const Disks: React.FC = () => {
-  const [disk, setDisk] = useState<Disk | undefined>(undefined);
-  const [partition, setPartition] = useState<Partition | undefined>(undefined);
-
   const router = useRouter();
   const nodeId = router.query.id as string;
-  const { data: disks, isLoading: isLoadingDisks } =
-    useGetNodeDisksList(nodeId);
+  const { data: disksAndPartitions, isLoading } =
+    useGetNodeDisksAndPartitions(nodeId);
 
-  // const { data: partitions } = useGetNodeDiskPartitionsList(
-  //   `${nodeId}/${'example'}`
-  // );
+  const [selectedDisk, setSelectedDisk] = useState<Disk | undefined>(undefined);
+  const [selectedPartition, setSelectedPartition] = useState<
+    Partition | undefined
+  >(undefined);
 
-  const handleDiskChange = (diskName: string) => {
-    const selectedDisk = disks.find((d) => d.name === diskName);
-    setDisk(selectedDisk);
+  const handleDiskChange = (diskIndex: number) => {
+    setSelectedDisk(disksAndPartitions[diskIndex]);
   };
 
-  const handlePartitionChange = (path: string) => {
-    const selectedPartition = partitions.find((d) => d.path === path);
-    setPartition(selectedPartition);
-  };
-
-  const getPartitonsByDiskId = (diskName: string) => {
-    return partitions?.filter((p) => p.diskIdentifier.includes(diskName));
+  const handlePartitionChange = (partitionIndex: number) => {
+    setSelectedPartition(selectedDisk.partitions[partitionIndex]);
   };
 
   useEffect(() => {
-    setPartition(undefined);
-  }, [disk]);
+    setSelectedPartition(undefined);
+  }, [selectedDisk]);
 
-  if (isLoadingDisks) {
+  if (isLoading) {
     return <div>Loading disks..</div>;
   }
 
@@ -100,37 +72,39 @@ const Disks: React.FC = () => {
     <Grid container spacing={2} direction="column">
       <Grid item>
         <Header
-          disks={disks}
+          disksAndPartitions={disksAndPartitions}
+          selectedDisk={selectedDisk}
           handleDiskChange={handleDiskChange}
-          partitions={getPartitonsByDiskId(disk?.name)}
           handlePartitionChange={handlePartitionChange}
         />
       </Grid>
       <Grid item spacing={2} container direction="row" xs={12}>
-        <Grid item xs={12} md={6}>
-          <DiskDetails disk={disks[0]} />
-        </Grid>
-        <Grid item xs={12} md={6}>
-          <PartitionDetails partition={partitions[0]} />
-        </Grid>
+        {selectedDisk && <DiskDetails disk={selectedDisk} />}
+        {selectedPartition && (
+          <PartitionDetails partition={selectedPartition} />
+        )}
       </Grid>
-
       <Grid item spacing={2} container direction="row" xs={12}>
         <Grid item xs={12} md={6}>
-          <DonutCartCard
-            title="Disk space"
-            value={`Usage: ${calculateDiskUasage(partitions)}%`}
-            labels={getDiskPartitionsPaths(partitions)}
-            series={getDiskPartitionsCapacity(partitions)}
-          />
+          {selectedDisk && (
+            <DonutCartCard
+              title="Disk space"
+              value={`Usage: ${calculateDiskUasage(selectedDisk)}%`}
+              labels={getDiskPartitionsPaths(selectedDisk)}
+              series={getDiskPartitionsCapacity(selectedDisk)}
+            />
+          )}
         </Grid>
+
         <Grid item xs={12} md={6}>
-          <DonutCartCard
-            title="Partition space"
-            value={`Usage: ${calculateDiskUasage([partitions[0]])}%`}
-            labels={['Used', 'Free']}
-            series={getPartitionFreeAndUsedSpace(partitions[0])}
-          />
+          {selectedPartition && (
+            <DonutCartCard
+              title="Partition space"
+              value={`Usage: ${calculatePartitionUasage(selectedPartition)}%`}
+              labels={['Used', 'Free']}
+              series={getPartitionFreeAndUsedSpace(selectedPartition)}
+            />
+          )}
         </Grid>
       </Grid>
     </Grid>
@@ -138,5 +112,3 @@ const Disks: React.FC = () => {
 };
 
 export default Disks;
-
-

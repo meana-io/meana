@@ -1,3 +1,4 @@
+import { DiskPartitions } from '@/types/disk';
 import {
   Box,
   Card,
@@ -10,25 +11,20 @@ import {
   SelectChangeEvent,
 } from '@mui/material';
 
-import Disk from '@/types/disk';
-import Partition from '@/types/partition';
-import { useRouter } from 'next/router';
-
 interface HeaderProps {
-  disks: Disk[];
-  partitions: Partition[];
-  handlePartitionChange: (partitionId: string) => void;
-  handleDiskChange: (diskName: string) => void;
+  disksAndPartitions: DiskPartitions[];
+  selectedDisk: DiskPartitions;
+  handlePartitionChange: (partitionIndex: number) => void;
+  handleDiskChange: (diskIndex: number) => void;
 }
 
 const Header: React.FC<HeaderProps> = ({
+  disksAndPartitions,
+  selectedDisk,
   handlePartitionChange,
   handleDiskChange,
-  disks,
-  partitions,
 }) => {
-  const router = useRouter();
-  const nodeId = router.query.id as string;
+  console.log({ selectedDisk });
   return (
     <Card>
       <CardHeader title="Disks" />
@@ -42,17 +38,15 @@ const Header: React.FC<HeaderProps> = ({
               label="Disk"
               defaultValue=""
               onChange={(event: SelectChangeEvent) =>
-                handleDiskChange(event.target.value)
+                handleDiskChange(+event.target.value as number)
               }
             >
-              {disks?.map(({ name }, i) => (
-                <MenuItem
-                  key={`${name}-${i}-${nodeId}`}
-                  value={`${name}-${i}-${nodeId}`}
-                >
-                  {name}-{i}-{nodeId}
-                </MenuItem>
-              ))}
+              {disksAndPartitions &&
+                disksAndPartitions?.map(({ name }, i) => (
+                  <MenuItem key={name} value={i}>
+                    {name}
+                  </MenuItem>
+                ))}
             </Select>
           </FormControl>
           <FormControl fullWidth>
@@ -63,11 +57,11 @@ const Header: React.FC<HeaderProps> = ({
               label="Partition"
               defaultValue=""
               onChange={(event: SelectChangeEvent) => {
-                handlePartitionChange(event.target.value);
+                handlePartitionChange(+event.target.value as number);
               }}
             >
-              {partitions?.map(({ path }, index) => (
-                <MenuItem key={index} value={path}>
+              {selectedDisk?.partitions?.map(({ path }, i) => (
+                <MenuItem key={path} value={i}>
                   {path}
                 </MenuItem>
               ))}
