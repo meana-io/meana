@@ -1,4 +1,4 @@
-import { DiskPartitions } from '@/types/disk';
+import DiskPartitions from '@/types/disk';
 import {
   Box,
   Card,

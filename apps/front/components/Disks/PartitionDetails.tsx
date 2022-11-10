@@ -3,18 +3,14 @@ import { Grid } from '@mui/material';
 import Partition from '@/types/partition';
 
 import { toTitleCase } from '@/utility/toTitleCase';
-import { formatBytes } from '@/utility/formatBytes';
+import { toFormatBytesInNumber } from '@/utility/formatBytes';
 import CustomCard from '../CustomCard/CustomCard';
+import { COMPONENT_NAME } from '../Dashboard/Partition/PartitionCustomCard';
+import { hashParams } from '@/utility/hashParams';
 
 interface PartitionDetailsProps {
   partition: Partition;
 }
-
-const toFormatBytesInNumber = (value: string) => {
-  const parsed = parseInt(value, 10);
-  return Number.isInteger(parsed) ? formatBytes(parsed) : value;
-};
-
 const PartitionDetails: React.FC<PartitionDetailsProps> = ({ partition }) => {
   const keysToDisplay: (keyof Partition)[] = [
     'path',
@@ -28,6 +24,12 @@ const PartitionDetails: React.FC<PartitionDetailsProps> = ({ partition }) => {
       {keysToDisplay.map((key) => (
         <Grid xs={12} lg={6} xl={4} item key={key}>
           <CustomCard
+            hash={hashParams(
+              COMPONENT_NAME,
+              partition.usedSpace,
+              toTitleCase(key),
+              key
+            )}
             title={toTitleCase(key)}
             value={toFormatBytesInNumber(partition[key]) || 'N/A'}
           />

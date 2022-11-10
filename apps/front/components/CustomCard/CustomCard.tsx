@@ -4,9 +4,10 @@ import ToogleToDashboard from '../ToogleToDashboard/ToogleToDashboard';
 interface CustomCardProps {
   title: string;
   value: string;
+  hash: string;
 }
 
-const CustomCard: React.FC<CustomCardProps> = ({ title, value }) => {
+const CustomCard: React.FC<CustomCardProps> = ({ title, value, hash }) => {
   return (
     <Paper variant="outlined">
       <Box display="flex" flexDirection="column">
@@ -21,7 +22,7 @@ const CustomCard: React.FC<CustomCardProps> = ({ title, value }) => {
                 {value}
               </Typography>
             </Box>
-            <ToogleToDashboard component="12" query="queyr" />
+            <ToogleToDashboard hash={hash} />
           </Box>
           <Typography variant="subtitle1">{title}</Typography>
         </Box>

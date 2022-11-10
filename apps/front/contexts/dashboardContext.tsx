@@ -1,14 +1,10 @@
 import { createContext, useState } from 'react';
 
-interface DashboardComponent {
-  component: string;
-  query: string;
-}
 
 interface DashboardContextProps {
-  components: DashboardComponent[];
-  addToDashboard: (component: string, query: string) => void;
-  removeFormDashboard: (component: string, query: string) => void;
+  components: string[];
+  addToDashboard: (hash: string) => void;
+  removeFormDashboard: (hash: string) => void;
 }
 
 export const DashboardContext = createContext<
@@ -20,16 +16,27 @@ interface DashboardProviderProps {
 }
 
 const DashboardProvider: React.FC<DashboardProviderProps> = ({ children }) => {
-  const [components, setComponents] = useState<DashboardComponent[]>([]);
+  const [components, setComponents] = useState<string[]>([
+    'disk_custom_card**dceb57db-49b3-46c3-b091-742583f76c85**dm-0**Capacity**capacity',
+    'disk_custom_card**dceb57db-49b3-46c3-b091-742583f76c85**dm-0**Manufacture**manufacture',
+    'disk_custom_card**dceb57db-49b3-46c3-b091-742583f76c85**dm-0**Model**model',
+    'disk_custom_card**dceb57db-49b3-46c3-b091-742583f76c85**dm-0**Serial Number**serialNumber',
+    'disk_custom_card**dceb57db-49b3-46c3-b091-742583f76c85**dm-0**Name**name',
+    'partition_custom_card**6838026240**Path**path',
+    'partition_custom_card**6838026240**Used Space**usedSpace',
+    'partition_custom_card**6838026240**Capacity**capacity',
+    'partition_custom_card**6838026240**File System**fileSystem',
+    'cpu_custom_card**dceb57db-49b3-46c3-b091-742583f76c85**Model**model',
+    'cpu_custom_card**dceb57db-49b3-46c3-b091-742583f76c85**Manufacture**manufacture',
+    'cpu_custom_card**dceb57db-49b3-46c3-b091-742583f76c85**Cores Quantity**coresQuantity',
+  ]);
 
-  const addToDashboard = (component, query) => {
-    setComponents(components.concat([component, query]));
-
-    console.log({ components, component });
+  const addToDashboard = (hash) => {
+    setComponents([...components, hash]);
   };
 
-  const removeFormDashboard = (component, query) => {
-    setComponents(component);
+  const removeFormDashboard = (hashToRemove) => {
+    setComponents(components.filter((hash) => hash != hashToRemove));
   };
 
   const value = { components, addToDashboard, removeFormDashboard };

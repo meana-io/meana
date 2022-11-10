@@ -1,5 +1,5 @@
 import React from 'react';
-import { AppBar, styled, Toolbar, Typography } from '@mui/material';
+import { AppBar, Box, styled, Toolbar, Typography } from '@mui/material';
 import Link from 'next/link';
 import { pageRoutes } from 'routes';
 
@@ -22,7 +22,9 @@ const AppTopBar: React.FC<AppTopBarProps> = ({ children }) => {
         <Link href={pageRoutes.dashboard}>
           <Typography variant="h6">Meana</Typography>
         </Link>
-        {children}
+        <Box display="flex" sx={{ width: '100%' }} justifyContent="flex-end">
+          {children}
+        </Box>
       </Toolbar>
     </StyledAppBar>
   );

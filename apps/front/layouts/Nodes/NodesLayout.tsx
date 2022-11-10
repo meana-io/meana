@@ -7,7 +7,6 @@ import Link from 'next/link';
 import { useGetNodesList } from '@/api/nodes';
 import { pageRoutes } from 'routes';
 import TabsProvider from '@/contexts/tabsContext';
-import DashboardProvider from '@/contexts/dashboardContext';
 
 export const StyledRoot = styled('div')({
   display: 'flex',
@@ -40,12 +39,10 @@ const NodesLayout: React.FC<NodesProps> = ({ children }) => {
       </AppTopBar>
       <Nav items={navItems} />
       <TabsProvider>
-        <DashboardProvider>
-          <Main maxWidth="xl">
-            <Toolbar />
-            {children}
-          </Main>
-        </DashboardProvider>
+        <Main maxWidth="xl">
+          <Toolbar />
+          {children}
+        </Main>
       </TabsProvider>
     </StyledRoot>
   );

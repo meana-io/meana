@@ -6,23 +6,24 @@ import {
 import useDashboard from '@/hooks/useDashboard';
 
 interface ToogleToDashboardProps {
-  component: string;
-  query: string;
+  hash: string;
 }
 
-const ToogleToDashboard: React.FC<ToogleToDashboardProps> = ({
-  component,
-  query,
-}) => {
-  const { addToDashboard } = useDashboard();
+const ToogleToDashboard: React.FC<ToogleToDashboardProps> = ({ hash }) => {
+  const { addToDashboard, removeFormDashboard, components } = useDashboard();
+  const isAddedToDashboard = components.includes(hash);
 
   return (
-    <Tooltip title={'Add to dashboard'}>
+    <Tooltip
+      title={isAddedToDashboard ? 'Remove form Dashboard' : 'Add to Dashboard'}
+    >
       <IconButton
         color="secondary"
-        onClick={() => addToDashboard(component, query)}
+        onClick={() =>
+          isAddedToDashboard ? removeFormDashboard(hash) : addToDashboard(hash)
+        }
       >
-        <StarIcon />
+        {isAddedToDashboard ? <StarIcon /> : <StarOutlineIcon />}
       </IconButton>
     </Tooltip>
   );

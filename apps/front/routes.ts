@@ -10,6 +10,7 @@ export const apiRoutes = {
 
 export const pageRoutes = {
   dashboard: '/',
-  main: '/',
+  users: '/users/list',
+  createUser: '/users/create',
   nodes: '/nodes',
 };

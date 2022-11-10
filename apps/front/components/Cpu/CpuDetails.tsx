@@ -3,12 +3,18 @@ import { Grid } from '@mui/material';
 import Cpu from '@/types/cpu';
 import { toTitleCase } from '@/utility/toTitleCase';
 import CustomCard from '../CustomCard/CustomCard';
+import { useRouter } from 'next/router';
+
+import { COMPONENT_NAME } from '@/components/Dashboard/Cpu/CpuCustomCard';
+import { hashParams } from '@/utility/hashParams';
 
 interface CpuDetailsProps {
   cpu: Cpu;
 }
 
 const CpuDetails: React.FC<CpuDetailsProps> = ({ cpu }) => {
+  const router = useRouter();
+  const nodeId = router.query.id as string;
   const keysToDisplay: (keyof Cpu)[] = [
     'frequency',
     'coresQuantity',
@@ -20,7 +26,11 @@ const CpuDetails: React.FC<CpuDetailsProps> = ({ cpu }) => {
     <Grid container spacing={2}>
       {keysToDisplay.map((key) => (
         <Grid xs={12} md={12} lg={3} item key={key}>
-          <CustomCard title={toTitleCase(key)} value={cpu[key] || 'N/A'} />
+          <CustomCard
+            hash={hashParams(COMPONENT_NAME, nodeId, toTitleCase(key), key)}
+            title={toTitleCase(key)}
+            value={cpu[key] || 'N/A'}
+          />
         </Grid>
       ))}
     </Grid>

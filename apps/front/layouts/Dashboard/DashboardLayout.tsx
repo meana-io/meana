@@ -37,12 +37,7 @@ const DashboardLayout: React.FC<DashboardProps> = ({ children }) => {
         </Link>
       </AppTopBar>
       <Nav items={navItems} />
-      <Main
-        maxWidth="xl"
-        sx={{
-          background: 'red',
-        }}
-      >
+      <Main maxWidth="xl">
         <Toolbar />
         {children}
       </Main>
