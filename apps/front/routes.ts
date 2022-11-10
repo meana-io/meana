@@ -5,7 +5,7 @@ export const apiRoutes = {
   nodeDisks: '/node-disks',
   getLatestDisks: 'node-disks/get-latest-disks',
   nodeDiskPartitions: '/node-disk-partitions',
-  dashboard: '/dashboard',
+  dashboard: '/settings/dashboard',
 };
 
 export const pageRoutes = {

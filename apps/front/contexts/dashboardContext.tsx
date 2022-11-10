@@ -1,10 +1,21 @@
-import { createContext, useState } from 'react';
+import { useGetDashboard, useUpdateDashboard } from '@/api/dashboard';
+import { createContext, useEffect, useState } from 'react';
 
+interface Layout {
+  x: number;
+  y: number;
+  w: number;
+  h: number;
+  i: string;
+}
 
 interface DashboardContextProps {
-  components: string[];
+  isActive: (hash: string) => boolean;
+  components: Layout[];
+  isLoading: boolean;
   addToDashboard: (hash: string) => void;
   removeFormDashboard: (hash: string) => void;
+  onLayoutChange: (Layout) => void;
 }
 
 export const DashboardContext = createContext<
@@ -15,31 +26,75 @@ interface DashboardProviderProps {
   children: React.ReactNode;
 }
 
+const getLayout = (layout: Layout[]) => {
+  return layout.map(({ x, y, w, h, i }) => ({
+    x,
+    y,
+    w,
+    h,
+    i,
+  }));
+};
+
 const DashboardProvider: React.FC<DashboardProviderProps> = ({ children }) => {
-  const [components, setComponents] = useState<string[]>([
-    'disk_custom_card**dceb57db-49b3-46c3-b091-742583f76c85**dm-0**Capacity**capacity',
-    'disk_custom_card**dceb57db-49b3-46c3-b091-742583f76c85**dm-0**Manufacture**manufacture',
-    'disk_custom_card**dceb57db-49b3-46c3-b091-742583f76c85**dm-0**Model**model',
-    'disk_custom_card**dceb57db-49b3-46c3-b091-742583f76c85**dm-0**Serial Number**serialNumber',
-    'disk_custom_card**dceb57db-49b3-46c3-b091-742583f76c85**dm-0**Name**name',
-    'partition_custom_card**6838026240**Path**path',
-    'partition_custom_card**6838026240**Used Space**usedSpace',
-    'partition_custom_card**6838026240**Capacity**capacity',
-    'partition_custom_card**6838026240**File System**fileSystem',
-    'cpu_custom_card**dceb57db-49b3-46c3-b091-742583f76c85**Model**model',
-    'cpu_custom_card**dceb57db-49b3-46c3-b091-742583f76c85**Manufacture**manufacture',
-    'cpu_custom_card**dceb57db-49b3-46c3-b091-742583f76c85**Cores Quantity**coresQuantity',
-  ]);
+  const [components, setComponents] = useState<Layout[]>([]);
+
+  const [count, setCount] = useState(0);
+  const { data: dashboardSettings, isLoading } = useGetDashboard();
+  const { mutateAsync } = useUpdateDashboard();
+
+  useEffect(() => {
+    if (!isLoading) {
+      setComponents(dashboardSettings.value);
+    }
+  }, [dashboardSettings?.value, isLoading]);
+
+  const onLayoutChange = (layout) => {
+    if (count > 0) {
+      mutateAsync({
+        ...dashboardSettings,
+        value: JSON.stringify(getLayout(layout)),
+      });
+    }
+    setCount(1);
+  };
 
   const addToDashboard = (hash) => {
-    setComponents([...components, hash]);
+    mutateAsync({
+      ...dashboardSettings,
+      value: JSON.stringify([
+        ...components,
+        {
+          x: 99,
+          y: 99,
+          w: 1,
+          h: 1,
+          i: hash,
+        },
+      ]),
+    });
+  };
+
+  const isActive = (hash: string) => {
+    return components.map(({ i }) => i).includes(hash);
   };
 
   const removeFormDashboard = (hashToRemove) => {
-    setComponents(components.filter((hash) => hash != hashToRemove));
+    const newComponents = components.filter(({ i }) => i !== hashToRemove);
+    mutateAsync({
+      ...dashboardSettings,
+      value: JSON.stringify(newComponents),
+    });
   };
 
-  const value = { components, addToDashboard, removeFormDashboard };
+  const value = {
+    isActive,
+    isLoading,
+    onLayoutChange,
+    components,
+    addToDashboard,
+    removeFormDashboard,
+  };
 
   return (
     <DashboardContext.Provider value={value}>

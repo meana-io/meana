@@ -10,6 +10,11 @@ export class NodeDisksController {
     private readonly apiService: ApiService
   ) {}
 
+  @Get('get-latest-disks')
+  getLatestDisks(@Query('nodeUuid') nodeUuid: string) {
+    return this.nodeDisksService.getLatestDisks(nodeUuid);
+  }
+
   @Post()
   async create(@Body() createNodeDiskDto: CreateNodeDiskDto) {
     return await this.nodeDisksService.create(createNodeDiskDto);
@@ -20,12 +25,14 @@ export class NodeDisksController {
     @Query('fields')
     fields?: string,
     @Query('limit') limit?: number,
+    @Query('offset') offset?: number,
     @Query('sort') sort?: string[],
     @Query('search') search?: string
   ) {
     const findOptions = this.apiService.prepareGetManyOptions(
       fields,
       limit,
+      offset,
       sort,
       search
     );

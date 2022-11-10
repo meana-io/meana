@@ -1,28 +1,28 @@
 import {
-  Controller,
-  Get,
-  Post,
   Body,
+  Controller,
+  Delete,
+  Get,
   Param,
   Patch,
-  Delete,
+  Post,
   Query,
 } from '@nestjs/common';
-import { NodesService } from './nodes.service';
-import { CreateNodeDto } from './dto/create-node.dto';
-import { UpdateNodeDto } from './dto/update-node.dto';
+import { UsersService } from './users.service';
+import { CreateUserDto } from './dto/create-user.dto';
+import { UpdateUserDto } from './dto/update-user.dto';
 import { ApiService } from '../../common/services/api.service';
 
-@Controller('nodes')
-export class NodesController {
+@Controller('users')
+export class UsersController {
   constructor(
-    private readonly nodesService: NodesService,
+    private readonly usersService: UsersService,
     private readonly apiService: ApiService
   ) {}
 
   @Post()
-  async create(@Body() createNodeDto: CreateNodeDto) {
-    return await this.nodesService.create(createNodeDto);
+  async create(@Body() createUserDto: CreateUserDto) {
+    return await this.usersService.create(createUserDto);
   }
 
   @Get()
@@ -42,21 +42,21 @@ export class NodesController {
       search
     );
 
-    return this.nodesService.findAll(findOptions);
+    return this.usersService.findAll(findOptions);
   }
 
   @Get(':uuid')
   findOne(@Param('uuid') uuid: string) {
-    return this.nodesService.findOne(uuid);
+    return this.usersService.findOne(uuid);
   }
 
   @Patch(':uuid')
-  update(@Param('uuid') uuid: string, @Body() updateNodeDto: UpdateNodeDto) {
-    return this.nodesService.update(uuid, updateNodeDto);
+  update(@Param('uuid') uuid: string, @Body() updateUserDto: UpdateUserDto) {
+    return this.usersService.update(uuid, updateUserDto);
   }
 
   @Delete(':uuid')
   remove(@Param('uuid') uuid: string) {
-    return this.nodesService.deleteOne(uuid);
+    return this.usersService.deleteOne(uuid);
   }
 }

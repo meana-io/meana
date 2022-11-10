@@ -10,8 +10,8 @@ interface ToogleToDashboardProps {
 }
 
 const ToogleToDashboard: React.FC<ToogleToDashboardProps> = ({ hash }) => {
-  const { addToDashboard, removeFormDashboard, components } = useDashboard();
-  const isAddedToDashboard = components.includes(hash);
+  const { addToDashboard, removeFormDashboard, isActive } = useDashboard();
+  const isAddedToDashboard = isActive(hash);
 
   return (
     <Tooltip

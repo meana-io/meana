@@ -25,6 +25,9 @@ const App = ({ Component, pageProps }: AppProps) => {
         defaultOptions: {
           queries: {
             useErrorBoundary: true,
+            refetchOnWindowFocus: false,
+            retry: false,
+            staleTime: 30000,
           },
         },
       })
