@@ -2,61 +2,17 @@ import { useRouter } from 'next/router';
 
 import { Grid } from '@mui/material';
 
-import ChartCard from './ChartCard';
-import NodeRam from '@/types/ram';
 import RamDetails from './RamDetails';
 import { useGetNodeRam } from '@/api/ram';
-import AreaChartCard from '../ChartCards/AreaChartCard';
+import RamUsageChart from 'sections/nodes/RamUsageChart';
+import NodeRam from '@/types/ram';
 
-const RAM_USAGE_CHART_CONFIG = {
-  chart: {
-    height: 230,
-    foreColor: '#ccc',
-    toolbar: {
-      show: false,
-    },
-  },
-  tooltip: {
-    theme: 'dark',
-    y: {
-      formatter: (value) => `${value}%`,
-    },
-  },
-  stroke: {
-    width: 3,
-  },
-  dataLabels: {
-    enabled: false,
-  },
-  yaxis: {
-    min: 0,
-    max: 100,
-    labels: {
-      formatter: (value) => `${value}%`,
-    },
-  },
-  xaxis: {
-    type: 'datetime',
-  },
-  fill: {
-    type: 'gradient',
-  },
-};
+const getRamLabels = (ram: NodeRam[]) => ram.map(({ time }) => time);
 
-const toPercentage = (used: string, total: string) => {
-  return Math.floor((parseInt(used, 10) / parseInt(total, 10)) * 100);
-};
-
-const getRAMUsage = (ram: NodeRam[]) => {
-  return [
-    {
-      name: 'Usage',
-      data: ram.map(({ total, used, time }) => {
-        return [new Date(time).getTime() + 7200000, toPercentage(used, total)];
-      }),
-    },
-  ];
-};
+const getRamUsage = (ram: NodeRam[]) =>
+  ram.map(({ used, total }) =>
+    Math.floor((parseInt(used, 10) / parseInt(total, 10)) * 100)
+  );
 
 const Ram: React.FC = () => {
   const router = useRouter();
@@ -73,7 +29,18 @@ const Ram: React.FC = () => {
         <RamDetails ram={ram.at(-1)} />
       </Grid>
       <Grid item xs={12} md={6}>
-        <AreaChartCard title="RAM usage" series={getRAMUsage(ram)} detailed />
+        <RamUsageChart
+          title="Ram usage"
+          chartLabels={getRamLabels(ram)}
+          chartData={[
+            {
+              name: 'Usage',
+              type: 'area',
+              fill: 'gradient',
+              data: getRamUsage(ram),
+            },
+          ]}
+        />
       </Grid>
     </Grid>
   );

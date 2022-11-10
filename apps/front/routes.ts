@@ -9,6 +9,7 @@ export const apiRoutes = {
 };
 
 export const pageRoutes = {
+  dashboard: '/',
   main: '/',
   nodes: '/nodes',
 };

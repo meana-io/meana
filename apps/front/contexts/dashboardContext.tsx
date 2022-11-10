@@ -1,10 +1,14 @@
-import { Component } from '@/components/Dashboard/Components';
 import { createContext, useState } from 'react';
 
+interface DashboardComponent {
+  component: string;
+  query: string;
+}
+
 interface DashboardContextProps {
-  initiaLayout?: any;
-  layout?: any;
-  components?: any;
+  components: DashboardComponent[];
+  addToDashboard: (component: string, query: string) => void;
+  removeFormDashboard: (component: string, query: string) => void;
 }
 
 export const DashboardContext = createContext<
@@ -12,26 +16,23 @@ export const DashboardContext = createContext<
 >(undefined);
 
 interface DashboardProviderProps {
-  initiaLayout?: any;
   children: React.ReactNode;
 }
 
-const DashboardProvider: React.FC<DashboardProviderProps> = ({
-  children,
-  initiaLayout,
-}) => {
-  const [layout, setLayout] = useState<any>([]);
-  const [components, setComponents] = useState<Component[]>([]);
+const DashboardProvider: React.FC<DashboardProviderProps> = ({ children }) => {
+  const [components, setComponents] = useState<DashboardComponent[]>([]);
 
-  const onLayoutChange = (newLayout) => {
-    setLayout(newLayout);
+  const addToDashboard = (component, query) => {
+    setComponents(components.concat([component, query]));
+
+    console.log({ components, component });
   };
 
-  const onComponentsChagne = (newComponents) => {
-    setComponents(newComponents);
+  const removeFormDashboard = (component, query) => {
+    setComponents(component);
   };
 
-  const value = { components, onComponentsChagne, layout, onLayoutChange };
+  const value = { components, addToDashboard, removeFormDashboard };
 
   return (
     <DashboardContext.Provider value={value}>

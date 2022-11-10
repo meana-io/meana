@@ -4,21 +4,12 @@ import { Grid } from '@mui/material';
 import NodeCpu from '@/types/cpu';
 import CpuDetails from './CpuDetails';
 import { useGetNodeCpu } from '@/api/cpu';
-import AreaChartCard from '../ChartCards/AreaChartCard';
+import CpuUsageChart from 'sections/nodes/CpuUsageChart';
 
-const getCPUUsage = (cpu: NodeCpu[]) => {
-  return [
-    {
-      name: 'Usage',
-      data: cpu.map(({ usage, time }) => {
-        return [
-          new Date(time).getTime() + 7200000,
-          parseFloat(usage).toFixed(2),
-        ];
-      }),
-    },
-  ];
-};
+const getCpuLabels = (cpu: NodeCpu[]) => cpu.map(({ time }) => time);
+
+const getCpuUsage = (cpu: NodeCpu[]) =>
+  cpu.map(({ usage }) => parseInt(usage, 10));
 
 const Cpu: React.FC = () => {
   const router = useRouter();
@@ -35,7 +26,18 @@ const Cpu: React.FC = () => {
         <CpuDetails cpu={cpu.at(-1)} />
       </Grid>
       <Grid item xs={12}>
-        <AreaChartCard title="CPU usage" series={getCPUUsage(cpu)} detailed />
+        <CpuUsageChart
+          title="Cpu usage"
+          chartLabels={getCpuLabels(cpu)}
+          chartData={[
+            {
+              name: 'Usage',
+              type: 'area',
+              fill: 'gradient',
+              data: getCpuUsage(cpu),
+            },
+          ]}
+        />
       </Grid>
     </Grid>
   );

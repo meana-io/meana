@@ -1,6 +1,6 @@
 import { Box, Paper, Typography } from '@mui/material';
 import dynamic from 'next/dynamic';
-import AddToFavorites from '../AddToFavorites/AddToFavorites';
+import AddToFavorites from '../ToogleToDashboard/ToogleToDashboard';
 const Chart = dynamic(() => import('react-apexcharts'), { ssr: false });
 
 const defaultOptions = {

@@ -1,47 +1,64 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 
-import { Grid } from '@mui/material';
+import { Grid, useTheme } from '@mui/material';
 
 import Header from './Header';
 import DiskDetails from './DiskDetails';
 import PartitionDetails from './PartitionDetails';
-import DonutCartCard from '../ChartCards/DonutCartCard';
 import { useGetNodeDisksAndPartitions } from '@/api/disks';
 import Partition from '@/types/partition';
 import Disk from '@/types/disk';
+import DiskUsageChart from 'sections/nodes/DiskUsageChart';
 
 const getPartitionFreeAndUsedSpace = (partition: Partition) => {
   const usedSpace = parseInt(partition.usedSpace, 10);
   const capacity = parseInt(partition.capacity, 10);
-  return [capacity - usedSpace, usedSpace];
+  return [
+    {
+      label: 'Free',
+      value: capacity - usedSpace,
+    },
+    {
+      label: 'Used',
+      value: usedSpace,
+    },
+  ];
 };
 
-const calculatePartitionUasage = (partition: Partition) => {
-  const [free, used] = getPartitionFreeAndUsedSpace(partition);
+// const calculatePartitionUasage = (partition: Partition) => {
+//   const [free, used] = getPartitionFreeAndUsedSpace(partition);
 
-  return (used / (free + used) * 100).toFixed(2);;
-};
+//   return ((used / (free + used)) * 100).toFixed(2);
+// };
 
-const getDiskPartitionsPaths = (disk: Disk) => {
-  return disk?.partitions.map(({ path }) => path);
-};
+// const getDiskPartitionsPaths = (disk: Disk) => {
+//   return disk?.partitions.map(({ path }) => path);
+// };
 
-const getDiskPartitionsCapacity = (disk: Disk) => {
-  return disk.partitions?.map(({ capacity }) => parseInt(capacity, 10));
-};
+// const getDiskPartitionsCapacity = (disk: Disk) => {
+//   return disk.partitions?.map(({ capacity }) => parseInt(capacity, 10));
+// };
 
-const calculateDiskUasage = (disk: Disk) => {
-  const totalUsedSpace = disk.partitions?.reduce(
-    (total, { usedSpace }) => total + parseInt(usedSpace, 10),
-    0
-  );
-  const totalSpace = parseInt(disk.capacity, 10);
+// const calculateDiskUasage = (disk: Disk) => {
+//   const totalUsedSpace = disk.partitions?.reduce(
+//     (total, { usedSpace }) => total + parseInt(usedSpace, 10),
+//     0
+//   );
+//   const totalSpace = parseInt(disk.capacity, 10);
 
-  return ((totalUsedSpace / totalSpace) * 100).toFixed(2);
+//   return ((totalUsedSpace / totalSpace) * 100).toFixed(2);
+// };
+
+const getDiskParitionsNameAndCapacity = (disk: Disk) => {
+  return disk?.partitions?.map(({ path, capacity }) => ({
+    label: path,
+    value: parseInt(capacity, 10),
+  }));
 };
 
 const Disks: React.FC = () => {
+  const theme = useTheme();
   const router = useRouter();
   const nodeId = router.query.id as string;
   const { data: disksAndPartitions, isLoading } =
@@ -87,22 +104,30 @@ const Disks: React.FC = () => {
       <Grid item spacing={2} container direction="row" xs={12}>
         <Grid item xs={12} md={6}>
           {selectedDisk && (
-            <DonutCartCard
-              title="Disk space"
-              value={`Usage: ${calculateDiskUasage(selectedDisk)}%`}
-              labels={getDiskPartitionsPaths(selectedDisk)}
-              series={getDiskPartitionsCapacity(selectedDisk)}
+            <DiskUsageChart
+              title="Disk details"
+              chartData={getDiskParitionsNameAndCapacity(selectedDisk)}
+              chartColors={[
+                theme.palette.primary.main,
+                theme.palette.info.main,
+                theme.palette.warning.main,
+                theme.palette.error.main,
+              ]}
             />
           )}
         </Grid>
 
         <Grid item xs={12} md={6}>
           {selectedPartition && (
-            <DonutCartCard
-              title="Partition space"
-              value={`Usage: ${calculatePartitionUasage(selectedPartition)}%`}
-              labels={['Used', 'Free']}
-              series={getPartitionFreeAndUsedSpace(selectedPartition)}
+            <DiskUsageChart
+              title="Partition details"
+              chartData={getPartitionFreeAndUsedSpace(selectedPartition)}
+              chartColors={[
+                theme.palette.primary.main,
+                theme.palette.info.main,
+                theme.palette.warning.main,
+                theme.palette.error.main,
+              ]}
             />
           )}
         </Grid>

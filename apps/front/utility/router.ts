@@ -34,7 +34,5 @@ export const pathToUrl = (path: string, params: Params = { limit: 100 }) => {
     .map((keyVal) => keyVal.join('='))
     .join('&')}`;
 
-  console.log(url);
-
   return url;
 };

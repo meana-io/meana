@@ -2,7 +2,7 @@ import { Box, Paper, Typography } from '@mui/material';
 import * as Colors from '@mui/material/colors';
 import dynamic from 'next/dynamic';
 import { Color, Shade } from '@/types/color';
-import AddToFavorites from '../AddToFavorites/AddToFavorites';
+import AddToFavorites from '../ToogleToDashboard/ToogleToDashboard';
 const Chart = dynamic(() => import('react-apexcharts'), { ssr: false });
 
 const simpleChartConfig = {

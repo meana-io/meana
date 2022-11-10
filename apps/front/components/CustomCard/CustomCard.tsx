@@ -1,5 +1,5 @@
 import { Box, Paper, Typography } from '@mui/material';
-import AddToFavorites from '../AddToFavorites/AddToFavorites';
+import ToogleToDashboard from '../ToogleToDashboard/ToogleToDashboard';
 
 interface CustomCardProps {
   title: string;
@@ -8,7 +8,7 @@ interface CustomCardProps {
 
 const CustomCard: React.FC<CustomCardProps> = ({ title, value }) => {
   return (
-    <Paper variant="elevation">
+    <Paper variant="outlined">
       <Box display="flex" flexDirection="column">
         <Box p={3} display="flex" flexDirection="column">
           <Box
@@ -21,7 +21,7 @@ const CustomCard: React.FC<CustomCardProps> = ({ title, value }) => {
                 {value}
               </Typography>
             </Box>
-            <AddToFavorites />
+            <ToogleToDashboard component="12" query="queyr" />
           </Box>
           <Typography variant="subtitle1">{title}</Typography>
         </Box>

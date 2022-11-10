@@ -24,7 +24,6 @@ const Header: React.FC<HeaderProps> = ({
   handlePartitionChange,
   handleDiskChange,
 }) => {
-  console.log({ selectedDisk });
   return (
     <Card>
       <CardHeader title="Disks" />
