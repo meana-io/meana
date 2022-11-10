@@ -21,7 +21,7 @@ export const useGetNodeDiskPartitionsList = (
       api.get<Partition[]>(
         pathToUrl(apiRoutes.nodeDiskPartitions, {
           search: {
-            diskIdentifier: diskId,
+            usedSpace: diskId,
           },
           limit: 50,
           ...query,

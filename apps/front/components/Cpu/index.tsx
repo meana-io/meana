@@ -3,57 +3,13 @@ import { Grid } from '@mui/material';
 
 import NodeCpu from '@/types/cpu';
 import CpuDetails from './CpuDetails';
-import ChartCard from './ChartCard';
 import { useGetNodeCpu } from '@/api/cpu';
+import CpuUsageChart from 'sections/nodes/CpuUsageChart';
 
-const CPU_USAGE_CHART_CONFIG = {
-  chart: {
-    height: 230,
-    foreColor: '#ccc',
-    toolbar: {
-      show: false,
-    },
-  },
-  tooltip: {
-    theme: 'dark',
-    y: {
-      formatter: (value) => `${value}%`,
-    },
-  },
-  stroke: {
-    width: 3,
-  },
-  dataLabels: {
-    enabled: false,
-  },
-  yaxis: {
-    min: 0,
-    max: 100,
-    labels: {
-      formatter: (value) => `${value}%`,
-    },
-  },
-  xaxis: {
-    type: 'datetime',
-  },
-  fill: {
-    type: 'gradient',
-  },
-};
+const getCpuLabels = (cpu: NodeCpu[]) => cpu.map(({ time }) => time);
 
-const getCPUUsage = (cpu: NodeCpu[]) => {
-  return [
-    {
-      name: 'Usage',
-      data: cpu.map(({ usage, time }) => {
-        return [
-          new Date(time).getTime() + 7200000,
-          parseFloat(usage).toFixed(2),
-        ];
-      }),
-    },
-  ];
-};
+const getCpuUsage = (cpu: NodeCpu[]) =>
+  cpu.map(({ usage }) => parseInt(usage, 10));
 
 const Cpu: React.FC = () => {
   const router = useRouter();
@@ -66,17 +22,22 @@ const Cpu: React.FC = () => {
 
   return (
     <Grid container spacing={2} direction="column">
-      <Grid item spacing={2} container direction="row" xs={12}>
-        <Grid item xs={12}>
-          <CpuDetails cpu={cpu.at(-1)} />
-        </Grid>
-        <Grid item xs={12}>
-          <ChartCard
-            title="CPU usage"
-            options={CPU_USAGE_CHART_CONFIG}
-            data={getCPUUsage(cpu)}
-          />
-        </Grid>
+      <Grid item xs={12} md={6}>
+        <CpuDetails cpu={cpu.at(-1)} />
+      </Grid>
+      <Grid item xs={12}>
+        <CpuUsageChart
+          title="Cpu usage"
+          chartLabels={getCpuLabels(cpu)}
+          chartData={[
+            {
+              name: 'Usage',
+              type: 'area',
+              fill: 'gradient',
+              data: getCpuUsage(cpu),
+            },
+          ]}
+        />
       </Grid>
     </Grid>
   );

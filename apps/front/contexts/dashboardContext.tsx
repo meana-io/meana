@@ -1,10 +1,21 @@
-import { Component } from '@/components/Dashboard/Components';
-import { createContext, useState } from 'react';
+import { useGetDashboard, useUpdateDashboard } from '@/api/dashboard';
+import { createContext, useEffect, useState } from 'react';
+
+interface Layout {
+  x: number;
+  y: number;
+  w: number;
+  h: number;
+  i: string;
+}
 
 interface DashboardContextProps {
-  initiaLayout?: any;
-  layout?: any;
-  components?: any;
+  isActive: (hash: string) => boolean;
+  components: Layout[];
+  isLoading: boolean;
+  addToDashboard: (hash: string) => void;
+  removeFormDashboard: (hash: string) => void;
+  onLayoutChange: (Layout) => void;
 }
 
 export const DashboardContext = createContext<
@@ -12,26 +23,78 @@ export const DashboardContext = createContext<
 >(undefined);
 
 interface DashboardProviderProps {
-  initiaLayout?: any;
   children: React.ReactNode;
 }
 
-const DashboardProvider: React.FC<DashboardProviderProps> = ({
-  children,
-  initiaLayout,
-}) => {
-  const [layout, setLayout] = useState<any>([]);
-  const [components, setComponents] = useState<Component[]>([]);
+const getLayout = (layout: Layout[]) => {
+  return layout.map(({ x, y, w, h, i }) => ({
+    x,
+    y,
+    w,
+    h,
+    i,
+  }));
+};
 
-  const onLayoutChange = (newLayout) => {
-    setLayout(newLayout);
+const DashboardProvider: React.FC<DashboardProviderProps> = ({ children }) => {
+  const [components, setComponents] = useState<Layout[]>([]);
+
+  const [count, setCount] = useState(0);
+  const { data: dashboardSettings, isLoading } = useGetDashboard();
+  const { mutateAsync } = useUpdateDashboard();
+
+  useEffect(() => {
+    if (!isLoading) {
+      setComponents(dashboardSettings.value);
+    }
+  }, [dashboardSettings?.value, isLoading]);
+
+  const onLayoutChange = (layout) => {
+    if (count > 0) {
+      mutateAsync({
+        ...dashboardSettings,
+        value: JSON.stringify(getLayout(layout)),
+      });
+    }
+    setCount(1);
   };
 
-  const onComponentsChagne = (newComponents) => {
-    setComponents(newComponents);
+  const addToDashboard = (hash) => {
+    mutateAsync({
+      ...dashboardSettings,
+      value: JSON.stringify([
+        ...components,
+        {
+          x: 99,
+          y: 99,
+          w: 1,
+          h: 1,
+          i: hash,
+        },
+      ]),
+    });
   };
 
-  const value = { components, onComponentsChagne, layout, onLayoutChange };
+  const isActive = (hash: string) => {
+    return components.map(({ i }) => i).includes(hash);
+  };
+
+  const removeFormDashboard = (hashToRemove) => {
+    const newComponents = components.filter(({ i }) => i !== hashToRemove);
+    mutateAsync({
+      ...dashboardSettings,
+      value: JSON.stringify(newComponents),
+    });
+  };
+
+  const value = {
+    isActive,
+    isLoading,
+    onLayoutChange,
+    components,
+    addToDashboard,
+    removeFormDashboard,
+  };
 
   return (
     <DashboardContext.Provider value={value}>

@@ -3,11 +3,14 @@ export const apiRoutes = {
   nodeCpu: '/node-cpu',
   nodeRam: '/node-ram',
   nodeDisks: '/node-disks',
+  getLatestDisks: 'node-disks/get-latest-disks',
   nodeDiskPartitions: '/node-disk-partitions',
-  dashboard: '/dashboard',
+  dashboard: '/settings/dashboard',
 };
 
 export const pageRoutes = {
-  main: '/',
+  dashboard: '/',
+  users: '/users/list',
+  createUser: '/users/create',
   nodes: '/nodes',
 };

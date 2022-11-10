@@ -1,36 +1,41 @@
-import { Card, CardContent, CardHeader, Typography } from '@mui/material';
+import { Grid } from '@mui/material';
 
 import Partition from '@/types/partition';
 
 import { toTitleCase } from '@/utility/toTitleCase';
-import { formatBytes } from '@/utility/formatBytes';
+import { toFormatBytesInNumber } from '@/utility/formatBytes';
+import CustomCard from '../CustomCard/CustomCard';
+import { COMPONENT_NAME } from '../Dashboard/Partition/PartitionCustomCard';
+import { hashParams } from '@/utility/hashParams';
 
 interface PartitionDetailsProps {
   partition: Partition;
 }
-
 const PartitionDetails: React.FC<PartitionDetailsProps> = ({ partition }) => {
-  const keysToDisplay: (keyof Partition)[] = ['path', 'fileSystem'];
+  const keysToDisplay: (keyof Partition)[] = [
+    'path',
+    'fileSystem',
+    'usedSpace',
+    'capacity',
+  ];
 
   return (
-    <Card>
-      <CardHeader title={`Partition - ${partition?.path || ''}`} />
-      <CardContent>
-        {keysToDisplay.map((key) => (
-          <Typography key={key} component="div" variant="h6">
-            {toTitleCase(key)}: {partition?.[key] ?? 'N/A'}
-          </Typography>
-        ))}
-        <Typography component="div" variant="h6">
-          Used Space:{' '}
-          {formatBytes(parseInt(partition?.usedSpace || '0', 10)) ?? 'N/A'}
-        </Typography>
-        <Typography component="div" variant="h6">
-          Capacity:{' '}
-          {formatBytes(parseInt(partition?.capacity || '0', 10)) ?? 'N/A'}
-        </Typography>
-      </CardContent>
-    </Card>
+    <Grid container spacing={2} item xs={12} lg={6}>
+      {keysToDisplay.map((key) => (
+        <Grid xs={12} lg={6} xl={4} item key={key}>
+          <CustomCard
+            hash={hashParams(
+              COMPONENT_NAME,
+              partition.usedSpace,
+              toTitleCase(key),
+              key
+            )}
+            title={toTitleCase(key)}
+            value={toFormatBytesInNumber(partition[key]) || 'N/A'}
+          />
+        </Grid>
+      ))}
+    </Grid>
   );
 };
 

@@ -1,11 +1,11 @@
+import Partition from './partition';
+
 export default interface Disk {
-  time: string;
-  nodeId: string;
-  path?: string;
-  manufacture?: string;
-  model?: string;
-  serialNumber?: string;
-  capacity?: string;
-  firmwareVersion?: string;
-  name?: string;
+  name: string;
+  path: string;
+  model: string;
+  capacity: string;
+  partitions: null | Partition[];
+  manufacture: string;
+  serialNumber: string;
 }

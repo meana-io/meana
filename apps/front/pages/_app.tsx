@@ -1,4 +1,3 @@
-import '@/styles/globals.css';
 import { useState } from 'react';
 import { AppProps } from 'next/app';
 import Head from 'next/head';
@@ -11,10 +10,11 @@ import {
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
 import { CacheProvider as EmotionCacheProvider } from '@emotion/react';
-import { ThemeProvider, CssBaseline } from '@mui/material';
 
-import createEmotionCache from '../utility/createEmotionCache';
-import lightTheme from '../styles/theme/lightTheme';
+import createEmotionCache from '@/utility/createEmotionCache';
+import ThemeProvider from '@/styles/theme';
+import StyledChart from '@/components/Chart/StyledChart';
+import DashboardProvider from '@/contexts/dashboardContext';
 
 const clientSideEmotionCache = createEmotionCache();
 
@@ -25,6 +25,9 @@ const App = ({ Component, pageProps }: AppProps) => {
         defaultOptions: {
           queries: {
             useErrorBoundary: true,
+            refetchOnWindowFocus: false,
+            retry: false,
+            staleTime: 30000,
           },
         },
       })
@@ -38,9 +41,11 @@ const App = ({ Component, pageProps }: AppProps) => {
       <QueryClientProvider client={queryClient}>
         <Hydrate state={pageProps.dehydratedState}>
           <EmotionCacheProvider value={clientSideEmotionCache}>
-            <ThemeProvider theme={lightTheme}>
-              <CssBaseline />
-              <Component {...pageProps} />
+            <ThemeProvider>
+              <DashboardProvider>
+                <StyledChart />
+                <Component {...pageProps} />
+              </DashboardProvider>
             </ThemeProvider>
           </EmotionCacheProvider>
         </Hydrate>

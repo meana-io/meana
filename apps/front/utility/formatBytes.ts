@@ -6,3 +6,10 @@ export const formatBytes = (bytes: number, decimals = 2): string => {
   const i = Math.floor(Math.log(bytes) / Math.log(k));
   return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
 };
+
+
+
+export const toFormatBytesInNumber = (value: string) => {
+  const parsed = parseInt(value, 10);
+  return Number.isInteger(parsed) ? formatBytes(parsed) : value;
+};

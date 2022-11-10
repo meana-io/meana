@@ -25,7 +25,7 @@ const validationSchema = yup.object({
     .required('Password is required'),
 });
 
-const CreateUser: React.FC = () => { 
+const CreateUser: React.FC = () => {
   const { register, handleSubmit} = useForm();
   const router = useRouter();
   const formik = useFormik({
@@ -42,7 +42,7 @@ const CreateUser: React.FC = () => {
     },
   });
 
-  
+
   const handleClose = () => {
     router.push('/');
   };
