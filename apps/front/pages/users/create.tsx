@@ -7,7 +7,7 @@ import {Button, Grid, Box, TextField, Typography} from '@mui/material';
 import { useForm } from 'react-hook-form';
 import { NextPage } from 'next';
 import { api } from '@/utility/api';
-import { pageRoutes } from 'routes';
+import { apiRoutes } from 'routes';
 
 const validationSchema = yup.object({
   firstName: yup.string().required('First name is required'),
@@ -24,10 +24,9 @@ const validationSchema = yup.object({
 });
 
 
-export enum NODE {
-  GET_NODES = 'GET_NODES',
+export enum USERS {
+  GET_USERS = 'GET_USERS',
 }
-
 
 
 export interface CreateUserData {
@@ -41,13 +40,13 @@ export interface CreateUserData {
 const useCreateUser = () => {
   const queryClient = useQueryClient();
   return useMutation(
-    (data: CreateUserData) => api.post<Node>(pageRoutes.users, data),
+    (data: CreateUserData) => api.post<Node>(apiRoutes.users, data),
     {
       onError: () => {
         alert('there was an error');
       },
       onSettled: () => {
-        queryClient.invalidateQueries([NODE.GET_NODES]);
+        queryClient.invalidateQueries([USERS.GET_USERS]);
       },
     }
   );
@@ -89,7 +88,6 @@ const CreateUser: NextPage = () => {
   });
 
   
-
   const handleClose = () => {
     router.push('/');
   };
