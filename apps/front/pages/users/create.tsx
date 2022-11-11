@@ -1,10 +1,13 @@
 import React from 'react';
 import { useRouter } from 'next/router';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import {Button, Grid, Box, TextField, Typography} from '@mui/material';
 import { useForm } from 'react-hook-form';
 import { NextPage } from 'next';
+import { api } from '@/utility/api';
+import { pageRoutes } from 'routes';
 
 const validationSchema = yup.object({
   firstName: yup.string().required('First name is required'),
@@ -20,9 +23,57 @@ const validationSchema = yup.object({
     .required('Password is required'),
 });
 
+
+export enum NODE {
+  GET_NODES = 'GET_NODES',
+}
+
+
+
+export interface CreateUserData {
+  firstName: string;
+  lastName: string;
+  login: string;
+  email: string;
+  password: string;
+}
+
+const useCreateUser = () => {
+  const queryClient = useQueryClient();
+  return useMutation(
+    (data: CreateUserData) => api.post<Node>(pageRoutes.users, data),
+    {
+      onError: () => {
+        alert('there was an error');
+      },
+      onSettled: () => {
+        queryClient.invalidateQueries([NODE.GET_NODES]);
+      },
+    }
+  );
+}
+
+
 const CreateUser: NextPage = () => {
+  const { mutateAsync} = useCreateUser();
   const { register, handleSubmit } = useForm();
   const router = useRouter();
+
+  
+  const onAdd = async ({ firstName, lastName, login, email, password }: CreateUserData) => {
+    try {
+      await mutateAsync({
+      firstName,
+      lastName,
+      login,
+      email,
+      password,
+      });
+    } catch (e) {
+      alert(`Cannot add the data`);
+    }
+  };
+
   const formik = useFormik({
     initialValues: {
       firstName: '',
@@ -33,9 +84,11 @@ const CreateUser: NextPage = () => {
     },
     validationSchema: validationSchema,
     onSubmit: (values) => {
-      console.log(values);
+      onAdd(values);
     },
   });
+
+  
 
   const handleClose = () => {
     router.push('/');
