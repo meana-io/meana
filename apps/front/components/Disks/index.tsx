@@ -26,30 +26,6 @@ const getPartitionFreeAndUsedSpace = (partition: Partition) => {
   ];
 };
 
-// const calculatePartitionUasage = (partition: Partition) => {
-//   const [free, used] = getPartitionFreeAndUsedSpace(partition);
-
-//   return ((used / (free + used)) * 100).toFixed(2);
-// };
-
-// const getDiskPartitionsPaths = (disk: Disk) => {
-//   return disk?.partitions.map(({ path }) => path);
-// };
-
-// const getDiskPartitionsCapacity = (disk: Disk) => {
-//   return disk.partitions?.map(({ capacity }) => parseInt(capacity, 10));
-// };
-
-// const calculateDiskUasage = (disk: Disk) => {
-//   const totalUsedSpace = disk.partitions?.reduce(
-//     (total, { usedSpace }) => total + parseInt(usedSpace, 10),
-//     0
-//   );
-//   const totalSpace = parseInt(disk.capacity, 10);
-
-//   return ((totalUsedSpace / totalSpace) * 100).toFixed(2);
-// };
-
 const getDiskParitionsNameAndCapacity = (disk: Disk) => {
   return disk?.partitions?.map(({ path, capacity }) => ({
     label: path,

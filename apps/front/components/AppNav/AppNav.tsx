@@ -103,7 +103,7 @@ const AppNav: React.FC<NavProps> = ({ items }) => {
         }
       >
         {items.map(({ title, icon, href }) => (
-          <NavItem key={title} href={href} title={title} icon={icon} />
+          <NavItem key={href} href={href} title={title} icon={icon} />
         ))}
       </List>
     </Drawer>
