@@ -68,7 +68,7 @@ const options = [
   { group: 'Disk', label: 'Factory', value: 'factory' },
 ];
 
-const Reports: NextPage = () => {
+const CreaetReport: NextPage = () => {
   const { data: nodes, isLoading } = useGetNodesList();
 
   const onSubmit = (values) => {
@@ -275,4 +275,4 @@ const Reports: NextPage = () => {
   );
 };
 
-export default Reports;
+export default CreaetReport;

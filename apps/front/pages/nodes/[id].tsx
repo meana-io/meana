@@ -19,7 +19,7 @@ const TABS = [
   { label: 'processor', icon: <MemoryIcon /> },
 ];
 
-const Index: NextPage = () => {
+const Node: NextPage = () => {
   return (
     <NodesLayout>
       <Grid container spacing={2}>
@@ -44,4 +44,4 @@ const Index: NextPage = () => {
   );
 };
 
-export default Index;
+export default Node;

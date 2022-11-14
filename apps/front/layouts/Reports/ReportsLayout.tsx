@@ -32,7 +32,7 @@ const ReportsLayout: React.FC<ReportsProps> = ({ children }) => {
   return (
     <StyledRoot>
       <AppTopBar>
-        <Link href="/add-new-node" passHref>
+        <Link href={pageRoutes.createNode} passHref>
           <Button size="large">Add New Server</Button>
         </Link>
       </AppTopBar>
