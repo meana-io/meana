@@ -1,142 +1,170 @@
 import { NextPage } from 'next';
-import { Responsive, WidthProvider } from 'react-grid-layout';
+import {
+  Card,
+  Button,
+  CardContent,
+  CardHeader,
+  Grid,
+  CardActions,
+  Typography,
+  Select,
+  Box,
+  Slider,
+  MenuItem,
+  InputLabel,
+  FormControl,
+} from '@mui/material';
+import { useFormik } from 'formik';
+import { useGetNodeDisksAndPartitions } from '@/api/disks';
+import { useRouter } from 'next/router';
 
-import DashboardLayout from '@/layouts/Dashboard/DashboardLayout';
-import { useState } from 'react';
-import axios from 'axios';
+const Settings: NextPage = () => {
+  const router = useRouter();
+  const nodeId = router.query.id as string;
 
-const ResponsiveReactGridLayout = WidthProvider(Responsive);
+  const { data: disksAndPartitions, isLoading } =
+    useGetNodeDisksAndPartitions(nodeId);
 
-const generateBaseLayout = (n = 7) => {
-  const maxInRow = 4;
-  const width = 1;
-  const height = 1;
-  const cols = 4;
-  return [...Array(n).keys()].map((key, index) => {
-    return {
-      w: width,
-      h: height,
-      x: (width * index) % cols,
-      y: Math.floor(index / maxInRow),
-      i: `${key}`,
-    };
+  const formik = useFormik({
+    initialValues: {
+      disk: '',
+    },
+    onSubmit: (values) => {
+      console.log(JSON.stringify(values, null, 2));
+    },
   });
-};
 
-const BASE_LAYOUT = generateBaseLayout();
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
 
-const creaetNewLayout = (layout: any, components: any) =>
-  layout.reduce((config, { i, w, x, y, h }) => {
-    config[i] = {
-      x,
-      y,
-      w,
-      h,
-      ...components[i],
-    };
-
-    return config;
-  }, {});
-
-const Test: NextPage = async () => {
-  const response = await axios.post(
-    'https://api.meana.ovh/api/settings/dashboard',
-    {
-      value: JSON.stringify({
-        lg: [
-          {
-            w: '1',
-            h: '1',
-            x: '0',
-            y: '0',
-            i: 'disk_custom_card**dceb57db-49b3-46c3-b091-742583f76c85**dm-0**Capacity**capacity',
-          },
-          {
-            w: '1',
-            h: '1',
-            x: '1',
-            y: '1',
-            i: 'disk_custom_card**dceb57db-49b3-46c3-b091-742583f76c85**dm-0**Manufacture**manufacture',
-          },
-          {
-            w: '1',
-            h: '1',
-            x: '1',
-            y: '0',
-            i: 'disk_custom_card**dceb57db-49b3-46c3-b091-742583f76c85**dm-0**Model**model',
-          },
-          {
-            w: '1',
-            h: '1',
-            x: '0',
-            y: '1',
-            i: 'disk_custom_card**dceb57db-49b3-46c3-b091-742583f76c85**dm-0**Serial Number**serialNumber',
-          },
-          {
-            w: '1',
-            h: '1',
-            x: '2',
-            y: '0',
-            i: 'disk_custom_card**dceb57db-49b3-46c3-b091-742583f76c85**dm-0**Name**name',
-          },
-          {
-            w: '1',
-            h: '1',
-            x: '2',
-            y: '1',
-            i: 'partition_custom_card**6838026240**Path**path',
-          },
-          {
-            w: '1',
-            h: '1',
-            x: '2',
-            y: '2',
-            i: 'partition_custom_card**6838026240**Used Space**usedSpace',
-          },
-          {
-            w: '1',
-            h: '1',
-            x: '0',
-            y: '2',
-            i: 'partition_custom_card**6838026240**Capacity**capacity',
-          },
-          {
-            w: '1',
-            h: '1',
-            x: '1',
-            y: '2',
-            i: 'partition_custom_card**6838026240**File System**fileSystem',
-          },
-          {
-            w: '1',
-            h: '1',
-            x: '1',
-            y: '3',
-            i: 'cpu_custom_card**dceb57db-49b3-46c3-b091-742583f76c85**Model**model',
-          },
-          {
-            w: '1',
-            h: '1',
-            x: '0',
-            y: '3',
-            i: 'cpu_custom_card**dceb57db-49b3-46c3-b091-742583f76c85**Manufacture**manufacture',
-          },
-          {
-            w: '1',
-            h: '1',
-            x: '2',
-            y: '3',
-            i: 'cpu_custom_card**dceb57db-49b3-46c3-b091-742583f76c85**Cores Quantity**coresQuantity',
-          },
-        ],
-      }),
-    }
-  );
   return (
-    <DashboardLayout>
-      <pre>{JSON.stringify(response, null, 2)}</pre>
-    </DashboardLayout>
+    <form onSubmit={formik.handleSubmit}>
+      <Grid container spacing={4}>
+        <Grid item xs={20}>
+          <Card>
+            <CardHeader title="Disks" />
+            <CardContent>
+              <FormControl fullWidth>
+                <InputLabel id="disk-label">Disk</InputLabel>
+                <Select
+                  labelId="disk-label"
+                  id="disk"
+                  name="disk"
+                  label="Email"
+                  value={formik.values.disk}
+                  onChange={formik.handleChange}
+                >
+                  {disksAndPartitions?.map(({ name }, index) => (
+                    <MenuItem key={index} value={name}>
+                      {name}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+            </CardContent>
+            <CardActions>
+              <Box
+                p={2}
+                display="flex"
+                sx={{ width: '100%' }}
+                justifyContent="flex-end"
+              >
+                <Button size="large" variant="contained">
+                  Save
+                </Button>
+              </Box>
+            </CardActions>
+          </Card>
+        </Grid>
+        <Grid item xs={20}>
+          <Card>
+            <CardHeader title="Partiton" />
+            <CardContent>
+              <Typography variant="body2" color="text.secondary" gutterBottom>
+                Partition
+              </Typography>
+              <Select>
+                <MenuItem value={10}>Ala</MenuItem>
+                <MenuItem value={20}>Ma</MenuItem>
+                <MenuItem value={30}>Kota</MenuItem>
+              </Select>
+            </CardContent>
+            <CardActions>
+              <Box
+                p={2}
+                display="flex"
+                sx={{ width: '100%' }}
+                justifyContent="flex-end"
+              >
+                <Button size="large" variant="contained">
+                  Save
+                </Button>
+              </Box>
+            </CardActions>
+          </Card>
+        </Grid>
+        <Grid item xs={20}>
+          <Card>
+            <CardHeader title="RAM" />
+            <CardContent>
+              <Typography variant="body2" color="text.secondary" gutterBottom>
+                Used:
+              </Typography>
+              <Box>
+                <Slider
+                  defaultValue={50}
+                  aria-label="Default"
+                  valueLabelDisplay="auto"
+                />
+              </Box>
+            </CardContent>
+            <CardActions>
+              <Box
+                p={2}
+                display="flex"
+                sx={{ width: '100%' }}
+                justifyContent="flex-end"
+              >
+                <Button size="large" variant="contained">
+                  Save
+                </Button>
+              </Box>
+            </CardActions>
+          </Card>
+        </Grid>
+        <Grid item xs={20}>
+          <Card>
+            <CardHeader title="CPU" />
+            <CardContent>
+              <Typography variant="body2" color="text.secondary" gutterBottom>
+                Usage:
+              </Typography>
+              <Box>
+                <Slider
+                  defaultValue={50}
+                  aria-label="Default"
+                  valueLabelDisplay="auto"
+                />
+              </Box>
+            </CardContent>
+            <CardActions>
+              <Box
+                p={2}
+                display="flex"
+                sx={{ width: '100%' }}
+                justifyContent="flex-end"
+              >
+                <Button size="large" variant="contained">
+                  Save
+                </Button>
+              </Box>
+            </CardActions>
+          </Card>
+        </Grid>
+      </Grid>
+    </form>
   );
 };
 
-export default Test;
+export default Settings;

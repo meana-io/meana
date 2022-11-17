@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/router';
 import { CreateNodeFormData, useCreateNode } from '@/api/nodes';
 
-const AddNewNode: NextPage = () => {
+const CreateNode: NextPage = () => {
   const { mutateAsync, isLoading, data: node } = useCreateNode();
   const { register, handleSubmit } = useForm();
   const router = useRouter();
@@ -105,4 +105,4 @@ const AddNewNode: NextPage = () => {
   );
 };
 
-export default AddNewNode;
+export default CreateNode;

@@ -17,11 +17,11 @@ export const Main = styled(Container)(({ theme }) => ({
   paddingBottom: theme.spacing(4),
 }));
 
-interface DashboardProps {
+interface ReportsProps {
   children: React.ReactNode;
 }
 
-const DashboardLayout: React.FC<DashboardProps> = ({ children }) => {
+const ReportsLayout: React.FC<ReportsProps> = ({ children }) => {
   const { data: nodes = [] } = useGetNodesList();
 
   const navItems = nodes?.map(({ uuid, name }) => ({
@@ -45,4 +45,4 @@ const DashboardLayout: React.FC<DashboardProps> = ({ children }) => {
   );
 };
 
-export default DashboardLayout;
+export default ReportsLayout;

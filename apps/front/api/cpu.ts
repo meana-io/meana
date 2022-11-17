@@ -12,7 +12,7 @@ export enum CPU {
 
 export const useGetNodeCpu = (nodeId: NodeId, query?: Params, options?) => {
   return useQuery(
-    [CPU.GET_CPU, nodeId],
+    [CPU.GET_CPU, nodeId, query?.limit ?? 50],
     () =>
       api.get<Cpu[]>(
         pathToUrl(apiRoutes.nodeCpu, {

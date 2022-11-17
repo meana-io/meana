@@ -12,6 +12,7 @@ import {
 
 import Link from 'next/link';
 import { Box } from '@mui/system';
+import { pageRoutes } from 'routes';
 
 const StyledNavItem = styled((props: ListItemButtonProps) => (
   <ListItemButton disableGutters {...props} />
@@ -72,6 +73,20 @@ interface NavProps {
   items: NavItem[];
 }
 
+const staticMenu = [
+  {
+    header: 'Users',
+    list: [
+      { title: 'List', href: pageRoutes.users },
+      { title: 'Create', href: pageRoutes.createUser },
+    ],
+  },
+  {
+    header: 'Reports',
+    list: [{ title: 'Create', href: pageRoutes.createReport }],
+  },
+];
+
 const AppNav: React.FC<NavProps> = ({ items }) => {
   return (
     <Drawer
@@ -103,9 +118,30 @@ const AppNav: React.FC<NavProps> = ({ items }) => {
         }
       >
         {items.map(({ title, icon, href }) => (
-          <NavItem key={title} href={href} title={title} icon={icon} />
+          <NavItem key={href} href={href} title={title} icon={icon} />
         ))}
       </List>
+      {staticMenu.map(({ header, list }, index) => (
+        <List
+          key={index}
+          disablePadding
+          sx={{ p: 1 }}
+          subheader={
+            <ListSubheader
+              sx={{
+                bgcolor: 'background.default',
+              }}
+              component="div"
+            >
+              {header}
+            </ListSubheader>
+          }
+        >
+          {list.map(({ title, href }) => (
+            <NavItem key={href} href={href} title={title} />
+          ))}
+        </List>
+      ))}
     </Drawer>
   );
 };

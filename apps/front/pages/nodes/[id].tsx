@@ -23,7 +23,7 @@ const TABS = [
   { label: 'settings', icon: <SettingsIcon /> },
 ];
 
-const Index: NextPage = () => {
+const Node: NextPage = () => {
   return (
     <NodesLayout>
       <Grid container spacing={2}>
@@ -51,4 +51,4 @@ const Index: NextPage = () => {
   );
 };
 
-export default Index;
+export default Node;

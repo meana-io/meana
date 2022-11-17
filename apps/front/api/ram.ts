@@ -12,7 +12,7 @@ export enum RAM {
 
 export const useGetNodeRam = (nodeId: NodeId, query?: Params, options?) => {
   return useQuery(
-    [RAM.GET_RAM, nodeId],
+    [RAM.GET_RAM, nodeId, query?.limit ?? 50],
     () =>
       api.get<Ram[]>(
         pathToUrl(apiRoutes.nodeRam, {

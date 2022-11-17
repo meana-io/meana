@@ -14,4 +14,6 @@ export const pageRoutes = {
   users: '/users/list',
   createUser: '/users/create',
   nodes: '/nodes',
+  createNode: '/nodes/create',
+  createReport: '/reports/create',
 };

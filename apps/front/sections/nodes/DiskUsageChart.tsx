@@ -47,7 +47,6 @@ const DiskUsageChart: React.FC<DiskUsageChartProps> = ({
   const theme = useTheme();
 
   const chartLabels = chartData.map((i) => i.label);
-
   const chartSeries = chartData.map((i) => i.value);
 
   const chartOptions = useChart({
