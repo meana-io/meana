@@ -61,11 +61,11 @@ const report = {
 };
 
 const options = [
-  { group: 'Disk', label: 'Memory', value: '  memory' },
-  { group: 'Disk', label: 'Capacity', value: 'capacity' },
-  { group: 'Disk', label: 'Usage', value: 'usage' },
-  { group: 'Disk', label: 'Producent', value: 'producent' },
-  { group: 'Disk', label: 'Factory', value: 'factory' },
+  { group: 'Disk', label: 'Memory', value: 'disk.memory' },
+  { group: 'Disk', label: 'Capacity', value: 'disk.capacity' },
+  { group: 'Disk', label: 'Usage', value: 'disk.usage' },
+  { group: 'Disk', label: 'Producent', value: 'disk.producent' },
+  { group: 'Disk', label: 'Factory', value: 'disk.factory' },
 ];
 
 const CreaetReport: NextPage = () => {
@@ -100,7 +100,6 @@ const CreaetReport: NextPage = () => {
           handleBlur,
         }) => (
           <Form>
-            <pre>{JSON.stringify(errors, null, 2)}</pre>
             <Card>
               <CardHeader title="Reports" />
               <CardContent>
@@ -129,7 +128,7 @@ const CreaetReport: NextPage = () => {
                             value={values.from}
                             onChange={handleChange}
                             error={touched.from && Boolean(errors.from)}
-                            helperText={touched.from && errors.from}
+                            //helperText={touched.from && errors.from}
                             onBlur={handleBlur}
                           />
                         </Grid>
@@ -144,7 +143,7 @@ const CreaetReport: NextPage = () => {
                             value={values.to}
                             onChange={handleChange}
                             error={touched.to && Boolean(errors.to)}
-                            helperText={touched.to && errors.to}
+                            //helperText={touched.to && errors.to}
                             onBlur={handleBlur}
                           />
                         </Grid>
@@ -163,9 +162,9 @@ const CreaetReport: NextPage = () => {
                                 touched.timeAgregation &&
                                 Boolean(errors.timeAgregation)
                               }
-                              helperText={
-                                touched.timeAgregation && errors.timeAgregation
-                              }
+                              // helperText={
+                              //   touched.timeAgregation && errors.timeAgregation
+                              // }
                               onBlur={handleBlur}
                             >
                               <MenuItem value={10}>Every Minute</MenuItem>
@@ -191,10 +190,10 @@ const CreaetReport: NextPage = () => {
                                   touched.reports?.at(index)?.nodeId &&
                                   Boolean(errors.reports?.at(index)?.nodeId)
                                 }
-                                helperText={
-                                  touched.reports?.at(index)?.nodeId &&
-                                  errors.reports?.at(index)?.nodeId
-                                }
+                                // helperText={
+                                //   touched.reports?.at(index)?.nodeId &&
+                                //   errors.reports?.at(index)?.nodeId
+                                // }
                                 onBlur={handleBlur}
                               >
                                 {nodes.map(({ uuid, name }) => (
@@ -233,10 +232,10 @@ const CreaetReport: NextPage = () => {
                                       errors.reports?.at(index)?.properties
                                     )
                                   }
-                                  helperText={
-                                    touched.reports?.at(index)?.properties &&
-                                    errors.reports?.at(index)?.properties
-                                  }
+                                  // helperText={
+                                  //   touched.reports?.at(index)?.properties &&
+                                  //   errors.reports?.at(index)?.properties
+                                  // }
                                   onBlur={handleBlur}
                                 />
                               )}

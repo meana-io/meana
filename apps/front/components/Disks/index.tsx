@@ -27,10 +27,12 @@ const getPartitionFreeAndUsedSpace = (partition: Partition) => {
 };
 
 const getDiskParitionsNameAndCapacity = (disk: Disk) => {
-  return disk?.partitions?.map(({ path, capacity }) => ({
-    label: path,
-    value: parseInt(capacity, 10),
-  }));
+  return (
+    disk?.partitions?.map(({ path, capacity }) => ({
+      label: path,
+      value: parseInt(capacity, 10),
+    })) ?? []
+  );
 };
 
 const Disks: React.FC = () => {
