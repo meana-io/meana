@@ -24,8 +24,6 @@ const Ram: React.FC = () => {
     return <Progress />;
   }
 
-  console.log(ram);
-
   return (
     <Grid container spacing={2} direction="column">
       <Grid item xs={12} md={6}>
