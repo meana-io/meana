@@ -15,6 +15,7 @@ import { NextPage } from 'next';
 import BaseLayout from '@/layouts/Base/BaseLayout';
 import { CreateUserData, useGetUser, useUpdateUser } from '@/api/user';
 import { pageRoutes } from 'routes';
+import Progress from '@/components/Progress/Progress';
 
 const validationSchema = yup.object({
   firstName: yup.string().required('First name is required'),
@@ -61,7 +62,7 @@ const UpdateUser: NextPage = () => {
   };
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <Progress />;
   }
 
   return (

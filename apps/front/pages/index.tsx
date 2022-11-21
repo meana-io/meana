@@ -5,6 +5,7 @@ import DashboardLayout from '@/layouts/Dashboard/DashboardLayout';
 import { DASHBOARD_COMPONENTS } from '@/components/Dashboard/componentsList';
 import { deHashParams } from '@/utility/hashParams';
 import useDashboard from '@/hooks/useDashboard';
+import Progress from '@/components/Progress/Progress';
 
 const ResponsiveReactGridLayout = WidthProvider(Responsive);
 
@@ -12,7 +13,7 @@ const Dashboard: NextPage = () => {
   const { components, isLoading, onLayoutChange } = useDashboard();
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <Progress />;
   }
 
   return (

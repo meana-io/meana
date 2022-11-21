@@ -1,5 +1,6 @@
 import { useGetNodeCpu } from '@/api/cpu';
 import CustomCard from '@/components/CustomCard/CustomCard';
+import Progress from '@/components/Progress/Progress';
 import { deHashParams } from '@/utility/hashParams';
 
 interface CpuCustomCardProps {
@@ -11,7 +12,7 @@ const CpuCustomCard: React.FC<CpuCustomCardProps> = ({ hash }) => {
   const { data, isLoading } = useGetNodeCpu(query, { limit: 1 });
 
   if (isLoading) {
-    return <div>Loading..</div>;
+    return <Progress />;
   }
 
   return (

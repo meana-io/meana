@@ -6,6 +6,7 @@ import RamDetails from './RamDetails';
 import { useGetNodeRam } from '@/api/ram';
 import RamUsageChart from 'sections/nodes/RamUsageChart';
 import NodeRam from '@/types/ram';
+import Progress from '../Progress/Progress';
 
 const getRamLabels = (ram: NodeRam[]) => ram.map(({ time }) => time);
 
@@ -20,7 +21,7 @@ const Ram: React.FC = () => {
   const { data: ram, isLoading } = useGetNodeRam(nodeId);
 
   if (isLoading) {
-    return <div>laading</div>;
+    return <Progress />;
   }
 
   console.log(ram);

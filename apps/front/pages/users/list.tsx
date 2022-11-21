@@ -16,13 +16,14 @@ import BaseLayout from '@/layouts/Base/BaseLayout';
 import { useDeleteUser, useGetUsersList } from '@/api/user';
 import Link from 'next/link';
 import { pageRoutes } from 'routes';
+import Progress from '@/components/Progress/Progress';
 
 const UsersList: NextPage = () => {
   const { data: users, isLoading } = useGetUsersList();
   const { mutateAsync } = useDeleteUser();
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <Progress />;
   }
 
   const onDelete = async (event, cellValues) => {
