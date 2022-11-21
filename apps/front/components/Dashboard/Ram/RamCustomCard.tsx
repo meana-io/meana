@@ -1,5 +1,6 @@
 import { useGetNodeRam } from '@/api/ram';
 import CustomCard from '@/components/CustomCard/CustomCard';
+import Progress from '@/components/Progress/Progress';
 import { deHashParams } from '@/utility/hashParams';
 
 interface RamCustomCardProps {
@@ -11,7 +12,7 @@ const RamCustomCard: React.FC<RamCustomCardProps> = ({ hash }) => {
   const { data, isLoading } = useGetNodeRam(query, { limit: 1 });
 
   if (isLoading) {
-    return <div>Loading..</div>;
+    return <Progress />;
   }
 
   return (

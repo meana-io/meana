@@ -10,6 +10,7 @@ import { useGetNodeDisksAndPartitions } from '@/api/disks';
 import Partition from '@/types/partition';
 import Disk from '@/types/disk';
 import DiskUsageChart from 'sections/nodes/DiskUsageChart';
+import Progress from '../Progress/Progress';
 
 const getPartitionFreeAndUsedSpace = (partition: Partition) => {
   const usedSpace = parseInt(partition.usedSpace, 10);
@@ -60,7 +61,7 @@ const Disks: React.FC = () => {
   }, [selectedDisk]);
 
   if (isLoading) {
-    return <div>Loading disks..</div>;
+    return <Progress />;
   }
 
   return (

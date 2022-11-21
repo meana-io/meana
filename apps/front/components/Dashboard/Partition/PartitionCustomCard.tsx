@@ -1,5 +1,6 @@
 import { useGetNodeDiskPartitionsList } from '@/api/diskPartitions';
 import CustomCard from '@/components/CustomCard/CustomCard';
+import Progress from '@/components/Progress/Progress';
 import { toFormatBytesInNumber } from '@/utility/formatBytes';
 import { deHashParams } from '@/utility/hashParams';
 
@@ -14,7 +15,7 @@ const PartitionCustomCard: React.FC<PartitionCustomCardProps> = ({ hash }) => {
   });
 
   if (isLoading) {
-    return <div>Loading..</div>;
+    return <Progress />;
   }
 
   return (

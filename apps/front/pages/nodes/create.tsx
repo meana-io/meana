@@ -3,6 +3,7 @@ import { Box, Button, Typography, Modal, TextField, Grid } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/router';
 import { CreateNodeFormData, useCreateNode } from '@/api/nodes';
+import { pageRoutes } from 'routes';
 
 const CreateNode: NextPage = () => {
   const { mutateAsync, isLoading, data: node } = useCreateNode();
@@ -20,7 +21,7 @@ const CreateNode: NextPage = () => {
   };
 
   const handleClose = () => {
-    router.push('/');
+    router.push(pageRoutes.dashboard);
   };
 
   return (

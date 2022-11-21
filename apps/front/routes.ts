@@ -12,6 +12,7 @@ export const apiRoutes = {
 export const pageRoutes = {
   dashboard: '/',
   users: '/users/list',
+  editUser: '/users',
   createUser: '/users/create',
   nodes: '/nodes',
   createNode: '/nodes/create',

@@ -19,6 +19,7 @@ import { NextPage } from 'next';
 import { Add as AddIcon, Close as CloseIcon } from '@mui/icons-material';
 import ReportsLayout from '@/layouts/Reports/ReportsLayout';
 import { useGetNodesList } from '@/api/nodes';
+import Progress from '@/components/Progress/Progress';
 
 const validationSchema = Yup.object().shape({
   from: Yup.date().required('From is required'),
@@ -76,8 +77,9 @@ const CreaetReport: NextPage = () => {
   };
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <Progress />;
   }
+
   return (
     <ReportsLayout>
       <Formik
