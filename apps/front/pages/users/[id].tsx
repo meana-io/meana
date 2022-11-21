@@ -1,13 +1,19 @@
-import React from 'react';
 import { useRouter } from 'next/router';
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { useFormik } from 'formik';
 import * as yup from 'yup';
-import {Button, Grid, Box, TextField, Typography} from '@mui/material';
-import { useForm } from 'react-hook-form';
+import {
+  Button,
+  TextField,
+  CardHeader,
+  CardContent,
+  Card,
+  CardActions,
+  Grid,
+} from '@mui/material';
+import { Formik, Form } from 'formik';
 import { NextPage } from 'next';
-import { api } from '@/utility/api';
-import { apiRoutes } from 'routes';
+import BaseLayout from '@/layouts/Base/BaseLayout';
+import { CreateUserData, useGetUser, useUpdateUser } from '@/api/user';
+import { pageRoutes } from 'routes';
 
 const validationSchema = yup.object({
   firstName: yup.string().required('First name is required'),
@@ -23,206 +29,145 @@ const validationSchema = yup.object({
     .required('Password is required'),
 });
 
-
-export enum USERS {
-  GET_USERS = 'GET_USERS',
-}
-
-
-export interface CreateUserData {
-  firstName: string;
-  lastName: string;
-  login: string;
-  email: string;
-  password: string;
-}
-
-const useUpdateUser = () => {
-  const queryClient = useQueryClient();
-  return useMutation(
-    (data: CreateUserData) => api.post<Node>(apiRoutes.users, data),
-    {
-      onError: () => {
-        alert('there was an error');
-      },
-      onSettled: () => {
-        queryClient.invalidateQueries([USERS.GET_USERS]);
-      },
-    }
-  );
-}
-
-
 const UpdateUser: NextPage = () => {
-  const { mutateAsync} = useUpdateUser();
-  const { register, handleSubmit } = useForm();
   const router = useRouter();
+  const userId = router.query.id as string;
+  const { data: user, isLoading } = useGetUser(userId, {});
+  const { mutateAsync} = useUpdateUser(userId);
 
-  
-  const onAdd = async ({ firstName, lastName, login, email, password }: CreateUserData) => {
+  const updateUser = async ({
+    firstName,
+    lastName,
+    login,
+    email,
+    password,
+  }: CreateUserData) => {
     try {
       await mutateAsync({
-      firstName,
-      lastName,
-      login,
-      email,
-      password,
-      });
+        firstName,
+        lastName,
+        login,
+        email,
+        password,
+      }).then(backToUsersList);
     } catch (e) {
       alert(`Cannot add the data`);
     }
   };
 
-  const formik = useFormik({
-    initialValues: {
-      firstName: '',
-      lastName: '',
-      login: '',
-      email: '',
-      password: '',
-    },
-    validationSchema: validationSchema,
-    onSubmit: (values) => {
-      onAdd(values);
-    },
-  });
-
-  
-  const handleClose = () => {
-    router.push('/');
+  const backToUsersList = () => {
+    router.push(pageRoutes.users);
   };
 
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
   return (
-    <div>
-      <form onSubmit={formik.handleSubmit}>
-        <Grid
-          container
-          spacing={0}
-          direction="column"
-          alignItems="center"
-          justifyContent="center"
-          style={{ minHeight: '100vh' }}
-        >
-          <Box
-            sx={{
-              position: 'absolute' as const,
-              top: '45%',
-              left: '50%',
-              transform: 'translate(-50%, -50%)',
-              width: 510,
-              bgcolor: 'background.paper',
-              boxShadow: 24,
-              p: 4,
-            }}
-          >
-            <Typography
-              id="user-form-title"
-              variant="h6"
-              component="h2"
-              align="center"
-            >
-              Add User
-            </Typography>
-            <div className="first-last">
-              <TextField
-                sx={{ mr: 1, width: '48%' }}
-                margin="normal"
-                id="firstName"
-                name="firstName"
-                label="First Name"
-                {...register('firstName')}
-                value={formik.values.firstName}
-                onChange={formik.handleChange}
-                error={
-                  formik.touched.firstName && Boolean(formik.errors.firstName)
-                }
-                helperText={formik.touched.firstName && formik.errors.firstName}
-              />
-              <TextField
-                sx={{ ml: 1, width: '48%' }}
-                margin="normal"
-                id="lastName"
-                name="lastName"
-                label="Last Name"
-                {...register('lastName')}
-                value={formik.values.lastName}
-                onChange={formik.handleChange}
-                error={
-                  formik.touched.lastName && Boolean(formik.errors.lastName)
-                }
-                helperText={formik.touched.lastName && formik.errors.lastName}
-              />
-            </div>
-            <div className="log-ap">
-              <TextField
-                sx={{ mr: 1, width: '48%' }}
-                margin="normal"
-                id="login"
-                name="login"
-                label="Login"
-                {...register('login')}
-                value={formik.values.login}
-                onChange={formik.handleChange}
-                error={formik.touched.login && Boolean(formik.errors.login)}
-                helperText={formik.touched.login && formik.errors.login}
-              />
-              <TextField
-                sx={{ ml: 1, width: '48%' }}
-                margin="normal"
-                id="password"
-                name="password"
-                label="Password"
-                type="password"
-                {...register('password')}
-                value={formik.values.password}
-                onChange={formik.handleChange}
-                error={
-                  formik.touched.password && Boolean(formik.errors.password)
-                }
-                helperText={formik.touched.password && formik.errors.password}
-              />
-            </div>
-            <div className="email">
-              <TextField
-                fullWidth
-                margin="normal"
-                id="email"
-                name="email"
-                label="Email"
-                {...register('email')}
-                value={formik.values.email}
-                onChange={formik.handleChange}
-                error={formik.touched.email && Boolean(formik.errors.email)}
-                helperText={formik.touched.email && formik.errors.email}
-              />
-            </div>
-            <Grid>
-              <Button
-                color="primary"
-                variant="contained"
-                fullWidth
-                sx={{ mt: 1, mb: 2 }}
-                onClick={handleClose}
-              >
-                Cancel
-              </Button>
-            </Grid>
-            <Grid>
-              <Button
-                disabled={!formik.isValid || !formik.dirty}
-                color="primary"
-                variant="contained"
-                fullWidth
-                type="submit"
-                sx={{ mt: 1, mb: 2 }}
-              >
-                Submit
-              </Button>
-            </Grid>
-          </Box>
-        </Grid>
-      </form>
-    </div>
+    <BaseLayout>
+      <Formik
+        initialValues={{
+          firstName: user.firstName,
+          lastName: user.lastName,
+          login: user.login,
+          email: user.email,
+          password: user.password,
+        }}
+        validationSchema={validationSchema}
+        onSubmit={updateUser}
+      >
+        {({ values, touched, errors, handleChange, isValid, dirty }) => (
+          <Form>
+            <Card>
+              <CardHeader title="Edit User" />
+              <CardContent>
+                <Grid container spacing={2}>
+                  <Grid item sm={12} md={6}>
+                    <TextField
+                      fullWidth
+                      id="firstName"
+                      name="firstName"
+                      label="First Name"
+                      value={values.firstName}
+                      onChange={handleChange}
+                      error={touched.firstName && Boolean(errors.firstName)}
+                      helperText={touched.firstName && errors.firstName}
+                    />
+                  </Grid>
+                  <Grid item sm={12} md={6}>
+                    <TextField
+                      fullWidth
+                      id="lastName"
+                      name="lastName"
+                      label="Last Name"
+                      value={values.lastName}
+                      onChange={handleChange}
+                      error={touched.lastName && Boolean(errors.lastName)}
+                      helperText={touched.lastName && errors.lastName}
+                    />
+                  </Grid>
+                  <Grid item sm={12} md={6}>
+                    <TextField
+                      fullWidth
+                      id="login"
+                      name="login"
+                      label="Login"
+                      value={values.login}
+                      onChange={handleChange}
+                      error={touched.login && Boolean(errors.login)}
+                      helperText={touched.login && errors.login}
+                    />
+                  </Grid>
+                  <Grid item sm={12} md={6}>
+                    <TextField
+                      fullWidth
+                      id="password"
+                      name="password"
+                      label="Password"
+                      type="password"
+                      value={values.password}
+                      onChange={handleChange}
+                      error={touched.password && Boolean(errors.password)}
+                      helperText={touched.password && errors.password}
+                    />
+                  </Grid>
+                  <Grid item sm={12} md={12}>
+                    <TextField
+                      fullWidth
+                      id="email"
+                      name="email"
+                      label="Email"
+                      value={values.email}
+                      onChange={handleChange}
+                      error={touched.email && Boolean(errors.email)}
+                      helperText={touched.email && errors.email}
+                    />
+                  </Grid>
+                </Grid>
+                <CardActions
+                  sx={{
+                    display: 'flex',
+                    justifyContent: 'flex-end',
+                  }}
+                >
+                  <Button
+                    color="error"
+                    variant="outlined"
+                    size="large"
+                    onClick={backToUsersList}
+                  >
+                    Cancel
+                  </Button>
+                  <Button size="large" variant="contained" type="submit">
+                    Submit
+                  </Button>
+                </CardActions>
+              </CardContent>
+            </Card>
+          </Form>
+        )}
+      </Formik>
+    </BaseLayout>
   );
 };
 
