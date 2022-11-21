@@ -8,16 +8,22 @@ import {
   CardActions,
   Typography,
   Select,
-  Box,
   Slider,
   MenuItem,
   InputLabel,
   FormControl,
 } from '@mui/material';
 import { useFormik } from 'formik';
-import { useGetNodeDisksAndPartitions } from '@/api/disks';
 import { useRouter } from 'next/router';
 import ListSubheader from '@mui/material/ListSubheader';
+import Progress from '@/components/Progress/Progress';
+import { styled } from '@mui/system';
+import { useGetNodeDisksAndPartitions } from '@/api/disks';
+
+const StyledCardActions = styled(CardActions)(({ theme }) => ({
+  display: 'flex',
+  justifyContent: 'flex-end',
+}));
 
 const Settings: NextPage = () => {
   const router = useRouter();
@@ -42,189 +48,162 @@ const Settings: NextPage = () => {
   });
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <Progress />;
   }
 
   return (
     <form onSubmit={formik.handleSubmit}>
-      <Grid container spacing={4}>
-        <Grid item xs={20}>
+      <Grid container spacing={2}>
+        <Grid item xs={12} md={6}>
           <Card>
             <CardHeader title="Disks" />
             <CardContent>
-              <FormControl fullWidth>
-                <InputLabel id="disk-label">Disk</InputLabel>
-                <Select
-                  labelId="disk-label"
-                  id="disk"
-                  name="disk"
-                  label="Disk"
-                  value={formik.values.disk}
-                  onChange={formik.handleChange}
-                >
-                  {disksAndPartitions?.map(({ name }, index) => (
-                    <MenuItem key={index} value={name}>
-                      {name}
-                    </MenuItem>
-                  ))}
-                </Select>
-                <Typography variant="body2" color="text.secondary" gutterBottom>
-                Capacity:
-              </Typography>
-              <Box>
-                <Slider
-                  id="sliderDisk"
-                  name="sliderDisk"
-                  value={formik.values.sliderDisk}
-                  onChange={formik.handleChange}
-                  defaultValue={50}
-                  aria-label="Default"
-                  valueLabelDisplay="auto"
-                />
-              </Box>
-              </FormControl>
+              <Grid container spacing={2}>
+                <Grid item sm={12}>
+                  <FormControl fullWidth>
+                    <InputLabel id="disk-label">Disk</InputLabel>
+                    <Select
+                      labelId="disk-label"
+                      id="disk"
+                      name="disk"
+                      label="Disk"
+                      value={formik.values.disk}
+                      onChange={formik.handleChange}
+                    >
+                      {disksAndPartitions?.map(({ name }, index) => (
+                        <MenuItem key={index} value={name}>
+                          {name}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
+                </Grid>
+                <Grid item sm={12}>
+                  <Typography gutterBottom>Max Capacity:</Typography>
+                  <Slider
+                    id="sliderDisk"
+                    name="sliderDisk"
+                    value={formik.values.sliderDisk}
+                    onChange={formik.handleChange}
+                    defaultValue={50}
+                    aria-label="Default"
+                    valueLabelDisplay="auto"
+                  />
+                </Grid>
+              </Grid>
             </CardContent>
-            <CardActions>
-              <Box
-                p={2}
-                display="flex"
-                sx={{ width: '100%' }}
-                justifyContent="flex-end"
-              >
-                <Button type="submit" size="large" variant="contained">
-                  Save
-                </Button>
-              </Box>
-            </CardActions>
+            <StyledCardActions>
+              <Button type="submit" size="large" variant="contained">
+                Save
+              </Button>
+            </StyledCardActions>
           </Card>
         </Grid>
-        <Grid item xs={20}>
+        <Grid item xs={12} md={6}>
           <Card>
             <CardHeader title="Partiton" />
             <CardContent>
-              <FormControl fullWidth>
-              <InputLabel id="partition-label">Partition</InputLabel>
-              <Typography variant="body2" color="text.secondary" gutterBottom>
-              </Typography>
-              <Select
-                labelId="partition-label"
-                id="partition"
-                name="partition"
-                label="Partition"
-                value={formik.values.partition}
-                onChange={formik.handleChange}
-              >
-                <ListSubheader>Dysk sda</ListSubheader>
-                <MenuItem value={1}>Partiton 1</MenuItem>
-                <MenuItem value={2}>Partiton 2</MenuItem>
-                <ListSubheader>Dysk sda1</ListSubheader>
-                <MenuItem value={3}>Partiton 3</MenuItem>
-                <MenuItem value={4}>Partiton 4</MenuItem>
-              </Select>
-              <Typography variant="body2" color="text.secondary" gutterBottom>
-                UsedSpace:
-              </Typography>
-              <Box>
-                <Slider
-                  id="sliderUsedSpacePartition"
-                  name="sliderUsedSpacePartition"
-                  value={formik.values.sliderUsedSpacePartition}
-                  onChange={formik.handleChange}
-                  aria-label="Default"
-                  valueLabelDisplay="auto"
-                />
-              </Box>
-              <Typography variant="body2" color="text.secondary" gutterBottom>
-                Capacity:
-              </Typography>
-              <Box>
-                <Slider
-                  id="sliderCapacityPartition"
-                  name="sliderCapacityPartition"
-                  value={formik.values.sliderCapacityPartition}
-                  onChange={formik.handleChange}
-                  aria-label="Default"
-                  valueLabelDisplay="auto"
-                />
-              </Box>
-              </FormControl>
+              <Grid container spacing={2}>
+                <Grid item sm={12}>
+                  <FormControl fullWidth>
+                    <InputLabel id="partition-label">Partition</InputLabel>
+                    <Select
+                      labelId="partition-label"
+                      id="partition"
+                      name="partition"
+                      label="Partition"
+                      value={formik.values.partition}
+                      onChange={formik.handleChange}
+                    >
+                      <ListSubheader>Dysk sda</ListSubheader>
+                      <MenuItem value={1}>Partiton 1</MenuItem>
+                      <MenuItem value={2}>Partiton 2</MenuItem>
+                      <ListSubheader>Dysk sda1</ListSubheader>
+                      <MenuItem value={3}>Partiton 3</MenuItem>
+                      <MenuItem value={4}>Partiton 4</MenuItem>
+                    </Select>
+                  </FormControl>
+                </Grid>
+                <Grid item sm={12}>
+                  <Typography gutterBottom>Max Used Space:</Typography>
+                  <Slider
+                    id="sliderUsedSpacePartition"
+                    name="sliderUsedSpacePartition"
+                    value={formik.values.sliderUsedSpacePartition}
+                    onChange={formik.handleChange}
+                    aria-label="Default"
+                    valueLabelDisplay="auto"
+                  />
+                </Grid>
+
+                <Grid item sm={12}>
+                  <Typography gutterBottom>Max Capacity:</Typography>
+                  <Slider
+                    id="sliderCapacityPartition"
+                    name="sliderCapacityPartition"
+                    value={formik.values.sliderCapacityPartition}
+                    onChange={formik.handleChange}
+                    aria-label="Default"
+                    valueLabelDisplay="auto"
+                  />
+                </Grid>
+              </Grid>
             </CardContent>
-            <CardActions>
-              <Box
-                p={2}
-                display="flex"
-                sx={{ width: '100%' }}
-                justifyContent="flex-end"
-              >
-                <Button type="submit" size="large" variant="contained">
-                  Save
-                </Button>
-              </Box>
-            </CardActions>
+            <StyledCardActions>
+              <Button type="submit" size="large" variant="contained">
+                Save
+              </Button>
+            </StyledCardActions>
           </Card>
         </Grid>
-        <Grid item xs={20}>
+        <Grid item xs={12} md={6}>
           <Card>
             <CardHeader title="RAM" />
             <CardContent>
-              <Typography variant="body2" color="text.secondary" gutterBottom>
-                Used:
-              </Typography>
-              <Box>
-                <Slider
-                  id="sliderUsedRam"
-                  name="sliderUsedRam"
-                  value={formik.values.sliderUsedRam}
-                  onChange={formik.handleChange}
-                  aria-label="Default"
-                  valueLabelDisplay="auto"
-                />
-              </Box>
+              <Grid container spacing={2}>
+                <Grid item sm={12}>
+                  <Typography gutterBottom>Max RAM Usage:</Typography>
+                  <Slider
+                    id="sliderUsedRam"
+                    name="sliderUsedRam"
+                    value={formik.values.sliderUsedRam}
+                    onChange={formik.handleChange}
+                    aria-label="Default"
+                    valueLabelDisplay="auto"
+                  />
+                </Grid>
+              </Grid>
             </CardContent>
-            <CardActions>
-              <Box
-                p={2}
-                display="flex"
-                sx={{ width: '100%' }}
-                justifyContent="flex-end"
-              >
-                <Button type="submit" size="large" variant="contained">
-                  Save
-                </Button>
-              </Box>
-            </CardActions>
+            <StyledCardActions>
+              <Button type="submit" size="large" variant="contained">
+                Save
+              </Button>
+            </StyledCardActions>
           </Card>
         </Grid>
-        <Grid item xs={20}>
+        <Grid item xs={12} md={6}>
           <Card>
             <CardHeader title="CPU" />
             <CardContent>
-              <Typography variant="body2" color="text.secondary" gutterBottom>
-                Usage:
-              </Typography>
-              <Box>
-                <Slider
-                  id="sliderUsageCpu"
-                  name="sliderUsageCpu"
-                  value={formik.values.sliderUsageCpu}
-                  onChange={formik.handleChange}
-                  aria-label="Default"
-                  valueLabelDisplay="auto"
-                />
-              </Box>
+              <Grid container spacing={2}>
+                <Grid item sm={12}>
+                  <Typography gutterBottom>Max CUP Usage:</Typography>
+                  <Slider
+                    id="sliderUsageCpu"
+                    name="sliderUsageCpu"
+                    value={formik.values.sliderUsageCpu}
+                    onChange={formik.handleChange}
+                    aria-label="Default"
+                    valueLabelDisplay="auto"
+                  />
+                </Grid>
+              </Grid>
             </CardContent>
-            <CardActions>
-              <Box
-                p={2}
-                display="flex"
-                sx={{ width: '100%' }}
-                justifyContent="flex-end"
-              >
-                <Button type="submit" size="large" variant="contained">
-                  Save
-                </Button>
-              </Box>
-            </CardActions>
+            <StyledCardActions>
+              <Button type="submit" size="large" variant="contained">
+                Save
+              </Button>
+            </StyledCardActions>
           </Card>
         </Grid>
       </Grid>
