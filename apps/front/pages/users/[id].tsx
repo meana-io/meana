@@ -9,6 +9,7 @@ import {
   CardActions,
   Grid,
 } from '@mui/material';
+import { LoadingButton } from '@mui/lab';
 import { Formik, Form } from 'formik';
 import { NextPage } from 'next';
 import BaseLayout from '@/layouts/Base/BaseLayout';
@@ -33,7 +34,7 @@ const UpdateUser: NextPage = () => {
   const router = useRouter();
   const userId = router.query.id as string;
   const { data: user, isLoading } = useGetUser(userId, {});
-  const { mutateAsync} = useUpdateUser(userId);
+  const { mutateAsync, isLoading: isUpdatingUser } = useUpdateUser(userId);
 
   const updateUser = async ({
     firstName,
@@ -158,9 +159,14 @@ const UpdateUser: NextPage = () => {
                   >
                     Cancel
                   </Button>
-                  <Button size="large" variant="contained" type="submit">
+                  <LoadingButton
+                    loading={isUpdatingUser}
+                    size="large"
+                    variant="contained"
+                    type="submit"
+                  >
                     Submit
-                  </Button>
+                  </LoadingButton>
                 </CardActions>
               </CardContent>
             </Card>

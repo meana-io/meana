@@ -14,6 +14,7 @@ import BaseLayout from '@/layouts/Base/BaseLayout';
 import { CreateUserData, useCreateUser } from '@/api/user';
 import { pageRoutes } from 'routes';
 import { useRouter } from 'next/router';
+import { LoadingButton } from '@mui/lab';
 
 const validationSchema = yup.object({
   firstName: yup.string().required('First name is required'),
@@ -31,7 +32,7 @@ const validationSchema = yup.object({
 
 const CreateUser: NextPage = () => {
   const router = useRouter();
-  const { mutateAsync } = useCreateUser();
+  const { mutateAsync, isLoading: isCreatingUser } = useCreateUser();
 
   const createUser = async ({
     firstName,
@@ -152,9 +153,14 @@ const CreateUser: NextPage = () => {
                   >
                     Cancel
                   </Button>
-                  <Button size="large" variant="contained" type="submit">
+                  <LoadingButton
+                    loading={isCreatingUser}
+                    size="large"
+                    variant="contained"
+                    type="submit"
+                  >
                     Submit
-                  </Button>
+                  </LoadingButton>
                 </CardActions>
               </CardContent>
             </Card>
