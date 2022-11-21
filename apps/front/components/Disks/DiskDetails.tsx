@@ -36,7 +36,7 @@ const DiskDetails: React.FC<DiskDetailsProps> = ({ disk }) => {
               key
             )}
             title={toTitleCase(key)}
-            value={toFormatBytesInNumber(disk[key]) || 'N/A'}
+            value={toFormatBytesInNumber(disk[key] as string) || 'N/A'}
           />
         </Grid>
       ))}

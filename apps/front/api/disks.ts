@@ -16,7 +16,9 @@ export const useGetNodeDisksAndPartitions = (nodeId: NodeId, options?) => {
   return useQuery(
     [DISK.GET_DISKS_AND_PARTITIONS, nodeId],
     () =>
-      api.get<DiskPartitions>(`${apiRoutes.getLatestDisks}?nodeUuid=${nodeId}`),
+      api.get<DiskPartitions[]>(
+        `${apiRoutes.getLatestDisks}?nodeUuid=${nodeId}`
+      ),
     options
   );
 };
@@ -32,7 +34,7 @@ export const useGetNodeDisk = (
   return useQuery(
     [DISK.GET_DISKS_AND_PARTITIONS, nodeId, diskName],
     () =>
-      api.get<DiskPartitions>(`${apiRoutes.nodeDisks}`, {
+      api.get<DiskPartitions[]>(`${apiRoutes.nodeDisks}`, {
         search: {
           nodeId,
           name: diskName,

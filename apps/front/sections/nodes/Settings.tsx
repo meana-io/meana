@@ -70,7 +70,7 @@ const Settings: NextPage = () => {
                       value={formik.values.disk}
                       onChange={formik.handleChange}
                     >
-                      {disksAndPartitions?.map(({ name }, index) => (
+                      {disksAndPartitions.map(({ name }, index) => (
                         <MenuItem key={index} value={name}>
                           {name}
                         </MenuItem>

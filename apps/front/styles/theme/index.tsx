@@ -9,7 +9,6 @@ import palette from './palette';
 import shadows from './shadows';
 import typography from './typography';
 import GlobalStyles from './GlobalStyles';
-import customShadows from './customShadows';
 import componentsOverride from './overrides';
 
 const ThemeProvider = ({ children }) => {
@@ -19,7 +18,6 @@ const ThemeProvider = ({ children }) => {
       shape: { borderRadius: 6 },
       typography,
       shadows: shadows(),
-      customShadows: customShadows(),
     }),
     []
   );

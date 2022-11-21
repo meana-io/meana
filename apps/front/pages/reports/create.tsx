@@ -1,4 +1,4 @@
-import { Formik, Form, FieldArray } from 'formik';
+import { Formik, Form, FieldArray, FormikProps, getIn } from 'formik';
 import * as Yup from 'yup';
 import {
   Autocomplete,
@@ -46,7 +46,7 @@ interface Option {
 
 interface Report {
   nodeId: string;
-  properties: string;
+  properties: string[];
 }
 
 interface Values {
@@ -56,11 +56,6 @@ interface Values {
   reports: Report[];
 }
 
-const report = {
-  nodeId: '',
-  properties: [],
-};
-
 const options = [
   { group: 'Disk', label: 'Memory', value: 'disk.memory' },
   { group: 'Disk', label: 'Capacity', value: 'disk.capacity' },
@@ -68,6 +63,18 @@ const options = [
   { group: 'Disk', label: 'Producent', value: 'disk.producent' },
   { group: 'Disk', label: 'Factory', value: 'disk.factory' },
 ];
+
+const report: Report = {
+  nodeId: '',
+  properties: [],
+};
+
+const initialValues: Values = {
+  from: '',
+  to: '',
+  timeAgregation: '',
+  reports: [report],
+};
 
 const CreaetReport: NextPage = () => {
   const { data: nodes, isLoading } = useGetNodesList();
@@ -83,12 +90,7 @@ const CreaetReport: NextPage = () => {
   return (
     <ReportsLayout>
       <Formik
-        initialValues={{
-          from: '',
-          to: '',
-          timeAgregation: '',
-          reports: [report],
-        }}
+        initialValues={initialValues}
         validationSchema={validationSchema}
         onSubmit={onSubmit}
       >
@@ -100,7 +102,7 @@ const CreaetReport: NextPage = () => {
           isValid,
           isSubmitting,
           handleBlur,
-        }) => (
+        }: FormikProps<Values>) => (
           <Form>
             <Card>
               <CardHeader title="Reports" />
@@ -130,7 +132,7 @@ const CreaetReport: NextPage = () => {
                             value={values.from}
                             onChange={handleChange}
                             error={touched.from && Boolean(errors.from)}
-                            //helperText={touched.from && errors.from}
+                            helperText={touched.from && errors.from}
                             onBlur={handleBlur}
                           />
                         </Grid>
@@ -145,7 +147,7 @@ const CreaetReport: NextPage = () => {
                             value={values.to}
                             onChange={handleChange}
                             error={touched.to && Boolean(errors.to)}
-                            //helperText={touched.to && errors.to}
+                            helperText={touched.to && errors.to}
                             onBlur={handleBlur}
                           />
                         </Grid>
@@ -164,9 +166,6 @@ const CreaetReport: NextPage = () => {
                                 touched.timeAgregation &&
                                 Boolean(errors.timeAgregation)
                               }
-                              // helperText={
-                              //   touched.timeAgregation && errors.timeAgregation
-                              // }
                               onBlur={handleBlur}
                             >
                               <MenuItem value={10}>Every Minute</MenuItem>
@@ -189,13 +188,9 @@ const CreaetReport: NextPage = () => {
                                 value={values.reports.at(index).nodeId}
                                 onChange={handleChange}
                                 error={
-                                  touched.reports?.at(index)?.nodeId &&
-                                  Boolean(errors.reports?.at(index)?.nodeId)
+                                  getIn(touched, `reports[${index}].nodeId`) &&
+                                  !!getIn(errors, `reports[${index}].nodeId`)
                                 }
-                                // helperText={
-                                //   touched.reports?.at(index)?.nodeId &&
-                                //   errors.reports?.at(index)?.nodeId
-                                // }
                                 onBlur={handleBlur}
                               >
                                 {nodes.map(({ uuid, name }) => (
@@ -211,7 +206,7 @@ const CreaetReport: NextPage = () => {
                               onChange={(_, value: Option[]) => {
                                 values.reports.at(index).properties = value.map(
                                   ({ value }) => value
-                                );
+                                ) as string[];
                               }}
                               isOptionEqualToValue={(
                                 option: Option,
@@ -229,15 +224,25 @@ const CreaetReport: NextPage = () => {
                                   value={values.reports.at(index).properties}
                                   name={`reports[${index}].properties`}
                                   error={
-                                    touched.reports?.at(index)?.properties &&
-                                    Boolean(
-                                      errors.reports?.at(index)?.properties
+                                    getIn(
+                                      touched,
+                                      `reports[${index}].properties`
+                                    ) &&
+                                    !!getIn(
+                                      errors,
+                                      `reports[${index}].properties`
                                     )
                                   }
-                                  // helperText={
-                                  //   touched.reports?.at(index)?.properties &&
-                                  //   errors.reports?.at(index)?.properties
-                                  // }
+                                  helperText={
+                                    getIn(
+                                      touched,
+                                      `reports[${index}].properties`
+                                    ) &&
+                                    getIn(
+                                      errors,
+                                      `reports[${index}].properties`
+                                    )
+                                  }
                                   onBlur={handleBlur}
                                 />
                               )}
