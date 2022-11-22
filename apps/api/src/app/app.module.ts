@@ -19,6 +19,7 @@ import { SettingsModule } from './domains/settings/settings.module';
 import { UsersModule } from './domains/users/users.module';
 import { UserEntity } from '../../../../libs/shared/Entities/user.entity';
 import { ActiveDevicesEntity } from '../../../../libs/shared/Entities/active-devices.entity';
+import { ReportsModule } from './domains/reports/reports.module';
 
 @Module({
   imports: [
@@ -29,6 +30,7 @@ import { ActiveDevicesEntity } from '../../../../libs/shared/Entities/active-dev
     NodeCpuModule,
     SettingsModule,
     UsersModule,
+    ReportsModule,
     SequelizeModule.forRoot({
       dialect: process.env.DB_DIALECT as Dialect,
       host: process.env.DB_HOST,
