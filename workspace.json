@@ -4,6 +4,7 @@
     "api": "apps/api",
     "api-agent": "apps/api-agent",
     "front": "apps/front",
-    "front-e2e": "apps/front-e2e"
+    "front-e2e": "apps/front-e2e",
+    "reports-service": "apps/reports-service"
   }
 }
