@@ -1,6 +1,6 @@
 import { Typography, Box } from '@mui/material';
-import dynamic from 'next/dynamic';
 import Progress from '@/components/Progress/Progress';
+import dynamic from 'next/dynamic';
 const LazyLog = dynamic(
   () => import('react-lazylog').then((module) => module.LazyLog),
   {
@@ -26,8 +26,14 @@ const LogsViewer: React.FC<LogsViewerProps> = ({ isFetching, data }) => {
     );
   }
 
-  // eslint-disable-next-line
-  return <LazyLog extraLines={1} enableSearch text={data} caseInsensitive />;
+  return (
+    <Box height="450px">
+      {
+        // eslint-disable-next-line max-len
+      }
+      <LazyLog extraLines={2} enableSearch text={data} caseInsensitive />
+    </Box>
+  );
 };
 
 export default LogsViewer;

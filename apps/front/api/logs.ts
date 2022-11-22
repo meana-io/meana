@@ -9,7 +9,6 @@ export enum LOGS {
 }
 
 export const useGetLogs = (nodeId: NodeId, fileType: string, options?) => {
-  console.log({ nodeId, fileType });
   return useQuery(
     [LOGS.GET_LOGS, nodeId, fileType],
     () =>
