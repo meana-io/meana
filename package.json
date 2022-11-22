@@ -7,7 +7,7 @@
     "start-front": "nx run front:serve",
     "build": "nx build",
     "test": "nx test",
-    "startAll": "nx run-many --parallel --target=serve --projects=api,api-agent,reports-service",
+    "startAll": "nx run-many --parallel --target=serve --projects=api,api-agent",
     "d:dev:up": "docker compose --file docker/docker-compose.yml up"
   },
   "private": true,
@@ -54,6 +54,7 @@
     "react-error-boundary": "^3.1.4",
     "react-grid-layout": "^1.3.4",
     "react-hook-form": "^7.32.0",
+    "react-lazylog": "^4.5.3",
     "reflect-metadata": "^0.1.13",
     "regenerator-runtime": "0.13.7",
     "rxjs": "^7.0.0",
