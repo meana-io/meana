@@ -1,25 +1,32 @@
 import { NextPage } from 'next';
 
 import { Grid, Paper } from '@mui/material';
-import DiscFullIcon from '@mui/icons-material/DiscFull';
-import SdStorageIcon from '@mui/icons-material/SdStorage';
-import MemoryIcon from '@mui/icons-material/Memory';
-import SettingsIcon from '@mui/icons-material/Settings';
+import {
+  Group as GroupIcon,
+  Settings as SettingsIcon,
+  Memory as MemoryIcon,
+  SdStorage as SdStorageIcon,
+  DiscFull as DiscFullIcon,
+  FileCopy as FileCopyIcon,
+} from '@mui/icons-material';
 
 import NodesLayout from '@/layouts/Nodes/NodesLayout';
+import TabsNav from '@/components/Tabs/TabsNav';
 
 import TabPanel from '@/components/Tabs/TabPanel';
-import Disks from '@/components/Disks';
-import Ram from '@/components/Ram';
-import Cpu from '@/components/Cpu';
-import TabsNav from '@/components/Tabs/TabsNav';
-import Settings from 'sections/nodes/Settings';
-
+import Disk from 'sections/nodes/Disk/Disk';
+import Ram from 'sections/nodes/Ram/Ram';
+import Cpu from 'sections/nodes/Cpu/Cpu';
+import Settings from 'sections/nodes/Settings/Settings';
+import Logs from 'sections/nodes/Logs/Logs';
+import Users from 'sections/nodes/Users/Users';
 
 const TABS = [
   { label: 'disks', icon: <DiscFullIcon /> },
   { label: 'ram', icon: <SdStorageIcon /> },
   { label: 'processor', icon: <MemoryIcon /> },
+  { label: 'Users', icon: <GroupIcon /> },
+  { label: 'logs', icon: <FileCopyIcon /> },
   { label: 'settings', icon: <SettingsIcon /> },
 ];
 
@@ -29,7 +36,7 @@ const Node: NextPage = () => {
       <Grid container spacing={2}>
         <Grid item xs={11}>
           <TabPanel index={0}>
-            <Disks />
+            <Disk />
           </TabPanel>
           <TabPanel index={1}>
             <Ram />
@@ -38,6 +45,12 @@ const Node: NextPage = () => {
             <Cpu />
           </TabPanel>
           <TabPanel index={3}>
+            <Users />
+          </TabPanel>
+          <TabPanel index={4}>
+            <Logs />
+          </TabPanel>
+          <TabPanel index={5}>
             <Settings />
           </TabPanel>
         </Grid>

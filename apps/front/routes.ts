@@ -18,5 +18,4 @@ export const pageRoutes = {
   nodes: '/nodes',
   createNode: '/nodes/create',
   createReport: '/reports/create',
-  logs: '/logs',
 };

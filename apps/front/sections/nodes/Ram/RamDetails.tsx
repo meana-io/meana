@@ -1,5 +1,5 @@
 import { Grid } from '@mui/material';
-import CustomCard from '../CustomCard/CustomCard';
+import CustomCard from '@/components/CustomCard/CustomCard';
 
 import { formatBytes } from '@/utility/formatBytes';
 

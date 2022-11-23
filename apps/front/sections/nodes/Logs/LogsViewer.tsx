@@ -13,7 +13,10 @@ interface LogsViewerProps {
   data: string;
 }
 
-const LogsViewer: React.FC<LogsViewerProps> = ({ isFetching, data }) => {
+const LogsViewer: React.FC<LogsViewerProps> = ({
+  isFetching,
+  data,
+}) => {
   if (isFetching) {
     return <Progress />;
   }

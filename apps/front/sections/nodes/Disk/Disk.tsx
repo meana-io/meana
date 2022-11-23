@@ -9,8 +9,8 @@ import PartitionDetails from './PartitionDetails';
 import { useGetNodeDisksAndPartitions } from '@/api/disks';
 import Partition from '@/types/partition';
 import Disk from '@/types/disk';
-import DiskUsageChart from 'sections/nodes/DiskUsageChart';
-import Progress from '../Progress/Progress';
+import DiskUsageChart from 'sections/nodes/Disk/DiskUsageChart';
+import Progress from '@/components/Progress/Progress';
 
 const getPartitionFreeAndUsedSpace = (partition: Partition) => {
   const usedSpace = parseInt(partition.usedSpace, 10);

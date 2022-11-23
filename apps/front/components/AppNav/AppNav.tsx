@@ -85,10 +85,6 @@ const staticMenu = [
     header: 'Reports',
     list: [{ title: 'Create', href: pageRoutes.createReport }],
   },
-  {
-    header: 'Others',
-    list: [{ title: 'Logs', href: pageRoutes.logs }],
-  },
 ];
 
 const AppNav: React.FC<NavProps> = ({ items }) => {

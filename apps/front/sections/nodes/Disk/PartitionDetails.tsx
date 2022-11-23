@@ -4,8 +4,8 @@ import Partition from '@/types/partition';
 
 import { toTitleCase } from '@/utility/toTitleCase';
 import { toFormatBytesInNumber } from '@/utility/formatBytes';
-import CustomCard from '../CustomCard/CustomCard';
-import { COMPONENT_NAME } from '../Dashboard/Partition/PartitionCustomCard';
+import CustomCard from '@/components/CustomCard/CustomCard';
+import { COMPONENT_NAME } from '@/components/Dashboard/Partition/PartitionCustomCard';
 import { hashParams } from '@/utility/hashParams';
 
 interface PartitionDetailsProps {
