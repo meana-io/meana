@@ -45,7 +45,7 @@ export class GlobalService {
 
     const activeDevices = {
       disks: createGlobalDto.disks,
-      packages: createGlobalDto.packages.packages,
+      // packages: createGlobalDto.packages.packages,
       users: createGlobalDto.users.users,
     };
 
@@ -87,14 +87,14 @@ export class GlobalService {
     if (activeDevice) {
       await activeDevice.update({
         disks: JSON.stringify(activeDevices.disks),
-        packages: JSON.stringify(activeDevices.packages),
+        // packages: JSON.stringify(activeDevices.packages),
         users: JSON.stringify(activeDevices.users),
       });
     } else {
       await this.activeDevicesModel.create({
         nodeUuid: node.uuid,
         disks: JSON.stringify(activeDevices.disks),
-        packages: JSON.stringify(activeDevices.packages),
+        // packages: JSON.stringify(activeDevices.packages),
         users: JSON.stringify(activeDevices.users),
       });
     }
@@ -111,13 +111,13 @@ export class GlobalService {
 
     //PACKAGES
 
-    for (const nodePackage of createGlobalDto.packages.packages) {
-      await this.nodePackageModel.create({
-        nodeUuid: node.uuid,
-        packageName: nodePackage.packageName,
-        packageVersion: nodePackage.packageVersion,
-      });
-    }
+    // for (const nodePackage of createGlobalDto.packages.packages) {
+    //   await this.nodePackageModel.create({
+    //     nodeUuid: node.uuid,
+    //     packageName: nodePackage.packageName,
+    //     packageVersion: nodePackage.packageVersion,
+    //   });
+    // }
 
     return createGlobalDto;
   }
