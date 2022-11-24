@@ -7,7 +7,8 @@ export const apiRoutes = {
   nodeDiskPartitions: '/node-disk-partitions',
   dashboard: '/settings/dashboard',
   users: '/users',
-  logs: '/logs',
+  nodeLogs: '/node-logs',
+  nodeUsers: '/node-users/get-latest',
 };
 
 export const pageRoutes = {

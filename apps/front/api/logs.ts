@@ -13,7 +13,7 @@ export const useGetLogs = (nodeId: NodeId, fileName: string, options?) => {
     [LOGS.GET_LOGS, nodeId, fileName],
     () =>
       api.get<string>(
-        `${apiRoutes.logs}?nodeUuid=${nodeId}&filename=${fileName}`
+        `${apiRoutes.nodeLogs}?nodeUuid=${nodeId}&filename=${fileName}`
       ),
     options
   );
