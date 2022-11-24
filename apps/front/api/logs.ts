@@ -8,13 +8,12 @@ export enum LOGS {
   GET_LOGS = 'GET_LOGS',
 }
 
-export const useGetLogs = (nodeId: NodeId, fileType: string, options?) => {
+export const useGetLogs = (nodeId: NodeId, fileName: string, options?) => {
   return useQuery(
-    [LOGS.GET_LOGS, nodeId, fileType],
+    [LOGS.GET_LOGS, nodeId, fileName],
     () =>
       api.get<string>(
-        `http://localhost:4200/${nodeId}/${fileType}`
-        // `${apiRoutes.logs}/${nodeId}/${fileType}`
+        `${apiRoutes.logs}?nodeUuid=${nodeId}&filename=${fileName}`
       ),
     options
   );

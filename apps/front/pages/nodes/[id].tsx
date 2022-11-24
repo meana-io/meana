@@ -2,6 +2,7 @@ import { NextPage } from 'next';
 
 import { Grid, Paper } from '@mui/material';
 import {
+  NewReleases as NewReleasesIcon,
   Group as GroupIcon,
   Settings as SettingsIcon,
   Memory as MemoryIcon,
@@ -19,15 +20,17 @@ import Ram from 'sections/nodes/Ram/Ram';
 import Cpu from 'sections/nodes/Cpu/Cpu';
 import Settings from 'sections/nodes/Settings/Settings';
 import Logs from 'sections/nodes/Logs/Logs';
+import Packages from 'sections/nodes/Packages/Packages';
 import Users from 'sections/nodes/Users/Users';
 
 const TABS = [
-  { label: 'disks', icon: <DiscFullIcon /> },
-  { label: 'ram', icon: <SdStorageIcon /> },
-  { label: 'processor', icon: <MemoryIcon /> },
+  { label: 'Disks', icon: <DiscFullIcon /> },
+  { label: 'Ram', icon: <SdStorageIcon /> },
+  { label: 'Processor', icon: <MemoryIcon /> },
   { label: 'Users', icon: <GroupIcon /> },
-  { label: 'logs', icon: <FileCopyIcon /> },
-  { label: 'settings', icon: <SettingsIcon /> },
+  { label: 'Packages', icon: <NewReleasesIcon /> },
+  { label: 'Logs', icon: <FileCopyIcon /> },
+  { label: 'Settings', icon: <SettingsIcon /> },
 ];
 
 const Node: NextPage = () => {
@@ -48,9 +51,12 @@ const Node: NextPage = () => {
             <Users />
           </TabPanel>
           <TabPanel index={4}>
-            <Logs />
+            <Packages />
           </TabPanel>
           <TabPanel index={5}>
+            <Logs />
+          </TabPanel>
+          <TabPanel index={6}>
             <Settings />
           </TabPanel>
         </Grid>

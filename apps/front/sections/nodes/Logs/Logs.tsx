@@ -13,24 +13,30 @@ import { useGetLogs } from '@/api/logs';
 import LogsViewer from 'sections/nodes/Logs/LogsViewer';
 import { useRouter } from 'next/router';
 
-const LOG_FILE_TYPES = ['auth.log', 'kern.log', 'system.log', 'dpkg.log'];
+const LOG_FILE_TYPES = [
+  'auth.log',
+  'kern.log',
+  'system.log',
+  'dpkg.log',
+  'error.log',
+];
 
 const Logs: React.FC = () => {
   const router = useRouter();
   const nodeId = router.query.id as string;
-  const [logFileType, setLogFileType] = useState('');
+  const [logFileName, setLogFileName] = useState('');
 
   const {
     data: logs,
     isFetching,
     refetch,
-  } = useGetLogs(nodeId, logFileType, { enabled: false });
+  } = useGetLogs(nodeId, logFileName, { enabled: false });
 
   useEffect(() => {
-    if (logFileType) {
+    if (logFileName) {
       refetch();
     }
-  }, [logFileType, refetch]);
+  }, [logFileName, refetch]);
 
   return (
     <Card style={{ height: '70vh' }}>
@@ -40,13 +46,13 @@ const Logs: React.FC = () => {
           <Grid item xs={12} container spacing={2}>
             <Grid item xs={4}>
               <FormControl fullWidth>
-                <InputLabel id="log-file-type">Logs Type</InputLabel>
+                <InputLabel id="log-file-name">Logs File</InputLabel>
                 <Select
-                  labelId="log-file-type"
-                  label="Logs Type"
-                  name="logFileType"
-                  value={logFileType}
-                  onChange={({ target }) => setLogFileType(target.value)}
+                  labelId="log-file-name"
+                  label="Logs File"
+                  name="logFileName"
+                  value={logFileName}
+                  onChange={({ target }) => setLogFileName(target.value)}
                 >
                   {LOG_FILE_TYPES.map((fileType) => (
                     <MenuItem key={fileType} value={fileType}>
