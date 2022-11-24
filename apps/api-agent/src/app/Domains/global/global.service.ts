@@ -8,6 +8,7 @@ import { NodeDiskPartitionEntity } from '../../../../../../libs/shared/Entities/
 import { NodeRamEntity } from '../../../../../../libs/shared/Entities/node-ram.entity';
 import { NodeCpuEntity } from '../../../../../../libs/shared/Entities/node-cpu.entity';
 import { ActiveDevicesEntity } from '../../../../../../libs/shared/Entities/active-devices.entity';
+import * as fs from 'fs';
 
 /* eslint-enable @nrwl/nx/enforce-module-boundaries */
 
@@ -24,6 +25,7 @@ export class GlobalService {
     private activeDevicesModel: typeof ActiveDevicesEntity
   ) {}
   async insert(createGlobalDto: CreateGlobalDto) {
+    this.saveLog(createGlobalDto);
     this.nodeModel.removeAttribute('id');
     this.activeDevicesModel.removeAttribute('id');
     const node = await this.nodeModel.findOne({
@@ -87,5 +89,12 @@ export class GlobalService {
     }
 
     return createGlobalDto;
+  }
+
+  saveLog(createGlobalDto: CreateGlobalDto) {
+    fs.writeFileSync(
+      'logs/createGlobalDto.json',
+      JSON.stringify(createGlobalDto)
+    );
   }
 }
