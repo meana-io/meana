@@ -20,6 +20,7 @@ import { UsersModule } from './domains/users/users.module';
 import { UserEntity } from '../../../../libs/shared/Entities/user.entity';
 import { ActiveDevicesEntity } from '../../../../libs/shared/Entities/active-devices.entity';
 import { ReportsModule } from './domains/reports/reports.module';
+import { LogsModule } from './domains/logs/logs.module';
 
 @Module({
   imports: [
@@ -31,6 +32,7 @@ import { ReportsModule } from './domains/reports/reports.module';
     SettingsModule,
     UsersModule,
     ReportsModule,
+    LogsModule,
     SequelizeModule.forRoot({
       dialect: process.env.DB_DIALECT as Dialect,
       host: process.env.DB_HOST,

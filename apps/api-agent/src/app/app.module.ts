@@ -12,12 +12,14 @@ import { NodeDiskPartitionEntity } from '../../../../libs/shared/Entities/node-d
 import { NodeRamEntity } from '../../../../libs/shared/Entities/node-ram.entity';
 import { NodeCpuEntity } from '../../../../libs/shared/Entities/node-cpu.entity';
 import { ActiveDevicesEntity } from '../../../../libs/shared/Entities/active-devices.entity';
+import { LogsModule } from './Domains/logs/logs.module';
 
 /* eslint-enable @nrwl/nx/enforce-module-boundaries */
 
 @Module({
   imports: [
     GlobalModule,
+    LogsModule,
     SequelizeModule.forRoot({
       dialect: process.env.DB_DIALECT as Dialect,
       host: process.env.DB_HOST,
