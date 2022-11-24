@@ -31,6 +31,10 @@ const CpuUsageChart: React.FC<CpuUsageChartProps> = ({
     fill: { type: chartData.map((i) => i.fill) },
     labels: chartLabels,
     xaxis: { type: 'datetime' },
+    yaxis: {
+      min: 0,
+      max: 100,
+    },
     tooltip: {
       shared: true,
       intersect: false,

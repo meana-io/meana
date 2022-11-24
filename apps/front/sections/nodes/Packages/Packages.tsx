@@ -83,7 +83,7 @@ const Packages: React.FC = ({}) => {
       <CardContent>
         <DataGrid
           // loading={isLoading}
-          disableColumnSelector
+
           autoHeight
           getRowId={({ packageName }) => packageName}
           rows={PACKAGES}

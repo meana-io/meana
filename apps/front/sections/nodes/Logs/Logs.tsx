@@ -16,7 +16,7 @@ import { useRouter } from 'next/router';
 const LOG_FILE_TYPES = [
   'auth.log',
   'kern.log',
-  'system.log',
+  'syslog',
   'dpkg.log',
   'error.log',
 ];

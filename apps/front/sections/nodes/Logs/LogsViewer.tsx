@@ -31,10 +31,7 @@ const LogsViewer: React.FC<LogsViewerProps> = ({
 
   return (
     <Box height="450px">
-      {
-        // eslint-disable-next-line max-len
-      }
-      <LazyLog extraLines={2} enableSearch text={data} caseInsensitive />
+      <LazyLog enableSearch text={data} caseInsensitive />
     </Box>
   );
 };
