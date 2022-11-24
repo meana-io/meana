@@ -8,7 +8,7 @@ import {
 import { LogsService } from './logs.service';
 import * as fs from 'fs';
 
-@Controller('logs')
+@Controller('node-logs')
 export class LogsController {
   constructor(private readonly logsService: LogsService) {}
 
