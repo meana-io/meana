@@ -8,6 +8,7 @@ import { NodeDiskPartitionEntity } from '../../../../../../libs/shared/Entities/
 import { NodeRamEntity } from '../../../../../../libs/shared/Entities/node-ram.entity';
 import { NodeCpuEntity } from '../../../../../../libs/shared/Entities/node-cpu.entity';
 import { ActiveDevicesEntity } from '../../../../../../libs/shared/Entities/active-devices.entity';
+import { NodeUserEntity } from '../../../../../../libs/shared/Entities/node-user.entity';
 
 /* eslint-enable @nrwl/nx/enforce-module-boundaries */
 
@@ -21,7 +22,8 @@ export class GlobalService {
     @InjectModel(NodeRamEntity) private nodeRamModel: typeof NodeRamEntity,
     @InjectModel(NodeCpuEntity) private nodeCpuModel: typeof NodeCpuEntity,
     @InjectModel(ActiveDevicesEntity)
-    private activeDevicesModel: typeof ActiveDevicesEntity
+    private activeDevicesModel: typeof ActiveDevicesEntity,
+    @InjectModel(NodeUserEntity) private nodeUserModel: typeof NodeUserEntity
   ) {}
   async insert(createGlobalDto: CreateGlobalDto) {
     this.nodeModel.removeAttribute('id');
@@ -83,6 +85,16 @@ export class GlobalService {
       await this.activeDevicesModel.create({
         nodeUuid: node.uuid,
         disks: JSON.stringify(activeDevices.disks),
+      });
+    }
+
+    //USERS AND GROUPS
+
+    for (const user of createGlobalDto.users.users) {
+      await this.nodeUserModel.create({
+        username: user.username,
+        groups: user.groups,
+        nodeUuid: node.uuid,
       });
     }
 

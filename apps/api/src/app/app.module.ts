@@ -20,7 +20,9 @@ import { UsersModule } from './domains/users/users.module';
 import { UserEntity } from '../../../../libs/shared/Entities/user.entity';
 import { ActiveDevicesEntity } from '../../../../libs/shared/Entities/active-devices.entity';
 import { ReportsModule } from './domains/reports/reports.module';
-import { LogsModule } from './domains/logs/logs.module';
+import { LogsModule } from './domains/node-logs/logs.module';
+import { NodeUsersModule } from './domains/node-users/node-users.module';
+import { NodeUserEntity } from '../../../../libs/shared/Entities/node-user.entity';
 
 @Module({
   imports: [
@@ -33,6 +35,7 @@ import { LogsModule } from './domains/logs/logs.module';
     UsersModule,
     ReportsModule,
     LogsModule,
+    NodeUsersModule,
     SequelizeModule.forRoot({
       dialect: process.env.DB_DIALECT as Dialect,
       host: process.env.DB_HOST,
@@ -49,6 +52,7 @@ import { LogsModule } from './domains/logs/logs.module';
         SettingsEntity,
         UserEntity,
         ActiveDevicesEntity,
+        NodeUserEntity,
       ],
     }),
   ],

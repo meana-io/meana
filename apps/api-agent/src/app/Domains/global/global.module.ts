@@ -9,6 +9,7 @@ import { NodeDiskPartitionEntity } from '../../../../../../libs/shared/Entities/
 import { NodeRamEntity } from '../../../../../../libs/shared/Entities/node-ram.entity';
 import { NodeCpuEntity } from '../../../../../../libs/shared/Entities/node-cpu.entity';
 import { ActiveDevicesEntity } from '../../../../../../libs/shared/Entities/active-devices.entity';
+import { NodeUserEntity } from '../../../../../../libs/shared/Entities/node-user.entity';
 
 @Module({
   imports: [
@@ -19,6 +20,7 @@ import { ActiveDevicesEntity } from '../../../../../../libs/shared/Entities/acti
       NodeRamEntity,
       NodeCpuEntity,
       ActiveDevicesEntity,
+      NodeUserEntity,
     ]),
   ],
   controllers: [GlobalController],
