@@ -13,6 +13,7 @@ import { NodeRamEntity } from '../../../../libs/shared/Entities/node-ram.entity'
 import { NodeCpuEntity } from '../../../../libs/shared/Entities/node-cpu.entity';
 import { ActiveDevicesEntity } from '../../../../libs/shared/Entities/active-devices.entity';
 import { LogsModule } from './Domains/logs/logs.module';
+import { NodeUserEntity } from '../../../../libs/shared/Entities/node-user.entity';
 
 /* eslint-enable @nrwl/nx/enforce-module-boundaries */
 
@@ -34,6 +35,7 @@ import { LogsModule } from './Domains/logs/logs.module';
         NodeRamEntity,
         NodeCpuEntity,
         ActiveDevicesEntity,
+        NodeUserEntity,
       ],
     }),
   ],
