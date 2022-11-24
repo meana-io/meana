@@ -7,6 +7,7 @@ export const apiRoutes = {
   nodeDiskPartitions: '/node-disk-partitions',
   dashboard: '/settings/dashboard',
   users: '/users',
+  logs: '/logs',
 };
 
 export const pageRoutes = {
@@ -17,4 +18,5 @@ export const pageRoutes = {
   nodes: '/nodes',
   createNode: '/nodes/create',
   createReport: '/reports/create',
+  logs: '/logs',
 };
