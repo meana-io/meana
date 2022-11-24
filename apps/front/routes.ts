@@ -9,6 +9,7 @@ export const apiRoutes = {
   users: '/users',
   nodeLogs: '/node-logs',
   nodeUsers: '/node-users/get-latest',
+  nodePackages: '/node-packages',
 };
 
 export const pageRoutes = {

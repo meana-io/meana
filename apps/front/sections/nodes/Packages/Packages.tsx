@@ -6,40 +6,14 @@ import {
 } from '@mui/icons-material';
 
 import { useRouter } from 'next/router';
+import Progress from '@/components/Progress/Progress';
+import { useGetNodePackages } from '@/api/packages';
 
-const PACKAGES = [
-  {
-    packageName: '123',
-    packageVersion: 1,
-    upgradable: true,
-    cve: true,
-  },
-  {
-    packageName: '345',
-    packageVersion: 2,
-    upgradable: false,
-    cve: false,
-  },
-  {
-    packageName: '678',
-    packageVersion: 3,
-    upgradable: true,
-    cve: false,
-  },
-  {
-    packageName: '346',
-    packageVersion: 4,
-    upgradable: true,
-    cve: true,
-  },
-];
-
-const Packages: React.FC = ({}) => {
+const Packages: React.FC = () => {
   const router = useRouter();
   const nodeId = router.query.id as string;
-  const isLoading = true;
-  // const { data: users, isLoading } = newEroror(nodeId);
-  // <Chip label="Chip Filled" />
+  const { data: packages, isLoading } = useGetNodePackages(nodeId);
+
   const columns: GridColDef[] = [
     { field: 'packageName', headerName: 'Package Name', minWidth: 200 },
     { field: 'packageVersion', headerName: 'Package Version', minWidth: 200 },
@@ -77,16 +51,18 @@ const Packages: React.FC = ({}) => {
     },
   ];
 
+  if (isLoading) {
+    return <Progress />;
+  }
+
   return (
     <Card>
       <CardHeader title="Packages" />
       <CardContent>
         <DataGrid
-          // loading={isLoading}
-
           autoHeight
           getRowId={({ packageName }) => packageName}
-          rows={PACKAGES}
+          rows={packages}
           columns={columns}
           pageSize={10}
           rowsPerPageOptions={[5]}
