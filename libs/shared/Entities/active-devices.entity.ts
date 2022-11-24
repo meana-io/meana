@@ -13,4 +13,10 @@ export class ActiveDevicesEntity extends Model implements ActiveDevices {
 
   @Column
   disks: string;
+
+  @Column
+  packages: string;
+
+  @Column
+  users: string;
 }

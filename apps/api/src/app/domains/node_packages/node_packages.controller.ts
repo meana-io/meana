@@ -1,18 +1,18 @@
 import { Body, Controller, Get, Post, Query } from '@nestjs/common';
-import { NodeUsersService } from './node-users.service';
-import { CreateNodeUserDto } from './dto/create-node-user.dto';
+import { NodePackagesService } from './node_packages.service';
+import { CreateNodePackageDto } from './dto/create-node_package.dto';
 import { ApiService } from '../../common/services/api.service';
 
-@Controller('node-users')
-export class NodeUsersController {
+@Controller('node-packages')
+export class NodePackagesController {
   constructor(
-    private readonly nodeUsersService: NodeUsersService,
+    private readonly nodePackageService: NodePackagesService,
     private readonly apiService: ApiService
   ) {}
 
   @Post()
-  async create(@Body() createNodeUserDto: CreateNodeUserDto) {
-    return await this.nodeUsersService.create(createNodeUserDto);
+  async create(@Body() createNodePackageDto: CreateNodePackageDto) {
+    return await this.nodePackageService.create(createNodePackageDto);
   }
 
   @Get()
@@ -32,11 +32,6 @@ export class NodeUsersController {
       search
     );
 
-    return this.nodeUsersService.findAll(findOptions);
-  }
-
-  @Get('get-latest')
-  getLatest(@Query('nodeUuid') nodeUuid: string) {
-    return this.nodeUsersService.getLatest(nodeUuid);
+    return this.nodePackageService.findAll(findOptions);
   }
 }

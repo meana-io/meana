@@ -10,6 +10,7 @@ import { NodeRamEntity } from '../../../../../../libs/shared/Entities/node-ram.e
 import { NodeCpuEntity } from '../../../../../../libs/shared/Entities/node-cpu.entity';
 import { ActiveDevicesEntity } from '../../../../../../libs/shared/Entities/active-devices.entity';
 import { NodeUserEntity } from '../../../../../../libs/shared/Entities/node-user.entity';
+import { NodePackageEntity } from '../../../../../../libs/shared/Entities/node-package.entity';
 
 @Module({
   imports: [
@@ -21,6 +22,7 @@ import { NodeUserEntity } from '../../../../../../libs/shared/Entities/node-user
       NodeCpuEntity,
       ActiveDevicesEntity,
       NodeUserEntity,
+      NodePackageEntity,
     ]),
   ],
   controllers: [GlobalController],

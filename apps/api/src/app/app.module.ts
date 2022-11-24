@@ -23,6 +23,8 @@ import { ReportsModule } from './domains/reports/reports.module';
 import { LogsModule } from './domains/node-logs/logs.module';
 import { NodeUsersModule } from './domains/node-users/node-users.module';
 import { NodeUserEntity } from '../../../../libs/shared/Entities/node-user.entity';
+import { NodePackagesModule } from './domains/node_packages/node_packages.module';
+import { NodePackageEntity } from '../../../../libs/shared/Entities/node-package.entity';
 
 @Module({
   imports: [
@@ -36,6 +38,7 @@ import { NodeUserEntity } from '../../../../libs/shared/Entities/node-user.entit
     ReportsModule,
     LogsModule,
     NodeUsersModule,
+    NodePackagesModule,
     SequelizeModule.forRoot({
       dialect: process.env.DB_DIALECT as Dialect,
       host: process.env.DB_HOST,
@@ -53,6 +56,7 @@ import { NodeUserEntity } from '../../../../libs/shared/Entities/node-user.entit
         UserEntity,
         ActiveDevicesEntity,
         NodeUserEntity,
+        NodePackageEntity,
       ],
     }),
   ],

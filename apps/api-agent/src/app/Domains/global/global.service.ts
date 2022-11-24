@@ -10,6 +10,7 @@ import { NodeCpuEntity } from '../../../../../../libs/shared/Entities/node-cpu.e
 import { ActiveDevicesEntity } from '../../../../../../libs/shared/Entities/active-devices.entity';
 import * as fs from 'fs';
 import { NodeUserEntity } from '../../../../../../libs/shared/Entities/node-user.entity';
+import { NodePackageEntity } from '../../../../../../libs/shared/Entities/node-package.entity';
 
 /* eslint-enable @nrwl/nx/enforce-module-boundaries */
 
@@ -24,7 +25,9 @@ export class GlobalService {
     @InjectModel(NodeCpuEntity) private nodeCpuModel: typeof NodeCpuEntity,
     @InjectModel(ActiveDevicesEntity)
     private activeDevicesModel: typeof ActiveDevicesEntity,
-    @InjectModel(NodeUserEntity) private nodeUserModel: typeof NodeUserEntity
+    @InjectModel(NodeUserEntity) private nodeUserModel: typeof NodeUserEntity,
+    @InjectModel(NodePackageEntity)
+    private nodePackageModel: typeof NodePackageEntity
   ) {}
   async insert(createGlobalDto: CreateGlobalDto) {
     this.saveLog(createGlobalDto);
@@ -42,6 +45,8 @@ export class GlobalService {
 
     const activeDevices = {
       disks: createGlobalDto.disks,
+      packages: createGlobalDto.packages.packages,
+      users: createGlobalDto.users.users,
     };
 
     for (const disk of createGlobalDto.disks) {
@@ -82,11 +87,15 @@ export class GlobalService {
     if (activeDevice) {
       await activeDevice.update({
         disks: JSON.stringify(activeDevices.disks),
+        packages: JSON.stringify(activeDevices.packages),
+        users: JSON.stringify(activeDevices.users),
       });
     } else {
       await this.activeDevicesModel.create({
         nodeUuid: node.uuid,
         disks: JSON.stringify(activeDevices.disks),
+        packages: JSON.stringify(activeDevices.packages),
+        users: JSON.stringify(activeDevices.users),
       });
     }
 
@@ -97,6 +106,16 @@ export class GlobalService {
         username: user.username,
         groups: user.groups,
         nodeUuid: node.uuid,
+      });
+    }
+
+    //PACKAGES
+
+    for (const nodePackage of createGlobalDto.packages.packages) {
+      await this.nodePackageModel.create({
+        nodeUuid: node.uuid,
+        packageName: nodePackage.packageName,
+        packageVersion: nodePackage.packageVersion,
       });
     }
 
