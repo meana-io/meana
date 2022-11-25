@@ -34,6 +34,6 @@ const ThemeProvider = ({ children }) => {
       </MUIThemeProvider>
     </StyledEngineProvider>
   );
-};
+};;
 
 export default ThemeProvider;

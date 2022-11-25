@@ -48,6 +48,11 @@ const GlobalStyles: React.FC = () => {
         '.react-grid-layout': {
           position: 'relative',
         },
+        '@media print': {
+          '.hidden-print': {
+            display: 'none !important',
+          },
+        },
       }}
     />
   );

@@ -2,6 +2,7 @@ import { Formik, Form, FieldArray, FormikProps, getIn } from 'formik';
 import * as Yup from 'yup';
 import {
   Autocomplete,
+  Box,
   Button,
   Card,
   CardActions,
@@ -21,6 +22,7 @@ import ReportsLayout from '@/layouts/Reports/ReportsLayout';
 import { useGetNodesList } from '@/api/nodes';
 import Progress from '@/components/Progress/Progress';
 import { useCreateNodeReport } from '@/api/nodeReports';
+import ReportViewer from 'sections/reports/ReportViewer';
 
 const validationSchema = Yup.object().shape({
   from: Yup.date().required('From is required'),
@@ -105,7 +107,7 @@ const initialValues = {
 
 const CreaetReport: NextPage = () => {
   const { data: nodes, isLoading } = useGetNodesList();
-  const { data: report, mutateAsync } = useCreateNodeReport();
+  const { data: reports, mutateAsync } = useCreateNodeReport();
 
   const onSubmit = async (values) => {
     const data = {
@@ -120,7 +122,6 @@ const CreaetReport: NextPage = () => {
         ];
       }, []),
     };
-
     await mutateAsync(data);
   };
 
@@ -130,7 +131,6 @@ const CreaetReport: NextPage = () => {
 
   return (
     <ReportsLayout>
-      <pre>{JSON.stringify(report, null, 2)}</pre>
       <Formik
         initialValues={initialValues}
         validationSchema={validationSchema}
@@ -324,13 +324,14 @@ const CreaetReport: NextPage = () => {
                   size="large"
                   variant="contained"
                 >
-                  Save
+                  Run
                 </Button>
               </CardActions>
             </Card>
           </Form>
         )}
       </Formik>
+      <Box mt={2}>{reports && <ReportViewer reports={reports} />}</Box>
     </ReportsLayout>
   );
 };
