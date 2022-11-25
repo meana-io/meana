@@ -24,5 +24,5 @@ export class CreateGlobalDto {
   ram: NodeRam;
   cpu: NodeCpu;
   users: NestedUsers;
-  packages: NestedPackages;
+  packages?: NestedPackages;
 }
