@@ -29,7 +29,7 @@ const ReportViewer: React.FC<ReportViewerProps> = ({ reports }) => {
     <Card id="pdf">
       <CardHeader
         title={`Node: ${reports.at(0).nodeUuid}`}
-        action={<Button onClick={downloadAsPDF}>Download PDF</Button>}
+        action={<Button onClick={downloadAsPDF}>Download as PDF</Button>}
       />
       <CardContent>
         <Grid container spacing={2}>
