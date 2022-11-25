@@ -13,10 +13,7 @@ interface LogsViewerProps {
   data: string;
 }
 
-const LogsViewer: React.FC<LogsViewerProps> = ({
-  isFetching,
-  data,
-}) => {
+const LogsViewer: React.FC<LogsViewerProps> = ({ isFetching, data }) => {
   if (isFetching) {
     return <Progress />;
   }
@@ -31,6 +28,7 @@ const LogsViewer: React.FC<LogsViewerProps> = ({
 
   return (
     <Box height="450px">
+      {/* @ts-ignore:next-line */}
       <LazyLog enableSearch text={data} caseInsensitive />
     </Box>
   );

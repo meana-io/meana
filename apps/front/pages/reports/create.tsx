@@ -20,8 +20,7 @@ import { Add as AddIcon, Close as CloseIcon } from '@mui/icons-material';
 import ReportsLayout from '@/layouts/Reports/ReportsLayout';
 import { useGetNodesList } from '@/api/nodes';
 import Progress from '@/components/Progress/Progress';
-import { CreateNodeReport, useCreateNodeReport } from '@/api/nodeReports';
-import { NodeReportProperty } from '@/types/nodeReport';
+import { useCreateNodeReport } from '@/api/nodeReports';
 
 const validationSchema = Yup.object().shape({
   from: Yup.date().required('From is required'),
@@ -97,7 +96,7 @@ const property: Property = {
   },
 };
 
-const initialValues: CreateNodeReport = {
+const initialValues = {
   from: '',
   to: '',
   aggregatePeriod: 60,
@@ -145,7 +144,7 @@ const CreaetReport: NextPage = () => {
           isValid,
           isSubmitting,
           handleBlur,
-        }: FormikProps<CreateNodeReport>) => (
+        }) => (
           <Form>
             <Card>
               <CardHeader title="Reports" />
@@ -175,7 +174,7 @@ const CreaetReport: NextPage = () => {
                             value={values.from}
                             onChange={handleChange}
                             error={touched.from && Boolean(errors.from)}
-                            helperText={touched.from && errors.from}
+                            // helperText={touched.from && errors.from}
                             onBlur={handleBlur}
                           />
                         </Grid>
@@ -190,7 +189,7 @@ const CreaetReport: NextPage = () => {
                             value={values.to}
                             onChange={handleChange}
                             error={touched.to && Boolean(errors.to)}
-                            helperText={touched.to && errors.to}
+                            // helperText={touched.to && errors.to}
                             onBlur={handleBlur}
                           />
                         </Grid>
@@ -258,7 +257,7 @@ const CreaetReport: NextPage = () => {
                                   value.map(({ domain, propertyName }) => ({
                                     domain,
                                     propertyName,
-                                  })) as NodeReportProperty[];
+                                  }));
                               }}
                               isOptionEqualToValue={(
                                 option: Option,
