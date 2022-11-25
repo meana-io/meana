@@ -34,4 +34,9 @@ export class NodePackagesController {
 
     return this.nodePackageService.findAll(findOptions);
   }
+
+  @Get('get-latest')
+  getLatest(@Query('nodeUuid') nodeUuid: string) {
+    return this.nodePackageService.getLatest(nodeUuid);
+  }
 }
