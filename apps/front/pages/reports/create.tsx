@@ -20,11 +20,12 @@ import { Add as AddIcon, Close as CloseIcon } from '@mui/icons-material';
 import ReportsLayout from '@/layouts/Reports/ReportsLayout';
 import { useGetNodesList } from '@/api/nodes';
 import Progress from '@/components/Progress/Progress';
+import { CreateNodeReport, useCreateNodeReport } from '@/api/nodeReports';
 
 const validationSchema = Yup.object().shape({
   from: Yup.date().required('From is required'),
   to: Yup.date().required('To is required'),
-  timeAgregation: Yup.string().required('Time agregation is required'),
+  aggregatePeriod: Yup.string().required('Time agregation is required'),
   reports: Yup.array().of(
     Yup.object()
       .shape({
@@ -41,46 +42,87 @@ const validationSchema = Yup.object().shape({
 interface Option {
   group: string;
   label: string;
-  value: string | number;
+  domain: string;
+  propertyName: string;
 }
 
-interface Report {
-  nodeId: string;
-  properties: string[];
-}
-
-interface Values {
-  from: string;
-  to: string;
-  timeAgregation: string;
-  reports: Report[];
-}
-
-const options = [
-  { group: 'Disk', label: 'Memory', value: 'disk.memory' },
-  { group: 'Disk', label: 'Capacity', value: 'disk.capacity' },
-  { group: 'Disk', label: 'Usage', value: 'disk.usage' },
-  { group: 'Disk', label: 'Producent', value: 'disk.producent' },
-  { group: 'Disk', label: 'Factory', value: 'disk.factory' },
+const options: Option[] = [
+  {
+    group: 'Disk',
+    label: 'Capacity',
+    domain: 'node_disk',
+    propertyName: 'capacity',
+  },
+  {
+    group: 'Ram',
+    label: 'Used',
+    domain: 'node_ram',
+    propertyName: 'used',
+  },
+  {
+    group: 'Ram',
+    label: 'Capacity',
+    domain: 'node_ram',
+    propertyName: 'total',
+  },
+  {
+    group: 'Cpu',
+    label: 'Usage',
+    domain: 'node_cpu',
+    propertyName: 'usage',
+  },
 ];
 
-const report: Report = {
-  nodeId: '',
-  properties: [],
+const AGREGATION_PERIOD = [
+  { label: 'Every Minute', value: 60 },
+  { label: 'Every Hour', value: 60 * 60 },
+  { label: 'Every 12h', value: 60 * 60 * 12 },
+  { label: 'Every Day', value: 60 * 60 * 24 },
+];
+
+interface Property {
+  nodeUuid: string;
+  property: {
+    domain: string;
+    propertyName: string;
+  };
+}
+
+const property: Property = {
+  nodeUuid: '',
+  property: {
+    domain: '',
+    propertyName: '',
+  },
 };
 
-const initialValues: Values = {
+const initialValues: CreateNodeReport = {
   from: '',
   to: '',
-  timeAgregation: '',
-  reports: [report],
+  aggregatePeriod: 60,
+  properties: [property],
 };
 
 const CreaetReport: NextPage = () => {
   const { data: nodes, isLoading } = useGetNodesList();
+  const { data: report, mutateAsync } = useCreateNodeReport();
 
-  const onSubmit = (values) => {
-    console.log(values);
+  const onSubmit = async (values) => {
+    const data = {
+      ...values,
+      properties: values.properties.reduce((arr, el) => {
+        return [
+          ...arr,
+          ...el.property.map(({ domain, propertyName }) => ({
+            nodeUuid: el.nodeUuid,
+            property: { domain, propertyName },
+          })),
+        ];
+      }, []),
+    };
+
+    console.log(data);
+    await mutateAsync(data);
   };
 
   if (isLoading) {
@@ -89,6 +131,7 @@ const CreaetReport: NextPage = () => {
 
   return (
     <ReportsLayout>
+      <pre>{JSON.stringify(report, null, 2)}</pre>
       <Formik
         initialValues={initialValues}
         validationSchema={validationSchema}
@@ -102,7 +145,7 @@ const CreaetReport: NextPage = () => {
           isValid,
           isSubmitting,
           handleBlur,
-        }: FormikProps<Values>) => (
+        }: FormikProps<CreateNodeReport>) => (
           <Form>
             <Card>
               <CardHeader title="Reports" />
@@ -116,7 +159,7 @@ const CreaetReport: NextPage = () => {
                             variant="contained"
                             size="large"
                             startIcon={<AddIcon />}
-                            onClick={() => push(report)}
+                            onClick={() => push(property)}
                           >
                             Add Field
                           </Button>
@@ -153,30 +196,31 @@ const CreaetReport: NextPage = () => {
                         </Grid>
                         <Grid item xs={2}>
                           <FormControl fullWidth>
-                            <InputLabel id="time-agragation">
-                              Time agregation
+                            <InputLabel id="agregation-period">
+                              Agregation Period
                             </InputLabel>
                             <Select
-                              labelId="time-agragation"
-                              label="Time agregation"
-                              name="timeAgregation"
-                              value={values.timeAgregation}
+                              labelId="agregation-period"
+                              label="Agregation Period"
+                              name="aggregatePeriod"
+                              value={values.aggregatePeriod}
                               onChange={handleChange}
                               error={
-                                touched.timeAgregation &&
-                                Boolean(errors.timeAgregation)
+                                touched.aggregatePeriod &&
+                                Boolean(errors.aggregatePeriod)
                               }
                               onBlur={handleBlur}
                             >
-                              <MenuItem value={10}>Every Minute</MenuItem>
-                              <MenuItem value={10}>Every Minute</MenuItem>
-                              <MenuItem value={20}>Evey Hour</MenuItem>
-                              <MenuItem value={30}>Every Day</MenuItem>
+                              {AGREGATION_PERIOD.map(({ label, value }) => (
+                                <MenuItem key={value} value={value}>
+                                  {label}
+                                </MenuItem>
+                              ))}
                             </Select>
                           </FormControl>
                         </Grid>
                       </Grid>
-                      {values.reports.map((_, index) => (
+                      {values.properties.map((_, index) => (
                         <Grid key={index} item container spacing={2}>
                           <Grid item xs={4}>
                             <FormControl fullWidth>
@@ -184,12 +228,18 @@ const CreaetReport: NextPage = () => {
                               <Select
                                 labelId="node-id"
                                 label="Node"
-                                name={`reports[${index}].nodeId`}
-                                value={values.reports.at(index).nodeId}
+                                name={`properties[${index}].nodeUuid`}
+                                value={values.properties.at(index).nodeUuid}
                                 onChange={handleChange}
                                 error={
-                                  getIn(touched, `reports[${index}].nodeId`) &&
-                                  !!getIn(errors, `reports[${index}].nodeId`)
+                                  getIn(
+                                    touched,
+                                    `properties[${index}].nodeUuid`
+                                  ) &&
+                                  !!getIn(
+                                    errors,
+                                    `properties[${index}].nodeUuid`
+                                  )
                                 }
                                 onBlur={handleBlur}
                               >
@@ -204,14 +254,19 @@ const CreaetReport: NextPage = () => {
                           <Grid item xs={4}>
                             <Autocomplete
                               onChange={(_, value: Option[]) => {
-                                values.reports.at(index).properties = value.map(
-                                  ({ value }) => value
-                                ) as string[];
+                                values.properties.at(index).property =
+                                  value.map(({ domain, propertyName }) => ({
+                                    domain,
+                                    propertyName,
+                                  })) as any[];
                               }}
                               isOptionEqualToValue={(
                                 option: Option,
-                                value: Option
-                              ) => option.value === value.value}
+                                selected: Option
+                              ) =>
+                                `${option.domain}.${option.propertyName}` ===
+                                `${selected.domain}.${selected.propertyName}`
+                              }
                               multiple
                               disableCloseOnSelect
                               options={options}
@@ -221,26 +276,26 @@ const CreaetReport: NextPage = () => {
                                 <TextField
                                   {...params}
                                   label="Properties"
-                                  value={values.reports.at(index).properties}
-                                  name={`reports[${index}].properties`}
+                                  value={values.properties.at(index).property}
+                                  name={`properties[${index}].properties`}
                                   error={
                                     getIn(
                                       touched,
-                                      `reports[${index}].properties`
+                                      `properties[${index}].properties`
                                     ) &&
                                     !!getIn(
                                       errors,
-                                      `reports[${index}].properties`
+                                      `properties[${index}].properties`
                                     )
                                   }
                                   helperText={
                                     getIn(
                                       touched,
-                                      `reports[${index}].properties`
+                                      `properties[${index}].properties`
                                     ) &&
                                     getIn(
                                       errors,
-                                      `reports[${index}].properties`
+                                      `properties[${index}].properties`
                                     )
                                   }
                                   onBlur={handleBlur}

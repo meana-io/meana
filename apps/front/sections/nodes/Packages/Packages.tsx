@@ -15,12 +15,12 @@ const Packages: React.FC = () => {
   const { data: packages, isLoading } = useGetNodePackages(nodeId);
 
   const columns: GridColDef[] = [
-    { field: 'packageName', headerName: 'Package Name', minWidth: 200 },
-    { field: 'packageVersion', headerName: 'Package Version', minWidth: 200 },
+    { field: 'packageName', headerName: 'Package Name', minWidth: 400 },
+    { field: 'packageVersion', headerName: 'Package Version', minWidth: 400 },
     {
       field: 'upgradable',
       headerName: 'Upgradable',
-      minWidth: 200,
+      minWidth: 150,
       renderCell: (cellValues) => {
         const { upgradable } = cellValues.row;
         return (
@@ -36,7 +36,7 @@ const Packages: React.FC = () => {
     {
       field: 'cve',
       headerName: 'CVE',
-      minWidth: 200,
+      minWidth: 150,
       renderCell: (cellValues) => {
         const { cve } = cellValues.row;
         return (
