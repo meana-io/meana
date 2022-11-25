@@ -32,7 +32,7 @@ export class NodePackagesService {
     });
 
     if (activeDevices) {
-      return activeDevices.disks;
+      return activeDevices.packages;
     } else {
       return null;
     }
