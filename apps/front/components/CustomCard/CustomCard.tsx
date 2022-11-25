@@ -9,7 +9,12 @@ interface CustomCardProps {
 
 const CustomCard: React.FC<CustomCardProps> = ({ title, value, hash }) => {
   return (
-    <Paper variant="outlined">
+    <Paper
+      variant="outlined"
+      sx={{
+        height: 223,
+      }}
+    >
       <Box display="flex" flexDirection="column">
         <Box p={3} display="flex" flexDirection="column">
           <Box

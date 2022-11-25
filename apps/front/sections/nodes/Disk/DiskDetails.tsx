@@ -3,8 +3,8 @@ import { Grid } from '@mui/material';
 import { toTitleCase } from '@/utility/toTitleCase';
 import Disk from '@/types/disk';
 
-import CustomCard from '../CustomCard/CustomCard';
-import { COMPONENT_NAME } from '../Dashboard/Disk/DiskCustomCard';
+import CustomCard from '@/components/CustomCard/CustomCard';
+import { COMPONENT_NAME } from '@/components/Dashboard/Disk/DiskCustomCard';
 import { useRouter } from 'next/router';
 import { hashParams } from '@/utility/hashParams';
 import { toFormatBytesInNumber } from '@/utility/formatBytes';

@@ -1,7 +1,8 @@
 import React from 'react';
-import { AppBar, Box, styled, Toolbar, Typography } from '@mui/material';
+import { AppBar, Box, styled, Toolbar } from '@mui/material';
 import Link from 'next/link';
 import { pageRoutes } from 'routes';
+import Image from 'next/image';
 
 interface AppTopBarProps {
   children?: React.ReactNode;
@@ -20,7 +21,7 @@ const AppTopBar: React.FC<AppTopBarProps> = ({ children }) => {
     >
       <Toolbar>
         <Link href={pageRoutes.dashboard}>
-          <Typography variant="h6">Meana</Typography>
+          <Image src="/logo.png" alt="Meana" width="120" height="30" />
         </Link>
         <Box display="flex" sx={{ width: '100%' }} justifyContent="flex-end">
           {children}

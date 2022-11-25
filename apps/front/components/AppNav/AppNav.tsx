@@ -8,10 +8,11 @@ import {
   ListItemButtonProps,
   Toolbar,
   ListSubheader,
+  IconButton,
+  Box,
 } from '@mui/material';
-
+import { Add as AddIcon } from '@mui/icons-material';
 import Link from 'next/link';
-import { Box } from '@mui/system';
 import { pageRoutes } from 'routes';
 
 const StyledNavItem = styled((props: ListItemButtonProps) => (
@@ -85,10 +86,6 @@ const staticMenu = [
     header: 'Reports',
     list: [{ title: 'Create', href: pageRoutes.createReport }],
   },
-  {
-    header: 'Others',
-    list: [{ title: 'Logs', href: pageRoutes.logs }],
-  },
 ];
 
 const AppNav: React.FC<NavProps> = ({ items }) => {
@@ -117,7 +114,16 @@ const AppNav: React.FC<NavProps> = ({ items }) => {
             }}
             component="div"
           >
-            Nodes
+            <Box display="flex" justifyContent="space-between">
+              <Box>Nodes</Box>
+              <Box>
+                <Link href={pageRoutes.createNode} passHref>
+                  <IconButton color="primary">
+                    <AddIcon />
+                  </IconButton>
+                </Link>
+              </Box>
+            </Box>
           </ListSubheader>
         }
       >

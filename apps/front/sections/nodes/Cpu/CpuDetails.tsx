@@ -2,7 +2,7 @@ import { Grid } from '@mui/material';
 
 import Cpu from '@/types/cpu';
 import { toTitleCase } from '@/utility/toTitleCase';
-import CustomCard from '../CustomCard/CustomCard';
+import CustomCard from '../../../components/CustomCard/CustomCard';
 import { useRouter } from 'next/router';
 
 import { COMPONENT_NAME } from '@/components/Dashboard/Cpu/CpuCustomCard';

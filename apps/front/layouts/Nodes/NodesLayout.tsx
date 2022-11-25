@@ -1,9 +1,8 @@
 import { styled } from '@mui/system';
 import Nav from '@/components/AppNav/AppNav';
-import { Button, Container, Toolbar } from '@mui/material';
+import { Container, Toolbar } from '@mui/material';
 
 import AppTopBar from '@/components/AppTopBar/AppTopBar';
-import Link from 'next/link';
 import { useGetNodesList } from '@/api/nodes';
 import { pageRoutes } from 'routes';
 import TabsProvider from '@/contexts/tabsContext';
@@ -32,11 +31,7 @@ const NodesLayout: React.FC<NodesProps> = ({ children }) => {
 
   return (
     <StyledRoot>
-      <AppTopBar>
-        <Link href={pageRoutes.createNode} passHref>
-          <Button size="large">Add New Server</Button>
-        </Link>
-      </AppTopBar>
+      <AppTopBar />
       <Nav items={navItems} />
       <TabsProvider>
         <Main maxWidth="xl">

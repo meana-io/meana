@@ -4,13 +4,13 @@ import { Grid } from '@mui/material';
 import NodeCpu from '@/types/cpu';
 import CpuDetails from './CpuDetails';
 import { useGetNodeCpu } from '@/api/cpu';
-import CpuUsageChart from 'sections/nodes/CpuUsageChart';
-import Progress from '../Progress/Progress';
+import CpuUsageChart from 'sections/nodes/Cpu/CpuUsageChart';
+import Progress from '@/components/Progress/Progress';
 
-const getCpuLabels = (cpu: NodeCpu[]) => cpu.map(({ time }) => time);
+export const getCpuLabels = (cpu: NodeCpu[]) => cpu?.map(({ time }) => time);
 
-const getCpuUsage = (cpu: NodeCpu[]) =>
-  cpu.map(({ usage }) => parseInt(usage, 10));
+export const getCpuUsage = (cpu: NodeCpu[]) =>
+  cpu?.map(({ usage }) => parseInt(usage, 10));
 
 const Cpu: React.FC = () => {
   const router = useRouter();

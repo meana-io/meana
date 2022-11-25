@@ -30,7 +30,7 @@ const Dashboard: NextPage = () => {
           xs: 1,
           xxs: 1,
         }}
-        rowHeight={150}
+        rowHeight={223}
         useCSSTransforms={true}
         measureBeforeMount={false}
         onLayoutChange={onLayoutChange}
