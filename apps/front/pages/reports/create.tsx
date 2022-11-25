@@ -331,6 +331,7 @@ const CreaetReport: NextPage = () => {
           </Form>
         )}
       </Formik>
+      {/* @ts-ignore:next-line */}
       <Box mt={2}>{reports && <ReportViewer reports={reports} />}</Box>
     </ReportsLayout>
   );
