@@ -1,5 +1,11 @@
 import CpuCustomCard, { COMPONENT_NAME as CUP_NAME } from './Cpu/CpuCustomCard';
+import RamUsageGraph, {
+  COMPONENT_NAME as RAM_GRAPH_NAME,
+} from './Ram/RamUsageGraph';
 import RamCustomCard, { COMPONENT_NAME as RAM_NAME } from './Ram/RamCustomCard';
+import CpuUsageGraph, {
+  COMPONENT_NAME as CUP_GRAPH_NAME,
+} from './Cpu/CpuUsageGraph';
 import DiskCustomCard, {
   COMPONENT_NAME as DISK_NAME,
 } from './Disk/DiskCustomCard';
@@ -12,4 +18,6 @@ export const DASHBOARD_COMPONENTS = {
   [RAM_NAME]: RamCustomCard,
   [DISK_NAME]: DiskCustomCard,
   [PARTITION_NAME]: PartitionCustomCard,
+  [CUP_GRAPH_NAME]: CpuUsageGraph,
+  [RAM_GRAPH_NAME]: RamUsageGraph,
 };

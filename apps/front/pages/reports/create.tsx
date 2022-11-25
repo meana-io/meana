@@ -21,6 +21,7 @@ import ReportsLayout from '@/layouts/Reports/ReportsLayout';
 import { useGetNodesList } from '@/api/nodes';
 import Progress from '@/components/Progress/Progress';
 import { CreateNodeReport, useCreateNodeReport } from '@/api/nodeReports';
+import { NodeReportProperty } from '@/types/nodeReport';
 
 const validationSchema = Yup.object().shape({
   from: Yup.date().required('From is required'),
@@ -121,7 +122,6 @@ const CreaetReport: NextPage = () => {
       }, []),
     };
 
-    console.log(data);
     await mutateAsync(data);
   };
 
@@ -258,7 +258,7 @@ const CreaetReport: NextPage = () => {
                                   value.map(({ domain, propertyName }) => ({
                                     domain,
                                     propertyName,
-                                  })) as any[];
+                                  })) as NodeReportProperty[];
                               }}
                               isOptionEqualToValue={(
                                 option: Option,

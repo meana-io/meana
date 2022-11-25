@@ -4,44 +4,35 @@ const ReactApexChart = dynamic(() => import('react-apexcharts'), {
 });
 import { Card, CardHeader, Box } from '@mui/material';
 import useChart from '@/components/Chart/useChart';
+import Progress from '@/components/Progress/Progress';
+import { deHashParams } from '@/utility/hashParams';
 import ToogleToDashboard from '@/components/ToogleToDashboard/ToogleToDashboard';
-import { useRouter } from 'next/router';
-import { COMPONENT_NAME } from '@/components/Dashboard/Cpu/CpuUsageGraph';
-import { hashParams } from '@/utility/hashParams';
+import { useGetNodeRam } from '@/api/ram';
+import { getRamLabels, getRamUsage } from 'sections/nodes/Ram/Ram';
 
-interface ChartData {
-  fill: 'gradient' | 'solid';
-  name: string;
-  data: number[];
-  type: 'area' | 'line' | 'column';
+interface RamUsageGraphProps {
+  hash: string;
 }
 
-interface CpuUsageChartProps {
-  title: string;
-  subheader?: string;
-  chartColors?: string[];
-  chartData: ChartData[];
-  chartLabels: string[];
-}
+const RamUsageGraph: React.FC<RamUsageGraphProps> = ({ hash }) => {
+  const [_, query, title, key] = deHashParams(hash);
+  const { data, isLoading } = useGetNodeRam(query);
 
-const CpuUsageChart: React.FC<CpuUsageChartProps> = ({
-  title,
-  subheader,
-  chartLabels,
-  chartData,
-}) => {
-  const router = useRouter();
-  const nodeId = router.query.id as string;
+  const chartLabels = getRamLabels(data);
+  const chartData = [
+    {
+      name: 'Usage',
+      type: 'area',
+      fill: 'gradient',
+      data: getRamUsage(data),
+    },
+  ];
 
   const chartOptions = useChart({
     plotOptions: { bar: { columnWidth: '16%' } },
     fill: { type: chartData.map((i) => i.fill) },
     labels: chartLabels,
     xaxis: { type: 'datetime' },
-    yaxis: {
-      min: 0,
-      max: 100,
-    },
     tooltip: {
       shared: true,
       intersect: false,
@@ -56,24 +47,25 @@ const CpuUsageChart: React.FC<CpuUsageChartProps> = ({
     },
   });
 
-  const hash = hashParams(COMPONENT_NAME, nodeId, title, '');
+  if (isLoading) {
+    return <Progress />;
+  }
 
   return (
     <Card>
-      <CardHeader
-        title={title}
-        subheader={subheader}
-        action={<ToogleToDashboard hash={hash} />}
-      />
+      <CardHeader title={title} action={<ToogleToDashboard hash={hash} />} />
       <Box sx={{ p: 3, pb: 1 }}>
         <ReactApexChart
           type="line"
           series={chartData}
           options={chartOptions}
-          height={364}
+          height={120}
         />
       </Box>
     </Card>
   );
 };
-export default CpuUsageChart;
+
+export const COMPONENT_NAME = 'ram_dashboard_usage_graph';
+
+export default RamUsageGraph;

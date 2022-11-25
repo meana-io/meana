@@ -8,10 +8,10 @@ import RamUsageChart from 'sections/nodes/Ram/RamUsageChart';
 import NodeRam from '@/types/ram';
 import Progress from '@/components/Progress/Progress';
 
-const getRamLabels = (ram: NodeRam[]) => ram.map(({ time }) => time);
+export const getRamLabels = (ram: NodeRam[]) => ram?.map(({ time }) => time);
 
-const getRamUsage = (ram: NodeRam[]) =>
-  ram.map(({ used, total }) =>
+export const getRamUsage = (ram: NodeRam[]) =>
+  ram?.map(({ used, total }) =>
     Math.floor((parseInt(used, 10) / parseInt(total, 10)) * 100)
   );
 
