@@ -15,7 +15,13 @@ export const getCpuUsage = (cpu: NodeCpu[]) =>
 const Cpu: React.FC = () => {
   const router = useRouter();
   const nodeId = router.query.id as string;
-  const { data: cpu, isLoading } = useGetNodeCpu(nodeId);
+  const { data: cpu, isLoading } = useGetNodeCpu(
+    nodeId,
+    {},
+    {
+      refetchInterval: 1000 * 15,
+    }
+  );
 
   if (isLoading) {
     return <Progress />;

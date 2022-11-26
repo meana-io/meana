@@ -14,9 +14,16 @@ interface RamUsageGraphProps {
   hash: string;
 }
 
+
 const RamUsageGraph: React.FC<RamUsageGraphProps> = ({ hash }) => {
   const [_, query, title, key] = deHashParams(hash);
-  const { data, isLoading } = useGetNodeRam(query);
+  const { data, isLoading } = useGetNodeRam(
+    query,
+    {},
+    {
+      refetchInterval: 1000 * 15,
+    }
+  );
 
   const chartLabels = getRamLabels(data);
   const chartData = [

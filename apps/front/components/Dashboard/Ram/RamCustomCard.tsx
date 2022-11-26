@@ -9,7 +9,9 @@ interface RamCustomCardProps {
 
 const RamCustomCard: React.FC<RamCustomCardProps> = ({ hash }) => {
   const [_, query, title, key] = deHashParams(hash);
-  const { data, isLoading } = useGetNodeRam(query, { limit: 1 });
+  const { data, isLoading } = useGetNodeRam(query, {
+    limit: 1,
+  });
 
   if (isLoading) {
     return <Progress />;

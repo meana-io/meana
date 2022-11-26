@@ -18,7 +18,13 @@ export const getRamUsage = (ram: NodeRam[]) =>
 const Ram: React.FC = () => {
   const router = useRouter();
   const nodeId = router.query.id as string;
-  const { data: ram, isLoading } = useGetNodeRam(nodeId);
+  const { data: ram, isLoading } = useGetNodeRam(
+    nodeId,
+    {},
+    {
+      refetchInterval: 1000 * 15,
+    }
+  );
 
   if (isLoading) {
     return <Progress />;

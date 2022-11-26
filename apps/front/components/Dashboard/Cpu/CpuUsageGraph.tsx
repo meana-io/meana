@@ -16,7 +16,13 @@ interface CpuUsageGraphProps {
 
 const CpuUsageGraph: React.FC<CpuUsageGraphProps> = ({ hash }) => {
   const [_, query, title, key] = deHashParams(hash);
-  const { data, isLoading } = useGetNodeCpu(query);
+  const { data, isLoading } = useGetNodeCpu(
+    query,
+    {},
+    {
+      refetchInterval: 1000 * 15,
+    }
+  );
 
   const chartLabels = getCpuLabels(data);
   const chartData = [
