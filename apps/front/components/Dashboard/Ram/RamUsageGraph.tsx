@@ -21,7 +21,7 @@ const RamUsageGraph: React.FC<RamUsageGraphProps> = ({ hash }) => {
     query,
     {},
     {
-      refetchInterval: 1000 * 15,
+      refetchInterval: 1000 * 5,
     }
   );
 

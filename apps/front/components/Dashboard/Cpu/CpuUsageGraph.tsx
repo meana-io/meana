@@ -20,7 +20,7 @@ const CpuUsageGraph: React.FC<CpuUsageGraphProps> = ({ hash }) => {
     query,
     {},
     {
-      refetchInterval: 1000 * 15,
+      refetchInterval: 1000 * 5,
     }
   );
 

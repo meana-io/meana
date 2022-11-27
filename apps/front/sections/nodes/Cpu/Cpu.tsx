@@ -19,7 +19,7 @@ const Cpu: React.FC = () => {
     nodeId,
     {},
     {
-      refetchInterval: 1000 * 15,
+      refetchInterval: 1000 * 5,
     }
   );
 
