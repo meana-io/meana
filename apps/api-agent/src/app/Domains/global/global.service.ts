@@ -40,12 +40,11 @@ export class GlobalService {
       ram: createGlobalDto.ram,
     };
 
-    const amqp = new AmqpConnectionService();
     const message = {
       message: JSON.stringify(detailedDto),
       queue: 'meana_agent',
     };
-    amqp.sendMessage(message);
+    AmqpConnectionService.sendMessage(message);
 
     this.nodeModel.removeAttribute('id');
     this.activeDevicesModel.removeAttribute('id');

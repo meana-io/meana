@@ -5,14 +5,12 @@ import { ThresholdsService } from './app/services/thresholds.service';
 const connectionString = AmqpConnectionService.getConnectionString();
 const thresholdService = new ThresholdsService();
 
-const amqp = new AmqpConnectionService();
-
 function sendToMessage(messageToSend) {
   const message = {
     message: JSON.stringify(messageToSend),
     queue: 'meana_messages',
   };
-  amqp.sendMessage(message);
+  AmqpConnectionService.sendMessage(message);
 }
 
 connect(connectionString)

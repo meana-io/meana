@@ -3,7 +3,6 @@ import { CreateGlobalDto } from '../../../../api-agent/src/app/Domains/global/dt
 import { Thresholds } from '../../../../../libs/shared/Types/Thresholds';
 import { NodeCpu } from '../../../../../libs/shared/Types/NodeCpu';
 import { NodeRam } from '../../../../../libs/shared/Types/NodeRam';
-import { AmqpConnectionService } from '../../../../../libs/services/amqp/amqp-connection.service';
 
 interface OverThreshold {
   property: string;
@@ -31,7 +30,11 @@ export class ThresholdsService {
 
     return checkList.reduce(function (carry, actual) {
       if (actual.isOver) {
-        carry.push(actual);
+        carry.push({
+          ...actual,
+          nodeUuid: dto.nodeUuid,
+          to: [],
+        });
       }
 
       return carry;

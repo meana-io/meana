@@ -2,7 +2,7 @@ import { connect } from 'amqplib';
 import { MessageIdentifier } from './types/message-identifier.type';
 
 export class AmqpConnectionService {
-  sendMessage(message: MessageIdentifier) {
+  static sendMessage(message: MessageIdentifier) {
     const connectionString = AmqpConnectionService.getConnectionString();
 
     connect(connectionString).then((conn) => {
