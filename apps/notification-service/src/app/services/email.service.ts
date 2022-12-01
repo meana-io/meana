@@ -11,7 +11,7 @@ export class EmailService extends NotificationService {
       to: dto.to,
       from: 'noreply@meana.ovh',
       subject: 'MEANA - status of exceeding the allowed thresholds',
-      text: `Node: ${dto.nodeUuid} \r\n Exceed ${dto.property} with value ${dto.actual}`,
+      text: `Node: ${dto.nodeName} \r\n Exceed ${dto.property} with value ${dto.actual}`,
     };
     sgMail
       .send(msg)

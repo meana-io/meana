@@ -32,7 +32,7 @@ export class ApiService {
       limit: limit ? limit : 100,
       offset: offset ? offset : null,
       order: sort ? sort.map((x) => x.split('|')) : null,
-      where: queryBuilder.getWhereQuery(),
+      where: search ? JSON.parse(search) : queryBuilder.getWhereQuery(),
     } as FindOptions;
   }
 

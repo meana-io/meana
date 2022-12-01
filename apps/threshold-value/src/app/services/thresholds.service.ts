@@ -3,6 +3,7 @@ import { CreateGlobalDto } from '../../../../api-agent/src/app/Domains/global/dt
 import { Thresholds } from '../../../../../libs/shared/Types/Thresholds';
 import { NodeCpu } from '../../../../../libs/shared/Types/NodeCpu';
 import { NodeRam } from '../../../../../libs/shared/Types/NodeRam';
+import { Node } from '../../../../../libs/shared/Types/Node';
 
 interface OverThreshold {
   property: string;
@@ -21,6 +22,10 @@ export class ThresholdsService {
       `http://localhost:3333/api/node-thresholds?search=${thresholdQb}`
     );
 
+    const node = await axios.get<Node[]>(
+      `http://localhost:3333/api/nodes?filter[uuid]=${dto.nodeUuid}`
+    );
+
     const checkList = [
       ThresholdsService.cpuMinOver(thresholds[0].cpuMin, dto.cpu),
       ThresholdsService.cpuMaxOver(thresholds[0].cpuMax, dto.cpu),
@@ -32,7 +37,7 @@ export class ThresholdsService {
       if (actual.isOver) {
         carry.push({
           ...actual,
-          nodeUuid: dto.nodeUuid,
+          nodeName: node.data[0].name,
           to: [],
         });
       }
