@@ -7,6 +7,7 @@ import {
   Patch,
   Delete,
   Query,
+  Req,
 } from '@nestjs/common';
 import { NodesService } from './nodes.service';
 import { CreateNodeDto } from './dto/create-node.dto';
@@ -27,6 +28,7 @@ export class NodesController {
 
   @Get()
   findAll(
+    @Query() requestQuery: any,
     @Query('fields')
     fields?: string,
     @Query('limit') limit?: number,
@@ -35,6 +37,7 @@ export class NodesController {
     @Query('search') search?: string
   ) {
     const findOptions = this.apiService.prepareGetManyOptions(
+      requestQuery,
       fields,
       limit,
       offset,

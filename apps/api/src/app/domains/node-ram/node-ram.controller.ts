@@ -17,6 +17,7 @@ export class NodeRamController {
 
   @Get()
   findAll(
+    @Query() requestQuery: any,
     @Query('fields')
     fields?: string,
     @Query('limit') limit?: number,
@@ -25,6 +26,7 @@ export class NodeRamController {
     @Query('search') search?: string
   ) {
     const findOptions = this.apiService.prepareGetManyOptions(
+      requestQuery,
       fields,
       limit,
       offset,

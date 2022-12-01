@@ -22,6 +22,7 @@ export class NodeDisksController {
 
   @Get()
   findAll(
+    @Query() requestQuery: any,
     @Query('fields')
     fields?: string,
     @Query('limit') limit?: number,
@@ -30,6 +31,7 @@ export class NodeDisksController {
     @Query('search') search?: string
   ) {
     const findOptions = this.apiService.prepareGetManyOptions(
+      requestQuery,
       fields,
       limit,
       offset,

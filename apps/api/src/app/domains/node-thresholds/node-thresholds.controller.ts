@@ -27,6 +27,7 @@ export class NodeThresholdsController {
 
   @Get()
   findAll(
+    @Query() requestQuery: any,
     @Query('fields')
     fields?: string,
     @Query('limit') limit?: number,
@@ -35,6 +36,7 @@ export class NodeThresholdsController {
     @Query('search') search?: string
   ) {
     const findOptions = this.apiService.prepareGetManyOptions(
+      requestQuery,
       fields,
       limit,
       offset,
