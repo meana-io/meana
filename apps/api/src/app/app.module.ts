@@ -25,6 +25,8 @@ import { NodeUsersModule } from './domains/node-users/node-users.module';
 import { NodeUserEntity } from '../../../../libs/shared/Entities/node-user.entity';
 import { NodePackagesModule } from './domains/node_packages/node_packages.module';
 import { NodePackageEntity } from '../../../../libs/shared/Entities/node-package.entity';
+import { NodeThresholdsModule } from './domains/node-thresholds/node-thresholds.module';
+import { NodeThresholdEntity } from '../../../../libs/shared/Entities/node-threshold.entity';
 
 @Module({
   imports: [
@@ -39,6 +41,7 @@ import { NodePackageEntity } from '../../../../libs/shared/Entities/node-package
     LogsModule,
     NodeUsersModule,
     NodePackagesModule,
+    NodeThresholdsModule,
     SequelizeModule.forRoot({
       dialect: process.env.DB_DIALECT as Dialect,
       host: process.env.DB_HOST,
@@ -57,6 +60,7 @@ import { NodePackageEntity } from '../../../../libs/shared/Entities/node-package
         ActiveDevicesEntity,
         NodeUserEntity,
         NodePackageEntity,
+        NodeThresholdEntity,
       ],
     }),
   ],

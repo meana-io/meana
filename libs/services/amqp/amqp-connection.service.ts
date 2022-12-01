@@ -20,7 +20,7 @@ export class AmqpConnectionService {
     });
   }
 
-  private static getConnectionString() {
+  static getConnectionString() {
     const username = process.env.AMQP_USERNAME;
     const password = process.env.AMQP_PASSWORD;
     const host = process.env.AMQP_HOST;

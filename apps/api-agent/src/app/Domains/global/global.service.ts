@@ -34,6 +34,7 @@ export class GlobalService {
     GlobalService.saveLog(createGlobalDto);
 
     const detailedDto = {
+      nodeUuid: createGlobalDto.nodeUuid,
       cpu: createGlobalDto.cpu,
       disks: createGlobalDto.disks,
       ram: createGlobalDto.ram,

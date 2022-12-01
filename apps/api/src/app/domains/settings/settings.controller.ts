@@ -6,18 +6,13 @@ import { DashboardDto } from './dto/dashboard.dto';
 export class SettingsController {
   constructor(private readonly settingsService: SettingsService) {}
 
-  // @Post()
-  // create(@Body() createSettingDto: DashboardDto) {
-  //   return this.settingsService.create(createSettingDto);
-  // }
-
   @Get('dashboard')
-  findOne() {
+  getDashboard() {
     return this.settingsService.getDashboard();
   }
 
   @Post('dashboard')
-  createOne(@Body() dashboard: DashboardDto) {
+  setDashboard(@Body() dashboard: DashboardDto) {
     return this.settingsService.setDashboard(dashboard);
   }
 }
