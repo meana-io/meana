@@ -20,15 +20,15 @@ export class ThresholdsService {
     const {
       data: [...thresholds],
     } = await axios.get<Thresholds[]>(
-      `http://localhost:3333/api/node-thresholds?search=${thresholdQb}`
+      `http://meana_api:3333/api/node-thresholds?search=${thresholdQb}`
     );
 
     const node = await axios.get<Node[]>(
-      `http://localhost:3333/api/nodes?filter[uuid]=${dto.nodeUuid}`
+      `http://meana_api:3333/api/nodes?filter[uuid]=${dto.nodeUuid}`
     );
 
     const usersReqeust = await axios.get<User[]>(
-      'http://localhost:3333/api/users?filter[email_notification]=true'
+      'http://meana_api:3333/api/users?filter[email_notification]=true'
     );
 
     const users = usersReqeust.data;
