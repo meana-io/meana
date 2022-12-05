@@ -5,4 +5,6 @@ export interface User {
   login: string;
   email: string;
   password: string;
+  email_notification: boolean;
+  last_notification_at: string;
 }

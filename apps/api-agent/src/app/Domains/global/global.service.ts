@@ -11,6 +11,7 @@ import { ActiveDevicesEntity } from '../../../../../../libs/shared/Entities/acti
 import * as fs from 'fs';
 import { NodeUserEntity } from '../../../../../../libs/shared/Entities/node-user.entity';
 import { NodePackageEntity } from '../../../../../../libs/shared/Entities/node-package.entity';
+import { AmqpConnectionService } from '../../../../../../libs/services/amqp/amqp-connection.service';
 
 /* eslint-enable @nrwl/nx/enforce-module-boundaries */
 
@@ -30,7 +31,21 @@ export class GlobalService {
     private nodePackageModel: typeof NodePackageEntity
   ) {}
   async insert(createGlobalDto: CreateGlobalDto) {
-    this.saveLog(createGlobalDto);
+    GlobalService.saveLog(createGlobalDto);
+
+    const detailedDto = {
+      nodeUuid: createGlobalDto.nodeUuid,
+      cpu: createGlobalDto.cpu,
+      disks: createGlobalDto.disks,
+      ram: createGlobalDto.ram,
+    };
+
+    const message = {
+      message: JSON.stringify(detailedDto),
+      queue: 'meana_agent',
+    };
+    AmqpConnectionService.sendMessage(message);
+
     this.nodeModel.removeAttribute('id');
     this.activeDevicesModel.removeAttribute('id');
     const node = await this.nodeModel.findOne({
@@ -124,7 +139,7 @@ export class GlobalService {
     return createGlobalDto;
   }
 
-  saveLog(createGlobalDto: CreateGlobalDto) {
+  private static saveLog(createGlobalDto: CreateGlobalDto) {
     fs.writeFileSync(
       'logs/createGlobalDto.json',
       JSON.stringify(createGlobalDto)
