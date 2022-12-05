@@ -4,6 +4,7 @@ import { Thresholds } from '../../../../../libs/shared/Types/Thresholds';
 import { NodeCpu } from '../../../../../libs/shared/Types/NodeCpu';
 import { NodeRam } from '../../../../../libs/shared/Types/NodeRam';
 import { Node } from '../../../../../libs/shared/Types/Node';
+import { User } from '../../../../../libs/shared/Types/User';
 
 interface OverThreshold {
   property: string;
@@ -26,6 +27,12 @@ export class ThresholdsService {
       `http://localhost:3333/api/nodes?filter[uuid]=${dto.nodeUuid}`
     );
 
+    const usersReqeust = await axios.get<User[]>(
+      'http://localhost:3333/api/users?filter[email_notification]=true'
+    );
+
+    const users = usersReqeust.data;
+
     const checkList = [
       ThresholdsService.cpuMinOver(thresholds[0].cpuMin, dto.cpu),
       ThresholdsService.cpuMaxOver(thresholds[0].cpuMax, dto.cpu),
@@ -38,7 +45,7 @@ export class ThresholdsService {
         carry.push({
           ...actual,
           nodeName: node.data[0].name,
-          to: [],
+          to: users.map((user) => user.email),
         });
       }
 

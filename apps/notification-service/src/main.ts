@@ -17,7 +17,6 @@ connect(connectionString)
           'meana_messages',
           function (msg) {
             emailService.send(msg.content.toString());
-            console.log(msg.content.toString());
           },
           { noAck: true }
         );
