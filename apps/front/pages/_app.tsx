@@ -15,6 +15,7 @@ import createEmotionCache from '@/utility/createEmotionCache';
 import ThemeProvider from '@/styles/theme';
 import StyledChart from '@/components/Chart/StyledChart';
 import DashboardProvider from '@/contexts/dashboardContext';
+import AuthProvider from '@/contexts/authContext';
 
 const clientSideEmotionCache = createEmotionCache();
 
@@ -42,10 +43,12 @@ const App = ({ Component, pageProps }: AppProps) => {
         <Hydrate state={pageProps.dehydratedState}>
           <EmotionCacheProvider value={clientSideEmotionCache}>
             <ThemeProvider>
-              <DashboardProvider>
-                <StyledChart />
-                <Component {...pageProps} />
-              </DashboardProvider>
+              <AuthProvider>
+                <DashboardProvider>
+                  <StyledChart />
+                  <Component {...pageProps} />
+                </DashboardProvider>
+              </AuthProvider>
             </ThemeProvider>
           </EmotionCacheProvider>
         </Hydrate>
