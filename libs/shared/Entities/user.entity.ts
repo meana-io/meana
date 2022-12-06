@@ -24,7 +24,10 @@ export class UserEntity extends Model implements User {
   password: string;
 
   @Column
-  email_notification: boolean;
+  email_notifications: boolean;
+
+  @Column
+  push_notifications: boolean;
 
   @Column
   last_notification_at: string;
