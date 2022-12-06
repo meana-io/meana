@@ -122,7 +122,7 @@ const UserMenuList: React.FC<UserMenuListProps> = ({}) => {
                   />
                 </ListItem>
                 <ListItem>
-                  <Button fullWidth onClick={logout}>
+                  <Button fullWidth onClick={() => logout()}>
                     Logout
                   </Button>
                 </ListItem>
