@@ -115,7 +115,7 @@ export class GlobalService {
         disks: JSON.stringify(
           createGlobalDto.disks.map((disk) => ({
             ...disk,
-            partitions: disk.partitions.map((partition) => ({
+            partitions: disk.partitions?.map((partition) => ({
               ...partition,
               diskIdentifier: `${node.name}/${disk.name}`,
             })),
