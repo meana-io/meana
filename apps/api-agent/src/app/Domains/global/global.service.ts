@@ -46,14 +46,16 @@ export class GlobalService {
     };
     AmqpConnectionService.sendMessage(message);
 
-    const packageMessage = {
-      message: JSON.stringify({
-        nodeUuid: createGlobalDto.nodeUuid,
-        packages: createGlobalDto.packages.packages,
-      }),
-      queue: 'meana_packages',
-    };
-    AmqpConnectionService.sendMessage(packageMessage);
+    if (createGlobalDto.packages) {
+      const packageMessage = {
+        message: JSON.stringify({
+          nodeUuid: createGlobalDto.nodeUuid,
+          packages: createGlobalDto.packages.packages,
+        }),
+        queue: 'meana_packages',
+      };
+      AmqpConnectionService.sendMessage(packageMessage);
+    }
 
     this.nodeModel.removeAttribute('id');
     this.activeDevicesModel.removeAttribute('id');
