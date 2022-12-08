@@ -112,16 +112,24 @@ export class GlobalService {
 
     if (activeDevice) {
       await activeDevice.update({
-        disks: JSON.stringify(activeDevices.disks),
+        disks: JSON.stringify(
+          createGlobalDto.disks.map((disk) => ({
+            ...disk,
+            partitions: disk.partitions.map((partition) => ({
+              ...partition,
+              diskIdentifier: `${node.name}/${disk.name}`,
+            })),
+          }))
+        ),
         // packages: JSON.stringify(activeDevices.packages),
-        users: JSON.stringify(activeDevices.users),
+        users: JSON.stringify(createGlobalDto.users),
       });
     } else {
       await this.activeDevicesModel.create({
         nodeUuid: node.uuid,
-        disks: JSON.stringify(activeDevices.disks),
+        disks: JSON.stringify(createGlobalDto.disks),
         // packages: JSON.stringify(activeDevices.packages),
-        users: JSON.stringify(activeDevices.users),
+        users: JSON.stringify(createGlobalDto.users),
       });
     }
 
