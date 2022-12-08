@@ -7,7 +7,7 @@
     "start-front": "nx run front:serve",
     "build": "nx build",
     "test": "nx test",
-    "startAll": "nx run-many --parallel --target=serve --projects=api,api-agent,notification-service,threshold-value,cve-service",
+    "startAll": "nx run-many --parallel --target=serve --projects=api,api-agent,notification-service,threshold-value,cve-service --maxParallel=100",
     "d:dev:up": "docker compose --file docker/docker-compose.yml up"
   },
   "private": true,
