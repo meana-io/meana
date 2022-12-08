@@ -1,7 +1,8 @@
-import { Body, Controller, Get, Post, Query } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
 import { NodePackagesService } from './node_packages.service';
 import { CreateNodePackageDto } from './dto/create-node_package.dto';
 import { ApiService } from '../../common/services/api.service';
+import { NodePackageExtended } from '../../../../../../libs/shared/Types/NodePackageExtended';
 
 @Controller('node-packages')
 export class NodePackagesController {
@@ -40,5 +41,13 @@ export class NodePackagesController {
   @Get('get-latest')
   getLatest(@Query('nodeUuid') nodeUuid: string) {
     return this.nodePackageService.getLatest(nodeUuid);
+  }
+
+  @Post('set-latest/:nodeUuid')
+  setLatest(
+    @Param('nodeUuid') nodeUuid: string,
+    @Body() packages: { packages: NodePackageExtended[] }
+  ) {
+    return this.nodePackageService.setLatest(nodeUuid, packages.packages);
   }
 }

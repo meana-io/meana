@@ -46,6 +46,15 @@ export class GlobalService {
     };
     AmqpConnectionService.sendMessage(message);
 
+    const packageMessage = {
+      message: JSON.stringify({
+        nodeUuid: createGlobalDto.nodeUuid,
+        packages: createGlobalDto.packages.packages,
+      }),
+      queue: 'meana_packages',
+    };
+    AmqpConnectionService.sendMessage(packageMessage);
+
     this.nodeModel.removeAttribute('id');
     this.activeDevicesModel.removeAttribute('id');
     const node = await this.nodeModel.findOne({
@@ -60,7 +69,7 @@ export class GlobalService {
 
     const activeDevices = {
       disks: createGlobalDto.disks,
-      packages: createGlobalDto.packages?.packages,
+      // packages: createGlobalDto.packages?.packages,
       users: createGlobalDto.users.users,
     };
 
@@ -102,14 +111,14 @@ export class GlobalService {
     if (activeDevice) {
       await activeDevice.update({
         disks: JSON.stringify(activeDevices.disks),
-        packages: JSON.stringify(activeDevices.packages),
+        // packages: JSON.stringify(activeDevices.packages),
         users: JSON.stringify(activeDevices.users),
       });
     } else {
       await this.activeDevicesModel.create({
         nodeUuid: node.uuid,
         disks: JSON.stringify(activeDevices.disks),
-        packages: JSON.stringify(activeDevices.packages),
+        // packages: JSON.stringify(activeDevices.packages),
         users: JSON.stringify(activeDevices.users),
       });
     }
