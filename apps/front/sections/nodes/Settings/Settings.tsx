@@ -43,15 +43,6 @@ const Settings: NextPage = () => {
   return (
     <Formik
       initialValues={{
-        nodeId,
-        diskCapacity: {
-          uuid: '',
-          minmax: [0, 50],
-        },
-        partitionCapacity: {
-          uuid: '',
-          minmax: [0, 50],
-        },
         partitionUsedSpace: {
           uuid: '',
           minmax: [0, 50],
@@ -70,52 +61,6 @@ const Settings: NextPage = () => {
           <Grid container spacing={2}>
             <Grid item xs={12} md={6}>
               <Card>
-                <CardHeader title="Disk" />
-                <CardContent>
-                  <Grid container spacing={2}>
-                    <Grid item sm={12}>
-                      <FormControl fullWidth>
-                        <InputLabel id="disk-label">Disk</InputLabel>
-                        <Select
-                          labelId="disk-label"
-                          id="disk"
-                          name="diskCapacity.uuid"
-                          label="Disk"
-                          value={values.diskCapacity.uuid}
-                          onChange={handleChange}
-                        >
-                          {disksAndPartitions.map(({ name }, index) => (
-                            <MenuItem key={index} value={name}>
-                              {name}
-                            </MenuItem>
-                          ))}
-                        </Select>
-                      </FormControl>
-                    </Grid>
-                    <Grid item sm={12}>
-                      <Typography gutterBottom>
-                        Min and Max Disk Capacity:
-                      </Typography>
-                      <Slider
-                        id="diskCapacity.minmax"
-                        name="diskCapacity.minmax"
-                        value={values.diskCapacity.minmax}
-                        onChange={handleChange}
-                        valueLabelDisplay="auto"
-                        disableSwap
-                      />
-                    </Grid>
-                  </Grid>
-                </CardContent>
-                <StyledCardActions>
-                  <Button type="submit" size="large" variant="contained">
-                    Save
-                  </Button>
-                </StyledCardActions>
-              </Card>
-            </Grid>
-            <Grid item xs={12} md={6}>
-              <Card>
                 <CardHeader title="Partiton" />
                 <CardContent>
                   <Grid container spacing={2}>
@@ -126,8 +71,6 @@ const Settings: NextPage = () => {
                           labelId="partition-label"
                           id="partition"
                           label="Partition"
-                          name="partitionCapacity.uuid"
-                          value={values.partitionCapacity.uuid}
                           onChange={handleChange}
                         >
                           <ListSubheader>Dysk sda</ListSubheader>
@@ -139,20 +82,6 @@ const Settings: NextPage = () => {
                         </Select>
                       </FormControl>
                     </Grid>
-                    <Grid item sm={12}>
-                      <Typography gutterBottom>
-                        Min and Max Partition Capacity:
-                      </Typography>
-                      <Slider
-                        id="partitionCapacity.minmax"
-                        name="partitionCapacity.minmax"
-                        value={values.partitionCapacity.minmax}
-                        onChange={handleChange}
-                        valueLabelDisplay="auto"
-                        disableSwap
-                      />
-                    </Grid>
-
                     <Grid item sm={12}>
                       <Typography gutterBottom>
                         Min and Max Partition Used Space:
