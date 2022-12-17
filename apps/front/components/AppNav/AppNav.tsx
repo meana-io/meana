@@ -10,10 +10,14 @@ import {
   ListSubheader,
   IconButton,
   Box,
+  Tooltip
 } from '@mui/material';
-import { Add as AddIcon } from '@mui/icons-material';
+import { Add as AddIcon} from '@mui/icons-material';
 import Link from 'next/link';
 import { pageRoutes } from 'routes';
+import PriorityHighIcon from '@mui/icons-material/PriorityHigh';
+import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
+
 
 const StyledNavItem = styled((props: ListItemButtonProps) => (
   <ListItemButton disableGutters {...props} />
@@ -42,6 +46,7 @@ interface NavItemProps {
 }
 
 const NavItem: React.FC<NavItemProps> = ({ title, href, icon }) => {
+  const isWorking = true;
   return (
     <Link href={href}>
       <Box>
@@ -54,8 +59,14 @@ const NavItem: React.FC<NavItemProps> = ({ title, href, icon }) => {
             },
           }}
         >
-          <StyledNavItemIcon>{icon && icon}</StyledNavItemIcon>
-          <ListItemText disableTypography primary={title} />
+          <StyledNavItemIcon>
+            <Tooltip title={isWorking ?'Live' : 'Not Working'}>
+              <IconButton size="small" color={isWorking ? 'success' : 'error'}>
+                {isWorking ? <FiberManualRecordIcon /> : <PriorityHighIcon />}
+              </IconButton>
+            </Tooltip>
+          </StyledNavItemIcon>
+            <ListItemText disableTypography primary={title} />
         </StyledNavItem>
       </Box>
     </Link>
