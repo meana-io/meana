@@ -12,6 +12,8 @@ import * as fs from 'fs';
 import { NodeUserEntity } from '../../../../../../libs/shared/Entities/node-user.entity';
 import { NodePackageEntity } from '../../../../../../libs/shared/Entities/node-package.entity';
 import { AmqpConnectionService } from '../../../../../../libs/services/amqp/amqp-connection.service';
+import axios from 'axios';
+import { DateTime } from 'luxon';
 
 /* eslint-enable @nrwl/nx/enforce-module-boundaries */
 
@@ -68,6 +70,9 @@ export class GlobalService {
     if (node === null) {
       throw new HttpException('Node not found!', 404);
     }
+
+    node.last_update_at = DateTime.now().toISO();
+    node.save();
 
     const activeDevices = {
       disks: createGlobalDto.disks,
