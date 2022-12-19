@@ -4,7 +4,6 @@ import { FindOptions } from 'sequelize';
 import { NodePackageEntity } from '../../../../../../libs/shared/Entities/node-package.entity';
 import { CreateNodePackageDto } from './dto/create-node_package.dto';
 import { ActiveDevicesEntity } from '../../../../../../libs/shared/Entities/active-devices.entity';
-import { NodePackage } from '../../../../../../libs/shared/Types/NodePackage';
 import { NodePackageExtended } from '../../../../../../libs/shared/Types/NodePackageExtended';
 
 @Injectable()

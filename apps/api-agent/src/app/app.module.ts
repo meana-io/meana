@@ -15,6 +15,7 @@ import { ActiveDevicesEntity } from '../../../../libs/shared/Entities/active-dev
 import { LogsModule } from './Domains/logs/logs.module';
 import { NodeUserEntity } from '../../../../libs/shared/Entities/node-user.entity';
 import { NodePackageEntity } from '../../../../libs/shared/Entities/node-package.entity';
+import { NodeDeviceEntity } from '../../../../libs/shared/Entities/node-device.entity';
 
 /* eslint-enable @nrwl/nx/enforce-module-boundaries */
 
@@ -38,6 +39,7 @@ import { NodePackageEntity } from '../../../../libs/shared/Entities/node-package
         ActiveDevicesEntity,
         NodeUserEntity,
         NodePackageEntity,
+        NodeDeviceEntity,
       ],
     }),
   ],

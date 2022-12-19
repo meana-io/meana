@@ -18,6 +18,11 @@ type NestedPackages = {
   packages: NodePackage[];
 };
 
+type Device = {
+  name: string;
+  port: string;
+};
+
 export class CreateGlobalDto {
   nodeUuid: string;
   disks: Disk[];
@@ -25,4 +30,5 @@ export class CreateGlobalDto {
   cpu: NodeCpu;
   users: NestedUsers;
   packages?: NestedPackages;
+  devices?: Device[];
 }

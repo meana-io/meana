@@ -11,6 +11,7 @@ import { NodeCpuEntity } from '../../../../../../libs/shared/Entities/node-cpu.e
 import { ActiveDevicesEntity } from '../../../../../../libs/shared/Entities/active-devices.entity';
 import { NodeUserEntity } from '../../../../../../libs/shared/Entities/node-user.entity';
 import { NodePackageEntity } from '../../../../../../libs/shared/Entities/node-package.entity';
+import { NodeDeviceEntity } from '../../../../../../libs/shared/Entities/node-device.entity';
 
 @Module({
   imports: [
@@ -23,6 +24,7 @@ import { NodePackageEntity } from '../../../../../../libs/shared/Entities/node-p
       ActiveDevicesEntity,
       NodeUserEntity,
       NodePackageEntity,
+      NodeDeviceEntity,
     ]),
   ],
   controllers: [GlobalController],

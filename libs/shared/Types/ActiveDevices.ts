@@ -4,4 +4,5 @@ export interface ActiveDevices {
   disks: string;
   packages: string;
   users: string;
+  devices: string;
 }

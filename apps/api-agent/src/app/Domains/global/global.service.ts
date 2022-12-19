@@ -14,6 +14,7 @@ import { NodePackageEntity } from '../../../../../../libs/shared/Entities/node-p
 import { AmqpConnectionService } from '../../../../../../libs/services/amqp/amqp-connection.service';
 import axios from 'axios';
 import { DateTime } from 'luxon';
+import { NodeDeviceEntity } from '../../../../../../libs/shared/Entities/node-device.entity';
 
 /* eslint-enable @nrwl/nx/enforce-module-boundaries */
 
@@ -30,7 +31,9 @@ export class GlobalService {
     private activeDevicesModel: typeof ActiveDevicesEntity,
     @InjectModel(NodeUserEntity) private nodeUserModel: typeof NodeUserEntity,
     @InjectModel(NodePackageEntity)
-    private nodePackageModel: typeof NodePackageEntity
+    private nodePackageModel: typeof NodePackageEntity,
+    @InjectModel(NodeDeviceEntity)
+    private nodeDevicesModel: typeof NodeDeviceEntity
   ) {}
   async insert(createGlobalDto: CreateGlobalDto) {
     GlobalService.saveLog(createGlobalDto);
@@ -78,6 +81,7 @@ export class GlobalService {
       disks: createGlobalDto.disks,
       // packages: createGlobalDto.packages?.packages,
       users: createGlobalDto.users.users,
+      devices: createGlobalDto?.devices,
     };
 
     for (const disk of createGlobalDto.disks) {
@@ -97,6 +101,12 @@ export class GlobalService {
             };
           })
         );
+      }
+    }
+
+    if (createGlobalDto.devices) {
+      for (const device of createGlobalDto.devices) {
+        await this.nodeDevicesModel.create({ nodeUuid: node.uuid, ...device });
       }
     }
 
@@ -128,6 +138,7 @@ export class GlobalService {
         ),
         // packages: JSON.stringify(activeDevices.packages),
         users: JSON.stringify(createGlobalDto.users),
+        devices: JSON.stringify(createGlobalDto?.devices),
       });
     } else {
       await this.activeDevicesModel.create({
@@ -135,6 +146,7 @@ export class GlobalService {
         disks: JSON.stringify(createGlobalDto.disks),
         // packages: JSON.stringify(activeDevices.packages),
         users: JSON.stringify(createGlobalDto.users),
+        devices: JSON.stringify(createGlobalDto?.devices),
       });
     }
 
