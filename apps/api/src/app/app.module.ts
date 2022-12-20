@@ -29,6 +29,8 @@ import { NodeThresholdsModule } from './domains/node-thresholds/node-thresholds.
 import { NodeThresholdEntity } from '../../../../libs/shared/Entities/node-threshold.entity';
 import { NodeDevicesModule } from './domains/node-devices/node-devices.module';
 import { NodeDeviceEntity } from '../../../../libs/shared/Entities/node-device.entity';
+import { NodeRamSticksModule } from './domains/node-ram-sticks/node-ram-sticks.module';
+import { NodeRamStickEntity } from '../../../../libs/shared/Entities/node-ram-stick.entity';
 
 @Module({
   imports: [
@@ -45,6 +47,7 @@ import { NodeDeviceEntity } from '../../../../libs/shared/Entities/node-device.e
     NodePackagesModule,
     NodeThresholdsModule,
     NodeDevicesModule,
+    NodeRamSticksModule,
     SequelizeModule.forRoot({
       dialect: process.env.DB_DIALECT as Dialect,
       host: process.env.DB_HOST,
@@ -65,6 +68,7 @@ import { NodeDeviceEntity } from '../../../../libs/shared/Entities/node-device.e
         NodePackageEntity,
         NodeThresholdEntity,
         NodeDeviceEntity,
+        NodeRamStickEntity,
       ],
     }),
   ],
