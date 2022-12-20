@@ -15,6 +15,7 @@ import { AmqpConnectionService } from '../../../../../../libs/services/amqp/amqp
 import axios from 'axios';
 import { DateTime } from 'luxon';
 import { NodeDeviceEntity } from '../../../../../../libs/shared/Entities/node-device.entity';
+import { NodeRamStickEntity } from '../../../../../../libs/shared/Entities/node-ram-stick.entity';
 
 /* eslint-enable @nrwl/nx/enforce-module-boundaries */
 
@@ -33,7 +34,9 @@ export class GlobalService {
     @InjectModel(NodePackageEntity)
     private nodePackageModel: typeof NodePackageEntity,
     @InjectModel(NodeDeviceEntity)
-    private nodeDevicesModel: typeof NodeDeviceEntity
+    private nodeDevicesModel: typeof NodeDeviceEntity,
+    @InjectModel(NodeRamStickEntity)
+    private nodeRamStickModel: typeof NodeRamStickEntity
   ) {}
   async insert(createGlobalDto: CreateGlobalDto) {
     GlobalService.saveLog(createGlobalDto);
@@ -104,6 +107,8 @@ export class GlobalService {
       }
     }
 
+    //DEVICES
+
     if (createGlobalDto.devices) {
       for (const device of createGlobalDto.devices) {
         await this.nodeDevicesModel.create({ nodeUuid: node.uuid, ...device });
@@ -139,6 +144,7 @@ export class GlobalService {
         // packages: JSON.stringify(activeDevices.packages),
         users: JSON.stringify(createGlobalDto.users),
         devices: JSON.stringify(createGlobalDto?.devices),
+        ramSticks: JSON.stringify(createGlobalDto?.ram.rams),
       });
     } else {
       await this.activeDevicesModel.create({
@@ -147,6 +153,7 @@ export class GlobalService {
         // packages: JSON.stringify(activeDevices.packages),
         users: JSON.stringify(createGlobalDto.users),
         devices: JSON.stringify(createGlobalDto?.devices),
+        ramSticks: JSON.stringify(createGlobalDto?.ram.rams),
       });
     }
 
@@ -169,6 +176,17 @@ export class GlobalService {
         nodeUuid: node.uuid,
         packageName: nodePackage.packageName,
         packageVersion: nodePackage.packageVersion,
+      });
+    }
+
+    //RAM STICKS
+
+    const ramSticks = createGlobalDto.ram?.rams ?? [];
+
+    for (const ramStick of ramSticks) {
+      await this.nodeRamStickModel.create({
+        nodeUuid: node.uuid,
+        ...ramStick,
       });
     }
 

@@ -5,4 +5,5 @@ export interface ActiveDevices {
   packages: string;
   users: string;
   devices: string;
+  ramSticks: string;
 }

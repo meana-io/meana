@@ -12,6 +12,7 @@ import { ActiveDevicesEntity } from '../../../../../../libs/shared/Entities/acti
 import { NodeUserEntity } from '../../../../../../libs/shared/Entities/node-user.entity';
 import { NodePackageEntity } from '../../../../../../libs/shared/Entities/node-package.entity';
 import { NodeDeviceEntity } from '../../../../../../libs/shared/Entities/node-device.entity';
+import { NodeRamStickEntity } from '../../../../../../libs/shared/Entities/node-ram-stick.entity';
 
 @Module({
   imports: [
@@ -25,6 +26,7 @@ import { NodeDeviceEntity } from '../../../../../../libs/shared/Entities/node-de
       NodeUserEntity,
       NodePackageEntity,
       NodeDeviceEntity,
+      NodeRamStickEntity,
     ]),
   ],
   controllers: [GlobalController],

@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, Query } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
 import { NodeRamSticksService } from './node-ram-sticks.service';
 import { CreateNodeRamStickDto } from './dto/create-node-ram-stick.dto';
 import { ApiService } from '../../common/services/api.service';
@@ -35,5 +35,10 @@ export class NodeRamSticksController {
     );
 
     return this.nodeRamSticksService.findAll(findOptions);
+  }
+
+  @Get(':uuid/get-latest')
+  getLatest(@Param('uuid') nodeUuid: string) {
+    return this.nodeRamSticksService.getLatest(nodeUuid);
   }
 }
