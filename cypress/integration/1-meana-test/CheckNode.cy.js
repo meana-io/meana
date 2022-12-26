@@ -1,9 +1,11 @@
 /// <reference types="cypress" />
 
-context('Check Existing Node', () => {
-  it('Check node Test-Node', () => {
+describe('Check Existing Node', () => {
+  beforeEach(() => {
     cy.visit('https://meana.vercel.app');
+  });
 
+  it('Check node Test-Node', () => {
     cy.contains('test-node').click();
 
     cy.get('#disk').parent().click().get('[data-value=0]').click();

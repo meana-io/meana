@@ -4,10 +4,12 @@ const nativeInputValueSetter = Object.getOwnPropertyDescriptor(
   'value'
 ).set;
 
-context('Checking treshold values', () => {
-  it('Drag and delete from dashboard', () => {
+describe('Checking treshold values', () => {
+  beforeEach(() => {
     cy.visit('https://meana.vercel.app');
+  });
 
+  it('Drag slider', () => {
     cy.contains('test-node').click();
 
     cy.get('#disk').parent().click().get('[data-value=0]').click();
@@ -22,7 +24,7 @@ context('Checking treshold values', () => {
       // get the DOM node
       const range = $range[0];
       // set the value manually
-      nativeInputValueSetter.call(range, 15);
+      nativeInputValueSetter.call(range, 40);
       // now dispatch the event
       range.dispatchEvent(new Event('change', { value: 15, bubbles: true }));
     });

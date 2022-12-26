@@ -1,6 +1,6 @@
 /// <reference types="cypress" />
 
-context('Adding new node', () => {
+describe('Adding new node', () => {
   beforeEach(() => {
     cy.visit('https://meana.vercel.app');
   });

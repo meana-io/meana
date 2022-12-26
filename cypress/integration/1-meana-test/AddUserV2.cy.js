@@ -1,9 +1,11 @@
 /// <reference types="cypress" />
 
-context('Check Existing Node', () => {
-  it('Check node Test-Node', () => {
+describe('Add new user version 2', () => {
+  beforeEach(() => {
     cy.visit('https://meana.vercel.app');
+  });
 
+  it('Add new user', () => {
     cy.contains('Create').click();
 
     cy.contains('Create User').click();

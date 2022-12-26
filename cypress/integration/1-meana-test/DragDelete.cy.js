@@ -1,9 +1,13 @@
 /// <reference types="cypress" />
 
-context('Adding new node', () => {
-  it('Drag and delete from dashboard', () => {
+describe('Drag and delete element from dashboard', () => {
+  beforeEach(() => {
     cy.visit('https://meana.vercel.app');
+  });
 
+  it('Drag element', () => {});
+
+  it('Delete from dashboard', () => {
     cy.contains('Capacity')
       .get('.MuiPaper-root.MuiPaper-outlined.MuiPaper-rounded.css-qqjb9z')
       .get(
