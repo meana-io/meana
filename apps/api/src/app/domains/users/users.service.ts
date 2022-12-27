@@ -14,9 +14,18 @@ export class UsersService {
     createUserDto.password = await bcrypt.hash(createUserDto.password, 10);
 
     const user = await this.userModel.create({ ...createUserDto });
-    delete user.password;
-
-    return user;
+    return {
+      firstName: user.firstName,
+      lastName: user.lastName,
+      login: user.login,
+      email: user.email,
+      email_notifications: user.email_notifications,
+      push_notifications: user.push_notifications,
+      updated_at: user.updatedAt,
+      uuid: user.uuid,
+      createdAt: user.createdAt,
+      updatedAt: user.updatedAt,
+    };
   }
 
   async findAll(findOptions: FindOptions) {
@@ -51,9 +60,18 @@ export class UsersService {
     await user.update({ ...updateUserDto });
     await user.save();
 
-    delete user.password;
-
-    return user;
+    return {
+      firstName: user.firstName,
+      lastName: user.lastName,
+      login: user.login,
+      email: user.email,
+      email_notifications: user.email_notifications,
+      push_notifications: user.push_notifications,
+      updated_at: user.updatedAt,
+      uuid: user.uuid,
+      createdAt: user.createdAt,
+      updatedAt: user.updatedAt,
+    };
   }
 
   async deleteOne(uuid: string) {
