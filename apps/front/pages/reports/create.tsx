@@ -168,6 +168,7 @@ const CreaetReport: NextPage = () => {
                             label="From"
                             type="datetime-local"
                             name="from"
+                            data-cy="date-from"
                             InputLabelProps={{
                               shrink: true,
                             }}
@@ -183,6 +184,7 @@ const CreaetReport: NextPage = () => {
                             label="To"
                             type="datetime-local"
                             name="to"
+                            data-cy="date-to"
                             InputLabelProps={{
                               shrink: true,
                             }}
@@ -227,6 +229,7 @@ const CreaetReport: NextPage = () => {
                               <Select
                                 labelId="node-id"
                                 label="Node"
+                                data-cy="node"
                                 name={`properties[${index}].nodeUuid`}
                                 value={values.properties.at(index).nodeUuid}
                                 onChange={handleChange}
@@ -275,6 +278,7 @@ const CreaetReport: NextPage = () => {
                                 <TextField
                                   {...params}
                                   label="Properties"
+                                  data-cy="prop"
                                   value={values.properties.at(index).property}
                                   name={`properties[${index}].properties`}
                                   error={
@@ -323,6 +327,7 @@ const CreaetReport: NextPage = () => {
                   color="secondary"
                   size="large"
                   variant="contained"
+                  data-cy="run"
                 >
                   Run
                 </Button>

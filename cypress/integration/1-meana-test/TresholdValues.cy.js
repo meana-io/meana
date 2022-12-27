@@ -21,18 +21,13 @@ describe('Checking treshold values', () => {
     cy.get('#disk').parent().click().get('[data-value=sda]').click();
 
     cy.get('input[type="range"]').then(($range) => {
-      // get the DOM node
       const range = $range[0];
-      // set the value manually
+
       nativeInputValueSetter.call(range, 40);
-      // now dispatch the event
+
       range.dispatchEvent(new Event('change', { value: 15, bubbles: true }));
     });
 
-    cy.get(
-      '.MuiButtonBase-root.MuiButton-root.MuiButton-contained.MuiButton-containedPrimary.MuiButton-sizeLarge.MuiButton-containedSizeLarge.MuiButton-root.MuiButton-contained.MuiButton-containedPrimary.MuiButton-sizeLarge.MuiButton-containedSizeLarge.css-1vtnqev'
-    )
-      .first()
-      .click();
+    cy.get('[data-cy="SaveDisk"]').first().click();
   });
 });

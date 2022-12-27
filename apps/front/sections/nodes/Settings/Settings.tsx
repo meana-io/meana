@@ -108,7 +108,7 @@ const Settings: NextPage = () => {
                   </Grid>
                 </CardContent>
                 <StyledCardActions>
-                  <Button type="submit" size="large" variant="contained">
+                  <Button type="submit" size="large" variant="contained" data-cy="SaveDisk">
                     Save
                   </Button>
                 </StyledCardActions>

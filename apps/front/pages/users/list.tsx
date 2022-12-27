@@ -72,7 +72,7 @@ const UsersList: NextPage = () => {
       renderCell: (cellValues) => {
         return (
           <Link href={`${pageRoutes.editUser}/${cellValues.row.uuid}`} passHref>
-            <Button startIcon={<EditIcon />} color="inherit" />
+            <Button startIcon={<EditIcon />} color="inherit" data-cy="EditUser"/>
           </Link>
         );
       },
