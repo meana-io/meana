@@ -21,7 +21,6 @@ export class UsersService {
       email: user.email,
       email_notifications: user.email_notifications,
       push_notifications: user.push_notifications,
-      updated_at: user.updatedAt,
       uuid: user.uuid,
       createdAt: user.createdAt,
       updatedAt: user.updatedAt,
