@@ -13,7 +13,10 @@ export class UsersService {
     this.userModel.removeAttribute('id');
     createUserDto.password = await bcrypt.hash(createUserDto.password, 10);
 
-    return await this.userModel.create({ ...createUserDto });
+    const user = await this.userModel.create({ ...createUserDto });
+    delete user.password;
+
+    return user;
   }
 
   async findAll(findOptions: FindOptions) {
@@ -47,6 +50,8 @@ export class UsersService {
 
     await user.update({ ...updateUserDto });
     await user.save();
+
+    delete user.password;
 
     return user;
   }
