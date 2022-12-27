@@ -7,11 +7,13 @@ import {
   Patch,
   Post,
   Query,
+  UseGuards,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { ApiService } from '../../common/services/api.service';
+import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 
 @Controller('users')
 export class UsersController {
@@ -25,6 +27,7 @@ export class UsersController {
     return await this.usersService.create(createUserDto);
   }
 
+  @UseGuards(JwtAuthGuard)
   @Get()
   findAll(
     @Query() requestQuery: any,
