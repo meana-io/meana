@@ -246,7 +246,7 @@ const CreaetReport: NextPage = () => {
                                 onBlur={handleBlur}
                               >
                                 {nodes.map(({ uuid, name }) => (
-                                  <MenuItem key={uuid} value={uuid}>
+                                  <MenuItem key={uuid} value={uuid} data-cy="first-arg">
                                     {name}
                                   </MenuItem>
                                 ))}
@@ -284,7 +284,7 @@ const CreaetReport: NextPage = () => {
                                   error={
                                     getIn(
                                       touched,
-                                      `properties[${index}].properties`
+                                      `properties[${index}].properties`,
                                     ) &&
                                     !!getIn(
                                       errors,
@@ -294,7 +294,7 @@ const CreaetReport: NextPage = () => {
                                   helperText={
                                     getIn(
                                       touched,
-                                      `properties[${index}].properties`
+                                      `properties[${index}].properties`,
                                     ) &&
                                     getIn(
                                       errors,
