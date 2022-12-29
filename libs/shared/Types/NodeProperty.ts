@@ -5,7 +5,7 @@ import { AggregationType } from '../../../apps/api/src/app/domains/reports/repor
 
 export enum Domain {
   nodeCpu = 'node_cpu',
-  nodeRams = 'node_ram',
+  nodeRams = 'node_rams',
   nodeDiskPartitions = 'node_disk_partitions',
 }
 
