@@ -6,11 +6,6 @@ describe('Delete element from dashboard', () => {
   });
 
   it('Delete from dashboard', () => {
-    cy.contains('Capacity')
-
-      .get('[data-cy="Element"]')
-      .first()
-      .click();
-    // .get('.MuiPaper-root.MuiPaper-outlined.MuiPaper-rounded.css-qqjb9z')
+    cy.contains('Capacity').get('[data-cy="Element"]').first().click();
   });
 });

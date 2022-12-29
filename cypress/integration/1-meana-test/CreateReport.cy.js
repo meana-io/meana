@@ -8,9 +8,6 @@ describe('Create Raport', () => {
   it('Creating raport', () => {
     cy.get('[data-cy="CreateReports"]').contains('Create').click();
 
-    cy.wait(5000);
-
-    // cy.get('[data-cy="date-from"]').click('right').contains('Dzisiaj').click();
     cy.get('[data-cy="date-from"]').type('2022-12-24T09:09');
     cy.get('[data-cy="date-to"]').type('2022-12-25T09:09');
 
