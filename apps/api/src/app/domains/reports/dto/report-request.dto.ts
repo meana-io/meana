@@ -7,5 +7,4 @@ export class ReportRequestDto implements ReportRequest {
   to: string;
   properties: NodeProperty[];
   aggregatePeriod: number;
-  aggregationType: AggregationType;
 }

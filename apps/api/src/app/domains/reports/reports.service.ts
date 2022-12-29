@@ -29,8 +29,7 @@ export class ReportsService {
           property.property,
           reportRequestDto.aggregatePeriod,
           reportRequestDto.from,
-          reportRequestDto.to,
-          reportRequestDto.aggregationType
+          reportRequestDto.to
         ),
       };
     });
@@ -51,9 +50,8 @@ export class ReportsService {
     property: Property,
     aggregationPeriod: number,
     from: string,
-    to: string,
-    aggregationType: AggregationType
+    to: string
   ): string {
-    return `SELECT time_bucket(make_interval(secs := ${aggregationPeriod}), "${property.domain}"."time") AS AGGREGATION_PERIOD, ${aggregationType}("${property.domain}"."${property.propertyName}"::decimal) FROM "${property.domain}" WHERE "${property.domain}"."time" >= '${from}'::date AND "${property.domain}"."time" <= '${to}'::date GROUP BY AGGREGATION_PERIOD`;
+    return `SELECT time_bucket(make_interval(secs := ${aggregationPeriod}), "${property.domain}"."time") AS AGGREGATION_PERIOD, ${property.aggregationType}("${property.domain}"."${property.propertyName}"::decimal) FROM "${property.domain}" WHERE "${property.domain}"."time" >= '${from}'::date AND "${property.domain}"."time" <= '${to}'::date GROUP BY AGGREGATION_PERIOD`;
   }
 }
