@@ -1,7 +1,8 @@
-import { Body, Controller, Get, Post, Query } from '@nestjs/common';
+import { Body, Controller, Get, Post, Query, UseGuards } from '@nestjs/common';
 import { NodeDiskPartitionsService } from './node-disk-partitions.service';
 import { CreateNodeDiskPartitionDto } from './dto/create-node-disk-partition.dto';
 import { ApiService } from '../../common/services/api.service';
+import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 
 @Controller('node-disk-partitions')
 export class NodeDiskPartitionsController {
@@ -10,6 +11,7 @@ export class NodeDiskPartitionsController {
     private readonly apiService: ApiService
   ) {}
 
+  @UseGuards(JwtAuthGuard)
   @Post()
   async create(@Body() createNodeDiskPartitionDto: CreateNodeDiskPartitionDto) {
     return await this.nodeDiskPartitionsService.create(
@@ -17,6 +19,7 @@ export class NodeDiskPartitionsController {
     );
   }
 
+  @UseGuards(JwtAuthGuard)
   @Get()
   findAll(
     @Query() requestQuery: any,

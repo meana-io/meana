@@ -1,7 +1,8 @@
-import { Body, Controller, Get, Post, Query } from '@nestjs/common';
+import { Body, Controller, Get, Post, Query, UseGuards } from '@nestjs/common';
 import { NodeCpuService } from './node-cpu.service';
 import { CreateNodeDiskDto } from '../node-disks/dto/create-node-disk.dto';
 import { ApiService } from '../../common/services/api.service';
+import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 
 @Controller('node-cpu')
 export class NodeCpuController {
@@ -10,11 +11,13 @@ export class NodeCpuController {
     private readonly apiService: ApiService
   ) {}
 
+  @UseGuards(JwtAuthGuard)
   @Post()
   async create(@Body() createNodeCpuDto: CreateNodeDiskDto) {
     return await this.nodeCpuService.create(createNodeCpuDto);
   }
 
+  @UseGuards(JwtAuthGuard)
   @Get()
   findAll(
     @Query() requestQuery: any,

@@ -7,11 +7,13 @@ import {
   Patch,
   Post,
   Query,
+  UseGuards,
 } from '@nestjs/common';
 import { ApiService } from '../../common/services/api.service';
 import { NodeThresholdsService } from './node-thresholds.service';
 import { CreateNodeThresholdDto } from './dto/create-node-threshold.dto';
 import { UpdateNodeThresholdDto } from './dto/update-node-threshold.dto';
+import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 
 @Controller('node-thresholds')
 export class NodeThresholdsController {
@@ -20,6 +22,7 @@ export class NodeThresholdsController {
     private readonly apiService: ApiService
   ) {}
 
+  @UseGuards(JwtAuthGuard)
   @Post()
   async create(@Body() createNodeThresholdDto: CreateNodeThresholdDto) {
     return await this.nodeThresholdsService.create(createNodeThresholdDto);
@@ -47,11 +50,13 @@ export class NodeThresholdsController {
     return this.nodeThresholdsService.findAll(findOptions);
   }
 
+  @UseGuards(JwtAuthGuard)
   @Get(':uuid')
   findOne(@Param('uuid') uuid: string) {
     return this.nodeThresholdsService.findOne(uuid);
   }
 
+  @UseGuards(JwtAuthGuard)
   @Patch(':uuid')
   update(
     @Param('uuid') uuid: string,
@@ -60,6 +65,7 @@ export class NodeThresholdsController {
     return this.nodeThresholdsService.update(uuid, updateNodeThresholdDto);
   }
 
+  @UseGuards(JwtAuthGuard)
   @Delete(':uuid')
   remove(@Param('uuid') uuid: string) {
     return this.nodeThresholdsService.deleteOne(uuid);

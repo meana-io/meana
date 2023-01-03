@@ -1,7 +1,16 @@
-import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  Post,
+  Query,
+  UseGuards,
+} from '@nestjs/common';
 import { NodeRamSticksService } from './node-ram-sticks.service';
 import { CreateNodeRamStickDto } from './dto/create-node-ram-stick.dto';
 import { ApiService } from '../../common/services/api.service';
+import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 
 @Controller('node-ram-sticks')
 export class NodeRamSticksController {
@@ -10,11 +19,13 @@ export class NodeRamSticksController {
     private readonly apiService: ApiService
   ) {}
 
+  @UseGuards(JwtAuthGuard)
   @Post()
   async create(@Body() createNodeRamStickDto: CreateNodeRamStickDto) {
     return await this.nodeRamSticksService.create(createNodeRamStickDto);
   }
 
+  @UseGuards(JwtAuthGuard)
   @Get()
   findAll(
     @Query() requestQuery: any,
@@ -37,6 +48,7 @@ export class NodeRamSticksController {
     return this.nodeRamSticksService.findAll(findOptions);
   }
 
+  @UseGuards(JwtAuthGuard)
   @Get(':uuid/get-latest')
   getLatest(@Param('uuid') nodeUuid: string) {
     return this.nodeRamSticksService.getLatest(nodeUuid);

@@ -1,7 +1,8 @@
-import { Body, Controller, Get, Post, Query } from '@nestjs/common';
+import { Body, Controller, Get, Post, Query, UseGuards } from '@nestjs/common';
 import { NodeDisksService } from './node-disks.service';
 import { CreateNodeDiskDto } from './dto/create-node-disk.dto';
 import { ApiService } from '../../common/services/api.service';
+import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 
 @Controller('node-disks')
 export class NodeDisksController {
@@ -10,16 +11,19 @@ export class NodeDisksController {
     private readonly apiService: ApiService
   ) {}
 
+  @UseGuards(JwtAuthGuard)
   @Get('get-latest-disks')
   getLatestDisks(@Query('nodeUuid') nodeUuid: string) {
     return this.nodeDisksService.getLatestDisks(nodeUuid);
   }
 
+  @UseGuards(JwtAuthGuard)
   @Post()
   async create(@Body() createNodeDiskDto: CreateNodeDiskDto) {
     return await this.nodeDisksService.create(createNodeDiskDto);
   }
 
+  @UseGuards(JwtAuthGuard)
   @Get()
   findAll(
     @Query() requestQuery: any,
