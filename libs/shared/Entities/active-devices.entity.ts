@@ -25,4 +25,7 @@ export class ActiveDevicesEntity extends Model implements ActiveDevices {
 
   @Column
   ramSticks: string;
+
+  @Column
+  networkCards: string;
 }

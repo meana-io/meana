@@ -13,6 +13,7 @@ import { NodeUserEntity } from '../../../../../../libs/shared/Entities/node-user
 import { NodePackageEntity } from '../../../../../../libs/shared/Entities/node-package.entity';
 import { NodeDeviceEntity } from '../../../../../../libs/shared/Entities/node-device.entity';
 import { NodeRamStickEntity } from '../../../../../../libs/shared/Entities/node-ram-stick.entity';
+import { NodeNetworkCardEntity } from '../../../../../../libs/shared/Entities/node-network-card.entity';
 
 @Module({
   imports: [
@@ -27,6 +28,7 @@ import { NodeRamStickEntity } from '../../../../../../libs/shared/Entities/node-
       NodePackageEntity,
       NodeDeviceEntity,
       NodeRamStickEntity,
+      NodeNetworkCardEntity,
     ]),
   ],
   controllers: [GlobalController],

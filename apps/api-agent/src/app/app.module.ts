@@ -17,6 +17,7 @@ import { NodeUserEntity } from '../../../../libs/shared/Entities/node-user.entit
 import { NodePackageEntity } from '../../../../libs/shared/Entities/node-package.entity';
 import { NodeDeviceEntity } from '../../../../libs/shared/Entities/node-device.entity';
 import { NodeRamStickEntity } from '../../../../libs/shared/Entities/node-ram-stick.entity';
+import { NodeNetworkCardEntity } from '../../../../libs/shared/Entities/node-network-card.entity';
 
 /* eslint-enable @nrwl/nx/enforce-module-boundaries */
 
@@ -42,6 +43,7 @@ import { NodeRamStickEntity } from '../../../../libs/shared/Entities/node-ram-st
         NodePackageEntity,
         NodeDeviceEntity,
         NodeRamStickEntity,
+        NodeNetworkCardEntity,
       ],
     }),
   ],

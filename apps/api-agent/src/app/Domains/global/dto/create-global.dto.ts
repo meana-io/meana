@@ -5,6 +5,7 @@ import { NodeDisk } from '../../../../../../../libs/shared/Types/NodeDisk';
 import { NodeDiskPartition } from '../../../../../../../libs/shared/Types/NodeDiskPartition';
 import { NodePackage } from '../../../../../../../libs/shared/Types/NodePackage';
 import { NodeRamStick } from '../../../../../../../libs/shared/Types/NodeRamStick';
+import { NodeNetworkCard } from '../../../../../../../libs/shared/Types/NodeNetworkCard';
 
 export interface Disk extends NodeDisk {
   partitions: NodeDiskPartition[];
@@ -36,4 +37,5 @@ export class CreateGlobalDto {
   users: NestedUsers;
   packages?: NestedPackages;
   devices?: Device[];
+  networkCards?: NodeNetworkCard[];
 }

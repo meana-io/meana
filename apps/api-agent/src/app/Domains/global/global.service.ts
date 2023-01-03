@@ -16,6 +16,7 @@ import axios from 'axios';
 import { DateTime } from 'luxon';
 import { NodeDeviceEntity } from '../../../../../../libs/shared/Entities/node-device.entity';
 import { NodeRamStickEntity } from '../../../../../../libs/shared/Entities/node-ram-stick.entity';
+import { NodeNetworkCardEntity } from '../../../../../../libs/shared/Entities/node-network-card.entity';
 
 /* eslint-enable @nrwl/nx/enforce-module-boundaries */
 
@@ -36,7 +37,9 @@ export class GlobalService {
     @InjectModel(NodeDeviceEntity)
     private nodeDevicesModel: typeof NodeDeviceEntity,
     @InjectModel(NodeRamStickEntity)
-    private nodeRamStickModel: typeof NodeRamStickEntity
+    private nodeRamStickModel: typeof NodeRamStickEntity,
+    @InjectModel(NodeNetworkCardEntity)
+    private nodeNetworkCardEntity: typeof NodeNetworkCardEntity
   ) {}
   async insert(createGlobalDto: CreateGlobalDto) {
     GlobalService.saveLog(createGlobalDto);
@@ -46,6 +49,7 @@ export class GlobalService {
       cpu: createGlobalDto.cpu,
       disks: createGlobalDto.disks,
       ram: createGlobalDto.ram,
+      networkCards: createGlobalDto.networkCards,
     };
 
     const message = {
@@ -145,6 +149,7 @@ export class GlobalService {
         users: JSON.stringify(createGlobalDto.users),
         devices: JSON.stringify(createGlobalDto?.devices),
         ramSticks: JSON.stringify(createGlobalDto?.ram.rams),
+        networkCards: JSON.stringify(createGlobalDto?.networkCards),
       });
     } else {
       await this.activeDevicesModel.create({
@@ -154,6 +159,7 @@ export class GlobalService {
         users: JSON.stringify(createGlobalDto.users),
         devices: JSON.stringify(createGlobalDto?.devices),
         ramSticks: JSON.stringify(createGlobalDto?.ram.rams),
+        networkCards: JSON.stringify(createGlobalDto?.networkCards),
       });
     }
 
@@ -187,6 +193,17 @@ export class GlobalService {
       await this.nodeRamStickModel.create({
         nodeUuid: node.uuid,
         ...ramStick,
+      });
+    }
+
+    //NETWORK CARDS
+
+    const networkCards = createGlobalDto.networkCards ?? [];
+
+    for (const networkCard of networkCards) {
+      await this.nodeNetworkCardEntity.create({
+        nodeUuid: node.uuid,
+        ...networkCard,
       });
     }
 
