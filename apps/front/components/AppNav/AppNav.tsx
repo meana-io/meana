@@ -79,6 +79,7 @@ interface NavItem {
   title: string;
   href: string;
   icon?: React.ReactNode;
+  cy: string;
 }
 
 interface NavProps {
@@ -89,13 +90,15 @@ const staticMenu = [
   {
     header: 'Users',
     list: [
-      { title: 'List', href: pageRoutes.users },
-      { title: 'Create', href: pageRoutes.createUser },
+      { title: 'List', href: pageRoutes.users},
+      { title: 'Create', href: pageRoutes.createUser},
     ],
+     cy : 'Create' 
   },
   {
     header: 'Reports',
-    list: [{ title: 'Create', href: pageRoutes.createReport }],
+    list: [{ title: 'Create', href: pageRoutes.createReport}],
+    cy: 'CreateReports'
   },
 ];
 
@@ -142,8 +145,9 @@ const AppNav: React.FC<NavProps> = ({ items }) => {
           <NavItem key={href} href={href} title={title} icon={icon} />
         ))}
       </List>
-      {staticMenu.map(({ header, list }, index) => (
+      {staticMenu.map(({ header, list, cy}, index) => (
         <List
+          data-cy={cy}
           key={index}
           disablePadding
           sx={{ p: 1 }}
@@ -158,7 +162,7 @@ const AppNav: React.FC<NavProps> = ({ items }) => {
             </ListSubheader>
           }
         >
-          {list.map(({ title, href }) => (
+          {list.map(({ title, href}) => (
             <NavItem key={href} href={href} title={title} />
           ))}
         </List>

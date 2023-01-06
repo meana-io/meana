@@ -61,6 +61,52 @@ const Settings: NextPage = () => {
           <Grid container spacing={2}>
             <Grid item xs={12} md={6}>
               <Card>
+                <CardHeader title="Disk" />
+                <CardContent>
+                  <Grid container spacing={2}>
+                    <Grid item sm={12}>
+                      <FormControl fullWidth>
+                        <InputLabel id="disk-label">Disk</InputLabel>
+                        <Select
+                          labelId="disk-label"
+                          id="disk"
+                          name="diskCapacity.uuid"
+                          label="Disk"
+                          value={values.diskCapacity.uuid}
+                          onChange={handleChange}
+                        >
+                          {disksAndPartitions.map(({ name }, index) => (
+                            <MenuItem key={index} value={name}>
+                              {name}
+                            </MenuItem>
+                          ))}
+                        </Select>
+                      </FormControl>
+                    </Grid>
+                    <Grid item sm={12}>
+                      <Typography gutterBottom>
+                        Min and Max Disk Capacity:
+                      </Typography>
+                      <Slider
+                        id="diskCapacity.minmax"
+                        name="diskCapacity.minmax"
+                        value={values.diskCapacity.minmax}
+                        onChange={handleChange}
+                        valueLabelDisplay="auto"
+                        disableSwap
+                      />
+                    </Grid>
+                  </Grid>
+                </CardContent>
+                <StyledCardActions>
+                  <Button type="submit" size="large" variant="contained" data-cy="SaveDisk">
+                    Save
+                  </Button>
+                </StyledCardActions>
+              </Card>
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <Card>
                 <CardHeader title="Partiton" />
                 <CardContent>
                   <Grid container spacing={2}>

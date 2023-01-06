@@ -19,6 +19,7 @@ const ToogleToDashboard: React.FC<ToogleToDashboardProps> = ({ hash }) => {
     >
       <IconButton
         color="secondary"
+        data-cy="Element"
         onClick={() =>
           isAddedToDashboard ? removeFormDashboard(hash) : addToDashboard(hash)
         }
