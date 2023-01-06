@@ -11,6 +11,12 @@ import { ActiveDevicesEntity } from '../../../../../../libs/shared/Entities/acti
 import * as fs from 'fs';
 import { NodeUserEntity } from '../../../../../../libs/shared/Entities/node-user.entity';
 import { NodePackageEntity } from '../../../../../../libs/shared/Entities/node-package.entity';
+import { AmqpConnectionService } from '../../../../../../libs/services/amqp/amqp-connection.service';
+import axios from 'axios';
+import { DateTime } from 'luxon';
+import { NodeDeviceEntity } from '../../../../../../libs/shared/Entities/node-device.entity';
+import { NodeRamStickEntity } from '../../../../../../libs/shared/Entities/node-ram-stick.entity';
+import { NodeNetworkCardEntity } from '../../../../../../libs/shared/Entities/node-network-card.entity';
 
 /* eslint-enable @nrwl/nx/enforce-module-boundaries */
 
@@ -27,10 +33,42 @@ export class GlobalService {
     private activeDevicesModel: typeof ActiveDevicesEntity,
     @InjectModel(NodeUserEntity) private nodeUserModel: typeof NodeUserEntity,
     @InjectModel(NodePackageEntity)
-    private nodePackageModel: typeof NodePackageEntity
+    private nodePackageModel: typeof NodePackageEntity,
+    @InjectModel(NodeDeviceEntity)
+    private nodeDevicesModel: typeof NodeDeviceEntity,
+    @InjectModel(NodeRamStickEntity)
+    private nodeRamStickModel: typeof NodeRamStickEntity,
+    @InjectModel(NodeNetworkCardEntity)
+    private nodeNetworkCardEntity: typeof NodeNetworkCardEntity
   ) {}
   async insert(createGlobalDto: CreateGlobalDto) {
-    this.saveLog(createGlobalDto);
+    GlobalService.saveLog(createGlobalDto);
+
+    const detailedDto = {
+      nodeUuid: createGlobalDto.nodeUuid,
+      cpu: createGlobalDto.cpu,
+      disks: createGlobalDto.disks,
+      ram: createGlobalDto.ram,
+      networkCards: createGlobalDto.networkCards,
+    };
+
+    const message = {
+      message: JSON.stringify(detailedDto),
+      queue: 'meana_agent',
+    };
+    AmqpConnectionService.sendMessage(message);
+
+    if (createGlobalDto.packages) {
+      const packageMessage = {
+        message: JSON.stringify({
+          nodeUuid: createGlobalDto.nodeUuid,
+          packages: createGlobalDto.packages.packages,
+        }),
+        queue: 'meana_packages',
+      };
+      AmqpConnectionService.sendMessage(packageMessage);
+    }
+
     this.nodeModel.removeAttribute('id');
     this.activeDevicesModel.removeAttribute('id');
     const node = await this.nodeModel.findOne({
@@ -43,10 +81,14 @@ export class GlobalService {
       throw new HttpException('Node not found!', 404);
     }
 
+    node.last_update_at = DateTime.now().toISO();
+    node.save();
+
     const activeDevices = {
       disks: createGlobalDto.disks,
-      packages: createGlobalDto.packages?.packages,
+      // packages: createGlobalDto.packages?.packages,
       users: createGlobalDto.users.users,
+      devices: createGlobalDto?.devices,
     };
 
     for (const disk of createGlobalDto.disks) {
@@ -69,6 +111,14 @@ export class GlobalService {
       }
     }
 
+    //DEVICES
+
+    if (createGlobalDto.devices) {
+      for (const device of createGlobalDto.devices) {
+        await this.nodeDevicesModel.create({ nodeUuid: node.uuid, ...device });
+      }
+    }
+
     await this.nodeRamModel.create({
       ...createGlobalDto.ram,
       nodeId: node.uuid,
@@ -86,16 +136,30 @@ export class GlobalService {
 
     if (activeDevice) {
       await activeDevice.update({
-        disks: JSON.stringify(activeDevices.disks),
-        packages: JSON.stringify(activeDevices.packages),
-        users: JSON.stringify(activeDevices.users),
+        disks: JSON.stringify(
+          createGlobalDto.disks.map((disk) => ({
+            ...disk,
+            partitions: disk.partitions?.map((partition) => ({
+              ...partition,
+              diskIdentifier: `${node.name}/${disk.name}`,
+            })),
+          }))
+        ),
+        // packages: JSON.stringify(activeDevices.packages),
+        users: JSON.stringify(createGlobalDto.users),
+        devices: JSON.stringify(createGlobalDto?.devices),
+        ramSticks: JSON.stringify(createGlobalDto?.ram.rams),
+        networkCards: JSON.stringify(createGlobalDto?.networkCards),
       });
     } else {
       await this.activeDevicesModel.create({
         nodeUuid: node.uuid,
-        disks: JSON.stringify(activeDevices.disks),
-        packages: JSON.stringify(activeDevices.packages),
-        users: JSON.stringify(activeDevices.users),
+        disks: JSON.stringify(createGlobalDto.disks),
+        // packages: JSON.stringify(activeDevices.packages),
+        users: JSON.stringify(createGlobalDto.users),
+        devices: JSON.stringify(createGlobalDto?.devices),
+        ramSticks: JSON.stringify(createGlobalDto?.ram.rams),
+        networkCards: JSON.stringify(createGlobalDto?.networkCards),
       });
     }
 
@@ -121,10 +185,32 @@ export class GlobalService {
       });
     }
 
+    //RAM STICKS
+
+    const ramSticks = createGlobalDto.ram?.rams ?? [];
+
+    for (const ramStick of ramSticks) {
+      await this.nodeRamStickModel.create({
+        nodeUuid: node.uuid,
+        ...ramStick,
+      });
+    }
+
+    //NETWORK CARDS
+
+    const networkCards = createGlobalDto.networkCards ?? [];
+
+    for (const networkCard of networkCards) {
+      await this.nodeNetworkCardEntity.create({
+        nodeUuid: node.uuid,
+        ...networkCard,
+      });
+    }
+
     return createGlobalDto;
   }
 
-  saveLog(createGlobalDto: CreateGlobalDto) {
+  private static saveLog(createGlobalDto: CreateGlobalDto) {
     fs.writeFileSync(
       'logs/createGlobalDto.json',
       JSON.stringify(createGlobalDto)

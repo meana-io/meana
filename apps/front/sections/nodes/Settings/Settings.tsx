@@ -43,15 +43,6 @@ const Settings: NextPage = () => {
   return (
     <Formik
       initialValues={{
-        nodeId,
-        diskCapacity: {
-          uuid: '',
-          minmax: [0, 50],
-        },
-        partitionCapacity: {
-          uuid: '',
-          minmax: [0, 50],
-        },
         partitionUsedSpace: {
           uuid: '',
           minmax: [0, 50],
@@ -126,8 +117,6 @@ const Settings: NextPage = () => {
                           labelId="partition-label"
                           id="partition"
                           label="Partition"
-                          name="partitionCapacity.uuid"
-                          value={values.partitionCapacity.uuid}
                           onChange={handleChange}
                         >
                           <ListSubheader>Dysk sda</ListSubheader>
@@ -139,20 +128,6 @@ const Settings: NextPage = () => {
                         </Select>
                       </FormControl>
                     </Grid>
-                    <Grid item sm={12}>
-                      <Typography gutterBottom>
-                        Min and Max Partition Capacity:
-                      </Typography>
-                      <Slider
-                        id="partitionCapacity.minmax"
-                        name="partitionCapacity.minmax"
-                        value={values.partitionCapacity.minmax}
-                        onChange={handleChange}
-                        valueLabelDisplay="auto"
-                        disableSwap
-                      />
-                    </Grid>
-
                     <Grid item sm={12}>
                       <Typography gutterBottom>
                         Min and Max Partition Used Space:

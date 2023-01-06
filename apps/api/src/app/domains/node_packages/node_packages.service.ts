@@ -4,6 +4,7 @@ import { FindOptions } from 'sequelize';
 import { NodePackageEntity } from '../../../../../../libs/shared/Entities/node-package.entity';
 import { CreateNodePackageDto } from './dto/create-node_package.dto';
 import { ActiveDevicesEntity } from '../../../../../../libs/shared/Entities/active-devices.entity';
+import { NodePackageExtended } from '../../../../../../libs/shared/Types/NodePackageExtended';
 
 @Injectable()
 export class NodePackagesService {
@@ -20,6 +21,30 @@ export class NodePackagesService {
 
   async findAll(findOptions: FindOptions) {
     return await this.nodePackageModel.findAll(findOptions);
+  }
+
+  async setLatest(nodeUuid: string, packages: NodePackageExtended[]) {
+    this.activeDevicesModel.removeAttribute('id');
+
+    let activeDevices = await this.activeDevicesModel.findOne({
+      where: {
+        nodeUuid,
+      },
+    });
+
+    const stringifyPackages = JSON.stringify(packages);
+
+    if (activeDevices) {
+      await activeDevices.update({ packages: stringifyPackages });
+      await activeDevices.save();
+    } else {
+      activeDevices = await this.activeDevicesModel.create({
+        nodeUuid: nodeUuid,
+        packages: stringifyPackages,
+      });
+    }
+
+    return activeDevices;
   }
 
   async getLatest(nodeUuid: string) {

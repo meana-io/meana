@@ -18,7 +18,7 @@ export const useGetDashboard = (options?) => {
     () =>
       api.get<DashboardSettings>(apiRoutes.dashboard).then((response) => ({
         ...response,
-        value: JSON.parse(response.value),
+        value: JSON.parse(response.value ?? '[]'),
       })),
     options
   );

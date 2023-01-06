@@ -1,0 +1,67 @@
+{
+  "root": "apps/notification-service",
+  "sourceRoot": "apps/notification-service/src",
+  "projectType": "application",
+  "targets": {
+    "run-script": {
+      "executor": "@nrwl/workspace:run-commands",
+      "configurations": {
+        "run": {
+          "commands": [
+            "ts-node apps/notification-service/src/main.ts"
+          ]
+        },
+        "build": {
+          "commands": [
+            "tsc -w apps/threshold-value/src/main.ts"
+          ]
+        }
+      }
+    },
+    "build": {
+      "executor": "@nrwl/node:webpack",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/apps/notification-service",
+        "main": "apps/notification-service/src/main.ts",
+        "tsConfig": "apps/notification-service/tsconfig.app.json",
+        "assets": ["apps/notification-service/src/assets"]
+      },
+      "configurations": {
+        "production": {
+          "optimization": true,
+          "extractLicenses": true,
+          "inspect": false,
+          "fileReplacements": [
+            {
+              "replace": "apps/notification-service/src/environments/environment.ts",
+              "with": "apps/notification-service/src/environments/environment.prod.ts"
+            }
+          ]
+        }
+      }
+    },
+    "serve": {
+      "executor": "@nrwl/node:node",
+      "options": {
+        "buildTarget": "notification-service:build"
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["apps/notification-service/**/*.ts"]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/apps/notification-service"],
+      "options": {
+        "jestConfig": "apps/notification-service/jest.config.ts",
+        "passWithNoTests": true
+      }
+    }
+  },
+  "tags": []
+}

@@ -1,0 +1,68 @@
+{
+  "root": "apps/threshold-value",
+  "sourceRoot": "apps/threshold-value/src",
+  "projectType": "application",
+  "type": "module",
+  "targets": {
+    "run-script": {
+      "executor": "@nrwl/workspace:run-commands",
+      "configurations": {
+        "run": {
+          "commands": [
+            "ts-node apps/threshold-value/src/main.ts"
+          ]
+        },
+        "build": {
+          "commands": [
+            "tsc -w apps/threshold-value/src/main.ts"
+          ]
+        }
+      }
+    },
+    "build": {
+      "executor": "@nrwl/node:webpack",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/apps/threshold-value",
+        "main": "apps/threshold-value/src/main.ts",
+        "tsConfig": "apps/threshold-value/tsconfig.app.json",
+        "assets": ["apps/threshold-value/src/assets"]
+      },
+      "configurations": {
+        "production": {
+          "optimization": true,
+          "extractLicenses": true,
+          "inspect": false,
+          "fileReplacements": [
+            {
+              "replace": "apps/threshold-value/src/environments/environment.ts",
+              "with": "apps/threshold-value/src/environments/environment.prod.ts"
+            }
+          ]
+        }
+      }
+    },
+    "serve": {
+      "executor": "@nrwl/node:node",
+      "options": {
+        "buildTarget": "threshold-value:build"
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["apps/threshold-value/**/*.ts"]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/apps/threshold-value"],
+      "options": {
+        "jestConfig": "apps/threshold-value/jest.config.ts",
+        "passWithNoTests": true
+      }
+    }
+  },
+  "tags": []
+}

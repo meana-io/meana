@@ -4,14 +4,27 @@ import { FindOptions } from 'sequelize';
 import { UserEntity } from '../../../../../../libs/shared/Entities/user.entity';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class UsersService {
   constructor(@InjectModel(UserEntity) private userModel: typeof UserEntity) {}
   async create(createUserDto: CreateUserDto) {
     this.userModel.removeAttribute('id');
+    createUserDto.password = await bcrypt.hash(createUserDto.password, 10);
 
-    return await this.userModel.create({ ...createUserDto });
+    const user = await this.userModel.create({ ...createUserDto });
+    return {
+      firstName: user.firstName,
+      lastName: user.lastName,
+      login: user.login,
+      email: user.email,
+      email_notifications: user.email_notifications,
+      push_notifications: user.push_notifications,
+      uuid: user.uuid,
+      createdAt: user.createdAt,
+      updatedAt: user.updatedAt,
+    };
   }
 
   async findAll(findOptions: FindOptions) {
@@ -31,16 +44,33 @@ export class UsersService {
   }
 
   async update(uuid: string, updateUserDto: UpdateUserDto) {
-    const node = await this.userModel.findOne({
+    this.userModel.removeAttribute('id');
+
+    const user = await this.userModel.findOne({
       where: {
         uuid,
       },
     });
 
-    await node.update({ ...updateUserDto });
-    await node.save();
+    if (updateUserDto.password) {
+      updateUserDto.password = await bcrypt.hash(updateUserDto.password, 10);
+    }
 
-    return node;
+    await user.update({ ...updateUserDto });
+    await user.save();
+
+    return {
+      firstName: user.firstName,
+      lastName: user.lastName,
+      login: user.login,
+      email: user.email,
+      email_notifications: user.email_notifications,
+      push_notifications: user.push_notifications,
+      updated_at: user.updatedAt,
+      uuid: user.uuid,
+      createdAt: user.createdAt,
+      updatedAt: user.updatedAt,
+    };
   }
 
   async deleteOne(uuid: string) {
@@ -52,5 +82,15 @@ export class UsersService {
     await node.destroy();
 
     return node;
+  }
+
+  async findOneByLogin(login: string) {
+    this.userModel.removeAttribute('id');
+
+    return await this.userModel.findOne({
+      where: {
+        login: login,
+      },
+    });
   }
 }

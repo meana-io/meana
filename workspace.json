@@ -3,7 +3,10 @@
   "projects": {
     "api": "apps/api",
     "api-agent": "apps/api-agent",
+    "cve-service": "apps/cve-service",
     "front": "apps/front",
-    "front-e2e": "apps/front-e2e"
+    "front-e2e": "apps/front-e2e",
+    "notification-service": "apps/notification-service",
+    "threshold-value": "apps/threshold-value"
   }
 }

@@ -25,6 +25,15 @@ import { NodeUsersModule } from './domains/node-users/node-users.module';
 import { NodeUserEntity } from '../../../../libs/shared/Entities/node-user.entity';
 import { NodePackagesModule } from './domains/node_packages/node_packages.module';
 import { NodePackageEntity } from '../../../../libs/shared/Entities/node-package.entity';
+import { NodeThresholdsModule } from './domains/node-thresholds/node-thresholds.module';
+import { NodeThresholdEntity } from '../../../../libs/shared/Entities/node-threshold.entity';
+import { NodeDevicesModule } from './domains/node-devices/node-devices.module';
+import { NodeDeviceEntity } from '../../../../libs/shared/Entities/node-device.entity';
+import { NodeRamSticksModule } from './domains/node-ram-sticks/node-ram-sticks.module';
+import { NodeRamStickEntity } from '../../../../libs/shared/Entities/node-ram-stick.entity';
+import { AuthModule } from './domains/auth/auth.module';
+import { NodeNetworkCardsModule } from './domains/node-network-cards/node-network-cards.module';
+import { NodeNetworkCardEntity } from '../../../../libs/shared/Entities/node-network-card.entity';
 
 @Module({
   imports: [
@@ -39,6 +48,11 @@ import { NodePackageEntity } from '../../../../libs/shared/Entities/node-package
     LogsModule,
     NodeUsersModule,
     NodePackagesModule,
+    NodeThresholdsModule,
+    NodeDevicesModule,
+    NodeRamSticksModule,
+    AuthModule,
+    NodeNetworkCardsModule,
     SequelizeModule.forRoot({
       dialect: process.env.DB_DIALECT as Dialect,
       host: process.env.DB_HOST,
@@ -57,6 +71,10 @@ import { NodePackageEntity } from '../../../../libs/shared/Entities/node-package
         ActiveDevicesEntity,
         NodeUserEntity,
         NodePackageEntity,
+        NodeThresholdEntity,
+        NodeDeviceEntity,
+        NodeRamStickEntity,
+        NodeNetworkCardEntity,
       ],
     }),
   ],

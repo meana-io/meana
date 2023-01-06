@@ -1,6 +1,7 @@
 version: "3.7"
 services:
-  node:
+  meana_api:
+    container_name: "meana_api"
     image: "node"
     user: "node"
     working_dir: /home/node/app
@@ -10,7 +11,7 @@ services:
       - ../:/home/node/app
     ports:
       - "3333:3333"
-      - "3334:3334"
+    restart: always
     command: "npm run startAll"
   postgres:
     image: "timescale/timescaledb-ha:pg14-latest"
@@ -18,8 +19,16 @@ services:
      - POSTGRES_PASSWORD=password
     volumes:
      - postgres:/home/postgres
-    ports:
-      - "5434:5432"
+    restart: always
+  rabbitmq:
+    image: rabbitmq:3-management
+    hostname: rabbitmq
+    volumes:
+     - /var/lib/rabbitmq
+    restart: always
+    environment:
+     - RABBITMQ_DEFAULT_USER=admin
+     - RABBITMQ_DEFAULT_PASS=admin
 
 volumes:
   postgres:

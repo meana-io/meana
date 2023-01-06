@@ -4,14 +4,17 @@ import {
   NotFoundException,
   Query,
   StreamableFile,
+  UseGuards,
 } from '@nestjs/common';
 import { LogsService } from './logs.service';
 import * as fs from 'fs';
+import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 
 @Controller('node-logs')
 export class LogsController {
   constructor(private readonly logsService: LogsService) {}
 
+  @UseGuards(JwtAuthGuard)
   @Get()
   getLog(
     @Query('nodeUuid') nodeUuid: string,

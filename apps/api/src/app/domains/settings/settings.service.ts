@@ -28,8 +28,6 @@ export class SettingsService {
       },
     });
 
-    console.log(dashboardEntity);
-
     if (dashboardEntity) {
       await dashboardEntity.update({ ...dashboard });
       await dashboardEntity.save();

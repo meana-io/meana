@@ -10,4 +10,7 @@ export class NodeEntity extends Model implements Node {
 
   @Column
   name: string;
+
+  @Column
+  last_update_at: string;
 }

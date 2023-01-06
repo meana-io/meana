@@ -3,6 +3,7 @@ import { AppBar, Box, styled, Toolbar } from '@mui/material';
 import Link from 'next/link';
 import { pageRoutes } from 'routes';
 import Image from 'next/image';
+import UserMenu from '../UserMenu/UserMenu';
 
 interface AppTopBarProps {
   children?: React.ReactNode;
@@ -26,6 +27,7 @@ const AppTopBar: React.FC<AppTopBarProps> = ({ children }) => {
         <Box display="flex" sx={{ width: '100%' }} justifyContent="flex-end">
           {children}
         </Box>
+        <UserMenu />
       </Toolbar>
     </StyledAppBar>
   );
