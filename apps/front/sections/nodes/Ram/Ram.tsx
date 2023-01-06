@@ -3,10 +3,11 @@ import { useRouter } from 'next/router';
 import { Grid } from '@mui/material';
 
 import RamDetails from './RamDetails';
-import { useGetNodeRam } from '@/api/ram';
+import { useGetNodeRam, useGetNodeRamStick } from '@/api/ram';
 import RamUsageChart from 'sections/nodes/Ram/RamUsageChart';
 import NodeRam from '@/types/ram';
 import Progress from '@/components/Progress/Progress';
+import RamStickDetails from './RamStickDetails';
 
 export const getRamLabels = (ram: NodeRam[]) => ram?.map(({ time }) => time);
 
@@ -26,14 +27,23 @@ const Ram: React.FC = () => {
     }
   );
 
-  if (isLoading) {
+  const { data: ramStick, isLoading: isLoadingRamStick } = useGetNodeRamStick(
+    nodeId,
+    {},
+    {
+      refetchInterval: 1000 * 5,
+    }
+  );
+
+  if (isLoading && isLoadingRamStick) {
     return <Progress />;
   }
-
+console.log(ramStick)
   return (
     <Grid container spacing={2} direction="column">
       <Grid item xs={12} md={6}>
-        <RamDetails ram={ram.at(-1)} />
+        {/* <RamDetails ram={ram.at(-1)} /> */}
+        <RamStickDetails ramStick={ramStick.at(-1)} />
       </Grid>
       <Grid item xs={12} md={6}>
         <RamUsageChart
