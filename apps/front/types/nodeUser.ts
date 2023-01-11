@@ -1,4 +1,6 @@
 export default interface NodeUser {
-  username: string;
-  groups: string[];
+  users: {
+    username: string;
+    groups: string[];
+  }[];
 }

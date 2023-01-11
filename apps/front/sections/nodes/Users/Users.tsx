@@ -37,7 +37,7 @@ const UsersList: React.FC = () => {
         <DataGrid
           autoHeight
           getRowId={({ username }) => username}
-          rows={data.users}
+          rows={data}
           columns={columns}
           pageSize={10}
           rowsPerPageOptions={[10]}
