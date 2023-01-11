@@ -1,7 +1,6 @@
-import { Formik, Form, FieldArray, FormikProps, getIn } from 'formik';
+import { Formik, Form, FieldArray, getIn } from 'formik';
 import * as Yup from 'yup';
 import {
-  Autocomplete,
   Box,
   Button,
   Card,
@@ -48,33 +47,6 @@ interface Option {
   propertyName: string;
 }
 
-const options: Option[] = [
-  {
-    group: 'Disk',
-    label: 'Capacity',
-    domain: 'node_disk',
-    propertyName: 'capacity',
-  },
-  {
-    group: 'Ram',
-    label: 'Used',
-    domain: 'node_ram',
-    propertyName: 'used',
-  },
-  {
-    group: 'Ram',
-    label: 'Capacity',
-    domain: 'node_ram',
-    propertyName: 'total',
-  },
-  {
-    group: 'Cpu',
-    label: 'Usage',
-    domain: 'node_cpu',
-    propertyName: 'usage',
-  },
-];
-
 const AGREGATION_PERIOD = [
   { label: 'Every Minute', value: 60 },
   { label: 'Every Hour', value: 60 * 60 },
@@ -82,11 +54,13 @@ const AGREGATION_PERIOD = [
   { label: 'Every Day', value: 60 * 60 * 24 },
 ];
 
+const AGGREGATION_TYPES = ['min', 'max', 'avg', ''];
 interface Property {
   nodeUuid: string;
   property: {
     domain: string;
     propertyName: string;
+    aggregationType: 'min' | 'max' | 'avg' | '';
   };
 }
 
@@ -95,14 +69,54 @@ const property: Property = {
   property: {
     domain: '',
     propertyName: '',
+    aggregationType: '',
   },
 };
+
+const options: Option[] = [
+  {
+    group: 'Disk Partition',
+    label: 'Used space',
+    domain: 'node_disk_partitions',
+    propertyName: 'usedSpace',
+  },
+  {
+    group: 'Ram',
+    label: 'Used',
+    domain: 'node_rams',
+    propertyName: 'used',
+  },
+  {
+    group: 'Ram',
+    label: 'Capacity',
+    domain: 'node_rams',
+    propertyName: 'total',
+  },
+  {
+    group: 'Cpu',
+    label: 'Usage',
+    domain: 'node_cpu',
+    propertyName: 'usage',
+  },
+  {
+    group: 'Cpu',
+    label: 'Cores',
+    domain: 'node_cpu',
+    propertyName: 'coresQuantity',
+  },
+  {
+    group: 'Cpu',
+    label: 'Frequency',
+    domain: 'node_cpu',
+    propertyName: 'frequency',
+  },
+];
 
 const initialValues = {
   from: '',
   to: '',
-  aggregatePeriod: 60,
-  properties: [property],
+  aggregatePeriod: 3600,
+  properties: [property, property, property],
 };
 
 const CreaetReport: NextPage = () => {
@@ -112,16 +126,22 @@ const CreaetReport: NextPage = () => {
   const onSubmit = async (values) => {
     const data = {
       ...values,
-      properties: values.properties.reduce((arr, el) => {
+      properties: values.properties.reduce((arr, { nodeUuid, property }) => {
+        const [domain, propertyName] = property.propertyName.split('.');
         return [
           ...arr,
-          ...el.property.map(({ domain, propertyName }) => ({
-            nodeUuid: el.nodeUuid,
-            property: { domain, propertyName },
-          })),
+          {
+            nodeUuid,
+            property: {
+              ...property,
+              domain,
+              propertyName,
+            },
+          },
         ];
       }, []),
     };
+
     await mutateAsync(data);
   };
 
@@ -149,7 +169,7 @@ const CreaetReport: NextPage = () => {
             <Card>
               <CardHeader title="Reports" />
               <CardContent>
-                <FieldArray name="reports">
+                <FieldArray name="properties">
                   {({ push, remove }) => (
                     <Grid container spacing={2}>
                       <Grid item container spacing={2}>
@@ -219,100 +239,120 @@ const CreaetReport: NextPage = () => {
                           </FormControl>
                         </Grid>
                       </Grid>
-                      {values.properties.map((_, index) => (
-                        <Grid key={index} item container spacing={2}>
-                          <Grid item xs={4}>
-                            <FormControl fullWidth>
-                              <InputLabel id="node-id">Node</InputLabel>
-                              <Select
-                                labelId="node-id"
-                                label="Node"
-                                name={`properties[${index}].nodeUuid`}
-                                value={values.properties.at(index).nodeUuid}
-                                onChange={handleChange}
-                                error={
-                                  getIn(
-                                    touched,
-                                    `properties[${index}].nodeUuid`
-                                  ) &&
-                                  !!getIn(
-                                    errors,
-                                    `properties[${index}].nodeUuid`
-                                  )
-                                }
-                                onBlur={handleBlur}
-                              >
-                                {nodes.map(({ uuid, name }) => (
-                                  <MenuItem key={uuid} value={uuid}>
-                                    {name}
-                                  </MenuItem>
-                                ))}
-                              </Select>
-                            </FormControl>
-                          </Grid>
-                          <Grid item xs={4}>
-                            <Autocomplete
-                              onChange={(_, value: Option[]) => {
-                                values.properties.at(index).property =
-                                  value.map(({ domain, propertyName }) => ({
-                                    domain,
-                                    propertyName,
-                                  }));
-                              }}
-                              isOptionEqualToValue={(
-                                option: Option,
-                                selected: Option
-                              ) =>
-                                `${option.domain}.${option.propertyName}` ===
-                                `${selected.domain}.${selected.propertyName}`
-                              }
-                              multiple
-                              disableCloseOnSelect
-                              options={options}
-                              groupBy={(option: Option) => option.group}
-                              getOptionLabel={(option: Option) => option.label}
-                              renderInput={(params) => (
-                                <TextField
-                                  {...params}
-                                  label="Properties"
-                                  value={values.properties.at(index).property}
-                                  name={`properties[${index}].properties`}
+                      {values.properties.map((_, index) => {
+                        return (
+                          <Grid key={index} item container spacing={2}>
+                            <Grid item xs={4}>
+                              <FormControl fullWidth>
+                                <InputLabel id="node-id">Node</InputLabel>
+                                <Select
+                                  labelId="node-id"
+                                  label="Node"
+                                  name={`properties[${index}].nodeUuid`}
+                                  value={values.properties.at(index).nodeUuid}
+                                  onChange={handleChange}
                                   error={
                                     getIn(
                                       touched,
-                                      `properties[${index}].properties`
+                                      `properties[${index}].nodeUuid`
                                     ) &&
                                     !!getIn(
                                       errors,
-                                      `properties[${index}].properties`
-                                    )
-                                  }
-                                  helperText={
-                                    getIn(
-                                      touched,
-                                      `properties[${index}].properties`
-                                    ) &&
-                                    getIn(
-                                      errors,
-                                      `properties[${index}].properties`
+                                      `properties[${index}].nodeUuid`
                                     )
                                   }
                                   onBlur={handleBlur}
-                                />
-                              )}
-                            />
+                                >
+                                  {nodes.map(({ uuid, name }) => (
+                                    <MenuItem key={uuid} value={uuid}>
+                                      {name}
+                                    </MenuItem>
+                                  ))}
+                                </Select>
+                              </FormControl>
+                            </Grid>
+                            <Grid item xs={4}>
+                              <FormControl fullWidth>
+                                <InputLabel id="property">Property</InputLabel>
+                                <Select
+                                  labelId="property"
+                                  label="Property"
+                                  name={`properties[${index}].property.propertyName`}
+                                  onChange={handleChange}
+                                  error={
+                                    getIn(
+                                      touched,
+                                      `properties[${index}].property.propertyName`
+                                    ) &&
+                                    !!getIn(
+                                      errors,
+                                      `properties[${index}].property.propertyName`
+                                    )
+                                  }
+                                  onBlur={handleBlur}
+                                >
+                                  <MenuItem value=""></MenuItem>
+                                  {options.map(
+                                    ({
+                                      group,
+                                      label,
+                                      domain,
+                                      propertyName,
+                                    }) => (
+                                      <MenuItem
+                                        key={`${domain}.${propertyName}`}
+                                        value={`${domain}.${propertyName}`}
+                                      >
+                                        {group} - {label}
+                                      </MenuItem>
+                                    )
+                                  )}
+                                </Select>
+                              </FormControl>
+                            </Grid>
+                            <Grid item xs={2}>
+                              <FormControl fullWidth>
+                                <InputLabel id="aggregation-type">
+                                  Aggregation Type
+                                </InputLabel>
+                                <Select
+                                  labelId="aggregation-type"
+                                  label="Aggregation Type"
+                                  name={`properties[${index}].property.aggregationType`}
+                                  onChange={handleChange}
+                                  error={
+                                    getIn(
+                                      touched,
+                                      `properties[${index}].property.aggregationType`
+                                    ) &&
+                                    !!getIn(
+                                      errors,
+                                      `properties[${index}].property.aggregationType`
+                                    )
+                                  }
+                                  onBlur={handleBlur}
+                                >
+                                  <MenuItem value=""></MenuItem>
+                                  {AGGREGATION_TYPES.map((type) => (
+                                    <MenuItem key={type} value={type}>
+                                      {type}
+                                    </MenuItem>
+                                  ))}
+                                </Select>
+                              </FormControl>
+                            </Grid>
+                            <Grid item xs={1}>
+                              <IconButton
+                                size="large"
+                                color="error"
+                                onClick={() => remove(index)}
+                              >
+                                <CloseIcon />
+                              </IconButton>
+                            </Grid>
                           </Grid>
-                          <Grid item xs={1}>
-                            <IconButton
-                              size="large"
-                              color="error"
-                              onClick={() => remove(index)}
-                            >
-                              <CloseIcon />
-                            </IconButton>
-                          </Grid>
-                        </Grid>
-                      ))}
+                        );
+                      })}
                     </Grid>
                   )}
                 </FieldArray>

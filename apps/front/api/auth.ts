@@ -1,7 +1,7 @@
 import User from '@/types/user';
 import { api } from '@/utility/api';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { apiRoutes } from 'routes';
+import { apiRoutes, pageRoutes } from 'routes';
 
 // TODO: To be removed
 type UserId = string;
@@ -10,13 +10,23 @@ export enum AUTH {
   ME = 'ME',
 }
 
-type onSuccessFn = (user: User) => void;
+type onSuccessFn = (jwtToken: JWT_TOKEN) => void;
+
+export interface Credentials {
+  login: string;
+  password: string;
+}
+
+export interface JWT_TOKEN {
+  access_token: string;
+}
 
 // TODO: Change to POST request!
 export const useLogin = (onSuccess: onSuccessFn) => {
   const queryClient = useQueryClient();
   return useMutation(
-    (userId: UserId) => api.get<User>(`${apiRoutes.users}/${userId}`),
+    (credentials: Credentials) =>
+      api.post<JWT_TOKEN>(`${apiRoutes.auth.login}`, credentials),
     {
       onError: () => {
         alert('there was an error');
@@ -24,8 +34,9 @@ export const useLogin = (onSuccess: onSuccessFn) => {
       onSettled: () => {
         queryClient.invalidateQueries([AUTH.ME]);
       },
-      onSuccess: (data: User) => {
+      onSuccess: (data: JWT_TOKEN) => {
         onSuccess(data);
+        console.log('success');
       },
     }
   );

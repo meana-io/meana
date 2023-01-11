@@ -13,13 +13,7 @@ import { useGetLogs } from '@/api/logs';
 import LogsViewer from 'sections/nodes/Logs/LogsViewer';
 import { useRouter } from 'next/router';
 
-const LOG_FILE_TYPES = [
-  'auth.log',
-  'kern.log',
-  'syslog',
-  'dpkg.log',
-  'error.log',
-];
+const LOG_FILE_TYPES = ['auth.log', 'kern.log', 'syslog', 'dpkg.log'];
 
 const Logs: React.FC = () => {
   const router = useRouter();

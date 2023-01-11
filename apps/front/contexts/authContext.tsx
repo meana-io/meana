@@ -1,11 +1,13 @@
-import { useLogin, useLogout } from '@/api/auth';
+import { Credentials, JWT_TOKEN, useLogin, useLogout } from '@/api/auth';
 import User from '@/types/user';
-import { createContext, useRef } from 'react';
+import { useRouter } from 'next/router';
+import { createContext, useEffect, useRef } from 'react';
+import { pageRoutes } from 'routes';
 
 interface AuthContextProps {
   isAuthenticated: boolean;
-  user: User;
-  login: (userId: string) => void;
+  user: any;
+  login: (credentials: Credentials) => void;
   logout: () => void;
 }
 
@@ -18,18 +20,22 @@ interface AuthProviderProps {
 }
 
 const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
+  const router = useRouter();
   const accessTokenRef = useRef<string>();
 
-  const loginMutation = useLogin((user) => {
-    accessTokenRef.current = user.uuid;
+  const loginMutation = useLogin((jwtToken: JWT_TOKEN) => {
+    accessTokenRef.current = jwtToken.access_token;
+    localStorage.setItem('token', jwtToken.access_token);
+    router.push(pageRoutes.dashboard);
   });
 
   const logoutMutation = useLogout(() => {
     accessTokenRef.current = undefined;
+    localStorage.removeItem('token');
   });
 
-  const login = async (userId: string) => {
-    await loginMutation.mutateAsync(userId);
+  const login = async (credentials: Credentials) => {
+    await loginMutation.mutateAsync(credentials);
   };
 
   const logout = async () => {
