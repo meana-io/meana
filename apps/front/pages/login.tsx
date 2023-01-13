@@ -13,7 +13,6 @@ import {
 } from '@mui/material';
 import { Formik, Form } from 'formik';
 import { NextPage } from 'next';
-import { useRouter } from 'next/router';
 import useAuth from '@/hooks/useAuth';
 
 const validationSchema = yup.object({
@@ -25,7 +24,6 @@ const validationSchema = yup.object({
 });
 
 const Login: NextPage = () => {
-  const router = useRouter();
   const { login } = useAuth();
 
   const onLogin = async (credentials) => {
