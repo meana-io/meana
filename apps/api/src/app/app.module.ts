@@ -32,6 +32,8 @@ import { NodeDeviceEntity } from '../../../../libs/shared/Entities/node-device.e
 import { NodeRamSticksModule } from './domains/node-ram-sticks/node-ram-sticks.module';
 import { NodeRamStickEntity } from '../../../../libs/shared/Entities/node-ram-stick.entity';
 import { AuthModule } from './domains/auth/auth.module';
+import { NodeNetworkCardsModule } from './domains/node-network-cards/node-network-cards.module';
+import { NodeNetworkCardEntity } from '../../../../libs/shared/Entities/node-network-card.entity';
 
 @Module({
   imports: [
@@ -50,6 +52,7 @@ import { AuthModule } from './domains/auth/auth.module';
     NodeDevicesModule,
     NodeRamSticksModule,
     AuthModule,
+    NodeNetworkCardsModule,
     SequelizeModule.forRoot({
       dialect: process.env.DB_DIALECT as Dialect,
       host: process.env.DB_HOST,
@@ -71,6 +74,7 @@ import { AuthModule } from './domains/auth/auth.module';
         NodeThresholdEntity,
         NodeDeviceEntity,
         NodeRamStickEntity,
+        NodeNetworkCardEntity,
       ],
     }),
   ],

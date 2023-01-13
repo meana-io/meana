@@ -1,7 +1,16 @@
-import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  Post,
+  Query,
+  UseGuards,
+} from '@nestjs/common';
 import { NodeDevicesService } from './node-devices.service';
 import { ApiService } from '../../common/services/api.service';
 import { CreateNodeDeviceDto } from './dto/create-node-device.dto';
+import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 
 @Controller('node-devices')
 export class NodeDevicesController {
@@ -10,11 +19,13 @@ export class NodeDevicesController {
     private readonly apiService: ApiService
   ) {}
 
+  @UseGuards(JwtAuthGuard)
   @Post()
   async create(@Body() createNodeDeviceDto: CreateNodeDeviceDto) {
     return await this.nodeDeviceService.create(createNodeDeviceDto);
   }
 
+  @UseGuards(JwtAuthGuard)
   @Get()
   findAll(
     @Query() requestQuery: any,
@@ -37,6 +48,7 @@ export class NodeDevicesController {
     return this.nodeDeviceService.findAll(findOptions);
   }
 
+  @UseGuards(JwtAuthGuard)
   @Get(':uuid/get-latest')
   getLatest(@Param('uuid') nodeUuid: string) {
     return this.nodeDeviceService.getLatest(nodeUuid);

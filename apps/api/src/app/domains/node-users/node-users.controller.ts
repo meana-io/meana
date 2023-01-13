@@ -1,7 +1,8 @@
-import { Body, Controller, Get, Post, Query } from '@nestjs/common';
+import { Body, Controller, Get, Post, Query, UseGuards } from '@nestjs/common';
 import { NodeUsersService } from './node-users.service';
 import { CreateNodeUserDto } from './dto/create-node-user.dto';
 import { ApiService } from '../../common/services/api.service';
+import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 
 @Controller('node-users')
 export class NodeUsersController {
@@ -10,11 +11,13 @@ export class NodeUsersController {
     private readonly apiService: ApiService
   ) {}
 
+  @UseGuards(JwtAuthGuard)
   @Post()
   async create(@Body() createNodeUserDto: CreateNodeUserDto) {
     return await this.nodeUsersService.create(createNodeUserDto);
   }
 
+  @UseGuards(JwtAuthGuard)
   @Get()
   findAll(
     @Query() requestQuery: any,
@@ -37,6 +40,7 @@ export class NodeUsersController {
     return this.nodeUsersService.findAll(findOptions);
   }
 
+  @UseGuards(JwtAuthGuard)
   @Get('get-latest')
   getLatest(@Query('nodeUuid') nodeUuid: string) {
     return this.nodeUsersService.getLatest(nodeUuid);

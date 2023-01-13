@@ -28,7 +28,7 @@ const App = ({ Component, pageProps }: AppProps) => {
             refetchOnWindowFocus: false,
             retry: false,
             staleTime: 1000 * 30,
-            onError(error) {
+            onError(error: any) {
               if (error?.response?.status === 401) {
                 rotuer.push('/login');
               }

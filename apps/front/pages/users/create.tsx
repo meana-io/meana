@@ -83,6 +83,7 @@ const CreateUser: NextPage = () => {
                       id="firstName"
                       name="firstName"
                       label="First Name"
+                      data-cy="FirstName"
                       value={values.firstName}
                       onChange={handleChange}
                       error={touched.firstName && Boolean(errors.firstName)}
@@ -95,6 +96,7 @@ const CreateUser: NextPage = () => {
                       id="lastName"
                       name="lastName"
                       label="Last Name"
+                      data-cy="LastName"
                       value={values.lastName}
                       onChange={handleChange}
                       error={touched.lastName && Boolean(errors.lastName)}
@@ -107,6 +109,7 @@ const CreateUser: NextPage = () => {
                       id="login"
                       name="login"
                       label="Login"
+                      data-cy="Login"
                       value={values.login}
                       onChange={handleChange}
                       error={touched.login && Boolean(errors.login)}
@@ -120,6 +123,7 @@ const CreateUser: NextPage = () => {
                       name="password"
                       label="Password"
                       type="password"
+                      data-cy="Password"
                       value={values.password}
                       onChange={handleChange}
                       error={touched.password && Boolean(errors.password)}
@@ -132,6 +136,7 @@ const CreateUser: NextPage = () => {
                       id="email"
                       name="email"
                       label="Email"
+                      data-cy="Email"
                       value={values.email}
                       onChange={handleChange}
                       error={touched.email && Boolean(errors.email)}

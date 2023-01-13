@@ -8,11 +8,13 @@ import {
   Delete,
   Query,
   Req,
+  UseGuards,
 } from '@nestjs/common';
 import { NodesService } from './nodes.service';
 import { CreateNodeDto } from './dto/create-node.dto';
 import { UpdateNodeDto } from './dto/update-node.dto';
 import { ApiService } from '../../common/services/api.service';
+import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 
 @Controller('nodes')
 export class NodesController {
@@ -21,6 +23,7 @@ export class NodesController {
     private readonly apiService: ApiService
   ) {}
 
+  @UseGuards(JwtAuthGuard)
   @Post()
   async create(@Body() createNodeDto: CreateNodeDto) {
     return await this.nodesService.create(createNodeDto);
@@ -48,16 +51,19 @@ export class NodesController {
     return this.nodesService.findAll(findOptions);
   }
 
+  @UseGuards(JwtAuthGuard)
   @Get(':uuid')
   findOne(@Param('uuid') uuid: string) {
     return this.nodesService.findOne(uuid);
   }
 
+  @UseGuards(JwtAuthGuard)
   @Patch(':uuid')
   update(@Param('uuid') uuid: string, @Body() updateNodeDto: UpdateNodeDto) {
     return this.nodesService.update(uuid, updateNodeDto);
   }
 
+  @UseGuards(JwtAuthGuard)
   @Delete(':uuid')
   remove(@Param('uuid') uuid: string) {
     return this.nodesService.deleteOne(uuid);

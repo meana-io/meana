@@ -22,12 +22,12 @@ export class UsersController {
     private readonly apiService: ApiService
   ) {}
 
+  @UseGuards(JwtAuthGuard)
   @Post()
   async create(@Body() createUserDto: CreateUserDto) {
     return await this.usersService.create(createUserDto);
   }
 
-  @UseGuards(JwtAuthGuard)
   @Get()
   findAll(
     @Query() requestQuery: any,
@@ -50,16 +50,19 @@ export class UsersController {
     return this.usersService.findAll(findOptions);
   }
 
+  @UseGuards(JwtAuthGuard)
   @Get(':uuid')
   findOne(@Param('uuid') uuid: string) {
     return this.usersService.findOne(uuid);
   }
 
+  @UseGuards(JwtAuthGuard)
   @Patch(':uuid')
   update(@Param('uuid') uuid: string, @Body() updateUserDto: UpdateUserDto) {
     return this.usersService.update(uuid, updateUserDto);
   }
 
+  @UseGuards(JwtAuthGuard)
   @Delete(':uuid')
   remove(@Param('uuid') uuid: string) {
     return this.usersService.deleteOne(uuid);

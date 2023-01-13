@@ -6,4 +6,5 @@ export interface ActiveDevices {
   users: string;
   devices: string;
   ramSticks: string;
+  networkCards: string;
 }
