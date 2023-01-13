@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { AppProps } from 'next/app';
 import Head from 'next/head';
-
 import {
   Hydrate,
   QueryClient,
@@ -9,31 +8,35 @@ import {
 } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
+import DashboardProvider from '@/contexts/dashboardContext';
 import { CacheProvider as EmotionCacheProvider } from '@emotion/react';
-
 import createEmotionCache from '@/utility/createEmotionCache';
 import ThemeProvider from '@/styles/theme';
 import StyledChart from '@/components/Chart/StyledChart';
-import DashboardProvider from '@/contexts/dashboardContext';
 import AuthProvider from '@/contexts/authContext';
-
+import { useRouter } from 'next/router';
 const clientSideEmotionCache = createEmotionCache();
 
 const App = ({ Component, pageProps }: AppProps) => {
+  const rotuer = useRouter();
+
   const [queryClient] = useState(
     () =>
       new QueryClient({
         defaultOptions: {
           queries: {
-            useErrorBoundary: true,
             refetchOnWindowFocus: false,
             retry: false,
-            staleTime: 30000,
+            staleTime: 1000 * 30,
+            onError(error: any) {
+              if (error?.response?.status === 401) {
+                rotuer.push('/login');
+              }
+            },
           },
         },
       })
   );
-
   return (
     <div>
       <Head>
@@ -43,9 +46,9 @@ const App = ({ Component, pageProps }: AppProps) => {
         <Hydrate state={pageProps.dehydratedState}>
           <EmotionCacheProvider value={clientSideEmotionCache}>
             <ThemeProvider>
+              <StyledChart />
               <AuthProvider>
                 <DashboardProvider>
-                  <StyledChart />
                   <Component {...pageProps} />
                 </DashboardProvider>
               </AuthProvider>

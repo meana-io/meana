@@ -7,7 +7,7 @@ import Progress from '@/components/Progress/Progress';
 const UsersList: React.FC = () => {
   const router = useRouter();
   const nodeId = router.query.id as string;
-  const { data: users, isLoading } = useGetNodeUsers(nodeId);
+  const { data, isLoading } = useGetNodeUsers(nodeId);
 
   const columns: GridColDef[] = [
     { field: 'username', headerName: 'Username', minWidth: 200 },
@@ -37,7 +37,7 @@ const UsersList: React.FC = () => {
         <DataGrid
           autoHeight
           getRowId={({ username }) => username}
-          rows={users}
+          rows={data.users}
           columns={columns}
           pageSize={10}
           rowsPerPageOptions={[10]}

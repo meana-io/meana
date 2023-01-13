@@ -53,7 +53,7 @@ const UpdateUser: NextPage = () => {
         password,
       }).then(backToUsersList);
     } catch (e) {
-      alert(`Cannot add the data`);
+      // alert(`Cannot add the data`);
     }
   };
 

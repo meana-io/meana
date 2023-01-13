@@ -12,8 +12,8 @@ interface ReportViewerProps {
 const getLables = (results: NodeReportResult[]) =>
   results.map(({ aggregation_period }) => aggregation_period);
 
-const getData = (results: NodeReportResult[]) =>
-  results.map(({ avg }) => Math.floor(parseFloat(avg)));
+const getData = (results: NodeReportResult[], aggregationType: string) =>
+  results.map((record) => Math.floor(parseFloat(record[aggregationType])));
 
 const ReportViewer: React.FC<ReportViewerProps> = ({ reports }) => {
   const downloadAsPDF = () => {
@@ -22,34 +22,44 @@ const ReportViewer: React.FC<ReportViewerProps> = ({ reports }) => {
       const img = canvas.toDataURL('image/png');
       const pdf = new jsPDF();
       pdf.addImage(img, 'JPEG', 0, 0, 210, 210);
-      pdf.save(`${reports.at(0).nodeUuid}.pdf`);
+      pdf.save(`${new Date().getTime()}.pdf`);
     });
   };
   return (
     <Card id="pdf">
       <CardHeader
-        title={`Node: ${reports.at(0).nodeUuid}`}
-        action={<Button onClick={downloadAsPDF} data-cy="download">Download as PDF</Button>}
+        action={<Button onClick={downloadAsPDF}>Download as PDF</Button>}
       />
       <CardContent>
         <Grid container spacing={2}>
-          {reports.map(({ property, result }, index) => (
-            <Grid key={index} item xs={12}>
-              <UsageGraph
-                title={toTitleCase(property.propertyName)}
-                subheader={toTitleCase(property.domain)}
-                chartLabels={getLables(result)}
-                chartData={[
-                  {
-                    name: toTitleCase(property.propertyName),
-                    type: 'area',
-                    fill: 'gradient',
-                    data: getData(result),
-                  },
-                ]}
-              />
-            </Grid>
-          ))}
+          {reports.map(({ property, result, nodeUuid }, index) => {
+            result.sort(
+              (a, b) =>
+                new Date(a.aggregation_period).getTime() -
+                new Date(b.aggregation_period).getTime()
+            );
+
+            return (
+              <Grid key={index} item xs={12}>
+                <CardHeader title={`Node: ${nodeUuid}`} />
+                <UsageGraph
+                  title={`${toTitleCase(
+                    property.propertyName
+                  )} - ${property.domain.replace(/_/g, ' ')}`}
+                  subheader={`Aggregation type: ${property.aggregationType}`}
+                  chartLabels={getLables(result)}
+                  chartData={[
+                    {
+                      name: toTitleCase(property.propertyName),
+                      type: 'area',
+                      fill: 'gradient',
+                      data: getData(result, property.aggregationType),
+                    },
+                  ]}
+                />
+              </Grid>
+            );
+          })}
         </Grid>
       </CardContent>
     </Card>

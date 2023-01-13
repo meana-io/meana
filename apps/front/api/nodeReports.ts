@@ -21,36 +21,14 @@ export interface CreateNodeReport {
   aggregatePeriod: number;
 }
 
-const data = {
-  from: '2022-11-06 21:18:11+00',
-  to: '2022-11-12 20:00:00+00',
-  properties: [
-    {
-      nodeUuid: '73491d88-8727-4d47-bad7-31b8fef89ac4',
-      property: {
-        domain: 'node_cpu',
-        propertyName: 'frequency',
-      },
-    },
-    {
-      nodeUuid: '73491d88-8727-4d47-bad7-31b8fef89ac4',
-      property: {
-        domain: 'node_cpu',
-        propertyName: 'coresQuantity',
-      },
-    },
-  ],
-  aggregatePeriod: 86400,
-};
-
 export const useCreateNodeReport = () => {
   const queryClient = useQueryClient();
   return useMutation(
-    (_data: CreateNodeReport) =>
+    (data: CreateNodeReport) =>
       api.post<NodeReport>(apiRoutes.nodeReport, data),
     {
       onError: () => {
-        alert('there was an error');
+        // alert('there was an error');
       },
       onSettled: () => {
         queryClient.invalidateQueries([NODE_REPORT.GET_NODE_REPORT]);

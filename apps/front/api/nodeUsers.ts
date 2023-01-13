@@ -12,7 +12,7 @@ export enum NODE_USERS {
 export const useGetNodeUsers = (nodeId: NodeId, options?) => {
   return useQuery(
     [NODE_USERS.GET_NODE_USERS, nodeId],
-    () => api.get<NodeUser[]>(`${apiRoutes.nodeUsers}?nodeUuid=${nodeId}`),
+    () => api.get<NodeUser>(`${apiRoutes.nodeUsers}?nodeUuid=${nodeId}`),
     options
   );
 };

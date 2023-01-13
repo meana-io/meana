@@ -30,7 +30,7 @@ const UsersList: NextPage = () => {
     try {
       await mutateAsync(cellValues.row.uuid);
     } catch (e) {
-      alert('Erorr occured');
+      // alert('Erorr occured');
     }
   };
 

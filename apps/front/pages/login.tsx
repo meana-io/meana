@@ -14,6 +14,7 @@ import {
 import { Formik, Form } from 'formik';
 import { NextPage } from 'next';
 import { useRouter } from 'next/router';
+import useAuth from '@/hooks/useAuth';
 
 const validationSchema = yup.object({
   login: yup.string().required('Login is required'),
@@ -25,14 +26,11 @@ const validationSchema = yup.object({
 
 const Login: NextPage = () => {
   const router = useRouter();
+  const { login } = useAuth();
 
-  const onLogin = async ({
-    login,
-    password,
-  }) => {
-    console.log(login, password)
+  const onLogin = async (credentials) => {
+    await login(credentials);
   };
-
 
   return (
     <Box
@@ -45,8 +43,8 @@ const Login: NextPage = () => {
     >
       <Formik
         initialValues={{
-          login: '',
-          password: '',
+          login: 'admin',
+          password: 'adminadmin',
         }}
         validationSchema={validationSchema}
         onSubmit={onLogin}
@@ -66,7 +64,7 @@ const Login: NextPage = () => {
                       value={values.login}
                       onChange={handleChange}
                       error={touched.login && Boolean(errors.login)}
-                      helperText={(touched.login && errors.login)as string}
+                      helperText={(touched.login && errors.login) as string}
                     />
                   </Grid>
                   <Grid item sm={12}>
@@ -79,13 +77,15 @@ const Login: NextPage = () => {
                       value={values.password}
                       onChange={handleChange}
                       error={touched.password && Boolean(errors.password)}
-                      helperText={(touched.password && errors.password)as string}
+                      helperText={
+                        (touched.password && errors.password) as string
+                      }
                     />
                   </Grid>
                   <Grid item sm={12}>
-                  <FormControlLabel
-                    control={<Checkbox value="remember" color="primary" />}
-                    label="Remember me"
+                    <FormControlLabel
+                      control={<Checkbox value="remember" color="primary" />}
+                      label="Remember me"
                     />
                   </Grid>
                 </Grid>

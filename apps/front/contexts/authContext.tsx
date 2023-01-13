@@ -1,11 +1,20 @@
-import { useLogin, useLogout } from '@/api/auth';
-import User from '@/types/user';
-import { createContext, useRef } from 'react';
+import { Credentials, JWT_TOKEN, useLogin } from '@/api/auth';
+import jwtDecode from 'jwt-decode';
+import { useRouter } from 'next/router';
+import { createContext, useEffect, useRef } from 'react';
+import { pageRoutes } from 'routes';
+
+interface LoggedUser {
+  login: string;
+  sub: string;
+  iat: number;
+  exp: number;
+}
 
 interface AuthContextProps {
   isAuthenticated: boolean;
-  user: User;
-  login: (userId: string) => void;
+  user: LoggedUser | undefined;
+  login: (credentials: Credentials) => void;
   logout: () => void;
 }
 
@@ -18,27 +27,32 @@ interface AuthProviderProps {
 }
 
 const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
-  const accessTokenRef = useRef<string>();
+  const router = useRouter();
+  const loggedUser = useRef<LoggedUser>(undefined);
 
-  const loginMutation = useLogin((user) => {
-    accessTokenRef.current = user.uuid;
+  useEffect(() => {
+    loggedUser.current = jwtDecode(localStorage.getItem('token'));
+  }, []);
+
+  const loginMutation = useLogin((jwtToken: JWT_TOKEN) => {
+    loggedUser.current = jwtDecode(jwtToken.access_token);
+    localStorage.setItem('token', jwtToken.access_token);
+    router.push(pageRoutes.dashboard);
   });
 
-  const logoutMutation = useLogout(() => {
-    accessTokenRef.current = undefined;
-  });
-
-  const login = async (userId: string) => {
-    await loginMutation.mutateAsync(userId);
+  const login = async (credentials: Credentials) => {
+    await loginMutation.mutateAsync(credentials);
   };
 
   const logout = async () => {
-    await logoutMutation.mutateAsync(accessTokenRef.current);
+    loggedUser.current = undefined;
+    localStorage.removeItem('token');
+    router.push(pageRoutes.login);
   };
 
   const value = {
-    isAuthenticated: loginMutation.isSuccess && !!accessTokenRef.current,
-    user: loginMutation.data,
+    isAuthenticated: loginMutation.isSuccess && !!loggedUser.current,
+    user: loggedUser.current,
     login,
     logout,
   };

@@ -7,6 +7,10 @@ export const apiRoutes = {
   nodeDiskPartitions: '/node-disk-partitions',
   dashboard: '/settings/dashboard',
   users: '/users',
+  auth: {
+    login: '/auth/login',
+    logout: '/auth/logout',
+  },
   nodeLogs: '/node-logs',
   nodeUsers: '/node-users/get-latest',
   nodePackages: '/node-packages/get-latest',
@@ -14,11 +18,13 @@ export const apiRoutes = {
 };
 
 export const pageRoutes = {
-  dashboard: '/',
+  dashboard: '/dashboard',
   users: '/users/list',
   editUser: '/users',
   createUser: '/users/create',
   nodes: '/nodes',
   createNode: '/nodes/create',
   createReport: '/reports/create',
+  login: '/login',
+  register: '/register',
 };

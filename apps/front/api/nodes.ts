@@ -25,7 +25,7 @@ export const useCreateNode = () => {
     (data: CreateNodeFormData) => api.post<Node>(apiRoutes.nodes, data),
     {
       onError: () => {
-        alert('there was an error');
+        // alert('there was an error');
       },
       onSettled: () => {
         queryClient.invalidateQueries([NODE.GET_NODES]);
@@ -42,7 +42,7 @@ export const useDeleteNode = () => {
     (nodeId: NodeId) => api.delete<Node>(`${apiRoutes.nodes}/${nodeId}`),
     {
       onError: () => {
-        alert('there was an error');
+        // alert('there was an error');
       },
       onSettled: () => {
         queryClient.invalidateQueries([NODE.GET_NODES]);

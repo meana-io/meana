@@ -1,6 +1,7 @@
 export interface NodeReportProperty {
   domain: string;
   propertyName: string;
+  aggregationType: string;
 }
 
 export interface NodeReportResult {
