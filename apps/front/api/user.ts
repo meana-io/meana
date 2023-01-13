@@ -41,7 +41,7 @@ export const useUpdateUser = (userId: UserId) => {
       api.patch<User>(`${apiRoutes.users}/${userId}`, data),
     {
       onError: () => {
-        alert('there was an error');
+        // alert('there was an error');
       },
       onSettled: () => {
         queryClient.invalidateQueries([USER.GET_USERS_LIST]);
@@ -56,7 +56,7 @@ export const useCreateUser = () => {
     (data: CreateUserData) => api.post<User>(apiRoutes.users, data),
     {
       onError: () => {
-        alert('there was an error');
+        // alert('there was an error');
       },
       onSettled: () => {
         queryClient.invalidateQueries([USER.GET_USERS_LIST]);
@@ -71,7 +71,7 @@ export const useDeleteUser = () => {
     (userId: UserId) => api.delete<User>(`${apiRoutes.users}/${userId}`),
     {
       onError: () => {
-        alert('there was an error');
+        // alert('there was an error');
       },
       onSettled: () => {
         queryClient.invalidateQueries([USER.GET_USERS_LIST]);

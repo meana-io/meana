@@ -28,7 +28,7 @@ export const useCreateNodeReport = () => {
       api.post<NodeReport>(apiRoutes.nodeReport, data),
     {
       onError: () => {
-        alert('there was an error');
+        // alert('there was an error');
       },
       onSettled: () => {
         queryClient.invalidateQueries([NODE_REPORT.GET_NODE_REPORT]);

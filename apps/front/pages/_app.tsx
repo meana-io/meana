@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { AppProps } from 'next/app';
 import Head from 'next/head';
 import {
@@ -8,25 +8,31 @@ import {
 } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
-import { ErrorBoundary } from 'react-error-boundary';
 import DashboardProvider from '@/contexts/dashboardContext';
 import { CacheProvider as EmotionCacheProvider } from '@emotion/react';
 import createEmotionCache from '@/utility/createEmotionCache';
 import ThemeProvider from '@/styles/theme';
 import StyledChart from '@/components/Chart/StyledChart';
 import AuthProvider from '@/contexts/authContext';
+import { useRouter } from 'next/router';
 const clientSideEmotionCache = createEmotionCache();
 
 const App = ({ Component, pageProps }: AppProps) => {
+  const rotuer = useRouter();
+
   const [queryClient] = useState(
     () =>
       new QueryClient({
         defaultOptions: {
           queries: {
-            useErrorBoundary: true,
             refetchOnWindowFocus: false,
             retry: false,
             staleTime: 1000 * 30,
+            onError(error) {
+              if (error?.response?.status === 401) {
+                rotuer.push('/login');
+              }
+            },
           },
         },
       })
@@ -39,16 +45,14 @@ const App = ({ Component, pageProps }: AppProps) => {
       <QueryClientProvider client={queryClient}>
         <Hydrate state={pageProps.dehydratedState}>
           <EmotionCacheProvider value={clientSideEmotionCache}>
-            <ErrorBoundary fallbackRender={<div>Error</div>}>
-              <ThemeProvider>
-                <StyledChart />
-                <AuthProvider>
-                  <DashboardProvider>
-                    <Component {...pageProps} />
-                  </DashboardProvider>
-                </AuthProvider>
-              </ThemeProvider>
-            </ErrorBoundary>
+            <ThemeProvider>
+              <StyledChart />
+              <AuthProvider>
+                <DashboardProvider>
+                  <Component {...pageProps} />
+                </DashboardProvider>
+              </AuthProvider>
+            </ThemeProvider>
           </EmotionCacheProvider>
         </Hydrate>
         <ReactQueryDevtools initialIsOpen={false} />

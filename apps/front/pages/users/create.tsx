@@ -50,7 +50,7 @@ const CreateUser: NextPage = () => {
         password,
       }).then(backToUsersList);
     } catch (e) {
-      alert(`Cannot Create User the data`);
+      // alert(`Cannot Create User the data`);
     }
   };
 

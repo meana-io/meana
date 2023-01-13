@@ -4,13 +4,15 @@ const instance = axios.create({
   baseURL: `${process.env.NEXT_PUBLIC_API_URL}/api`,
 });
 
+const getUserToken = () => {
+  return localStorage.getItem('token') || '';
+};
+
 instance.interceptors.response.use((config) => config.data);
 
 instance.interceptors.request.use(
   (config) => {
-    config.headers[
-      'Authorization'
-    ] = `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2dpbiI6ImFkbWluIiwic3ViIjoiODJiYjFjOGItYmIxOC00ZTMyLTg2ZTctNzJlOTZhZGUyNWY0IiwiaWF0IjoxNjczNDYzMjI0LCJleHAiOjE2NzM0NjY4MjR9.t3mqDdEM-80I2UermlQjNu7Qmnas8o6tZRz6y-NzRQk`;
+    config.headers['Authorization'] = `Bearer ${getUserToken()}`;
     return config;
   },
   (error) => {

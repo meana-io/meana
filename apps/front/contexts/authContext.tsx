@@ -1,12 +1,19 @@
-import { Credentials, JWT_TOKEN, useLogin, useLogout } from '@/api/auth';
-import User from '@/types/user';
+import { Credentials, JWT_TOKEN, useLogin } from '@/api/auth';
+import jwtDecode from 'jwt-decode';
 import { useRouter } from 'next/router';
 import { createContext, useEffect, useRef } from 'react';
 import { pageRoutes } from 'routes';
 
+interface LoggedUser {
+  login: string;
+  sub: string;
+  iat: number;
+  exp: number;
+}
+
 interface AuthContextProps {
   isAuthenticated: boolean;
-  user: any;
+  user: LoggedUser | undefined;
   login: (credentials: Credentials) => void;
   logout: () => void;
 }
@@ -21,17 +28,16 @@ interface AuthProviderProps {
 
 const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const router = useRouter();
-  const accessTokenRef = useRef<string>();
+  const loggedUser = useRef<LoggedUser>(undefined);
+
+  useEffect(() => {
+    loggedUser.current = jwtDecode(localStorage.getItem('token'));
+  }, []);
 
   const loginMutation = useLogin((jwtToken: JWT_TOKEN) => {
-    accessTokenRef.current = jwtToken.access_token;
+    loggedUser.current = jwtDecode(jwtToken.access_token);
     localStorage.setItem('token', jwtToken.access_token);
     router.push(pageRoutes.dashboard);
-  });
-
-  const logoutMutation = useLogout(() => {
-    accessTokenRef.current = undefined;
-    localStorage.removeItem('token');
   });
 
   const login = async (credentials: Credentials) => {
@@ -39,12 +45,14 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   };
 
   const logout = async () => {
-    await logoutMutation.mutateAsync(accessTokenRef.current);
+    loggedUser.current = undefined;
+    localStorage.removeItem('token');
+    router.push(pageRoutes.login);
   };
 
   const value = {
-    isAuthenticated: loginMutation.isSuccess && !!accessTokenRef.current,
-    user: loginMutation.data,
+    isAuthenticated: loginMutation.isSuccess && !!loggedUser.current,
+    user: loggedUser.current,
     login,
     logout,
   };

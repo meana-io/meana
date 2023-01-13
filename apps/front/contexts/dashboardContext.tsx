@@ -45,7 +45,7 @@ const DashboardProvider: React.FC<DashboardProviderProps> = ({ children }) => {
 
   useEffect(() => {
     if (!isLoading) {
-      setComponents(dashboardSettings.value);
+      setComponents(dashboardSettings?.value);
     }
   }, [dashboardSettings?.value, isLoading]);
 
