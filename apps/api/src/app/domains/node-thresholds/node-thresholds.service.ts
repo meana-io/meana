@@ -28,15 +28,17 @@ export class NodeThresholdsService {
 
     return await this.nodeThresholdModel.findOne({
       where: {
-        uuid,
+        nodeUuid: uuid,
       },
     });
   }
 
   async update(uuid: string, updateNodeThresholdDto: UpdateNodeThresholdDto) {
+    this.nodeThresholdModel.removeAttribute('id');
+
     const node = await this.nodeThresholdModel.findOne({
       where: {
-        uuid,
+        nodeUuid: uuid,
       },
     });
 
@@ -49,7 +51,7 @@ export class NodeThresholdsService {
   async deleteOne(uuid: string) {
     const node = await this.nodeThresholdModel.findOne({
       where: {
-        uuid,
+        nodeUuid: uuid,
       },
     });
     await node.destroy();
