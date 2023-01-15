@@ -12,9 +12,11 @@ export const apiRoutes = {
     logout: '/auth/logout',
   },
   nodeLogs: '/node-logs',
+  nodeThresholds: '/node-thresholds',
   nodeUsers: '/node-users/get-latest',
   nodePackages: '/node-packages/get-latest',
   nodeReport: '/reports/generate',
+  getLatestNetworkCard: '/node-network-cards',
 };
 
 export const pageRoutes = {
