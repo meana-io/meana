@@ -17,6 +17,7 @@ export const apiRoutes = {
   nodePackages: '/node-packages/get-latest',
   nodeReport: '/reports/generate',
   getLatestNetworkCard: '/node-network-cards',
+  getLatestNodeDevices: '/node-devices',
 };
 
 export const pageRoutes = {
