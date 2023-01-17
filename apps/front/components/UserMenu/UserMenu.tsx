@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import {
   Button,
+  Divider,
   IconButton,
   List,
   ListItem,
@@ -23,6 +24,8 @@ import {
   useUpdateUserNotificationsSettings,
 } from '@/api/auth';
 import { useGetUser } from '@/api/user';
+import { pageRoutes } from 'routes';
+import { useRouter } from 'next/router';
 
 const useMenu = () => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -43,6 +46,7 @@ const useMenu = () => {
 };
 
 const UserMenu: React.FC = () => {
+  const router = useRouter();
   const { anchorEl, handleMenu, handleClose } = useMenu();
   const { user, logout } = useAuth();
 
@@ -128,6 +132,17 @@ const UserMenu: React.FC = () => {
                     }}
                   />
                 </ListItem>
+                <ListItem>
+                  <Button
+                    fullWidth
+                    onClick={() =>
+                      router.push(`${pageRoutes.editUser}/${user.sub}`)
+                    }
+                  >
+                    Edit
+                  </Button>
+                </ListItem>
+                <Divider />
                 <ListItem>
                   <Button fullWidth onClick={() => logout()}>
                     Logout
