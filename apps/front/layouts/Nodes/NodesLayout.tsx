@@ -4,7 +4,6 @@ import { Container, Toolbar } from '@mui/material';
 
 import AppTopBar from '@/components/AppTopBar/AppTopBar';
 import { useGetNodesList } from '@/api/nodes';
-import { pageRoutes } from 'routes';
 import TabsProvider from '@/contexts/tabsContext';
 
 export const StyledRoot = styled('div')({
@@ -26,7 +25,7 @@ const NodesLayout: React.FC<NodesProps> = ({ children }) => {
 
   const navItems = nodes?.map(({ uuid, name }) => ({
     title: name,
-    href: `${pageRoutes.nodes}/${uuid}`,
+    uuid,
   }));
 
   return (

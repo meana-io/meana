@@ -17,7 +17,7 @@ import Link from 'next/link';
 import { pageRoutes } from 'routes';
 import PriorityHighIcon from '@mui/icons-material/PriorityHigh';
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
-
+import { useGetHealthCheck } from '@/api/healthCheck';
 
 const StyledNavItem = styled((props: ListItemButtonProps) => (
   <ListItemButton disableGutters {...props} />
@@ -66,11 +66,23 @@ const NavItem: React.FC<NavItemProps> = ({ title, href, icon }) => {
   );
 };
 
-const NodeNavItem: React.FC<NavItemProps> = ({ title, href, icon }) => {
-  const isWorking = true;
+interface NodeNavItemProps {
+  title: string;
+  uuid: string;
+  icon?: React.ReactNode;
+}
+
+const NodeNavItem: React.FC<NodeNavItemProps> = ({ title, uuid, icon }) => {
+  const { data } = useGetHealthCheck(uuid, {
+    refetchInterval: 1000 * 5,
+  });
+  const isWorking = !!data;
 
   return (
-    <Link href={href} style={{ textDecoration: 'none' }}>
+    <Link
+      href={`${pageRoutes.nodes}/${uuid}`}
+      style={{ textDecoration: 'none' }}
+    >
       <Box>
         <StyledNavItem
           sx={{
@@ -99,7 +111,7 @@ export const NAV_WIDTH = 280;
 
 interface NavItem {
   title: string;
-  href: string;
+  uuid: string;
   icon?: React.ReactNode;
   cy?: string;
 }
@@ -163,8 +175,8 @@ const AppNav: React.FC<NavProps> = ({ items }) => {
           </ListSubheader>
         }
       >
-        {items.map(({ title, icon, href }) => (
-          <NodeNavItem key={href} href={href} title={title} icon={icon} />
+        {items.map(({ title, icon, uuid }) => (
+          <NodeNavItem key={uuid} uuid={uuid} title={title} icon={icon} />
         ))}
       </List>
       {staticMenu.map(({ header, list, cy }, index) => (

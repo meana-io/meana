@@ -4,7 +4,6 @@ import { Container, Toolbar } from '@mui/material';
 
 import AppTopBar from '@/components/AppTopBar/AppTopBar';
 import { useGetNodesList } from '@/api/nodes';
-import { pageRoutes } from 'routes';
 
 export const StyledRoot = styled('div')({
   display: 'flex',
@@ -25,7 +24,7 @@ const BaseLayout: React.FC<BaseLayoutProps> = ({ children }) => {
 
   const navItems = nodes?.map(({ uuid, name }) => ({
     title: name,
-    href: `${pageRoutes.nodes}/${uuid}`,
+    uuid,
   }));
 
   return (
