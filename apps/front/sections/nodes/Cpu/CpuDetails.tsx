@@ -68,7 +68,7 @@ const CpuDetails: React.FC<CpuDetailsProps> = ({ cpu }) => {
           <CustomCard
             hash={hashParams(COMPONENT_NAME, nodeId, toTitleCase(key), key)}
             title={toTitleCase(key)}
-            value={cpu[key] || 'N/A'}
+            value={(cpu && key && cpu[key]) || 'N/A'}
           />
         </Grid>
       ))}

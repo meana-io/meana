@@ -1,6 +1,7 @@
 import User from '@/types/user';
 import { api } from '@/utility/api';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { toast } from 'react-toastify';
 import { apiRoutes } from 'routes';
 
 type UserId = string;
@@ -27,7 +28,7 @@ export const useLogin = (onSuccess: onSuccessFn) => {
       api.post<JWT_TOKEN>(`${apiRoutes.auth.login}`, credentials),
     {
       onError: () => {
-        // alert('there was an error');
+        toast.error('Something went wrong please try again.');
       },
       onSettled: () => {
         queryClient.invalidateQueries([AUTH.ME]);
@@ -51,7 +52,7 @@ export const useUpdateUserNotificationsSettings = () => {
       api.patch<User>(`${apiRoutes.users}/${userId}`, data),
     {
       onError: () => {
-        // alert('there was an error');
+        toast.error('Something went wrong please try again.');
       },
       onSettled: () => {
         queryClient.invalidateQueries([AUTH.ME]);

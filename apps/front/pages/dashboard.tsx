@@ -6,6 +6,7 @@ import { DASHBOARD_COMPONENTS } from '@/components/Dashboard/componentsList';
 import { deHashParams } from '@/utility/hashParams';
 import useDashboard from '@/hooks/useDashboard';
 import Progress from '@/components/Progress/Progress';
+import NoData from '@/components/NoData/NoData';
 
 const ResponsiveReactGridLayout = WidthProvider(Responsive);
 
@@ -14,6 +15,10 @@ const Dashboard: NextPage = () => {
 
   if (isLoading) {
     return <Progress />;
+  }
+
+  if (!components) {
+    return <NoData />;
   }
 
   return (

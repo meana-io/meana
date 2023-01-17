@@ -9,10 +9,9 @@ import {
   ListItem,
   ListItemText,
 } from '@mui/material';
+import NoData from '@/components/NoData/NoData';
 
-interface DevicesProps {}
-
-const Devices: React.FC<DevicesProps> = ({}) => {
+const Devices: React.FC = () => {
   const router = useRouter();
   const nodeId = router.query.id as string;
   const { data: nodeDevices, isLoading } = useGetNodeDevices(nodeId);
@@ -21,6 +20,10 @@ const Devices: React.FC<DevicesProps> = ({}) => {
     return <Progress />;
   }
 
+  if (!nodeDevices) {
+    return <NoData />;
+  }
+  
   return (
     <Grid container spacing={2} item xs={12} lg={12}>
       <Card>

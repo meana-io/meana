@@ -14,10 +14,10 @@ import Progress from '@/components/Progress/Progress';
 import CustomCard from '@/components/CustomCard/CustomCard';
 import NodeNetworkCards from '@/types/nodeNetworkCards';
 import { toTitleCase } from '@/utility/toTitleCase';
+import NoData from '@/components/NoData/NoData';
 
-interface NetworkCardsProps {}
 
-const NetworkCards: React.FC<NetworkCardsProps> = () => {
+const NetworkCards: React.FC = () => {
   const router = useRouter();
   const [selectedNetworkCard, setSelectedNetworkCard] = useState<string>('');
   const [selectedNetworkCardRecord, setSelectedNetworkCardRecord] = useState<
@@ -39,7 +39,11 @@ const NetworkCards: React.FC<NetworkCardsProps> = () => {
   if (isLoading) {
     return <Progress />;
   }
-console.log(networkCards)
+  
+  if (!networkCards) {
+    return <NoData />;
+  }
+  
   return (
     <Box>
       <Box>

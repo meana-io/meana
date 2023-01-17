@@ -45,6 +45,9 @@ const useMenu = () => {
 const UserMenu: React.FC = () => {
   const { anchorEl, handleMenu, handleClose } = useMenu();
   const { user, logout } = useAuth();
+  console.log(user);
+
+
   const { data: settings, isLoading } = useGetUser(user?.sub, {
     enabled: !!user?.sub,
   });

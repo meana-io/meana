@@ -6,6 +6,7 @@ import CpuDetails from './CpuDetails';
 import { useGetNodeCpu } from '@/api/cpu';
 import CpuUsageChart from 'sections/nodes/Cpu/CpuUsageChart';
 import Progress from '@/components/Progress/Progress';
+import NoData from '@/components/NoData/NoData';
 
 export const getCpuLabels = (cpu: NodeCpu[]) => cpu?.map(({ time }) => time);
 
@@ -25,6 +26,10 @@ const Cpu: React.FC = () => {
 
   if (isLoading) {
     return <Progress />;
+  }
+
+  if (!cpu || cpu.length === 0) {
+    return <NoData />;
   }
 
   return (

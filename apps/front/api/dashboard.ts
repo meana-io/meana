@@ -1,6 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { api } from '@/utility/api';
 import { apiRoutes } from 'routes';
+import { toast } from 'react-toastify';
 
 export enum DASHBOARD {
   GET_DASHBOARD = 'GET_DASHBOARD',
@@ -31,7 +32,7 @@ export const useUpdateDashboard = () => {
       api.post<DashboardSettings>(apiRoutes.dashboard, data),
     {
       onError: () => {
-        alert('there was an error');
+        toast.error('Something went wrong please try again.');
       },
       onSettled: () => {
         queryClient.invalidateQueries([DASHBOARD.GET_DASHBOARD]);

@@ -1,6 +1,7 @@
 import NodeReport, { NodeReportProperty } from '@/types/nodeReport';
 import { api } from '@/utility/api';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { toast } from 'react-toastify';
 import { apiRoutes } from 'routes';
 
 type NodeId = string;
@@ -27,8 +28,11 @@ export const useCreateNodeReport = () => {
     (data: CreateNodeReport) =>
       api.post<NodeReport>(apiRoutes.nodeReport, data),
     {
+      onSuccess: () => {
+        toast.success('The report has been successfully generated.');
+      },
       onError: () => {
-        // alert('there was an error');
+        toast.error('Something went wrong please try again.');
       },
       onSettled: () => {
         queryClient.invalidateQueries([NODE_REPORT.GET_NODE_REPORT]);

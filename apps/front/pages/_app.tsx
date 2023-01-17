@@ -16,6 +16,8 @@ import StyledChart from '@/components/Chart/StyledChart';
 import AuthProvider from '@/contexts/authContext';
 import { useRouter } from 'next/router';
 const clientSideEmotionCache = createEmotionCache();
+import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer } from 'react-toastify';
 
 const App = ({ Component, pageProps }: AppProps) => {
   const rotuer = useRouter();
@@ -57,6 +59,18 @@ const App = ({ Component, pageProps }: AppProps) => {
         </Hydrate>
         <ReactQueryDevtools initialIsOpen={false} />
       </QueryClientProvider>
+      <ToastContainer
+        position="bottom-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
     </div>
   );
 };

@@ -7,9 +7,7 @@ import {
   Card,
   CardActions,
   Grid,
-  Checkbox,
-  FormControlLabel,
-  Box
+  Box,
 } from '@mui/material';
 import { Formik, Form } from 'formik';
 import { NextPage } from 'next';
@@ -80,12 +78,6 @@ const Login: NextPage = () => {
                       }
                     />
                   </Grid>
-                  <Grid item sm={12}>
-                    <FormControlLabel
-                      control={<Checkbox value="remember" color="primary" />}
-                      label="Remember me"
-                    />
-                  </Grid>
                 </Grid>
                 <CardActions>
                   <Button
@@ -94,7 +86,7 @@ const Login: NextPage = () => {
                     variant="contained"
                     type="submit"
                   >
-                    Submit
+                    Login
                   </Button>
                 </CardActions>
               </CardContent>

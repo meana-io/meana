@@ -1,6 +1,7 @@
 import User from '@/types/user';
 import { api } from '@/utility/api';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { toast } from 'react-toastify';
 import { apiRoutes } from 'routes';
 
 type UserId = string;
@@ -40,8 +41,11 @@ export const useUpdateUser = (userId: UserId) => {
     (data: CreateUserData) =>
       api.patch<User>(`${apiRoutes.users}/${userId}`, data),
     {
+      onSuccess: () => {
+        toast.success('The user has been successfully updated.');
+      },
       onError: () => {
-        // alert('there was an error');
+        toast.error('Something went wrong please try again.');
       },
       onSettled: () => {
         queryClient.invalidateQueries([USER.GET_USERS_LIST]);
@@ -55,8 +59,11 @@ export const useCreateUser = () => {
   return useMutation(
     (data: CreateUserData) => api.post<User>(apiRoutes.users, data),
     {
+      onSuccess: () => {
+        toast.success('The user has been successfully created.');
+      },
       onError: () => {
-        // alert('there was an error');
+        toast.error('Something went wrong please try again.');
       },
       onSettled: () => {
         queryClient.invalidateQueries([USER.GET_USERS_LIST]);
@@ -70,8 +77,11 @@ export const useDeleteUser = () => {
   return useMutation(
     (userId: UserId) => api.delete<User>(`${apiRoutes.users}/${userId}`),
     {
+      onSuccess: () => {
+        toast.success('The user has been successfully deleted.');
+      },
       onError: () => {
-        // alert('there was an error');
+        toast.error('Something went wrong please try again.');
       },
       onSettled: () => {
         queryClient.invalidateQueries([USER.GET_USERS_LIST]);

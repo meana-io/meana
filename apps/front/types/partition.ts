@@ -3,4 +3,5 @@ export default interface Partition {
   capacity: string;
   usedSpace: string;
   fileSystem: string;
+  diskIdentifier?: string;
 }

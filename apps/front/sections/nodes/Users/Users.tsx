@@ -3,6 +3,7 @@ import { Card, CardContent, CardHeader, Box, Chip } from '@mui/material';
 import { useRouter } from 'next/router';
 import { useGetNodeUsers } from '@/api/nodeUsers';
 import Progress from '@/components/Progress/Progress';
+import NoData from '@/components/NoData/NoData';
 
 const UsersList: React.FC = () => {
   const router = useRouter();
@@ -28,6 +29,10 @@ const UsersList: React.FC = () => {
 
   if (isLoading) {
     return <Progress />;
+  }
+
+  if (!data) {
+    return <NoData />;
   }
 
   return (

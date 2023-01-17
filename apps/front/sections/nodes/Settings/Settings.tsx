@@ -7,18 +7,14 @@ import {
   Grid,
   CardActions,
   Typography,
-  Select,
   Slider,
-  MenuItem,
-  InputLabel,
-  FormControl,
 } from '@mui/material';
 import { Formik, Form } from 'formik';
 import { useRouter } from 'next/router';
-import ListSubheader from '@mui/material/ListSubheader';
 import Progress from '@/components/Progress/Progress';
 import { styled } from '@mui/system';
-import { useGetNodeDisksAndPartitions } from '@/api/disks';
+import { useGetNodeSettings, useUpdateNodeSettings } from '@/api/settings';
+import NoData from '@/components/NoData/NoData';
 
 const StyledCardActions = styled(CardActions)(({ theme }) => ({
   display: 'flex',
@@ -29,127 +25,40 @@ const Settings: NextPage = () => {
   const router = useRouter();
   const nodeId = router.query.id as string;
 
-  const { data: disksAndPartitions, isLoading } =
-    useGetNodeDisksAndPartitions(nodeId);
+  const { data: nodeSettings, isLoading } = useGetNodeSettings(nodeId);
+  const { mutateAsync } = useUpdateNodeSettings(nodeId);
 
-  const onSubmit = (values) => {
-    console.log(values);
+  const onSubmit = async (values) => {
+    const [ramMin, ramMax] = values.ram;
+    const [cpuMin, cpuMax] = values.cpu;
+
+    await mutateAsync({
+      ramMin,
+      ramMax,
+      cpuMin,
+      cpuMax,
+    });
   };
 
   if (isLoading) {
     return <Progress />;
   }
 
+  if (!nodeSettings) {
+    return <NoData />;
+  }
+
   return (
     <Formik
       initialValues={{
-        partitionUsedSpace: {
-          uuid: '',
-          minmax: [0, 50],
-        },
-        ram: {
-          minmax: [0, 50],
-        },
-        cpu: {
-          minmax: [0, 50],
-        },
+        ram: [nodeSettings.ramMin, nodeSettings.ramMax],
+        cpu: [nodeSettings.cpuMin, nodeSettings.cpuMax],
       }}
       onSubmit={onSubmit}
     >
       {({ values, handleChange }) => (
         <Form>
           <Grid container spacing={2}>
-            <Grid item xs={12} md={6}>
-              <Card>
-                <CardHeader title="Disk" />
-                <CardContent>
-                  <Grid container spacing={2}>
-                    <Grid item sm={12}>
-                      <FormControl fullWidth>
-                        <InputLabel id="disk-label">Disk</InputLabel>
-                        <Select
-                          labelId="disk-label"
-                          id="disk"
-                          name="diskCapacity.uuid"
-                          label="Disk"
-                          value={values.diskCapacity.uuid}
-                          onChange={handleChange}
-                        >
-                          {disksAndPartitions.map(({ name }, index) => (
-                            <MenuItem key={index} value={name}>
-                              {name}
-                            </MenuItem>
-                          ))}
-                        </Select>
-                      </FormControl>
-                    </Grid>
-                    <Grid item sm={12}>
-                      <Typography gutterBottom>
-                        Min and Max Disk Capacity:
-                      </Typography>
-                      <Slider
-                        id="diskCapacity.minmax"
-                        name="diskCapacity.minmax"
-                        value={values.diskCapacity.minmax}
-                        onChange={handleChange}
-                        valueLabelDisplay="auto"
-                        disableSwap
-                      />
-                    </Grid>
-                  </Grid>
-                </CardContent>
-                <StyledCardActions>
-                  <Button type="submit" size="large" variant="contained" data-cy="SaveDisk">
-                    Save
-                  </Button>
-                </StyledCardActions>
-              </Card>
-            </Grid>
-            <Grid item xs={12} md={6}>
-              <Card>
-                <CardHeader title="Partiton" />
-                <CardContent>
-                  <Grid container spacing={2}>
-                    <Grid item sm={12}>
-                      <FormControl fullWidth>
-                        <InputLabel id="partition-label">Partition</InputLabel>
-                        <Select
-                          labelId="partition-label"
-                          id="partition"
-                          label="Partition"
-                          onChange={handleChange}
-                        >
-                          <ListSubheader>Dysk sda</ListSubheader>
-                          <MenuItem value={1}>Partiton 1</MenuItem>
-                          <MenuItem value={2}>Partiton 2</MenuItem>
-                          <ListSubheader>Dysk sda1</ListSubheader>
-                          <MenuItem value={3}>Partiton 3</MenuItem>
-                          <MenuItem value={4}>Partiton 4</MenuItem>
-                        </Select>
-                      </FormControl>
-                    </Grid>
-                    <Grid item sm={12}>
-                      <Typography gutterBottom>
-                        Min and Max Partition Used Space:
-                      </Typography>
-                      <Slider
-                        id="partitionUsedSpace.minmax"
-                        name="partitionUsedSpace.minmax"
-                        value={values.partitionUsedSpace.minmax}
-                        onChange={handleChange}
-                        valueLabelDisplay="auto"
-                        disableSwap
-                      />
-                    </Grid>
-                  </Grid>
-                </CardContent>
-                <StyledCardActions>
-                  <Button type="submit" size="large" variant="contained">
-                    Save
-                  </Button>
-                </StyledCardActions>
-              </Card>
-            </Grid>
             <Grid item xs={12} md={6}>
               <Card>
                 <CardHeader title="RAM" />
@@ -160,9 +69,9 @@ const Settings: NextPage = () => {
                         Min and Max RAM Usage:
                       </Typography>
                       <Slider
-                        id="ram.minmax"
-                        name="ram.minmax"
-                        value={values.ram.minmax}
+                        id="ram"
+                        name="ram"
+                        value={values.ram}
                         onChange={handleChange}
                         valueLabelDisplay="auto"
                         disableSwap
@@ -187,9 +96,9 @@ const Settings: NextPage = () => {
                         Min and Max CUP Usage:
                       </Typography>
                       <Slider
-                        id="cpu.minmax"
-                        name="cpu.minmax"
-                        value={values.cpu.minmax}
+                        id="cpu"
+                        name="cpu"
+                        value={values.cpu}
                         onChange={handleChange}
                         valueLabelDisplay="auto"
                         disableSwap
@@ -209,6 +118,6 @@ const Settings: NextPage = () => {
       )}
     </Formik>
   );
-};
+};;;;
 
 export default Settings;
