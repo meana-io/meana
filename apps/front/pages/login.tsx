@@ -45,7 +45,7 @@ const Login: NextPage = () => {
         validationSchema={validationSchema}
         onSubmit={onLogin}
       >
-        {({ values, touched, errors, handleChange, isValid, dirty }) => (
+        {({ values, touched, errors, handleChange }) => (
           <Form>
             <Card>
               <CardHeader title="Sgin in" />

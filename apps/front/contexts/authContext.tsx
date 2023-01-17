@@ -35,6 +35,9 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     const token = getToken();
     if (token) {
       loggedUser.current = jwtDecode(token);
+      router.push(pageRoutes.dashboard);
+    } else {
+      router.push(pageRoutes.login);
     }
   }, []);
 

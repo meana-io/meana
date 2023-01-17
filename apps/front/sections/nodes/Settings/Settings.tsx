@@ -15,6 +15,7 @@ import Progress from '@/components/Progress/Progress';
 import { styled } from '@mui/system';
 import { useGetNodeSettings, useUpdateNodeSettings } from '@/api/settings';
 import NoData from '@/components/NoData/NoData';
+import DeleteNodeModal from './DeleteNodeModal';
 
 const StyledCardActions = styled(CardActions)(({ theme }) => ({
   display: 'flex',
@@ -45,79 +46,87 @@ const Settings: NextPage = () => {
   }
 
   if (!nodeSettings) {
-    return <NoData />;
+    return (
+      <>
+        <NoData />
+        <DeleteNodeModal />
+      </>
+    );
   }
 
   return (
-    <Formik
-      initialValues={{
-        ram: [nodeSettings.ramMin, nodeSettings.ramMax],
-        cpu: [nodeSettings.cpuMin, nodeSettings.cpuMax],
-      }}
-      onSubmit={onSubmit}
-    >
-      {({ values, handleChange }) => (
-        <Form>
-          <Grid container spacing={2}>
-            <Grid item xs={12} md={6}>
-              <Card>
-                <CardHeader title="RAM" />
-                <CardContent>
-                  <Grid container spacing={2}>
-                    <Grid item sm={12}>
-                      <Typography gutterBottom>
-                        Min and Max RAM Usage:
-                      </Typography>
-                      <Slider
-                        id="ram"
-                        name="ram"
-                        value={values.ram}
-                        onChange={handleChange}
-                        valueLabelDisplay="auto"
-                        disableSwap
-                      />
+    <>
+      <Formik
+        initialValues={{
+          ram: [nodeSettings.ramMin, nodeSettings.ramMax],
+          cpu: [nodeSettings.cpuMin, nodeSettings.cpuMax],
+        }}
+        onSubmit={onSubmit}
+      >
+        {({ values, handleChange }) => (
+          <Form>
+            <Grid container spacing={2}>
+              <Grid item xs={12} md={6}>
+                <Card>
+                  <CardHeader title="RAM" />
+                  <CardContent>
+                    <Grid container spacing={2}>
+                      <Grid item sm={12}>
+                        <Typography gutterBottom>
+                          Min and Max RAM Usage:
+                        </Typography>
+                        <Slider
+                          id="ram"
+                          name="ram"
+                          value={values.ram}
+                          onChange={handleChange}
+                          valueLabelDisplay="auto"
+                          disableSwap
+                        />
+                      </Grid>
                     </Grid>
-                  </Grid>
-                </CardContent>
-                <StyledCardActions>
-                  <Button type="submit" size="large" variant="contained">
-                    Save
-                  </Button>
-                </StyledCardActions>
-              </Card>
-            </Grid>
-            <Grid item xs={12} md={6}>
-              <Card>
-                <CardHeader title="CPU" />
-                <CardContent>
-                  <Grid container spacing={2}>
-                    <Grid item sm={12}>
-                      <Typography gutterBottom>
-                        Min and Max CUP Usage:
-                      </Typography>
-                      <Slider
-                        id="cpu"
-                        name="cpu"
-                        value={values.cpu}
-                        onChange={handleChange}
-                        valueLabelDisplay="auto"
-                        disableSwap
-                      />
+                  </CardContent>
+                  <StyledCardActions>
+                    <Button type="submit" size="large" variant="contained">
+                      Save
+                    </Button>
+                  </StyledCardActions>
+                </Card>
+              </Grid>
+              <Grid item xs={12} md={6}>
+                <Card>
+                  <CardHeader title="CPU" />
+                  <CardContent>
+                    <Grid container spacing={2}>
+                      <Grid item sm={12}>
+                        <Typography gutterBottom>
+                          Min and Max CUP Usage:
+                        </Typography>
+                        <Slider
+                          id="cpu"
+                          name="cpu"
+                          value={values.cpu}
+                          onChange={handleChange}
+                          valueLabelDisplay="auto"
+                          disableSwap
+                        />
+                      </Grid>
                     </Grid>
-                  </Grid>
-                </CardContent>
-                <StyledCardActions>
-                  <Button type="submit" size="large" variant="contained">
-                    Save
-                  </Button>
-                </StyledCardActions>
-              </Card>
+                  </CardContent>
+                  <StyledCardActions>
+                    <Button type="submit" size="large" variant="contained">
+                      Save
+                    </Button>
+                  </StyledCardActions>
+                </Card>
+              </Grid>
             </Grid>
-          </Grid>
-        </Form>
-      )}
-    </Formik>
+          </Form>
+        )}
+      </Formik>
+      <DeleteNodeModal />
+    </>
   );
-};;;;
+};
 
 export default Settings;

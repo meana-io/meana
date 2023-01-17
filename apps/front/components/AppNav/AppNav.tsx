@@ -18,6 +18,7 @@ import { pageRoutes } from 'routes';
 import PriorityHighIcon from '@mui/icons-material/PriorityHigh';
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
 import { useGetHealthCheck } from '@/api/healthCheck';
+import CreateNewNode from '../CreateNewNode/CreateNewNode';
 
 const StyledNavItem = styled((props: ListItemButtonProps) => (
   <ListItemButton disableGutters {...props} />
@@ -165,11 +166,7 @@ const AppNav: React.FC<NavProps> = ({ items }) => {
             <Box display="flex" justifyContent="space-between">
               <Box>Nodes</Box>
               <Box>
-                <Link href={pageRoutes.createNode} passHref>
-                  <IconButton color="primary">
-                    <AddIcon />
-                  </IconButton>
-                </Link>
+                <CreateNewNode />
               </Box>
             </Box>
           </ListSubheader>

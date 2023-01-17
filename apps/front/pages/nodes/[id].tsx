@@ -28,15 +28,15 @@ import NetworkCards from 'sections/nodes/NetworkCards/NetworkCards';
 import Devices from 'sections/nodes/Devices/Devices';
 
 const TABS = [
-  { label: 'Disks', icon: <DiscFullIcon /> },
-  { label: 'Ram', icon: <SdStorageIcon /> },
-  { label: 'Processor', icon: <MemoryIcon /> },
-  { label: 'Users', icon: <GroupIcon /> },
-  { label: 'Packages', icon: <NewReleasesIcon /> },
-  { label: 'Logs', icon: <FileCopyIcon /> },
-  { label: 'Settings', icon: <SettingsIcon /> },
-  { label: 'Network cards', icon: <RouterIcon /> },
-  { label: 'Devices', icon: <HomeMaxIcon /> },
+  { label: 'Disks', icon: <DiscFullIcon />, children: <Disk /> },
+  { label: 'Ram', icon: <SdStorageIcon />, children: <Ram /> },
+  { label: 'Processor', icon: <MemoryIcon />, children: <Cpu /> },
+  { label: 'Users', icon: <GroupIcon />, children: <Users /> },
+  { label: 'Packages', icon: <NewReleasesIcon />, children: <Packages /> },
+  { label: 'Logs', icon: <FileCopyIcon />, children: <Logs /> },
+  { label: 'Network cards', icon: <RouterIcon />, children: <NetworkCards /> },
+  { label: 'Devices', icon: <HomeMaxIcon />, children: <Devices /> },
+  { label: 'Settings', icon: <SettingsIcon />, children: <Settings /> },
 ];
 
 const Node: NextPage = () => {
@@ -44,33 +44,11 @@ const Node: NextPage = () => {
     <NodesLayout>
       <Grid container spacing={2}>
         <Grid item xs={11}>
-          <TabPanel index={0}>
-            <Disk />
-          </TabPanel>
-          <TabPanel index={1}>
-            <Ram />
-          </TabPanel>
-          <TabPanel index={2}>
-            <Cpu />
-          </TabPanel>
-          <TabPanel index={3}>
-            <Users />
-          </TabPanel>
-          <TabPanel index={4}>
-            <Packages />
-          </TabPanel>
-          <TabPanel index={5}>
-            <Logs />
-          </TabPanel>
-          <TabPanel index={6}>
-            <Settings />
-          </TabPanel>
-          <TabPanel index={7}>
-            <NetworkCards />
-          </TabPanel>
-          <TabPanel index={8}>
-            <Devices />
-          </TabPanel>
+          {TABS.map(({ children }, index) => (
+            <TabPanel key={index} index={index}>
+              {children}
+            </TabPanel>
+          ))}
         </Grid>
         <Grid item xs={1}>
           <Paper sx={{ height: '100%' }}>
