@@ -1,16 +1,19 @@
 {
-  "root": "apps/api-agent",
+  "name": "api-agent",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "apps/api-agent/src",
   "projectType": "application",
   "targets": {
     "build": {
-      "executor": "@nrwl/node:webpack",
+      "executor": "@nrwl/webpack:webpack",
       "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "dist/apps/api-agent",
         "main": "apps/api-agent/src/main.ts",
         "tsConfig": "apps/api-agent/tsconfig.app.json",
-        "assets": ["apps/api-agent/src/assets"]
+        "assets": ["apps/api-agent/src/assets"],
+        "target": "node",
+        "compiler": "tsc"
       },
       "configurations": {
         "production": {
@@ -41,7 +44,7 @@
     },
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/apps/api-agent"],
+      "outputs": ["{workspaceRoot}/coverage/apps/api-agent"],
       "options": {
         "jestConfig": "apps/api-agent/jest.config.ts",
         "passWithNoTests": true

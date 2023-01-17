@@ -8,5 +8,6 @@
     "front-e2e": "apps/front-e2e",
     "notification-service": "apps/notification-service",
     "threshold-value": "apps/threshold-value"
-  }
+  },
+  "$schema": "./node_modules/nx/schemas/workspace-schema.json"
 }
