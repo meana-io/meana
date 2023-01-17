@@ -47,7 +47,7 @@ interface NavItemProps {
 
 const NavItem: React.FC<NavItemProps> = ({ title, href, icon }) => {
   return (
-    <Link href={href}>
+    <Link href={href} style={{ textDecoration: 'none' }}>
       <Box>
         <StyledNavItem
           sx={{
@@ -68,8 +68,9 @@ const NavItem: React.FC<NavItemProps> = ({ title, href, icon }) => {
 
 const NodeNavItem: React.FC<NavItemProps> = ({ title, href, icon }) => {
   const isWorking = true;
+
   return (
-    <Link href={href}>
+    <Link href={href} style={{ textDecoration: 'none' }}>
       <Box>
         <StyledNavItem
           sx={{
