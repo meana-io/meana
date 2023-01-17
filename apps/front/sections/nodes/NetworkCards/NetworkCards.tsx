@@ -16,7 +16,8 @@ import NodeNetworkCards from '@/types/nodeNetworkCards';
 import { toTitleCase } from '@/utility/toTitleCase';
 import NoData from '@/components/NoData/NoData';
 
-const NetworkCards = () => {
+
+const NetworkCards: React.FC = () => {
   const router = useRouter();
   const [selectedNetworkCard, setSelectedNetworkCard] = useState<string>('');
   const [selectedNetworkCardRecord, setSelectedNetworkCardRecord] = useState<
@@ -38,11 +39,11 @@ const NetworkCards = () => {
   if (isLoading) {
     return <Progress />;
   }
-
+  
   if (!networkCards) {
     return <NoData />;
   }
-
+  
   return (
     <Box>
       <Box>
