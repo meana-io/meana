@@ -1,4 +1,5 @@
 import { Credentials, JWT_TOKEN, useLogin } from '@/api/auth';
+import { getToken, setToken, removeToken } from '@/utility/token';
 import jwtDecode from 'jwt-decode';
 import { useRouter } from 'next/router';
 import { createContext, useEffect, useRef } from 'react';
@@ -31,12 +32,15 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const loggedUser = useRef<LoggedUser>(undefined);
 
   useEffect(() => {
-    loggedUser.current = jwtDecode(localStorage.getItem('token'));
+    const token = getToken();
+    if (token) {
+      loggedUser.current = jwtDecode(token);
+    }
   }, []);
 
   const loginMutation = useLogin((jwtToken: JWT_TOKEN) => {
     loggedUser.current = jwtDecode(jwtToken.access_token);
-    localStorage.setItem('token', jwtToken.access_token);
+    setToken(jwtToken.access_token);
     router.push(pageRoutes.dashboard);
   });
 
@@ -46,7 +50,7 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
   const logout = async () => {
     loggedUser.current = undefined;
-    localStorage.removeItem('token');
+    removeToken();
     router.push(pageRoutes.login);
   };
 

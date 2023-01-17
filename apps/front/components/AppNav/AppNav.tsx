@@ -46,6 +46,27 @@ interface NavItemProps {
 }
 
 const NavItem: React.FC<NavItemProps> = ({ title, href, icon }) => {
+  return (
+    <Link href={href}>
+      <Box>
+        <StyledNavItem
+          sx={{
+            '&.active': {
+              color: 'text.primary',
+              bgcolor: 'action.selected',
+              fontWeight: 'fontWeightBold',
+            },
+          }}
+        >
+          <StyledNavItemIcon />
+          <ListItemText disableTypography primary={title} />
+        </StyledNavItem>
+      </Box>
+    </Link>
+  );
+};
+
+const NodeNavItem: React.FC<NavItemProps> = ({ title, href, icon }) => {
   const isWorking = true;
   return (
     <Link href={href}>
@@ -60,13 +81,13 @@ const NavItem: React.FC<NavItemProps> = ({ title, href, icon }) => {
           }}
         >
           <StyledNavItemIcon>
-            <Tooltip title={isWorking ?'Live' : 'Not Working'}>
+            <Tooltip title={isWorking ? 'Live' : 'Not Working'}>
               <IconButton size="small" color={isWorking ? 'success' : 'error'}>
                 {isWorking ? <FiberManualRecordIcon /> : <PriorityHighIcon />}
               </IconButton>
             </Tooltip>
           </StyledNavItemIcon>
-            <ListItemText disableTypography primary={title} />
+          <ListItemText disableTypography primary={title} />
         </StyledNavItem>
       </Box>
     </Link>
@@ -79,7 +100,7 @@ interface NavItem {
   title: string;
   href: string;
   icon?: React.ReactNode;
-  cy: string;
+  cy?: string;
 }
 
 interface NavProps {
@@ -90,15 +111,15 @@ const staticMenu = [
   {
     header: 'Users',
     list: [
-      { title: 'List', href: pageRoutes.users},
-      { title: 'Create', href: pageRoutes.createUser},
+      { title: 'List', href: pageRoutes.users },
+      { title: 'Create', href: pageRoutes.createUser },
     ],
-     cy : 'Create' 
+    cy: 'Create',
   },
   {
     header: 'Reports',
-    list: [{ title: 'Create', href: pageRoutes.createReport}],
-    cy: 'CreateReports'
+    list: [{ title: 'Create', href: pageRoutes.createReport }],
+    cy: 'CreateReports',
   },
 ];
 
@@ -142,10 +163,10 @@ const AppNav: React.FC<NavProps> = ({ items }) => {
         }
       >
         {items.map(({ title, icon, href }) => (
-          <NavItem key={href} href={href} title={title} icon={icon} />
+          <NodeNavItem key={href} href={href} title={title} icon={icon} />
         ))}
       </List>
-      {staticMenu.map(({ header, list, cy}, index) => (
+      {staticMenu.map(({ header, list, cy }, index) => (
         <List
           data-cy={cy}
           key={index}
@@ -162,7 +183,7 @@ const AppNav: React.FC<NavProps> = ({ items }) => {
             </ListSubheader>
           }
         >
-          {list.map(({ title, href}) => (
+          {list.map(({ title, href }) => (
             <NavItem key={href} href={href} title={title} />
           ))}
         </List>

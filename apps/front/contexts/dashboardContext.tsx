@@ -76,7 +76,7 @@ const DashboardProvider: React.FC<DashboardProviderProps> = ({ children }) => {
   };
 
   const isActive = (hash: string) => {
-    return components.map(({ i }) => i).includes(hash);
+    return components?.map(({ i }) => i).includes(hash);
   };
 
   const removeFormDashboard = (hashToRemove) => {

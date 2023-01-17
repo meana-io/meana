@@ -22,6 +22,7 @@ import { useGetNodesList } from '@/api/nodes';
 import Progress from '@/components/Progress/Progress';
 import { useCreateNodeReport } from '@/api/nodeReports';
 import ReportViewer from 'sections/reports/ReportViewer';
+import NoData from '@/components/NoData/NoData';
 
 const validationSchema = Yup.object().shape({
   from: Yup.date().required('From is required'),
@@ -147,6 +148,10 @@ const CreaetReport: NextPage = () => {
 
   if (isLoading) {
     return <Progress />;
+  }
+
+  if (!nodes) {
+    return <NoData />;
   }
 
   return (

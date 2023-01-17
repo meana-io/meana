@@ -1,18 +1,15 @@
 import axios from 'axios';
+import { getToken } from './token';
 
 const instance = axios.create({
   baseURL: `${process.env.NEXT_PUBLIC_API_URL}/api`,
 });
 
-const getUserToken = () => {
-  return localStorage.getItem('token') || '';
-};
-
 instance.interceptors.response.use((config) => config.data);
 
 instance.interceptors.request.use(
   (config) => {
-    config.headers['Authorization'] = `Bearer ${getUserToken()}`;
+    config.headers['Authorization'] = `Bearer ${getToken()}`;
     return config;
   },
   (error) => {

@@ -2,6 +2,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import Node from '@/types/node';
 import { api } from '@/utility/api';
 import { apiRoutes } from 'routes';
+import { toast } from 'react-toastify';
 
 export enum NODE {
   GET_NODES = 'GET_NODES',
@@ -24,8 +25,11 @@ export const useCreateNode = () => {
   return useMutation(
     (data: CreateNodeFormData) => api.post<Node>(apiRoutes.nodes, data),
     {
+      onSuccess: () => {
+        toast.success('The node has been successfully created.');
+      },
       onError: () => {
-        // alert('there was an error');
+        toast.error('Something went wrong please try again.');
       },
       onSettled: () => {
         queryClient.invalidateQueries([NODE.GET_NODES]);
@@ -41,8 +45,11 @@ export const useDeleteNode = () => {
   return useMutation(
     (nodeId: NodeId) => api.delete<Node>(`${apiRoutes.nodes}/${nodeId}`),
     {
+      onSuccess: () => {
+        toast.success('The node has been successfully deleted.');
+      },
       onError: () => {
-        // alert('there was an error');
+        toast.error('Something went wrong please try again.');
       },
       onSettled: () => {
         queryClient.invalidateQueries([NODE.GET_NODES]);

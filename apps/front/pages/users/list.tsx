@@ -17,6 +17,7 @@ import { useDeleteUser, useGetUsersList } from '@/api/user';
 import Link from 'next/link';
 import { pageRoutes } from 'routes';
 import Progress from '@/components/Progress/Progress';
+import NoData from '@/components/NoData/NoData';
 
 const UsersList: NextPage = () => {
   const { data: users, isLoading } = useGetUsersList();
@@ -24,6 +25,10 @@ const UsersList: NextPage = () => {
 
   if (isLoading) {
     return <Progress />;
+  }
+
+  if (!users) {
+    return <NoData />;
   }
 
   const onDelete = async (event, cellValues) => {
@@ -72,7 +77,11 @@ const UsersList: NextPage = () => {
       renderCell: (cellValues) => {
         return (
           <Link href={`${pageRoutes.editUser}/${cellValues.row.uuid}`} passHref>
-            <Button startIcon={<EditIcon />} color="inherit" data-cy="EditUser"/>
+            <Button
+              startIcon={<EditIcon />}
+              color="inherit"
+              data-cy="EditUser"
+            />
           </Link>
         );
       },

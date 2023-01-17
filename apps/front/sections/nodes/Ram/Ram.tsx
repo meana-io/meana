@@ -8,6 +8,7 @@ import RamUsageChart from 'sections/nodes/Ram/RamUsageChart';
 import NodeRam from '@/types/ram';
 import Progress from '@/components/Progress/Progress';
 import RamStickDetails from './RamStickDetails';
+import NoData from '@/components/NoData/NoData';
 
 export const getRamLabels = (ram: NodeRam[]) => ram?.map(({ time }) => time);
 
@@ -35,10 +36,14 @@ const Ram: React.FC = () => {
     }
   );
 
-  if (isLoading && isLoadingRamStick) {
+  if (isLoading || isLoadingRamStick) {
     return <Progress />;
   }
-console.log(ramStick)
+
+  if (!ram || !ramStick) {
+    return <NoData />;
+  }
+
   return (
     <Grid container spacing={2} direction="column">
       <Grid item xs={12} md={6}>

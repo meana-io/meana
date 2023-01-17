@@ -8,6 +8,7 @@ import {
 import { useRouter } from 'next/router';
 import Progress from '@/components/Progress/Progress';
 import { useGetNodePackages } from '@/api/packages';
+import NoData from '@/components/NoData/NoData';
 
 const Packages: React.FC = () => {
   const router = useRouter();
@@ -53,6 +54,10 @@ const Packages: React.FC = () => {
 
   if (isLoading) {
     return <Progress />;
+  }
+
+  if (!packages) {
+    return <NoData />;
   }
 
   return (

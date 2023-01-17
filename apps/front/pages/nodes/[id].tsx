@@ -9,7 +9,9 @@ import {
   SdStorage as SdStorageIcon,
   DiscFull as DiscFullIcon,
   FileCopy as FileCopyIcon,
+  HomeMax as HomeMaxIcon,
 } from '@mui/icons-material';
+import RouterIcon from '@mui/icons-material/Router';
 
 import NodesLayout from '@/layouts/Nodes/NodesLayout';
 import TabsNav from '@/components/Tabs/TabsNav';
@@ -22,6 +24,8 @@ import Settings from 'sections/nodes/Settings/Settings';
 import Logs from 'sections/nodes/Logs/Logs';
 import Packages from 'sections/nodes/Packages/Packages';
 import Users from 'sections/nodes/Users/Users';
+import NetworkCards from 'sections/nodes/NetworkCards/NetworkCards';
+import Devices from 'sections/nodes/Devices/Devices';
 
 const TABS = [
   { label: 'Disks', icon: <DiscFullIcon /> },
@@ -31,6 +35,8 @@ const TABS = [
   { label: 'Packages', icon: <NewReleasesIcon /> },
   { label: 'Logs', icon: <FileCopyIcon /> },
   { label: 'Settings', icon: <SettingsIcon /> },
+  { label: 'Network cards', icon: <RouterIcon /> },
+  { label: 'Devices', icon: <HomeMaxIcon /> },
 ];
 
 const Node: NextPage = () => {
@@ -58,6 +64,12 @@ const Node: NextPage = () => {
           </TabPanel>
           <TabPanel index={6}>
             <Settings />
+          </TabPanel>
+          <TabPanel index={7}>
+            <NetworkCards />
+          </TabPanel>
+          <TabPanel index={8}>
+            <Devices />
           </TabPanel>
         </Grid>
         <Grid item xs={1}>
