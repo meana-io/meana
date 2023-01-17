@@ -1,32 +1,31 @@
 {
-  "root": "apps/threshold-value",
+  "name": "threshold-value",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "apps/threshold-value/src",
   "projectType": "application",
   "type": "module",
   "targets": {
     "run-script": {
-      "executor": "@nrwl/workspace:run-commands",
+      "executor": "nx:run-commands",
       "configurations": {
         "run": {
-          "commands": [
-            "ts-node apps/threshold-value/src/main.ts"
-          ]
+          "commands": ["ts-node apps/threshold-value/src/main.ts"]
         },
         "build": {
-          "commands": [
-            "tsc -w apps/threshold-value/src/main.ts"
-          ]
+          "commands": ["tsc -w apps/threshold-value/src/main.ts"]
         }
       }
     },
     "build": {
-      "executor": "@nrwl/node:webpack",
+      "executor": "@nrwl/webpack:webpack",
       "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "dist/apps/threshold-value",
         "main": "apps/threshold-value/src/main.ts",
         "tsConfig": "apps/threshold-value/tsconfig.app.json",
-        "assets": ["apps/threshold-value/src/assets"]
+        "assets": ["apps/threshold-value/src/assets"],
+        "target": "node",
+        "compiler": "tsc"
       },
       "configurations": {
         "production": {
@@ -57,7 +56,7 @@
     },
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/apps/threshold-value"],
+      "outputs": ["{workspaceRoot}/coverage/apps/threshold-value"],
       "options": {
         "jestConfig": "apps/threshold-value/jest.config.ts",
         "passWithNoTests": true
