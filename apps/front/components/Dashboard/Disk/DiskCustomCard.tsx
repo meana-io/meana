@@ -12,8 +12,9 @@ interface DiskCustomCardProps {
 const DiskCustomCard: React.FC<DiskCustomCardProps> = ({ hash }) => {
   const [_, query, diskName, title, key] = deHashParams(hash);
   const { data, isLoading } = useGetNodeDisk(query, diskName);
-  const { data: node } = useGetNode(query);
-  if (isLoading) {
+  const { data: node, isLoading: isLoadingNodeName } = useGetNode(query);
+
+  if (isLoading || isLoadingNodeName) {
     return <Progress />;
   }
 

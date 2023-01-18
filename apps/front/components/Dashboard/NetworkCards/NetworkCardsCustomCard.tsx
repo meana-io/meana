@@ -2,7 +2,6 @@ import { useGetNetworkCards } from '@/api/networkCards';
 import { useGetNode } from '@/api/nodes';
 import DashboardCard from '@/components/CustomCard/DashboardCard';
 import Progress from '@/components/Progress/Progress';
-import { toFormatBytesInNumber } from '@/utility/formatBytes';
 import { deHashParams } from '@/utility/hashParams';
 
 interface NetworkCardsCustomCardProps {
@@ -14,9 +13,9 @@ const NetworkCardsCustomCard: React.FC<NetworkCardsCustomCardProps> = ({
 }) => {
   const [_, query, title, key] = deHashParams(hash);
   const { data, isLoading } = useGetNetworkCards(query);
-  const { data: node } = useGetNode(query);
+  const { data: node, isLoading: isLoadingNodeName } = useGetNode(query);
 
-  if (isLoading) {
+  if (isLoading || isLoadingNodeName) {
     return <Progress />;
   }
 

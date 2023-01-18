@@ -10,9 +10,8 @@ import {
   ListSubheader,
   IconButton,
   Box,
-  Tooltip
+  Tooltip,
 } from '@mui/material';
-import { Add as AddIcon} from '@mui/icons-material';
 import Link from 'next/link';
 import { pageRoutes } from 'routes';
 import PriorityHighIcon from '@mui/icons-material/PriorityHigh';
@@ -46,9 +45,13 @@ interface NavItemProps {
   icon?: React.ReactNode;
 }
 
+const StyledLink = styled(Link)({
+  textDecoration: 'none',
+});
+
 const NavItem: React.FC<NavItemProps> = ({ title, href, icon }) => {
   return (
-    <Link href={href} style={{ textDecoration: 'none' }}>
+    <StyledLink href={href}>
       <Box>
         <StyledNavItem
           sx={{
@@ -63,7 +66,7 @@ const NavItem: React.FC<NavItemProps> = ({ title, href, icon }) => {
           <ListItemText disableTypography primary={title} />
         </StyledNavItem>
       </Box>
-    </Link>
+    </StyledLink>
   );
 };
 
@@ -80,10 +83,7 @@ const NodeNavItem: React.FC<NodeNavItemProps> = ({ title, uuid, icon }) => {
   const isWorking = !!data;
 
   return (
-    <Link
-      href={`${pageRoutes.nodes}/${uuid}`}
-      style={{ textDecoration: 'none' }}
-    >
+    <StyledLink href={`${pageRoutes.nodes}/${uuid}`}>
       <Box>
         <StyledNavItem
           sx={{
@@ -104,7 +104,7 @@ const NodeNavItem: React.FC<NodeNavItemProps> = ({ title, uuid, icon }) => {
           <ListItemText disableTypography primary={title} />
         </StyledNavItem>
       </Box>
-    </Link>
+    </StyledLink>
   );
 };
 

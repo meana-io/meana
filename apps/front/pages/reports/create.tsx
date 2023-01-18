@@ -143,6 +143,8 @@ const CreaetReport: NextPage = () => {
       }, []),
     };
 
+    console.log(data);
+
     await mutateAsync(data);
   };
 
@@ -161,15 +163,7 @@ const CreaetReport: NextPage = () => {
         validationSchema={validationSchema}
         onSubmit={onSubmit}
       >
-        {({
-          values,
-          touched,
-          errors,
-          handleChange,
-          isValid,
-          isSubmitting,
-          handleBlur,
-        }) => (
+        {({ values, touched, errors, handleChange, handleBlur }) => (
           <Form>
             <Card variant="outlined">
               <CardHeader title="Reports" />

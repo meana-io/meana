@@ -27,7 +27,7 @@ const LogsViewer: React.FC<LogsViewerProps> = ({ isFetching, data }) => {
   }
 
   return (
-    <Box height="450px">
+    <Box sx={{ height: '50vh' }}>
       {/* @ts-ignore:next-line */}
       <LazyLog enableSearch text={data} caseInsensitive />
     </Box>

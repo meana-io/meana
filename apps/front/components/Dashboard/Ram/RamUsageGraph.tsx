@@ -16,7 +16,7 @@ interface RamUsageGraphProps {
 
 const RamUsageGraph: React.FC<RamUsageGraphProps> = ({ hash }) => {
   const [_, query, title, key] = deHashParams(hash);
-  const { data: node } = useGetNode(query);
+  const { data: node, isLoading: isLoadingNodeName } = useGetNode(query);
   const { data, isLoading } = useGetNodeRam(
     query,
     {},
@@ -54,7 +54,7 @@ const RamUsageGraph: React.FC<RamUsageGraphProps> = ({ hash }) => {
     },
   });
 
-  if (isLoading) {
+  if (isLoading || isLoadingNodeName) {
     return <Progress />;
   }
 
