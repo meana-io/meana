@@ -1,3 +1,4 @@
+import useMeasure from 'react-use-measure';
 import { useGetNodeCpu } from '@/api/cpu';
 import dynamic from 'next/dynamic';
 const ReactApexChart = dynamic(() => import('react-apexcharts'), {
@@ -15,6 +16,7 @@ interface CpuUsageGraphProps {
 }
 
 const CpuUsageGraph: React.FC<CpuUsageGraphProps> = ({ hash }) => {
+  const [ref, bounds] = useMeasure();
   const [_, query, title, key] = deHashParams(hash);
   const { data: node, isLoading: isLoadingNodeName } = useGetNode(query);
 
@@ -61,12 +63,14 @@ const CpuUsageGraph: React.FC<CpuUsageGraphProps> = ({ hash }) => {
 
   return (
     <CustomCard title={`${node.name}: ${title}`} hash={hash}>
-      <ReactApexChart
-        type="line"
-        series={chartData}
-        options={chartOptions}
-        height={120}
-      />
+      <div style={{ height: '100%' }} ref={ref}>
+        <ReactApexChart
+          type="line"
+          series={chartData}
+          options={chartOptions}
+          height={bounds.height - 50}
+        />
+      </div>
     </CustomCard>
   );
 };

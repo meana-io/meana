@@ -9,12 +9,14 @@ import { useGetNodeRam } from '@/api/ram';
 import { getRamLabels, getRamUsage } from 'sections/nodes/Ram/Ram';
 import CustomCard from '@/components/CustomCard/CustomCard';
 import { useGetNode } from '@/api/nodes';
+import useMeasure from 'react-use-measure';
 
 interface RamUsageGraphProps {
   hash: string;
 }
 
 const RamUsageGraph: React.FC<RamUsageGraphProps> = ({ hash }) => {
+  const [ref, bounds] = useMeasure();
   const [_, query, title, key] = deHashParams(hash);
   const { data: node, isLoading: isLoadingNodeName } = useGetNode(query);
   const { data, isLoading } = useGetNodeRam(
@@ -60,12 +62,14 @@ const RamUsageGraph: React.FC<RamUsageGraphProps> = ({ hash }) => {
 
   return (
     <CustomCard title={`${node.name}: ${title}`} hash={hash}>
-      <ReactApexChart
-        type="line"
-        series={chartData}
-        options={chartOptions}
-        height={120}
-      />
+      <div style={{ height: '100%' }} ref={ref}>
+        <ReactApexChart
+          type="line"
+          series={chartData}
+          options={chartOptions}
+          height={bounds.height - 50}
+        />
+      </div>
     </CustomCard>
   );
 };

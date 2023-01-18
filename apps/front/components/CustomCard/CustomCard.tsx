@@ -23,8 +23,10 @@ const CustomCard: React.FC<CustomCardProps> = ({
       }}
     >
       <CardHeader title={title} action={<ToogleToDashboard hash={hash} />} />
-      {value && <CardContent>{value}</CardContent>}
-      {children && <CardContent>{children}</CardContent>}
+      {value && <CardContent sx={{ height: '100%' }}>{value}</CardContent>}
+      {children && (
+        <CardContent sx={{ height: '100%' }}>{children}</CardContent>
+      )}
     </Card>
   );
 };
