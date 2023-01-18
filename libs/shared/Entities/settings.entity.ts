@@ -13,4 +13,7 @@ export class SettingsEntity extends Model implements Settings {
 
   @Column
   value: string;
+
+  @Column
+  userUuid: string;
 }

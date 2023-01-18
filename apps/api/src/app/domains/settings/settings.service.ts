@@ -9,22 +9,27 @@ export class SettingsService {
     @InjectModel(SettingsEntity) private settingsEntity: typeof SettingsEntity
   ) {}
 
-  async getDashboard(): Promise<SettingsEntity> {
+  async getDashboard(userUuid: string): Promise<SettingsEntity> {
     this.settingsEntity.removeAttribute('id');
 
     return await this.settingsEntity.findOne({
       where: {
         key: 'dashboard',
+        userUuid,
       },
     });
   }
 
-  async setDashboard(dashboard: DashboardDto): Promise<SettingsEntity> {
+  async setDashboard(
+    dashboard: DashboardDto,
+    userUuid: string
+  ): Promise<SettingsEntity> {
     this.settingsEntity.removeAttribute('id');
 
     let dashboardEntity = await this.settingsEntity.findOne({
       where: {
         key: 'dashboard',
+        userUuid: userUuid,
       },
     });
 
@@ -35,6 +40,7 @@ export class SettingsService {
       dashboardEntity = await this.settingsEntity.create({
         key: 'dashboard',
         value: dashboard.value,
+        userUuid: userUuid,
       });
     }
 
