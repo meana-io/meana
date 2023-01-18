@@ -14,14 +14,7 @@ interface DashboardProps {
   };
 }
 
-const initialLayouts = {
-  lg: [
-    { i: 'a', x: 0, y: 0, w: 1, h: 4 },
-    { i: 'b', x: 1, y: 0, w: 3, h: 4 },
-    { i: 'c', x: 4, y: 0, w: 1, h: 4 },
-    { i: 'd', x: 0, y: 4, w: 2, h: 4 },
-  ],
-};
+
 const Dashboard: NextPage<DashboardProps> = ({ size: { width } }) => {
   const { components, isLoading, onLayoutChange } = useDashboard();
   return (
@@ -31,7 +24,9 @@ const Dashboard: NextPage<DashboardProps> = ({ size: { width } }) => {
       {components && (
         <ResponsiveGridLayout
           className="layout"
-          layouts={initialLayouts}
+          layouts={{
+            lg: components,
+          }}
           breakpoints={{ lg: 1200, md: 996, sm: 768, xs: 480, xxs: 0 }}
           cols={{ lg: 12, md: 10, sm: 6, xs: 4, xxs: 2 }}
           rowHeight={60}

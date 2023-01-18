@@ -14,9 +14,9 @@ const PartitionCustomCard: React.FC<PartitionCustomCardProps> = ({ hash }) => {
   const { data, isLoading } = useGetNodeDiskPartitionsList(usedSpace, {
     limit: 1,
   });
-  const { data: node } = useGetNode(query);
+  const { data: node, isLoading: isLoadingNodeName } = useGetNode(query);
 
-  if (isLoading) {
+  if (isLoading || isLoadingNodeName) {
     return <Progress />;
   }
 

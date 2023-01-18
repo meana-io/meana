@@ -11,9 +11,9 @@ interface CpuCustomCardProps {
 const CpuCustomCard: React.FC<CpuCustomCardProps> = ({ hash }) => {
   const [_, query, title, key] = deHashParams(hash);
   const { data, isLoading } = useGetNodeCpu(query, { limit: 1 });
-  const { data: node } = useGetNode(query);
+  const { data: node, isLoading: isLoadingNodeName } = useGetNode(query);
 
-  if (isLoading) {
+  if (isLoading || isLoadingNodeName) {
     return <Progress />;
   }
 

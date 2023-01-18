@@ -16,7 +16,8 @@ interface CpuUsageGraphProps {
 
 const CpuUsageGraph: React.FC<CpuUsageGraphProps> = ({ hash }) => {
   const [_, query, title, key] = deHashParams(hash);
-  const { data: node } = useGetNode(query);
+  const { data: node, isLoading: isLoadingNodeName } = useGetNode(query);
+
   const { data, isLoading } = useGetNodeCpu(
     query,
     {},
@@ -54,7 +55,7 @@ const CpuUsageGraph: React.FC<CpuUsageGraphProps> = ({ hash }) => {
     },
   });
 
-  if (isLoading) {
+  if (isLoading || isLoadingNodeName) {
     return <Progress />;
   }
 

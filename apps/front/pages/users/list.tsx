@@ -18,8 +18,10 @@ import Link from 'next/link';
 import { pageRoutes } from 'routes';
 import Progress from '@/components/Progress/Progress';
 import NoData from '@/components/NoData/NoData';
+import useAuth from '@/hooks/useAuth';
 
 const UsersList: NextPage = () => {
+  const { user } = useAuth();
   const { data: users, isLoading } = useGetUsersList();
   const { mutateAsync } = useDeleteUser();
 
@@ -32,11 +34,7 @@ const UsersList: NextPage = () => {
   }
 
   const onDelete = async (event, cellValues) => {
-    try {
-      await mutateAsync(cellValues.row.uuid);
-    } catch (e) {
-      // alert('Erorr occured');
-    }
+    await mutateAsync(cellValues.row.uuid);
   };
 
   const columns: GridColDef[] = [
@@ -91,7 +89,11 @@ const UsersList: NextPage = () => {
       field: 'Delete',
       width: 80,
       renderCell: (cellValues) => {
-        return (
+        if (cellValues.id === user.sub) {
+          return null;
+        }
+
+        return (git restore --staged
           <Button
             startIcon={<DeleteIcon />}
             color="error"

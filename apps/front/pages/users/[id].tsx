@@ -45,17 +45,13 @@ const UpdateUser: NextPage = () => {
     email,
     password,
   }: CreateUserData) => {
-    try {
-      await mutateAsync({
-        firstName,
-        lastName,
-        login,
-        email,
-        password,
-      }).then(backToUsersList);
-    } catch (e) {
-      // alert(`Cannot add the data`);
-    }
+    await mutateAsync({
+      firstName,
+      lastName,
+      login,
+      email,
+      password,
+    }).then(backToUsersList);
   };
 
   const backToUsersList = () => {

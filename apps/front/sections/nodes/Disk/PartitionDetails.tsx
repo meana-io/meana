@@ -24,7 +24,7 @@ const PartitionDetails: React.FC<PartitionDetailsProps> = ({ partition }) => {
   ];
 
   return (
-    <Grid container spacing={2} item xs={12} lg={6}>
+    <Grid container spacing={2} item xs={6}>
       {keysToDisplay.map((key) => (
         <Grid xs={12} lg={6} xl={4} item key={key}>
           <CustomCard

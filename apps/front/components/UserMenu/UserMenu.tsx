@@ -2,7 +2,6 @@ import { useState } from 'react';
 import {
   Button,
   Divider,
-  IconButton,
   List,
   ListItem,
   ListItemIcon,
@@ -65,15 +64,16 @@ const UserMenu: React.FC = () => {
 
   return (
     <>
-      <IconButton
+      <Button
         size="large"
         aria-controls="menu-appbar"
         aria-haspopup="true"
         onClick={handleMenu}
         color="inherit"
+        startIcon={<AccountCircleIcon />}
       >
-        <AccountCircleIcon />
-      </IconButton>
+        {user?.login}
+      </Button>
       <Menu
         id="menu-appbar"
         anchorEl={anchorEl}
@@ -91,8 +91,8 @@ const UserMenu: React.FC = () => {
       >
         <Formik
           initialValues={{
-            email_notifications: settings?.email_notifications,
-            push_notifications: settings?.push_notifications,
+            email_notifications: !!settings?.email_notifications,
+            push_notifications: !!settings?.push_notifications,
           }}
           onSubmit={updateUserSettings}
         >

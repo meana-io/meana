@@ -1,4 +1,5 @@
 import { useGetDashboard, useUpdateDashboard } from '@/api/dashboard';
+import useAuth from '@/hooks/useAuth';
 import { createContext, useEffect, useState } from 'react';
 
 interface Layout {
@@ -26,18 +27,6 @@ interface DashboardProviderProps {
   children: React.ReactNode;
 }
 
-
-const __component = {
-  x: 1,
-  y: 1,
-  w: 1,
-  h: 1,
-  key: '/disk/dawdaa',
-  url: '/node-disks/get-latest-disks',
-  query: '?nodeUudi=1231313212',
-  refeach: 5 * 1000,
-};
-
 const getLayout = (layout: Layout[]) => {
   return layout.map(({ x, y, w, h, i }) => ({
     x,
@@ -50,10 +39,11 @@ const getLayout = (layout: Layout[]) => {
 
 const DashboardProvider: React.FC<DashboardProviderProps> = ({ children }) => {
   const [components, setComponents] = useState<Layout[]>([]);
+  const { user } = useAuth();
 
   const [count, setCount] = useState(0);
-  const { data: dashboardSettings, isLoading } = useGetDashboard();
-  const { mutateAsync } = useUpdateDashboard();
+  const { data: dashboardSettings, isLoading } = useGetDashboard(user?.sub);
+  const { mutateAsync } = useUpdateDashboard(user?.sub);
 
   useEffect(() => {
     if (!isLoading) {
@@ -77,10 +67,10 @@ const DashboardProvider: React.FC<DashboardProviderProps> = ({ children }) => {
       value: JSON.stringify([
         ...components,
         {
-          x: 99,
-          y: 99,
-          w: 1,
-          h: 1,
+          x: 0,
+          y: Infinity,
+          w: 3,
+          h: 3,
           i: hash,
         },
       ]),

@@ -14,9 +14,9 @@ const RamCustomCard: React.FC<RamCustomCardProps> = ({ hash }) => {
     limit: 1,
   });
 
-  const { data: node } = useGetNode(query);
+  const { data: node, isLoading: isLoadingNodeName } = useGetNode(query);
 
-  if (isLoading) {
+  if (isLoading || isLoadingNodeName) {
     return <Progress />;
   }
 
