@@ -93,7 +93,7 @@ const UsersList: NextPage = () => {
           return null;
         }
 
-        return (git restore --staged
+        return (
           <Button
             startIcon={<DeleteIcon />}
             color="error"
