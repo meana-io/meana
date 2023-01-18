@@ -16,6 +16,8 @@ const Devices: React.FC = () => {
   const nodeId = router.query.id as string;
   const { data: nodeDevices, isLoading } = useGetNodeDevices(nodeId);
 
+  console.log(nodeDevices);
+
   if (isLoading) {
     return <Progress />;
   }
