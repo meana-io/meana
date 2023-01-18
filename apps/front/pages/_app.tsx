@@ -17,6 +17,9 @@ import AuthProvider from '@/contexts/authContext';
 import { useRouter } from 'next/router';
 const clientSideEmotionCache = createEmotionCache();
 import 'react-toastify/dist/ReactToastify.css';
+import 'react-grid-layout/css/styles.css';
+import 'react-resizable/css/styles.css';
+
 import { ToastContainer } from 'react-toastify';
 
 const App = ({ Component, pageProps }: AppProps) => {

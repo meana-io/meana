@@ -1,5 +1,6 @@
 import { useGetNodeDisk } from '@/api/disks';
-import CustomCard from '@/components/CustomCard/CustomCard';
+import { useGetNode } from '@/api/nodes';
+import DashboardCard from '@/components/CustomCard/DashboardCard';
 import Progress from '@/components/Progress/Progress';
 import { toFormatBytesInNumber } from '@/utility/formatBytes';
 import { deHashParams } from '@/utility/hashParams';
@@ -9,19 +10,17 @@ interface DiskCustomCardProps {
 }
 
 const DiskCustomCard: React.FC<DiskCustomCardProps> = ({ hash }) => {
-  const [_, nodeId, diskName, title, key] = deHashParams(hash);
-  const { data, isLoading } = useGetNodeDisk(nodeId, diskName);
-
+  const [_, query, diskName, title, key] = deHashParams(hash);
+  const { data, isLoading } = useGetNodeDisk(query, diskName);
+  const { data: node } = useGetNode(query);
   if (isLoading) {
     return <Progress />;
   }
 
   return (
-    <CustomCard
-      hash={hash}
-      title={title}
-      value={toFormatBytesInNumber(data?.at(0)[key]) || 'N/A'}
-    />
+    <DashboardCard title={`${node.name}: ${title}`} hash={hash}>
+      {toFormatBytesInNumber(data?.at(0)[key]) || 'N/A'}
+    </DashboardCard>
   );
 };
 

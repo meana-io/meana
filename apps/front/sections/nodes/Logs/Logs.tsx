@@ -33,7 +33,7 @@ const Logs: React.FC = () => {
   }, [logFileName, refetch]);
 
   return (
-    <Card style={{ height: '70vh' }}>
+    <Card variant="outlined" style={{ height: '70vh' }}>
       <CardHeader title="Logs" />
       <CardContent>
         <Grid container spacing={2}>

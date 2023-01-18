@@ -61,7 +61,7 @@ const Packages: React.FC = () => {
   }
 
   return (
-    <Card>
+    <Card variant="outlined">
       <CardHeader title="Packages" />
       <CardContent>
         <DataGrid

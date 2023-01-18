@@ -46,7 +46,7 @@ const NetworkCards: React.FC = () => {
   }
 
   return (
-    <Card>
+    <Card variant="outlined">
       <CardContent>
         <Box>
           <FormControl fullWidth>

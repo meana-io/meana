@@ -1,14 +1,14 @@
 import { Card, CardContent, CardHeader } from '@mui/material';
 import ToogleToDashboard from '../ToogleToDashboard/ToogleToDashboard';
 
-interface CustomCardProps {
+interface DashboardCardProps {
   title: string;
   hash: string;
   value?: string;
   children?: React.ReactNode;
 }
 
-const CustomCard: React.FC<CustomCardProps> = ({
+const DashboardCard: React.FC<DashboardCardProps> = ({
   title,
   value,
   hash,
@@ -29,4 +29,4 @@ const CustomCard: React.FC<CustomCardProps> = ({
   );
 };
 
-export default CustomCard;
+export default DashboardCard;

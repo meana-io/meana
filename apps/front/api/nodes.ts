@@ -6,12 +6,23 @@ import { toast } from 'react-toastify';
 
 export enum NODE {
   GET_NODES = 'GET_NODES',
+  GET_NODE = 'GET_NODE',
 }
+
+type NodeId = string;
 
 export const useGetNodesList = (options?) => {
   return useQuery(
     [NODE.GET_NODES],
     () => api.get<Node[]>(apiRoutes.nodes),
+    options
+  );
+};
+
+export const useGetNode = (nodeId: NodeId, options?) => {
+  return useQuery(
+    [NODE.GET_NODE, nodeId],
+    () => api.get<Node>(`${apiRoutes.nodes}/${nodeId}`),
     options
   );
 };
@@ -37,8 +48,6 @@ export const useCreateNode = () => {
     }
   );
 };
-
-type NodeId = string;
 
 export const useDeleteNode = () => {
   const queryClient = useQueryClient();

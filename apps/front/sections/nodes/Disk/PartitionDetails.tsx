@@ -7,11 +7,15 @@ import { toFormatBytesInNumber } from '@/utility/formatBytes';
 import CustomCard from '@/components/CustomCard/CustomCard';
 import { COMPONENT_NAME } from '@/components/Dashboard/Partition/PartitionCustomCard';
 import { hashParams } from '@/utility/hashParams';
+import { useRouter } from 'next/router';
 
 interface PartitionDetailsProps {
   partition: Partition;
 }
 const PartitionDetails: React.FC<PartitionDetailsProps> = ({ partition }) => {
+  const router = useRouter();
+  const nodeId = router.query.id as string;
+
   const keysToDisplay: (keyof Partition)[] = [
     'path',
     'fileSystem',
@@ -26,6 +30,7 @@ const PartitionDetails: React.FC<PartitionDetailsProps> = ({ partition }) => {
           <CustomCard
             hash={hashParams(
               COMPONENT_NAME,
+              nodeId,
               partition.usedSpace,
               toTitleCase(key),
               key

@@ -49,10 +49,10 @@ interface Option {
 }
 
 const AGREGATION_PERIOD = [
-  { label: 'Every Minute', value: 60 },
-  { label: 'Every Hour', value: 60 * 60 },
+  { label: 'Every 15 minuts ', value: 60 * 15 },
+  { label: 'Every hour', value: 60 * 60 },
   { label: 'Every 12h', value: 60 * 60 * 12 },
-  { label: 'Every Day', value: 60 * 60 * 24 },
+  { label: 'Every day', value: 60 * 60 * 24 },
 ];
 
 const AGGREGATION_TYPES = ['min', 'max', 'avg', ''];
@@ -117,7 +117,7 @@ const initialValues = {
   from: '',
   to: '',
   aggregatePeriod: 3600,
-  properties: [property, property, property],
+  properties: [property],
 };
 
 const CreaetReport: NextPage = () => {
@@ -171,7 +171,7 @@ const CreaetReport: NextPage = () => {
           handleBlur,
         }) => (
           <Form>
-            <Card>
+            <Card variant="outlined">
               <CardHeader title="Reports" />
               <CardContent>
                 <FieldArray name="properties">

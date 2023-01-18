@@ -1,5 +1,6 @@
 import { useGetNodeDiskPartitionsList } from '@/api/diskPartitions';
-import CustomCard from '@/components/CustomCard/CustomCard';
+import { useGetNode } from '@/api/nodes';
+import DashboardCard from '@/components/CustomCard/DashboardCard';
 import Progress from '@/components/Progress/Progress';
 import { toFormatBytesInNumber } from '@/utility/formatBytes';
 import { deHashParams } from '@/utility/hashParams';
@@ -9,21 +10,20 @@ interface PartitionCustomCardProps {
 }
 
 const PartitionCustomCard: React.FC<PartitionCustomCardProps> = ({ hash }) => {
-  const [_, usedSpace, title, key] = deHashParams(hash);
+  const [_, query, usedSpace, title, key] = deHashParams(hash);
   const { data, isLoading } = useGetNodeDiskPartitionsList(usedSpace, {
     limit: 1,
   });
+  const { data: node } = useGetNode(query);
 
   if (isLoading) {
     return <Progress />;
   }
 
   return (
-    <CustomCard
-      hash={hash}
-      title={title}
-      value={toFormatBytesInNumber(data?.at(0)[key]) || 'N/A'}
-    />
+    <DashboardCard title={`${node.name}: ${title}`} hash={hash}>
+      {toFormatBytesInNumber(data?.at(0)[key]) || 'N/A'}
+    </DashboardCard>
   );
 };
 

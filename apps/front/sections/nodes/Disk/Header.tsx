@@ -25,7 +25,7 @@ const Header: React.FC<HeaderProps> = ({
   handleDiskChange,
 }) => {
   return (
-    <Card>
+    <Card variant="outlined">
       <CardHeader title="Disks" />
       <CardContent>
         <Box display="flex" flex={1} gap={2}>

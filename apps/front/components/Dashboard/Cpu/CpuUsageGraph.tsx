@@ -3,12 +3,12 @@ import dynamic from 'next/dynamic';
 const ReactApexChart = dynamic(() => import('react-apexcharts'), {
   ssr: false,
 });
-import { Card, CardHeader, Box } from '@mui/material';
 import useChart from '@/components/Chart/useChart';
 import Progress from '@/components/Progress/Progress';
 import { deHashParams } from '@/utility/hashParams';
 import { getCpuLabels, getCpuUsage } from 'sections/nodes/Cpu/Cpu';
-import ToogleToDashboard from '@/components/ToogleToDashboard/ToogleToDashboard';
+import CustomCard from '@/components/CustomCard/CustomCard';
+import { useGetNode } from '@/api/nodes';
 
 interface CpuUsageGraphProps {
   hash: string;
@@ -16,6 +16,7 @@ interface CpuUsageGraphProps {
 
 const CpuUsageGraph: React.FC<CpuUsageGraphProps> = ({ hash }) => {
   const [_, query, title, key] = deHashParams(hash);
+  const { data: node } = useGetNode(query);
   const { data, isLoading } = useGetNodeCpu(
     query,
     {},
@@ -58,17 +59,14 @@ const CpuUsageGraph: React.FC<CpuUsageGraphProps> = ({ hash }) => {
   }
 
   return (
-    <Card>
-      <CardHeader title={title} action={<ToogleToDashboard hash={hash} />} />
-      <Box sx={{ p: 3, pb: 1 }}>
-        <ReactApexChart
-          type="line"
-          series={chartData}
-          options={chartOptions}
-          height={120}
-        />
-      </Box>
-    </Card>
+    <CustomCard title={`${node.name}: ${title}`} hash={hash}>
+      <ReactApexChart
+        type="line"
+        series={chartData}
+        options={chartOptions}
+        height={120}
+      />
+    </CustomCard>
   );
 };
 
