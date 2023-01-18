@@ -59,7 +59,7 @@ const CpuUsageChart: React.FC<CpuUsageChartProps> = ({
   const hash = hashParams(COMPONENT_NAME, nodeId, title, '');
 
   return (
-    <Card>
+    <Card variant="outlined">
       <CardHeader
         title={title}
         subheader={subheader}

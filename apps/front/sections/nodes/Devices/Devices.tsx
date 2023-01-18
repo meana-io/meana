@@ -16,6 +16,8 @@ const Devices: React.FC = () => {
   const nodeId = router.query.id as string;
   const { data: nodeDevices, isLoading } = useGetNodeDevices(nodeId);
 
+  console.log(nodeDevices);
+
   if (isLoading) {
     return <Progress />;
   }
@@ -23,10 +25,10 @@ const Devices: React.FC = () => {
   if (!nodeDevices) {
     return <NoData />;
   }
-  
+
   return (
     <Grid container spacing={2} item xs={12} lg={12}>
-      <Card>
+      <Card variant="outlined">
         <CardContent>
           <List>
             {nodeDevices?.map(({ name, port }, index) => (

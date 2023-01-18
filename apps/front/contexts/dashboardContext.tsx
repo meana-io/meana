@@ -26,6 +26,18 @@ interface DashboardProviderProps {
   children: React.ReactNode;
 }
 
+
+const __component = {
+  x: 1,
+  y: 1,
+  w: 1,
+  h: 1,
+  key: '/disk/dawdaa',
+  url: '/node-disks/get-latest-disks',
+  query: '?nodeUudi=1231313212',
+  refeach: 5 * 1000,
+};
+
 const getLayout = (layout: Layout[]) => {
   return layout.map(({ x, y, w, h, i }) => ({
     x,

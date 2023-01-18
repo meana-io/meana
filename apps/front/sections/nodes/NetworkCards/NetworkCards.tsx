@@ -17,6 +17,8 @@ import CustomCard from '@/components/CustomCard/CustomCard';
 import NodeNetworkCards from '@/types/nodeNetworkCards';
 import { toTitleCase } from '@/utility/toTitleCase';
 import NoData from '@/components/NoData/NoData';
+import { COMPONENT_NAME } from '@/components/Dashboard/Disk/DiskCustomCard';
+import { hashParams } from '@/utility/hashParams';
 
 const NetworkCards: React.FC = () => {
   const router = useRouter();
@@ -37,6 +39,8 @@ const NetworkCards: React.FC = () => {
     );
   };
 
+  console.log(networkCards);
+
   if (isLoading) {
     return <Progress />;
   }
@@ -46,7 +50,7 @@ const NetworkCards: React.FC = () => {
   }
 
   return (
-    <Card>
+    <Card variant="outlined">
       <CardContent>
         <Box>
           <FormControl fullWidth>
@@ -67,15 +71,22 @@ const NetworkCards: React.FC = () => {
           </FormControl>
         </Box>
         <Box mt={4}>
-          <Grid container spacing={2} item xs={12} lg={6}>
+          <Grid container spacing={2} item xs={12}>
             {selectedNetworkCardRecord &&
               Object.entries(selectedNetworkCardRecord)?.map(([key, value]) => (
-                <Grid xs={12} lg={6} xl={4} item key={key}>
+                <Grid xs={12} lg={4} item key={key}>
                   <CustomCard
-                    hash={''}
+                    hash={hashParams(
+                      COMPONENT_NAME,
+                      nodeId,
+                      //disk.name,
+                      toTitleCase(key),
+                      key
+                    )}
                     title={toTitleCase(key)}
-                    value={(value as string) || 'N/A'}
-                  />
+                  >
+                    {value || 'N/A'}
+                  </CustomCard>
                 </Grid>
               ))}
           </Grid>

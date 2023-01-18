@@ -47,10 +47,6 @@ const Ram: React.FC = () => {
   return (
     <Grid container spacing={2} direction="column">
       <Grid item xs={12} md={6}>
-        {/* <RamDetails ram={ram.at(-1)} /> */}
-        <RamStickDetails ramStick={ramStick.at(-1)} />
-      </Grid>
-      <Grid item xs={12} md={6}>
         <RamUsageChart
           title="Ram usage"
           chartLabels={getRamLabels(ram)}
@@ -63,6 +59,9 @@ const Ram: React.FC = () => {
             },
           ]}
         />
+      </Grid>
+      <Grid item xs={12} md={6}>
+        <RamStickDetails ramStick={ramStick.at(-1)} />
       </Grid>
     </Grid>
   );

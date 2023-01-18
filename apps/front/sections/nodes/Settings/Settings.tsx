@@ -67,7 +67,7 @@ const Settings: NextPage = () => {
           <Form>
             <Grid container spacing={2}>
               <Grid item xs={12} md={6}>
-                <Card>
+                <Card variant="outlined">
                   <CardHeader title="RAM" />
                   <CardContent>
                     <Grid container spacing={2}>
@@ -94,7 +94,7 @@ const Settings: NextPage = () => {
                 </Card>
               </Grid>
               <Grid item xs={12} md={6}>
-                <Card>
+                <Card variant="outlined">
                   <CardHeader title="CPU" />
                   <CardContent>
                     <Grid container spacing={2}>

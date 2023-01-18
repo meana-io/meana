@@ -36,7 +36,7 @@ const UsersList: React.FC = () => {
   }
 
   return (
-    <Card>
+    <Card variant="outlined">
       <CardHeader title="Users List" />
       <CardContent>
         <DataGrid

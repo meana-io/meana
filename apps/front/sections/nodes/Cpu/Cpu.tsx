@@ -34,9 +34,6 @@ const Cpu: React.FC = () => {
 
   return (
     <Grid container spacing={2} direction="column">
-      <Grid item xs={12} md={6}>
-        <CpuDetails cpu={cpu.at(-1)} />
-      </Grid>
       <Grid item xs={12}>
         <CpuUsageChart
           title="Cpu usage"
@@ -50,6 +47,9 @@ const Cpu: React.FC = () => {
             },
           ]}
         />
+      </Grid>
+      <Grid item xs={12} md={6}>
+        <CpuDetails cpu={cpu.at(-1)} />
       </Grid>
     </Grid>
   );

@@ -85,7 +85,7 @@ const UpdateUser: NextPage = () => {
       >
         {({ values, touched, errors, handleChange, isValid, dirty }) => (
           <Form>
-            <Card>
+            <Card variant="outlined">
               <CardHeader title="Edit User" />
               <CardContent>
                 <Grid container spacing={2}>

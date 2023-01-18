@@ -63,8 +63,8 @@ const CpuDetails: React.FC<CpuDetailsProps> = ({ cpu }) => {
 
   return (
     <Grid container spacing={2}>
-      {keysToDisplay.map((key) => (
-        <Grid xs={12} md={12} lg={3} item key={key}>
+      {keysToDisplay.map((key, index) => (
+        <Grid xs={12} md={12} lg={3} item key={`${key}-${index}`}>
           <CustomCard
             hash={hashParams(COMPONENT_NAME, nodeId, toTitleCase(key), key)}
             title={toTitleCase(key)}

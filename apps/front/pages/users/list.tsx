@@ -105,7 +105,7 @@ const UsersList: NextPage = () => {
   ];
   return (
     <BaseLayout>
-      <Card>
+      <Card variant="outlined">
         <CardHeader
           title="Users List"
           action={

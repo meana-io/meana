@@ -69,9 +69,8 @@ const DiskUsageChart: React.FC<DiskUsageChartProps> = ({
   });
 
   return (
-    <Card>
+    <Card variant="outlined">
       <CardHeader title={title} subheader={subheader} />
-
       <StyledChartWrapper dir="ltr">
         <ReactApexChart
           type="pie"

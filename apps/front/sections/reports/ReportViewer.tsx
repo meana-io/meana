@@ -1,4 +1,6 @@
+import { useGetNodesList } from '@/api/nodes';
 import UsageGraph from '@/components/UsageGrapth/UsageGraph';
+import Node from '@/types/node';
 import NodeReport, { NodeReportResult } from '@/types/nodeReport';
 import { toTitleCase } from '@/utility/toTitleCase';
 import { Button, Card, CardContent, CardHeader, Grid } from '@mui/material';
@@ -15,7 +17,12 @@ const getLables = (results: NodeReportResult[]) =>
 const getData = (results: NodeReportResult[], aggregationType: string) =>
   results.map((record) => Math.floor(parseFloat(record[aggregationType])));
 
+const getNodeName = (nodes: Node[], nodeId: string) => {
+  return nodes.find(({ uuid }) => uuid === nodeId)?.name;
+};
+
 const ReportViewer: React.FC<ReportViewerProps> = ({ reports }) => {
+  const { data: nodes } = useGetNodesList();
   const downloadAsPDF = () => {
     const container = document.getElementById('pdf');
     html2canvas(container).then((canvas) => {
@@ -26,7 +33,7 @@ const ReportViewer: React.FC<ReportViewerProps> = ({ reports }) => {
     });
   };
   return (
-    <Card id="pdf">
+    <Card variant="outlined" id="pdf">
       <CardHeader
         action={<Button onClick={downloadAsPDF}>Download as PDF</Button>}
       />
@@ -41,7 +48,7 @@ const ReportViewer: React.FC<ReportViewerProps> = ({ reports }) => {
 
             return (
               <Grid key={index} item xs={12}>
-                <CardHeader title={`Node: ${nodeUuid}`} />
+                <CardHeader title={getNodeName(nodes, nodeUuid)} />
                 <UsageGraph
                   title={`${toTitleCase(
                     property.propertyName
