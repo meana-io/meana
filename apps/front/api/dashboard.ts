@@ -7,35 +7,38 @@ export enum DASHBOARD {
   GET_DASHBOARD = 'GET_DASHBOARD',
 }
 
+type UserId = string;
 export interface DashboardSettings {
   uuid: string;
   key: string;
   value: string;
 }
 
-export const useGetDashboard = (options?) => {
+export const useGetDashboard = (userId: UserId, options?) => {
   return useQuery(
-    [DASHBOARD.GET_DASHBOARD],
+    [DASHBOARD.GET_DASHBOARD, userId],
     () =>
-      api.get<DashboardSettings>(apiRoutes.dashboard).then((response) => ({
-        ...response,
-        value: JSON.parse(response.value ?? '[]'),
-      })),
+      api
+        .get<DashboardSettings>(`${apiRoutes.dashboard}/${userId}`)
+        .then((response) => ({
+          ...response,
+          value: JSON.parse(response.value ?? '[]'),
+        })),
     options
   );
 };
 
-export const useUpdateDashboard = () => {
+export const useUpdateDashboard = (userId: UserId) => {
   const queryClient = useQueryClient();
   return useMutation(
     (data: DashboardSettings) =>
-      api.post<DashboardSettings>(apiRoutes.dashboard, data),
+      api.post<DashboardSettings>(`${apiRoutes.dashboard}/${userId}`, data),
     {
       onError: () => {
         toast.error('Something went wrong please try again.');
       },
       onSettled: () => {
-        queryClient.invalidateQueries([DASHBOARD.GET_DASHBOARD]);
+        queryClient.invalidateQueries([DASHBOARD.GET_DASHBOARD, userId]);
       },
     }
   );

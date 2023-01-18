@@ -1,18 +1,18 @@
-import { useGetDashboardNetworkCards } from '@/api/networkCards';
+import { useGetDashboardDevice } from '@/api/devices';
 import { useGetNode } from '@/api/nodes';
 import DashboardCard from '@/components/CustomCard/DashboardCard';
 import Progress from '@/components/Progress/Progress';
 import { deHashParams } from '@/utility/hashParams';
 
-interface NetworkCardsCustomCardProps {
+interface DeviceCustomCardCustomCardProps {
   hash: string;
 }
 
-const NetworkCardsCustomCard: React.FC<NetworkCardsCustomCardProps> = ({
+const DeviceCustomCardCustomCard: React.FC<DeviceCustomCardCustomCardProps> = ({
   hash,
 }) => {
   const [_, query, name, title, key] = deHashParams(hash);
-  const { data, isLoading } = useGetDashboardNetworkCards(query, name);
+  const { data, isLoading } = useGetDashboardDevice(query, name);
   const { data: node, isLoading: isLoadingNodeName } = useGetNode(query);
 
   if (isLoading || isLoadingNodeName) {
@@ -21,11 +21,11 @@ const NetworkCardsCustomCard: React.FC<NetworkCardsCustomCardProps> = ({
 
   return (
     <DashboardCard title={`${node.name}: ${title}`} hash={hash}>
-      {data?.at(0)[key] || 'N/A'}
+      {data?.at(0)['port'] || 'N/A'}
     </DashboardCard>
   );
 };
 
-export const COMPONENT_NAME = 'network_cards_custom_card';
+export const COMPONENT_NAME = 'device_custom_card';
 
-export default NetworkCardsCustomCard;
+export default DeviceCustomCardCustomCard;

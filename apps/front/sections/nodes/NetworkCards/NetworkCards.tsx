@@ -17,8 +17,8 @@ import CustomCard from '@/components/CustomCard/CustomCard';
 import NodeNetworkCards from '@/types/nodeNetworkCards';
 import { toTitleCase } from '@/utility/toTitleCase';
 import NoData from '@/components/NoData/NoData';
-import { COMPONENT_NAME } from '@/components/Dashboard/Disk/DiskCustomCard';
 import { hashParams } from '@/utility/hashParams';
+import { COMPONENT_NAME } from '@/components/Dashboard/NetworkCards/NetworkCardsCustomCard';
 
 const NetworkCards: React.FC = () => {
   const router = useRouter();
@@ -38,8 +38,6 @@ const NetworkCards: React.FC = () => {
       networkCards.find(({ name }) => name === selectedCardName)
     );
   };
-
-  console.log(networkCards);
 
   if (isLoading) {
     return <Progress />;
@@ -79,7 +77,7 @@ const NetworkCards: React.FC = () => {
                     hash={hashParams(
                       COMPONENT_NAME,
                       nodeId,
-                      //disk.name,
+                      selectedNetworkCardRecord.name,
                       toTitleCase(key),
                       key
                     )}

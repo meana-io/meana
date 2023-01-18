@@ -12,6 +12,12 @@ import DiskCustomCard, {
 import PartitionCustomCard, {
   COMPONENT_NAME as PARTITION_NAME,
 } from './Partition/PartitionCustomCard';
+import NetworkCardsCustomCard, {
+  COMPONENT_NAME as NETWORK_CARD,
+} from './NetworkCards/NetworkCardsCustomCard';
+import DeviceCustomCard, {
+  COMPONENT_NAME as DEVICE,
+} from './Device/DeviceCustomCard';
 
 export const DASHBOARD_COMPONENTS = {
   [CUP_NAME]: CpuCustomCard,
@@ -20,4 +26,6 @@ export const DASHBOARD_COMPONENTS = {
   [PARTITION_NAME]: PartitionCustomCard,
   [CUP_GRAPH_NAME]: CpuUsageGraph,
   [RAM_GRAPH_NAME]: RamUsageGraph,
+  [NETWORK_CARD]: NetworkCardsCustomCard,
+  [DEVICE]: DeviceCustomCard,
 };

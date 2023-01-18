@@ -143,8 +143,6 @@ const CreaetReport: NextPage = () => {
       }, []),
     };
 
-    console.log(data);
-
     await mutateAsync(data);
   };
 

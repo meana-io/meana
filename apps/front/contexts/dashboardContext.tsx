@@ -1,4 +1,5 @@
 import { useGetDashboard, useUpdateDashboard } from '@/api/dashboard';
+import useAuth from '@/hooks/useAuth';
 import { createContext, useEffect, useState } from 'react';
 
 interface Layout {
@@ -38,10 +39,11 @@ const getLayout = (layout: Layout[]) => {
 
 const DashboardProvider: React.FC<DashboardProviderProps> = ({ children }) => {
   const [components, setComponents] = useState<Layout[]>([]);
+  const { user } = useAuth();
 
   const [count, setCount] = useState(0);
-  const { data: dashboardSettings, isLoading } = useGetDashboard();
-  const { mutateAsync } = useUpdateDashboard();
+  const { data: dashboardSettings, isLoading } = useGetDashboard(user?.sub);
+  const { mutateAsync } = useUpdateDashboard(user?.sub);
 
   useEffect(() => {
     if (!isLoading) {
