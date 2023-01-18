@@ -1,5 +1,4 @@
-/* eslint-disable */
-export default {
+module.exports = {
   displayName: 'api-agent',
   preset: '../../jest.preset.js',
   globals: {

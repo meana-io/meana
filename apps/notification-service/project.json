@@ -1,30 +1,31 @@
 {
-  "name": "notification-service",
-  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "root": "apps/notification-service",
   "sourceRoot": "apps/notification-service/src",
   "projectType": "application",
   "targets": {
     "run-script": {
-      "executor": "nx:run-commands",
+      "executor": "@nrwl/workspace:run-commands",
       "configurations": {
         "run": {
-          "commands": ["ts-node apps/notification-service/src/main.ts"]
+          "commands": [
+            "ts-node apps/notification-service/src/main.ts"
+          ]
         },
         "build": {
-          "commands": ["tsc -w apps/threshold-value/src/main.ts"]
+          "commands": [
+            "tsc -w apps/threshold-value/src/main.ts"
+          ]
         }
       }
     },
     "build": {
-      "executor": "@nrwl/webpack:webpack",
+      "executor": "@nrwl/node:webpack",
       "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "dist/apps/notification-service",
         "main": "apps/notification-service/src/main.ts",
         "tsConfig": "apps/notification-service/tsconfig.app.json",
-        "assets": ["apps/notification-service/src/assets"],
-        "target": "node",
-        "compiler": "tsc"
+        "assets": ["apps/notification-service/src/assets"]
       },
       "configurations": {
         "production": {
@@ -55,7 +56,7 @@
     },
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["{workspaceRoot}/coverage/apps/notification-service"],
+      "outputs": ["coverage/apps/notification-service"],
       "options": {
         "jestConfig": "apps/notification-service/jest.config.ts",
         "passWithNoTests": true

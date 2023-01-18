@@ -1,6 +1,5 @@
 {
-  "name": "front",
-  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "root": "apps/front",
   "sourceRoot": "apps/front",
   "projectType": "application",
   "targets": {
@@ -43,7 +42,7 @@
     },
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["{workspaceRoot}/coverage/apps/front"],
+      "outputs": ["coverage/apps/front"],
       "options": {
         "jestConfig": "apps/front/jest.config.ts",
         "passWithNoTests": true

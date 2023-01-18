@@ -1,5 +1,4 @@
-/* eslint-disable */
-export default {
+module.exports = {
   displayName: 'threshold-value',
   preset: '../../jest.preset.js',
   globals: {
