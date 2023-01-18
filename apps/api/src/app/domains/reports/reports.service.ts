@@ -26,6 +26,7 @@ export class ReportsService {
       return {
         property,
         query: ReportsService.getQuery(
+          property.nodeUuid,
           property.property,
           reportRequestDto.aggregatePeriod,
           reportRequestDto.from,
@@ -47,11 +48,12 @@ export class ReportsService {
   }
 
   private static getQuery(
+    nodeUuid: string,
     property: Property,
     aggregationPeriod: number,
     from: string,
     to: string
   ): string {
-    return `SELECT time_bucket(make_interval(secs := ${aggregationPeriod}), "${property.domain}"."time") AS AGGREGATION_PERIOD, ${property.aggregationType}("${property.domain}"."${property.propertyName}"::decimal) FROM "${property.domain}" WHERE "${property.domain}"."time" >= '${from}'::date AND "${property.domain}"."time" <= '${to}'::date GROUP BY AGGREGATION_PERIOD`;
+    return `SELECT time_bucket(make_interval(secs := ${aggregationPeriod}), "${property.domain}"."time") AS AGGREGATION_PERIOD, ${property.aggregationType}("${property.domain}"."${property.propertyName}"::decimal) FROM "${property.domain}" WHERE "${property.domain}"."time" >= '${from}'::date AND "${property.domain}"."time" <= '${to}'::date AND "${property.domain}"."nodeId" = '${nodeUuid}' GROUP BY AGGREGATION_PERIOD`;
   }
 }
