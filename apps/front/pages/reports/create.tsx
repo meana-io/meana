@@ -23,6 +23,8 @@ import Progress from '@/components/Progress/Progress';
 import { useCreateNodeReport } from '@/api/nodeReports';
 import ReportViewer from 'sections/reports/ReportViewer';
 import NoData from '@/components/NoData/NoData';
+import { useGetNodeDisksAndPartitions } from '@/api/disks';
+import { useEffect, useState } from 'react';
 
 const validationSchema = Yup.object().shape({
   from: Yup.date().required('From is required'),
@@ -58,6 +60,7 @@ const AGREGATION_PERIOD = [
 const AGGREGATION_TYPES = ['min', 'max', 'avg', ''];
 interface Property {
   nodeUuid: string;
+  diskIdentifier: string;
   property: {
     domain: string;
     propertyName: string;
@@ -67,10 +70,11 @@ interface Property {
 
 const property: Property = {
   nodeUuid: '',
+  diskIdentifier: '',
   property: {
     domain: '',
     propertyName: '',
-    aggregationType: '',
+    aggregationType: 'min',
   },
 };
 
@@ -121,30 +125,49 @@ const initialValues = {
 };
 
 const CreaetReport: NextPage = () => {
+  const [selectedNodeId, setSelectedNodeId] = useState('');
   const { data: nodes, isLoading } = useGetNodesList();
   const { data: reports, mutateAsync } = useCreateNodeReport();
+  const {
+    data: disks,
+    isLoading: isLoadingDisks,
+    refetch,
+  } = useGetNodeDisksAndPartitions(selectedNodeId, {
+    enabled: false,
+  });
 
   const onSubmit = async (values) => {
     const data = {
       ...values,
-      properties: values.properties.reduce((arr, { nodeUuid, property }) => {
-        const [domain, propertyName] = property.propertyName.split('.');
-        return [
-          ...arr,
-          {
-            nodeUuid,
-            property: {
-              ...property,
-              domain,
-              propertyName,
+      properties: values.properties.reduce(
+        (arr, { nodeUuid, diskIdentifier, property }) => {
+          const [domain, propertyName] = property.propertyName.split('.');
+          return [
+            ...arr,
+            {
+              nodeUuid,
+              diskIdentifier,
+              property: {
+                ...property,
+                domain,
+                propertyName,
+              },
             },
-          },
-        ];
-      }, []),
+          ];
+        },
+        []
+      ),
     };
+    console.log({ data });
 
     await mutateAsync(data);
   };
+
+  useEffect(() => {
+    if (selectedNodeId !== '') {
+      refetch();
+    }
+  }, [selectedNodeId, refetch]);
 
   if (isLoading) {
     return <Progress />;
@@ -241,7 +264,7 @@ const CreaetReport: NextPage = () => {
                       {values.properties.map((_, index) => {
                         return (
                           <Grid key={index} item container spacing={2}>
-                            <Grid item xs={4}>
+                            <Grid item xs={3}>
                               <FormControl fullWidth>
                                 <InputLabel id="node-id">Node</InputLabel>
                                 <Select
@@ -249,7 +272,10 @@ const CreaetReport: NextPage = () => {
                                   label="Node"
                                   name={`properties[${index}].nodeUuid`}
                                   value={values.properties.at(index).nodeUuid}
-                                  onChange={handleChange}
+                                  onChange={(e) => {
+                                    handleChange(e);
+                                    setSelectedNodeId(e.target.value);
+                                  }}
                                   error={
                                     getIn(
                                       touched,
@@ -270,7 +296,8 @@ const CreaetReport: NextPage = () => {
                                 </Select>
                               </FormControl>
                             </Grid>
-                            <Grid item xs={4}>
+
+                            <Grid item xs={3}>
                               <FormControl fullWidth>
                                 <InputLabel id="property">Property</InputLabel>
                                 <Select
@@ -309,6 +336,61 @@ const CreaetReport: NextPage = () => {
                                 </Select>
                               </FormControl>
                             </Grid>
+
+                            {values.properties
+                              .at(index)
+                              .property.propertyName.includes(
+                                'node_disk_partitions'
+                              ) && (
+                              <Grid item xs={3}>
+                                <FormControl fullWidth>
+                                  <InputLabel id="partition">
+                                    Partition
+                                  </InputLabel>
+                                  <Select
+                                    labelId="partition"
+                                    label="partition"
+                                    name={`properties[${index}].diskIdentifier`}
+                                    onChange={handleChange}
+                                    error={
+                                      getIn(
+                                        touched,
+                                        `properties[${index}].diskIdentifier`
+                                      ) &&
+                                      !!getIn(
+                                        errors,
+                                        `properties[${index}].diskIdentifier`
+                                      )
+                                    }
+                                    onBlur={handleBlur}
+                                  >
+                                    {disks?.map(({ name, partitions }) => {
+                                      return partitions?.map(
+                                        ({ path, diskIdentifier }) => (
+                                          <MenuItem
+                                            key={`${path}.${diskIdentifier}`}
+                                            value={`${path}.${diskIdentifier}`}
+                                          >
+                                            {name} - {path}
+                                          </MenuItem>
+                                        )
+                                      );
+                                    })}
+                                    {/* {disks?.partitions?.map(
+                                      ({ path, diskIdentifier }, index) => (
+                                        <MenuItem
+                                          key={`${index}.${diskIdentifier}`}
+                                          value={diskIdentifier}
+                                        >
+                                          {path}
+                                        </MenuItem>
+                                      )
+                                    )} */}
+                                  </Select>
+                                </FormControl>
+                              </Grid>
+                            )}
+
                             <Grid item xs={2}>
                               <FormControl fullWidth>
                                 <InputLabel id="aggregation-type">
@@ -331,9 +413,11 @@ const CreaetReport: NextPage = () => {
                                   }
                                   onBlur={handleBlur}
                                 >
-                                  <MenuItem value=""></MenuItem>
-                                  {AGGREGATION_TYPES.map((type) => (
-                                    <MenuItem key={type} value={type}>
+                                  {AGGREGATION_TYPES.map((type, index) => (
+                                    <MenuItem
+                                      key={`${index}-${type}`}
+                                      value={type}
+                                    >
                                       {type}
                                     </MenuItem>
                                   ))}

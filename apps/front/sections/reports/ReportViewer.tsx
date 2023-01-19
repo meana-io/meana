@@ -14,8 +14,12 @@ interface ReportViewerProps {
 const getLables = (results: NodeReportResult[]) =>
   results.map(({ aggregation_period }) => aggregation_period);
 
+// const getData = (results: NodeReportResult[], aggregationType: string) =>
+//   results.map((record) => Math.floor(parseFloat(record[aggregationType])));
 const getData = (results: NodeReportResult[], aggregationType: string) =>
-  results.map((record) => Math.floor(parseFloat(record[aggregationType])));
+  results.map((record) =>
+    Math.floor(parseFloat(record[aggregationType]) / 1000_000)
+  );
 
 const getNodeName = (nodes: Node[], nodeId: string) => {
   return nodes.find(({ uuid }) => uuid === nodeId)?.name;

@@ -100,7 +100,7 @@ const Settings: NextPage = () => {
                     <Grid container spacing={2}>
                       <Grid item sm={12}>
                         <Typography gutterBottom>
-                          Min and Max CUP Usage:
+                          Min and Max CPU Usage:
                         </Typography>
                         <Slider
                           id="cpu"
