@@ -74,7 +74,7 @@ const UpdateUser: NextPage = () => {
           lastName: user.lastName,
           login: user.login,
           email: user.email,
-          password: user.password,
+          password: '',
         }}
         validationSchema={validationSchema}
         onSubmit={updateUser}
@@ -167,7 +167,7 @@ const UpdateUser: NextPage = () => {
                     variant="contained"
                     type="submit"
                   >
-                    Submit
+                    Update
                   </LoadingButton>
                 </CardActions>
               </CardContent>
