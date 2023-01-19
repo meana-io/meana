@@ -153,6 +153,9 @@ const AppNav: React.FC<NavProps> = ({ items }) => {
       }}
     >
       <Toolbar />
+      <List disablePadding sx={{ p: 1 }}>
+        <NavItem href={pageRoutes.dashboard} title="Dashboard" />
+      </List>
       <List
         disablePadding
         sx={{ p: 1 }}
