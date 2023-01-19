@@ -20,5 +20,6 @@ export interface Property {
 
 export interface NodeProperty {
   nodeUuid: string;
+  diskIdentifier: string;
   property: Property;
 }

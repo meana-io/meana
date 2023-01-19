@@ -23,6 +23,18 @@ export class ReportsService {
 
   async generate(reportRequestDto: ReportRequestDto) {
     const queries = reportRequestDto.properties.map((property) => {
+      if (property.diskIdentifier) {
+        return {
+          property,
+          query: ReportsService.getPartitionQuery(
+            property.diskIdentifier,
+            property.property,
+            reportRequestDto.aggregatePeriod,
+            reportRequestDto.from,
+            reportRequestDto.to
+          ),
+        };
+      }
       return {
         property,
         query: ReportsService.getQuery(
@@ -55,5 +67,15 @@ export class ReportsService {
     to: string
   ): string {
     return `SELECT time_bucket(make_interval(secs := ${aggregationPeriod}), "${property.domain}"."time") AS AGGREGATION_PERIOD, ${property.aggregationType}("${property.domain}"."${property.propertyName}"::decimal) FROM "${property.domain}" WHERE "${property.domain}"."time" >= '${from}'::date AND "${property.domain}"."time" <= '${to}'::date AND "${property.domain}"."nodeId" = '${nodeUuid}' GROUP BY AGGREGATION_PERIOD`;
+  }
+
+  private static getPartitionQuery(
+    diskIdentifier: string,
+    property: Property,
+    aggregationPeriod: number,
+    from: string,
+    to: string
+  ): string {
+    return `SELECT time_bucket(make_interval(secs := ${aggregationPeriod}), "${property.domain}"."time") AS AGGREGATION_PERIOD, ${property.aggregationType}("${property.domain}"."${property.propertyName}"::decimal) FROM "${property.domain}" WHERE "${property.domain}"."time" >= '${from}'::date AND "${property.domain}"."time" <= '${to}'::date AND "${property.domain}"."diskIdentifier" = '${diskIdentifier}' GROUP BY AGGREGATION_PERIOD`;
   }
 }
