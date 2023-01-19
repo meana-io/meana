@@ -158,7 +158,6 @@ const CreaetReport: NextPage = () => {
         []
       ),
     };
-    console.log({ data });
 
     await mutateAsync(data);
   };
@@ -215,7 +214,6 @@ const CreaetReport: NextPage = () => {
                             value={values.from}
                             onChange={handleChange}
                             error={touched.from && Boolean(errors.from)}
-                            // helperText={touched.from && errors.from}
                             onBlur={handleBlur}
                           />
                         </Grid>
@@ -231,7 +229,6 @@ const CreaetReport: NextPage = () => {
                             value={values.to}
                             onChange={handleChange}
                             error={touched.to && Boolean(errors.to)}
-                            // helperText={touched.to && errors.to}
                             onBlur={handleBlur}
                           />
                         </Grid>
@@ -241,6 +238,7 @@ const CreaetReport: NextPage = () => {
                               Agregation Period
                             </InputLabel>
                             <Select
+                              required
                               labelId="agregation-period"
                               label="Agregation Period"
                               name="aggregatePeriod"
@@ -268,6 +266,7 @@ const CreaetReport: NextPage = () => {
                               <FormControl fullWidth>
                                 <InputLabel id="node-id">Node</InputLabel>
                                 <Select
+                                  required
                                   labelId="node-id"
                                   label="Node"
                                   name={`properties[${index}].nodeUuid`}
@@ -301,6 +300,7 @@ const CreaetReport: NextPage = () => {
                               <FormControl fullWidth>
                                 <InputLabel id="property">Property</InputLabel>
                                 <Select
+                                  required
                                   labelId="property"
                                   label="Property"
                                   name={`properties[${index}].property.propertyName`}
@@ -317,7 +317,6 @@ const CreaetReport: NextPage = () => {
                                   }
                                   onBlur={handleBlur}
                                 >
-                                  <MenuItem value=""></MenuItem>
                                   {options.map(
                                     ({
                                       group,
@@ -348,6 +347,7 @@ const CreaetReport: NextPage = () => {
                                     Partition
                                   </InputLabel>
                                   <Select
+                                    required
                                     labelId="partition"
                                     label="partition"
                                     name={`properties[${index}].diskIdentifier`}
@@ -364,28 +364,19 @@ const CreaetReport: NextPage = () => {
                                     }
                                     onBlur={handleBlur}
                                   >
-                                    {disks?.map(({ name, partitions }) => {
-                                      return partitions?.map(
-                                        ({ path, diskIdentifier }) => (
-                                          <MenuItem
-                                            key={`${path}.${diskIdentifier}`}
-                                            value={`${path}.${diskIdentifier}`}
-                                          >
-                                            {name} - {path}
-                                          </MenuItem>
-                                        )
-                                      );
-                                    })}
-                                    {/* {disks?.partitions?.map(
-                                      ({ path, diskIdentifier }, index) => (
-                                        <MenuItem
-                                          key={`${index}.${diskIdentifier}`}
-                                          value={diskIdentifier}
-                                        >
-                                          {path}
-                                        </MenuItem>
-                                      )
-                                    )} */}
+                                    {Array.isArray(disks) &&
+                                      disks?.map(({ name, partitions }) => {
+                                        return partitions?.map(
+                                          ({ path, diskIdentifier }) => (
+                                            <MenuItem
+                                              key={`${path}.${diskIdentifier}`}
+                                              value={`${path}.${diskIdentifier}`}
+                                            >
+                                              {name} - {path}
+                                            </MenuItem>
+                                          )
+                                        );
+                                      })}
                                   </Select>
                                 </FormControl>
                               </Grid>
@@ -397,6 +388,7 @@ const CreaetReport: NextPage = () => {
                                   Aggregation Type
                                 </InputLabel>
                                 <Select
+                                  required
                                   labelId="aggregation-type"
                                   label="Aggregation Type"
                                   name={`properties[${index}].property.aggregationType`}
