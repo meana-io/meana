@@ -28,7 +28,7 @@ export class ThresholdsService {
     );
 
     const usersReqeust = await axios.get<User[]>(
-      'http://meana_api:3333/api/users?filter[email_notification]=true'
+      'http://meana_api:3333/api/users?filter[email_notifications]=true'
     );
 
     const users = usersReqeust.data;
