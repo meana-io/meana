@@ -2,6 +2,7 @@ import { useGetNodesList } from '@/api/nodes';
 import UsageGraph from '@/components/UsageGrapth/UsageGraph';
 import Node from '@/types/node';
 import NodeReport, { NodeReportResult } from '@/types/nodeReport';
+import { formatBytesWithoutName } from '@/utility/formatBytes';
 import { toTitleCase } from '@/utility/toTitleCase';
 import { Button, Card, CardContent, CardHeader, Grid } from '@mui/material';
 import html2canvas from 'html2canvas';
@@ -14,12 +15,8 @@ interface ReportViewerProps {
 const getLables = (results: NodeReportResult[]) =>
   results.map(({ aggregation_period }) => aggregation_period);
 
-// const getData = (results: NodeReportResult[], aggregationType: string) =>
-//   results.map((record) => Math.floor(parseFloat(record[aggregationType])));
 const getData = (results: NodeReportResult[], aggregationType: string) =>
-  results.map((record) =>
-    Math.floor(parseFloat(record[aggregationType]) / 1000_000)
-  );
+  results.map((record) => parseFloat(record[aggregationType]));
 
 const getNodeName = (nodes: Node[], nodeId: string) => {
   return nodes.find(({ uuid }) => uuid === nodeId)?.name;

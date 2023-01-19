@@ -49,6 +49,30 @@ export const useCreateNode = () => {
   );
 };
 
+
+interface UpdateNodeFormData {
+  name: string;
+  nodeId: string;
+}
+
+export const useUpdateNode = () => {
+  const queryClient = useQueryClient();
+  return useMutation(
+    ({ name, nodeId }: UpdateNodeFormData) =>
+      api.patch<Node>(`${apiRoutes.nodes}/${nodeId}`, { name }),
+    {
+      onSuccess: () => {
+        toast.success('The node has been successfully updated.');
+      },
+      onError: () => {
+        toast.error('Something went wrong please try again.');
+      },
+      onSettled: () => {
+        queryClient.invalidateQueries([NODE.GET_NODES]);
+      },
+    }
+  );
+};
 export const useDeleteNode = () => {
   const queryClient = useQueryClient();
   return useMutation(

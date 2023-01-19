@@ -304,7 +304,14 @@ const CreaetReport: NextPage = () => {
                                   labelId="property"
                                   label="Property"
                                   name={`properties[${index}].property.propertyName`}
-                                  onChange={handleChange}
+                                  onChange={(e) => {
+                                    handleChange(e);
+                                    const { value } = e.target;
+                                    if (value !== 'node_disk_partitions') {
+                                      delete values.properties.at(index)
+                                        .diskIdentifier;
+                                    }
+                                  }}
                                   error={
                                     getIn(
                                       touched,

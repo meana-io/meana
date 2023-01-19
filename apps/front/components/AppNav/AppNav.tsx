@@ -101,7 +101,11 @@ const NodeNavItem: React.FC<NodeNavItemProps> = ({ title, uuid, icon }) => {
               </IconButton>
             </Tooltip>
           </StyledNavItemIcon>
-          <ListItemText disableTypography primary={title} />
+          <ListItemText
+            disableTypography
+            sx={{ textTransform: 'initial' }}
+            primary={title}
+          />
         </StyledNavItem>
       </Box>
     </StyledLink>

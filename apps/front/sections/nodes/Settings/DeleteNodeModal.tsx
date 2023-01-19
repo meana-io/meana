@@ -25,7 +25,7 @@ const DeleteNodeModal: React.FC = () => {
   };
 
   return (
-    <Box mt={4} mr={0} display="flex" justifyContent="flex-end" width="100%">
+    <>
       <Button
         color="error"
         variant="contained"
@@ -61,7 +61,7 @@ const DeleteNodeModal: React.FC = () => {
           </Button>
         </DialogActions>
       </Dialog>
-    </Box>
+    </>
   );
 };
 

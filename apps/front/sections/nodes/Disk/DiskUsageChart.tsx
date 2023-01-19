@@ -6,6 +6,8 @@ const ReactApexChart = dynamic(() => import('react-apexcharts'), {
 });
 
 import useChart from '@/components/Chart/useChart';
+import { yupToFormErrors } from 'formik';
+import { formatBytes } from '@/utility/formatBytes';
 
 const CHART_HEIGHT = 372;
 const LEGEND_HEIGHT = 72;
@@ -58,8 +60,9 @@ const DiskUsageChart: React.FC<DiskUsageChartProps> = ({
     tooltip: {
       fillSeriesColor: false,
       y: {
+        formatter: (value) => formatBytes(value),
         title: {
-          formatter: (seriesName) => `${seriesName}`,
+          formatter: (seriesName) => seriesName,
         },
       },
     },

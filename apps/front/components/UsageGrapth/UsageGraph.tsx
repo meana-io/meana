@@ -5,6 +5,7 @@ const ReactApexChart = dynamic(() => import('react-apexcharts'), {
 
 import { Card, CardHeader, Box } from '@mui/material';
 import useChart from '@/components/Chart/useChart';
+import { formatBytes } from '@/utility/formatBytes';
 
 interface ChartData {
   fill: 'gradient' | 'solid';
@@ -32,13 +33,20 @@ const UsageGraph: React.FC<UsageGraphProps> = ({
     fill: { type: chartData.map((i) => i.fill) },
     labels: chartLabels,
     xaxis: { type: 'datetime' },
+    yaxis: {
+      labels: {
+        formatter: function (y) {
+          return formatBytes(y);
+        },
+      },
+    },
     tooltip: {
       shared: true,
       intersect: false,
       y: {
         formatter: (y) => {
           if (typeof y !== 'undefined') {
-            return `${y.toFixed(0)}`;
+            return formatBytes(y);
           }
           return y;
         },
