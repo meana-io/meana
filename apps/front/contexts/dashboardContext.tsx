@@ -47,8 +47,6 @@ const DashboardProvider: React.FC<DashboardProviderProps> = ({ children }) => {
     retryDelay: 100,
   });
 
-  console.log({ user: user?.sub });
-
   const { mutateAsync } = useUpdateDashboard(user?.sub);
 
   useEffect(() => {
