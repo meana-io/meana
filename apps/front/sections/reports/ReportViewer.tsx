@@ -2,7 +2,7 @@ import { useGetNodesList } from '@/api/nodes';
 import UsageGraph from '@/components/UsageGrapth/UsageGraph';
 import Node from '@/types/node';
 import NodeReport, { NodeReportResult } from '@/types/nodeReport';
-import { formatBytesWithoutName } from '@/utility/formatBytes';
+import { formatBytes } from '@/utility/formatBytes';
 import { toTitleCase } from '@/utility/toTitleCase';
 import { Button, Card, CardContent, CardHeader, Grid } from '@mui/material';
 import html2canvas from 'html2canvas';
@@ -20,6 +20,21 @@ const getData = (results: NodeReportResult[], aggregationType: string) =>
 
 const getNodeName = (nodes: Node[], nodeId: string) => {
   return nodes.find(({ uuid }) => uuid === nodeId)?.name;
+};
+
+const getProps = (domain, propertyName) => {
+  if (domain === 'node_cpu') {
+    if (propertyName === 'usage') {
+      return {
+        min: 0,
+        max: 100,
+        yFormatter: (value) => `${Math.floor(value)}%`,
+      };
+    }
+    return { yFormatter: (value) => `${value}` };
+  }
+
+  return { yFormatter: formatBytes };
 };
 
 const ReportViewer: React.FC<ReportViewerProps> = ({ reports }) => {
@@ -64,6 +79,7 @@ const ReportViewer: React.FC<ReportViewerProps> = ({ reports }) => {
                       data: getData(result, property.aggregationType),
                     },
                   ]}
+                  {...getProps(property.domain, property.propertyName)}
                 />
               </Grid>
             );

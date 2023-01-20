@@ -109,12 +109,6 @@ const options: Option[] = [
     domain: 'node_cpu',
     propertyName: 'coresQuantity',
   },
-  {
-    group: 'Cpu',
-    label: 'Frequency',
-    domain: 'node_cpu',
-    propertyName: 'frequency',
-  },
 ];
 
 const initialValues = {

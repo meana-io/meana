@@ -20,6 +20,9 @@ interface UsageGraphProps {
   chartColors?: string[];
   chartData: ChartData[];
   chartLabels: string[];
+  yFormatter?: (y: number) => number | string;
+  max?: number;
+  min?: number;
 }
 
 const UsageGraph: React.FC<UsageGraphProps> = ({
@@ -27,6 +30,9 @@ const UsageGraph: React.FC<UsageGraphProps> = ({
   subheader,
   chartLabels,
   chartData,
+  yFormatter = formatBytes,
+  min = undefined,
+  max = undefined,
 }) => {
   const chartOptions = useChart({
     plotOptions: { bar: { columnWidth: '16%' } },
@@ -34,9 +40,11 @@ const UsageGraph: React.FC<UsageGraphProps> = ({
     labels: chartLabels,
     xaxis: { type: 'datetime' },
     yaxis: {
+      min,
+      max,
       labels: {
         formatter: function (y) {
-          return formatBytes(y);
+          return yFormatter(y);
         },
       },
     },
@@ -46,7 +54,7 @@ const UsageGraph: React.FC<UsageGraphProps> = ({
       y: {
         formatter: (y) => {
           if (typeof y !== 'undefined') {
-            return formatBytes(y);
+            return yFormatter(y);
           }
           return y;
         },
