@@ -46,12 +46,13 @@ const DashboardProvider: React.FC<DashboardProviderProps> = ({ children }) => {
     enabled: !!user?.sub,
     retryDelay: 100,
   });
+
+  console.log({ user: user?.sub });
+
   const { mutateAsync } = useUpdateDashboard(user?.sub);
 
   useEffect(() => {
-    if (!isLoading) {
-      setComponents(dashboardSettings?.value);
-    }
+    setComponents(dashboardSettings?.value);
   }, [dashboardSettings?.value, isLoading]);
 
   const onLayoutChange = (layout) => {
