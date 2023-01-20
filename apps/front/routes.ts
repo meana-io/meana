@@ -18,6 +18,7 @@ export const apiRoutes = {
   nodeReport: '/reports/generate',
   getLatestNetworkCard: '/node-network-cards',
   getLatestNodeDevices: '/node-devices',
+  nodeHealth: '/nodes/health',
 };
 
 export const pageRoutes = {

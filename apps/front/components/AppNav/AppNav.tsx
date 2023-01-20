@@ -80,7 +80,8 @@ const NodeNavItem: React.FC<NodeNavItemProps> = ({ title, uuid, icon }) => {
   const { data } = useGetHealthCheck(uuid, {
     refetchInterval: 1000 * 5,
   });
-  const isWorking = !!data;
+
+  const isWorking = data?.isWorking ?? false;
 
   return (
     <StyledLink href={`${pageRoutes.nodes}/${uuid}`}>
