@@ -53,6 +53,12 @@ const CpuUsageChart: React.FC<CpuUsageChartProps> = ({
           return y;
         },
       },
+      x: {
+        formatter: (x) => {
+          const date = new Date(x);
+          return `${date.toLocaleTimeString()} ${date.toLocaleDateString()}`;
+        },
+      },
     },
   });
 

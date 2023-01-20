@@ -44,6 +44,7 @@ const DashboardProvider: React.FC<DashboardProviderProps> = ({ children }) => {
   const [count, setCount] = useState(0);
   const { data: dashboardSettings, isLoading } = useGetDashboard(user?.sub, {
     enabled: !!user?.sub,
+    retryDelay: 100,
   });
   const { mutateAsync } = useUpdateDashboard(user?.sub);
 

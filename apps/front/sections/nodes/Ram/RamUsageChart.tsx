@@ -53,6 +53,12 @@ const RamUsageChart: React.FC<RamUsageChartProps> = ({
           return y;
         },
       },
+      x: {
+        formatter: (x) => {
+          const date = new Date(x);
+          return `${date.toLocaleTimeString()} ${date.toLocaleDateString()}`;
+        },
+      },
     },
   });
 
