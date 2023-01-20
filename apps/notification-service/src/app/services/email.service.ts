@@ -1,10 +1,15 @@
 import { NotificationService } from './notification.service';
 import * as sgMail from '@sendgrid/mail';
-import { RuntimeException } from '@nestjs/core/errors/exceptions/runtime.exception';
+import { DateTime } from 'luxon';
 
 export class EmailService extends NotificationService {
   public send(message: string): boolean {
-    const dto = JSON.parse(message);
+    const dto = JSON.parse(message) as {
+      to: { email: string; lastNotifiedAt: string }[];
+      nodeName: string;
+      property: string;
+      actual: string;
+    };
     let sent = false;
     const apiKey = process.env.SENDGRID_APIKEY;
 
@@ -13,8 +18,15 @@ export class EmailService extends NotificationService {
     }
 
     sgMail.setApiKey(process.env.SENDGRID_APIKEY);
+
+    const users = dto.to.filter(
+      (user) =>
+        DateTime.fromISO(user.lastNotifiedAt).plus({ minute: 5 }) <
+        DateTime.now()
+    );
+
     const msg = {
-      to: dto.to,
+      to: users,
       from: 'noreply@meana.ovh',
       subject: 'MEANA - status of exceeding the allowed thresholds',
       text: `Node: ${dto.nodeName} \r\n Exceed ${dto.property} with value ${dto.actual}`,

@@ -4,6 +4,7 @@ import { CreateNodeDto } from './dto/create-node.dto';
 import { UpdateNodeDto } from './dto/update-node.dto';
 import { NodeEntity } from '../../../../../../libs/shared/Entities/node.entity';
 import { FindOptions } from 'sequelize';
+import { DateTime } from 'luxon';
 
 @Injectable()
 export class NodesService {
@@ -52,5 +53,19 @@ export class NodesService {
     await node.destroy();
 
     return node;
+  }
+
+  async getHealth(uuid: string) {
+    this.nodeModel.removeAttribute('id');
+
+    const node = await this.nodeModel.findOne({
+      where: {
+        uuid: uuid,
+      },
+    });
+
+    return (
+      DateTime.fromISO(node.last_update_at).plus({ minute: 5 }) > DateTime.now()
+    );
   }
 }

@@ -45,7 +45,10 @@ export class ThresholdsService {
         carry.push({
           ...actual,
           nodeName: node.data[0].name,
-          to: users.map((user) => user.email),
+          to: users.map((user) => ({
+            email: user.email,
+            lastNotifiedAt: user.last_notification_at,
+          })),
         });
       }
 

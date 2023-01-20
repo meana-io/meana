@@ -68,4 +68,13 @@ export class NodesController {
   remove(@Param('uuid') uuid: string) {
     return this.nodesService.deleteOne(uuid);
   }
+
+  @Get('/health/:uuid')
+  async health(@Param('uuid') uuid: string) {
+    const health = await this.nodesService.getHealth(uuid);
+
+    return {
+      isWorking: health,
+    };
+  }
 }
