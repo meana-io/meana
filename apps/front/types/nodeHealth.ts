@@ -1,4 +1,3 @@
-export default interface Node {
-  uuid: string;
-  name: string;
+export default interface NodeHealth {
+  isWorking: boolean;
 }

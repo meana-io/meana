@@ -1,4 +1,4 @@
-import NodeHealth from '@/types/node';
+import NodeHealth from '@/types/nodeHealth';
 import { api } from '@/utility/api';
 import { useQuery } from '@tanstack/react-query';
 import { apiRoutes } from 'routes';
