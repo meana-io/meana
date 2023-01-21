@@ -1,26 +1,28 @@
 import { Add as AddIcon } from '@mui/icons-material';
 import {
-  Box,
   Button,
-  Typography,
-  Modal,
   TextField,
-  Grid,
   IconButton,
+  Dialog,
+  DialogTitle,
+  DialogActions,
+  DialogContent,
 } from '@mui/material';
-import { useForm } from 'react-hook-form';
-import { CreateNodeFormData, useCreateNode } from '@/api/nodes';
+import * as yup from 'yup';
+import { useCreateNode } from '@/api/nodes';
 import { useState } from 'react';
+import { Form, Formik } from 'formik';
+
+const validationSchema = yup.object({
+  name: yup.string().required('Node name is required'),
+});
 
 const CreateNewNode: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { mutateAsync, isLoading, data: node } = useCreateNode();
-  const { register, handleSubmit } = useForm();
 
-  const onAdd = async ({ name }: CreateNodeFormData) => {
-    await mutateAsync({
-      name,
-    });
+  const createNode = async (values) => {
+    await mutateAsync(values);
   };
 
   const handleClose = () => {
@@ -37,84 +39,66 @@ const CreateNewNode: React.FC = () => {
       >
         <AddIcon />
       </IconButton>
-      <Modal
+      <Dialog
+        sx={{ width: '700px', maxWidth: '80%', margin: 'auto' }}
         open={isModalOpen}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
       >
-        <Box
-          sx={{
-            position: 'absolute' as const,
-            top: '45%',
-            left: '50%',
-            transform: 'translate(-50%, -50%)',
-            width: 500,
-            bgcolor: 'background.paper',
-            boxShadow: 24,
-            p: 4,
+        <Formik
+          initialValues={{
+            name: '',
           }}
+          validationSchema={validationSchema}
+          onSubmit={createNode}
         >
-          <Typography
-            id="modal-modal-title"
-            variant="h6"
-            component="h2"
-            align="center"
-          >
-            Add Server
-          </Typography>
-          <Box
-            component="form"
-            onSubmit={handleSubmit(onAdd)}
-            noValidate
-            sx={{ mt: 1 }}
-          >
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              {...register('name')}
-              label="Server Name"
-              autoFocus
-            />
-            <Grid>
-              <Grid item>
-                <Button
-                  type="submit"
-                  fullWidth
-                  variant="contained"
-                  disabled={isLoading}
-                  sx={{ mt: 5, mb: 2 }}
-                >
-                  Submit
-                </Button>
-              </Grid>
-              <Grid item>
+          {({ values, touched, errors, handleChange }) => (
+            <Form>
+              <DialogTitle>Add Server</DialogTitle>
+              <DialogContent>
+                <TextField
+                  margin="normal"
+                  required
+                  sx={{ width: '700px', maxWidth: '100%' }}
+                  label="Server Name"
+                  name="name"
+                  onChange={handleChange}
+                  value={values.name}
+                  error={touched.name && Boolean(errors.name)}
+                  autoFocus
+                />
+                {node?.uuid && (
+                  <TextField
+                    margin="normal"
+                    required
+                    fullWidth
+                    label="Node UUID"
+                    value={node.uuid}
+                    autoFocus
+                  />
+                )}
+              </DialogContent>
+              <DialogActions>
                 <Button
                   fullWidth
+                  color="error"
                   variant="contained"
-                  sx={{ mt: 1, mb: 2 }}
                   disabled={isLoading}
                   onClick={handleClose}
                 >
                   Close
                 </Button>
-              </Grid>
-            </Grid>
-          </Box>
-          {node?.uuid && (
-            <Box>
-              <Typography>Node UUID:</Typography>
-              <TextField
-                margin="normal"
-                label="Node UUID"
-                fullWidth
-                value={node.uuid}
-                autoFocus
-              />
-            </Box>
+                <Button
+                  type="submit"
+                  fullWidth
+                  variant="contained"
+                  disabled={isLoading}
+                >
+                  Submit
+                </Button>
+              </DialogActions>
+            </Form>
           )}
-        </Box>
-      </Modal>
+        </Formik>
+      </Dialog>
     </>
   );
 };

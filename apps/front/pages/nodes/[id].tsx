@@ -1,6 +1,6 @@
 import { NextPage } from 'next';
 
-import { Grid, Paper } from '@mui/material';
+import { Card, Grid, Paper } from '@mui/material';
 import {
   NewReleases as NewReleasesIcon,
   Group as GroupIcon,
@@ -43,17 +43,17 @@ const Node: NextPage = () => {
   return (
     <NodesLayout>
       <Grid container spacing={2}>
-        <Grid item xs={11}>
+        <Grid item xs={12}>
+          <Card variant="outlined">
+            <TabsNav tabs={TABS} />
+          </Card>
+        </Grid>
+        <Grid item xs={12}>
           {TABS.map(({ children }, index) => (
             <TabPanel key={index} index={index}>
               {children}
             </TabPanel>
           ))}
-        </Grid>
-        <Grid item xs={1}>
-          <Paper sx={{ height: '100%' }}>
-            <TabsNav tabs={TABS} />
-          </Paper>
         </Grid>
       </Grid>
     </NodesLayout>

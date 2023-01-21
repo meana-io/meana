@@ -1,6 +1,5 @@
 import { useDeleteNode } from '@/api/nodes';
 import {
-  Box,
   Button,
   Dialog,
   DialogActions,
@@ -50,13 +49,13 @@ const DeleteNodeModal: React.FC = () => {
         </DialogContent>
         <DialogActions>
           <Button
-            variant="outlined"
+            variant="contained"
             autoFocus
             onClick={() => setIsModalOpen(false)}
           >
             Leave
           </Button>
-          <Button color="error" variant="outlined" onClick={deleteNode}>
+          <Button variant="contained" color="error" onClick={deleteNode}>
             Delete
           </Button>
         </DialogActions>

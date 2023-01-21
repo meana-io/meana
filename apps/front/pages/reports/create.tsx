@@ -9,7 +9,6 @@ import {
   CardHeader,
   FormControl,
   Grid,
-  IconButton,
   InputLabel,
   MenuItem,
   Select,
@@ -25,6 +24,8 @@ import ReportViewer from 'sections/reports/ReportViewer';
 import NoData from '@/components/NoData/NoData';
 import { useGetNodeDisksAndPartitions } from '@/api/disks';
 import { useEffect, useState } from 'react';
+import useIsMobile from '@/hooks/isMobile';
+import { blueGrey } from '@mui/material/colors';
 
 const validationSchema = Yup.object().shape({
   from: Yup.date().required('From is required'),
@@ -57,14 +58,14 @@ const AGREGATION_PERIOD = [
   { label: 'Every day', value: 60 * 60 * 24 },
 ];
 
-const AGGREGATION_TYPES = ['min', 'max', 'avg', ''];
+const AGGREGATION_TYPES = ['min', 'max', 'avg'];
 interface Property {
   nodeUuid: string;
   diskIdentifier: string;
   property: {
     domain: string;
     propertyName: string;
-    aggregationType: 'min' | 'max' | 'avg' | '';
+    aggregationType: 'min' | 'max' | 'avg';
   };
 }
 
@@ -119,6 +120,7 @@ const initialValues = {
 };
 
 const CreaetReport: NextPage = () => {
+  const isMobile = useIsMobile();
   const [selectedNodeId, setSelectedNodeId] = useState('');
   const { data: nodes, isLoading } = useGetNodesList();
   const { data: reports, mutateAsync } = useCreateNodeReport();
@@ -186,21 +188,12 @@ const CreaetReport: NextPage = () => {
                   {({ push, remove }) => (
                     <Grid container spacing={2}>
                       <Grid item container spacing={2}>
-                        <Grid item>
-                          <Button
-                            variant="contained"
-                            size="large"
-                            startIcon={<AddIcon />}
-                            onClick={() => push(property)}
-                          >
-                            Add Field
-                          </Button>
-                        </Grid>
-                        <Grid item>
+                        <Grid item xs={12} md={4}>
                           <TextField
                             label="From"
                             type="datetime-local"
                             name="from"
+                            fullWidth
                             data-cy="date-from"
                             InputLabelProps={{
                               shrink: true,
@@ -211,11 +204,12 @@ const CreaetReport: NextPage = () => {
                             onBlur={handleBlur}
                           />
                         </Grid>
-                        <Grid item>
+                        <Grid item xs={12} md={4}>
                           <TextField
                             label="To"
                             type="datetime-local"
                             name="to"
+                            fullWidth
                             data-cy="date-to"
                             InputLabelProps={{
                               shrink: true,
@@ -226,7 +220,7 @@ const CreaetReport: NextPage = () => {
                             onBlur={handleBlur}
                           />
                         </Grid>
-                        <Grid item xs={2}>
+                        <Grid item xs={12} md={4}>
                           <FormControl fullWidth>
                             <InputLabel id="agregation-period">
                               Agregation Period
@@ -256,7 +250,7 @@ const CreaetReport: NextPage = () => {
                       {values.properties.map((_, index) => {
                         return (
                           <Grid key={index} item container spacing={2}>
-                            <Grid item xs={3}>
+                            <Grid item xs={12} md={6} lg={3}>
                               <FormControl fullWidth>
                                 <InputLabel id="node-id">Node</InputLabel>
                                 <Select
@@ -290,7 +284,7 @@ const CreaetReport: NextPage = () => {
                               </FormControl>
                             </Grid>
 
-                            <Grid item xs={3}>
+                            <Grid item xs={12} md={6} lg={3}>
                               <FormControl fullWidth>
                                 <InputLabel id="property">Property</InputLabel>
                                 <Select
@@ -342,7 +336,7 @@ const CreaetReport: NextPage = () => {
                               .property.propertyName.includes(
                                 'node_disk_partitions'
                               ) && (
-                              <Grid item xs={3}>
+                              <Grid item xs={12} md={6} lg={2}>
                                 <FormControl fullWidth>
                                   <InputLabel id="partition">
                                     Partition
@@ -383,7 +377,7 @@ const CreaetReport: NextPage = () => {
                               </Grid>
                             )}
 
-                            <Grid item xs={2}>
+                            <Grid item xs={12} md={6} lg={3}>
                               <FormControl fullWidth>
                                 <InputLabel id="aggregation-type">
                                   Aggregation Type
@@ -417,33 +411,61 @@ const CreaetReport: NextPage = () => {
                                 </Select>
                               </FormControl>
                             </Grid>
-                            <Grid item xs={1}>
-                              <IconButton
+                            <Grid item xs={12} md={1} alignItems="center">
+                              <Button
+                                fullWidth
+                                variant="contained"
                                 size="large"
                                 color="error"
                                 onClick={() => remove(index)}
                               >
                                 <CloseIcon />
-                              </IconButton>
+                              </Button>
                             </Grid>
+                            <Box
+                              sx={{
+                                marginLeft: 2,
+                                marginY: 2,
+                                width: '100%',
+                                height: 2,
+                                backgroundColor: blueGrey['100'],
+                              }}
+                            />
                           </Grid>
                         );
                       })}
+
+                      <Grid item xs={12} lg={2}>
+                        <Button
+                          variant="contained"
+                          size="large"
+                          fullWidth
+                          startIcon={<AddIcon />}
+                          onClick={() => push(property)}
+                        >
+                          Add Field
+                        </Button>
+                      </Grid>
                     </Grid>
                   )}
                 </FieldArray>
+                <CardActions>
+                  <Grid container>
+                    <Grid item xs={12} lg={2}>
+                      <Button
+                        fullWidth
+                        type="submit"
+                        color="secondary"
+                        size="large"
+                        variant="contained"
+                        data-cy="run"
+                      >
+                        Run
+                      </Button>
+                    </Grid>
+                  </Grid>
+                </CardActions>
               </CardContent>
-              <CardActions>
-                <Button
-                  type="submit"
-                  color="secondary"
-                  size="large"
-                  variant="contained"
-                  data-cy="run"
-                >
-                  Run
-                </Button>
-              </CardActions>
             </Card>
           </Form>
         )}

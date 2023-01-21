@@ -21,6 +21,7 @@ import 'react-grid-layout/css/styles.css';
 import 'react-resizable/css/styles.css';
 
 import { ToastContainer } from 'react-toastify';
+import DrawerProvider from '@/contexts/drawerContext';
 
 const App = ({ Component, pageProps }: AppProps) => {
   const rotuer = useRouter();
@@ -54,7 +55,9 @@ const App = ({ Component, pageProps }: AppProps) => {
               <StyledChart />
               <AuthProvider>
                 <DashboardProvider>
-                  <Component {...pageProps} />
+                  <DrawerProvider>
+                    <Component {...pageProps} />
+                  </DrawerProvider>
                 </DashboardProvider>
               </AuthProvider>
             </ThemeProvider>
