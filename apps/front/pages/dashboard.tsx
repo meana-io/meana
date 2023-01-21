@@ -5,7 +5,6 @@ import { DASHBOARD_COMPONENTS } from '@/components/Dashboard/componentsList';
 import { deHashParams } from '@/utility/hashParams';
 import useDashboard from '@/hooks/useDashboard';
 import Progress from '@/components/Progress/Progress';
-import NoData from '@/components/NoData/NoData';
 import useMeasure from 'react-use-measure';
 
 const breakpoints = { lg: 1200, md: 996, sm: 768, xs: 480, xxs: 0 };
@@ -22,7 +21,6 @@ const Dashboard: NextPage = () => {
   return (
     <DashboardLayout>
       {isLoading && <Progress />}
-      {!components && <NoData />}
       {components && (
         <div ref={ref}>
           <ResponsiveGridLayout
