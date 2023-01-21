@@ -64,8 +64,6 @@ export class NodesService {
       },
     });
 
-    return (
-      DateTime.fromISO(node.last_update_at).plus({ minute: 5 }) > DateTime.now()
-    );
+    return Date.parse(node.last_update_at) + 60_000 > Date.now();
   }
 }
