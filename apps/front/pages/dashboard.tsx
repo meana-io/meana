@@ -14,7 +14,6 @@ interface DashboardProps {
   };
 }
 
-
 const Dashboard: NextPage<DashboardProps> = ({ size: { width } }) => {
   const { components, isLoading, onLayoutChange } = useDashboard();
   return (
@@ -24,6 +23,7 @@ const Dashboard: NextPage<DashboardProps> = ({ size: { width } }) => {
       {components && (
         <ResponsiveGridLayout
           className="layout"
+          style={{ background: 'green' }}
           layouts={{
             lg: components,
           }}

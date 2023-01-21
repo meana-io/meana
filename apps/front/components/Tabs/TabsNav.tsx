@@ -1,4 +1,4 @@
-import { Tabs, Tab, Tooltip } from '@mui/material';
+import { Tabs, Tab } from '@mui/material';
 
 import useTabs from '@/hooks/useTabs';
 
