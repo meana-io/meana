@@ -180,9 +180,11 @@ const AppNav: React.FC<NavProps> = ({ items }) => {
           </ListSubheader>
         }
       >
-        {items.map(({ title, icon, uuid }) => (
-          <NodeNavItem key={uuid} uuid={uuid} title={title} icon={icon} />
-        ))}
+        {items
+          .sort((a, b) => a.title.localeCompare(b.title))
+          .map(({ title, icon, uuid }) => (
+            <NodeNavItem key={uuid} uuid={uuid} title={title} icon={icon} />
+          ))}
       </List>
       {staticMenu.map(({ header, list, cy }, index) => (
         <List
