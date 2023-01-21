@@ -15,7 +15,12 @@ interface DashboardProps {
 }
 
 const Dashboard: NextPage<DashboardProps> = ({ size: { width } }) => {
-  const { components, isLoading, onLayoutChange } = useDashboard();
+  const { components, isLoading, onLayoutChange, refetch } = useDashboard();
+
+  if (!components || components?.length === 0) {
+    refetch();
+  };
+
   return (
     <DashboardLayout>
       {isLoading && <Progress />}
