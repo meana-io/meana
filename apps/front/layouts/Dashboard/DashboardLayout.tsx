@@ -31,7 +31,7 @@ const DashboardLayout: React.FC<DashboardProps> = ({ children }) => {
     <StyledRoot>
       <AppTopBar />
       <Nav items={navItems} />
-      <Main maxWidth="xl" sx={{ background: 'red' }}>
+      <Main maxWidth="xl">
         <Toolbar />
         {children}
       </Main>
