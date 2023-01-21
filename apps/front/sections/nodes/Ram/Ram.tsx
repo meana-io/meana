@@ -43,7 +43,7 @@ const Ram: React.FC = () => {
   return (
     <Grid container spacing={2} direction="column">
       <Grid item xs={12} md={6}>
-        {ram ? (
+        {Array.isArray(ram) && ram.length > 0 ? (
           <RamUsageChart
             title="Ram usage"
             chartLabels={getRamLabels(ram)}
