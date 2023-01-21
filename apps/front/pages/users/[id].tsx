@@ -85,7 +85,7 @@ const UpdateUser: NextPage = () => {
               <CardHeader title="Edit User" />
               <CardContent>
                 <Grid container spacing={2}>
-                  <Grid item sm={12} md={6}>
+                  <Grid item xs={12} md={6}>
                     <TextField
                       fullWidth
                       id="firstName"
@@ -97,7 +97,7 @@ const UpdateUser: NextPage = () => {
                       helperText={touched.firstName && errors.firstName}
                     />
                   </Grid>
-                  <Grid item sm={12} md={6}>
+                  <Grid item xs={12} md={6}>
                     <TextField
                       fullWidth
                       id="lastName"
@@ -109,7 +109,7 @@ const UpdateUser: NextPage = () => {
                       helperText={touched.lastName && errors.lastName}
                     />
                   </Grid>
-                  <Grid item sm={12} md={6}>
+                  <Grid item xs={12} md={6}>
                     <TextField
                       fullWidth
                       id="login"
@@ -121,7 +121,7 @@ const UpdateUser: NextPage = () => {
                       helperText={touched.login && errors.login}
                     />
                   </Grid>
-                  <Grid item sm={12} md={6}>
+                  <Grid item xs={12} md={6}>
                     <TextField
                       fullWidth
                       id="password"
@@ -134,7 +134,7 @@ const UpdateUser: NextPage = () => {
                       helperText={touched.password && errors.password}
                     />
                   </Grid>
-                  <Grid item sm={12} md={12}>
+                  <Grid item xs={12} md={12}>
                     <TextField
                       fullWidth
                       id="email"

@@ -39,7 +39,7 @@ const Logs: React.FC = () => {
       <CardContent>
         <Grid container spacing={2}>
           <Grid item xs={12} container spacing={2}>
-            <Grid item xs={4}>
+            <Grid item xs={12}>
               <FormControl fullWidth>
                 <InputLabel id="log-file-name">Logs File</InputLabel>
                 <Select

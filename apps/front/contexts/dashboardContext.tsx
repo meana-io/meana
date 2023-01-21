@@ -17,6 +17,7 @@ interface DashboardContextProps {
   addToDashboard: (hash: string) => void;
   removeFormDashboard: (hash: string) => void;
   onLayoutChange: (Layout) => void;
+  refetch;
 }
 
 export const DashboardContext = createContext<
@@ -42,9 +43,12 @@ const DashboardProvider: React.FC<DashboardProviderProps> = ({ children }) => {
   const { user } = useAuth();
 
   const [count, setCount] = useState(0);
-  const { data: dashboardSettings, isLoading } = useGetDashboard(user?.sub, {
+  const {
+    data: dashboardSettings,
+    isLoading,
+    refetch,
+  } = useGetDashboard(user?.sub, {
     enabled: !!user?.sub,
-    retryDelay: 100,
   });
 
   const { mutateAsync } = useUpdateDashboard(user?.sub);
@@ -98,6 +102,7 @@ const DashboardProvider: React.FC<DashboardProviderProps> = ({ children }) => {
     components,
     addToDashboard,
     removeFormDashboard,
+    refetch,
   };
 
   return (

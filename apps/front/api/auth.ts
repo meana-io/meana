@@ -42,7 +42,6 @@ export const useLogin = (onSuccess: onSuccessFn) => {
 
 export interface UserNotificationsSettings {
   email_notifications: boolean;
-  push_notifications: boolean;
 }
 
 export const useUpdateUserNotificationsSettings = () => {

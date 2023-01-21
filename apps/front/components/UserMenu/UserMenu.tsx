@@ -13,7 +13,6 @@ import {
 import {
   AccountCircle as AccountCircleIcon,
   Email as EmailIcon,
-  Smartphone as SmartphoneIcon,
 } from '@mui/icons-material';
 import { Form, Formik } from 'formik';
 
@@ -92,7 +91,6 @@ const UserMenu: React.FC = () => {
         <Formik
           initialValues={{
             email_notifications: !!settings?.email_notifications,
-            push_notifications: !!settings?.push_notifications,
           }}
           onSubmit={updateUserSettings}
         >
@@ -111,21 +109,6 @@ const UserMenu: React.FC = () => {
                     edge="end"
                     name="email_notifications"
                     checked={values.email_notifications}
-                    onChange={(e) => {
-                      handleChange(e);
-                      submitForm();
-                    }}
-                  />
-                </ListItem>
-                <ListItem>
-                  <ListItemIcon>
-                    <SmartphoneIcon />
-                  </ListItemIcon>
-                  <ListItemText primary="Push" />
-                  <Switch
-                    edge="end"
-                    name="push_notifications"
-                    checked={values.push_notifications}
                     onChange={(e) => {
                       handleChange(e);
                       submitForm();

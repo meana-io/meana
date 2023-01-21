@@ -31,7 +31,8 @@ const Login: NextPage = () => {
   return (
     <Box
       sx={{
-        marginTop: 8,
+        marginTop: 12,
+        marginX: 2,
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
@@ -51,7 +52,7 @@ const Login: NextPage = () => {
               <CardHeader title="Sgin in" />
               <CardContent>
                 <Grid container spacing={2}>
-                  <Grid item sm={12}>
+                  <Grid item xs={12}>
                     <TextField
                       fullWidth
                       id="login"
@@ -63,7 +64,7 @@ const Login: NextPage = () => {
                       helperText={(touched.login && errors.login) as string}
                     />
                   </Grid>
-                  <Grid item sm={12}>
+                  <Grid item xs={12}>
                     <TextField
                       fullWidth
                       id="password"
@@ -81,6 +82,7 @@ const Login: NextPage = () => {
                 </Grid>
                 <CardActions>
                   <Button
+                    sx={{ marginTop: 2 }}
                     fullWidth
                     size="large"
                     variant="contained"

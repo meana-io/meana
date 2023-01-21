@@ -18,6 +18,7 @@ import PriorityHighIcon from '@mui/icons-material/PriorityHigh';
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
 import { useGetHealthCheck } from '@/api/healthCheck';
 import CreateNewNode from '../CreateNewNode/CreateNewNode';
+import useDrawer from '@/hooks/useDrawer';
 
 const StyledNavItem = styled((props: ListItemButtonProps) => (
   <ListItemButton disableGutters {...props} />
@@ -143,17 +144,20 @@ const staticMenu = [
 ];
 
 const AppNav: React.FC<NavProps> = ({ items }) => {
+  const { variant, isOpen } = useDrawer();
+
   return (
     <Drawer
-      variant="permanent"
+      variant={variant}
       sx={{
         width: NAV_WIDTH,
       }}
+      open={isOpen}
       PaperProps={{
         sx: {
           width: NAV_WIDTH,
           bgcolor: 'background.default',
-          borderRightStyle: 'dashed',
+          borderRight: '1px dashed rgba(145, 158, 171, 0.24)',
         },
       }}
     >

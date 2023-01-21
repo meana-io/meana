@@ -22,14 +22,9 @@ const TabsNav: React.FC<TabsNavProps> = ({ tabs }) => {
   const { activeTab, onChangeActiveTab } = useTabs();
 
   return (
-    <Tabs
-      orientation="vertical"
-      variant="scrollable"
-      value={activeTab}
-      onChange={onChangeActiveTab}
-    >
+    <Tabs variant="scrollable" value={activeTab} onChange={onChangeActiveTab}>
       {tabs.map(({ label, icon }, index) => (
-        <Tab key={index} aria-label={label} icon={icon} {...a11yProps(index)} />
+        <Tab key={index} label={label} icon={icon} {...a11yProps(index)} />
       ))}
     </Tabs>
   );

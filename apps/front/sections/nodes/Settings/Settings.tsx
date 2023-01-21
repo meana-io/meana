@@ -92,12 +92,12 @@ const Settings: NextPage = () => {
                           />
                         </Grid>
                       </Grid>
+                      <StyledCardActions>
+                        <Button type="submit" variant="contained">
+                          Save
+                        </Button>
+                      </StyledCardActions>
                     </CardContent>
-                    <StyledCardActions>
-                      <Button type="submit" size="large" variant="contained">
-                        Save
-                      </Button>
-                    </StyledCardActions>
                   </Card>
                 </Grid>
                 <Grid item xs={12} md={6}>
@@ -119,12 +119,12 @@ const Settings: NextPage = () => {
                           />
                         </Grid>
                       </Grid>
+                      <StyledCardActions>
+                        <Button type="submit" variant="contained">
+                          Save
+                        </Button>
+                      </StyledCardActions>
                     </CardContent>
-                    <StyledCardActions>
-                      <Button type="submit" size="large" variant="contained">
-                        Save
-                      </Button>
-                    </StyledCardActions>
                   </Card>
                 </Grid>
               </Grid>
@@ -146,7 +146,7 @@ const Settings: NextPage = () => {
                 <CardHeader title="Edit Node" />
                 <CardContent>
                   <Grid container spacing={2}>
-                    <Grid item sm={12}>
+                    <Grid item xs={12}>
                       <TextField
                         fullWidth
                         id="node-name"
@@ -157,7 +157,7 @@ const Settings: NextPage = () => {
                         error={touched.name && Boolean(errors.name)}
                       />
                     </Grid>
-                    <Grid item sm={12}>
+                    <Grid item xs={12}>
                       <TextField
                         disabled
                         fullWidth
