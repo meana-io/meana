@@ -22,7 +22,9 @@ export const useGetDashboard = (userId: UserId, options?) => {
         .get<DashboardSettings>(`${apiRoutes.dashboard}/${userId}`)
         .then((response) => ({
           ...response,
-          value: JSON.parse(response.value ?? '[]'),
+          value: JSON.parse(
+            response.value ?? '{"components": [], "layouts": {}}'
+          ),
         })),
     options
   );

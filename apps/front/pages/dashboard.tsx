@@ -8,13 +8,17 @@ import Progress from '@/components/Progress/Progress';
 import NoData from '@/components/NoData/NoData';
 import useMeasure from 'react-use-measure';
 
+const breakpoints = { lg: 1200, md: 996, sm: 768, xs: 480, xxs: 0 };
+
 const Dashboard: NextPage = () => {
-  const { components, isLoading, onLayoutChange, refetch } = useDashboard();
+  const { components, layouts, isLoading, onLayoutChange, refetch } =
+    useDashboard();
   const [ref, bounds] = useMeasure();
 
   if (!components || components?.length === 0) {
     refetch();
   }
+
   return (
     <DashboardLayout>
       {isLoading && <Progress />}
@@ -23,26 +27,24 @@ const Dashboard: NextPage = () => {
         <div ref={ref}>
           <ResponsiveGridLayout
             className="layout"
-            layouts={{
-              lg: components,
-            }}
-            breakpoints={{ lg: 1200, md: 996, sm: 768, xs: 480, xxs: 0 }}
+            layouts={layouts}
+            breakpoints={breakpoints}
             cols={{ lg: 12, md: 10, sm: 6, xs: 4, xxs: 2 }}
             rowHeight={60}
             width={bounds.width}
             onLayoutChange={onLayoutChange}
           >
-            {components?.map(({ i }) => {
-              const [componentName] = deHashParams(i);
+            {components?.map((hash) => {
+              const [componentName] = deHashParams(hash);
               if (DASHBOARD_COMPONENTS[componentName]) {
                 const Comp = DASHBOARD_COMPONENTS[componentName];
                 return (
                   <div
-                    key={i}
+                    key={hash}
                     className="widget"
                     data-grid={{ w: 3, h: 2, x: 0, y: Infinity }}
                   >
-                    <Comp hash={i} />
+                    <Comp hash={hash} />
                   </div>
                 );
               }

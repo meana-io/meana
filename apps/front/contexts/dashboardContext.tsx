@@ -10,14 +10,23 @@ interface Layout {
   i: string;
 }
 
+interface ScreenSizes {
+  lg?: Layout[];
+  md?: Layout[];
+  sm?: Layout[];
+  xs?: Layout[];
+  xxs?: Layout[];
+}
+
 interface DashboardContextProps {
   isActive: (hash: string) => boolean;
-  components: Layout[];
+  components: string[];
   isLoading: boolean;
   addToDashboard: (hash: string) => void;
   removeFormDashboard: (hash: string) => void;
-  onLayoutChange: (Layout) => void;
+  onLayoutChange: (layout: Layout[], layouts: ScreenSizes[]) => void;
   refetch;
+  layouts: ScreenSizes;
 }
 
 export const DashboardContext = createContext<
@@ -28,18 +37,28 @@ interface DashboardProviderProps {
   children: React.ReactNode;
 }
 
-const getLayout = (layout: Layout[]) => {
-  return layout.map(({ x, y, w, h, i }) => ({
-    x,
-    y,
-    w,
-    h,
-    i,
-  }));
+const getLayout = (layout: ScreenSizes) => {
+  return Object.entries(layout).reduce((l, [size, components]) => {
+    return {
+      ...l,
+      [size]: components?.map(({ x, y, w, h, i }) => ({
+        x,
+        y,
+        w,
+        h,
+        i,
+      })),
+    };
+  }, {});
+};
+
+const getComponents = (components: Layout[]) => {
+  return components?.map(({ i }) => i);
 };
 
 const DashboardProvider: React.FC<DashboardProviderProps> = ({ children }) => {
-  const [components, setComponents] = useState<Layout[]>([]);
+  const [components, setComponents] = useState<string[]>([]);
+  const [_layouts, _setLayouts] = useState<ScreenSizes>({});
   const { user } = useAuth();
 
   const [count, setCount] = useState(0);
@@ -54,44 +73,45 @@ const DashboardProvider: React.FC<DashboardProviderProps> = ({ children }) => {
   const { mutateAsync } = useUpdateDashboard(user?.sub);
 
   useEffect(() => {
-    setComponents(dashboardSettings?.value);
+    setComponents(dashboardSettings?.value?.components);
+    _setLayouts(dashboardSettings?.value?.layouts);
   }, [dashboardSettings?.value, isLoading]);
 
-  const onLayoutChange = (layout) => {
+  const onLayoutChange = (layout, layouts) => {
     if (count > 0) {
       mutateAsync({
         ...dashboardSettings,
-        value: JSON.stringify(getLayout(layout)),
+        value: JSON.stringify({
+          layouts: getLayout(layouts),
+          components: getComponents(layout),
+        }),
       });
     }
     setCount(1);
   };
 
   const addToDashboard = (hash) => {
+    const payload = {
+      layouts: _layouts,
+      components: [...components, hash],
+    };
     mutateAsync({
       ...dashboardSettings,
-      value: JSON.stringify([
-        ...components,
-        {
-          x: 0,
-          y: Infinity,
-          w: 3,
-          h: 3,
-          i: hash,
-        },
-      ]),
+      value: JSON.stringify(payload),
     });
   };
 
   const isActive = (hash: string) => {
-    return components?.map(({ i }) => i).includes(hash);
+    return components?.includes(hash);
   };
 
   const removeFormDashboard = (hashToRemove) => {
-    const newComponents = components.filter(({ i }) => i !== hashToRemove);
+    const newComponents = components?.filter((hash) => hash !== hashToRemove);
     mutateAsync({
       ...dashboardSettings,
-      value: JSON.stringify(newComponents),
+      value: JSON.stringify({
+        components: newComponents,
+      }),
     });
   };
 
@@ -103,6 +123,7 @@ const DashboardProvider: React.FC<DashboardProviderProps> = ({ children }) => {
     addToDashboard,
     removeFormDashboard,
     refetch,
+    layouts: _layouts,
   };
 
   return (
