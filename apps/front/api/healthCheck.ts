@@ -1,4 +1,4 @@
-import NodeDevice from '@/types/nodeDevice';
+import NodeHealth from '@/types/nodeHealth';
 import { api } from '@/utility/api';
 import { useQuery } from '@tanstack/react-query';
 import { apiRoutes } from 'routes';
@@ -9,17 +9,10 @@ export enum HEALTH_CHECK {
 
 type NodeId = string;
 
-export enum DEVICES {
-  GET_DEVICES = 'GET_DEVICES',
-}
-
 export const useGetHealthCheck = (nodeId: NodeId, options?) => {
   return useQuery(
     [HEALTH_CHECK.HEALTH_CHECK, nodeId],
-    () =>
-      api.get<NodeDevice[] | string>(
-        `${apiRoutes.getLatestNodeDevices}/${nodeId}/get-latest`
-      ),
+    () => api.get<NodeHealth>(`${apiRoutes.nodeHealth}/${nodeId}`),
     options
   );
 };

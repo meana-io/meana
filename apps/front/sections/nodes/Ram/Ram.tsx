@@ -40,28 +40,28 @@ const Ram: React.FC = () => {
     return <Progress />;
   }
 
-  if (!ram || !ramStick) {
-    return <NoData />;
-  }
-
   return (
     <Grid container spacing={2} direction="column">
       <Grid item xs={12} md={6}>
-        <RamUsageChart
-          title="Ram usage"
-          chartLabels={getRamLabels(ram)}
-          chartData={[
-            {
-              name: 'Usage',
-              type: 'area',
-              fill: 'gradient',
-              data: getRamUsage(ram),
-            },
-          ]}
-        />
+        {Array.isArray(ram) && ram.length > 0 ? (
+          <RamUsageChart
+            title="Ram usage"
+            chartLabels={getRamLabels(ram)}
+            chartData={[
+              {
+                name: 'Usage',
+                type: 'area',
+                fill: 'gradient',
+                data: getRamUsage(ram),
+              },
+            ]}
+          />
+        ) : (
+          <NoData />
+        )}
       </Grid>
       <Grid item xs={12} md={6}>
-        <RamStickDetails ramStick={ramStick.at(-1)} />
+        {ramStick ? <RamStickDetails ramStick={ramStick.at(-1)} /> : <NoData />}
       </Grid>
     </Grid>
   );
