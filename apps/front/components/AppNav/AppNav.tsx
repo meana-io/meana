@@ -1,3 +1,4 @@
+import { ClickAwayListener } from '@mui/base';
 import { styled } from '@mui/material/styles';
 import {
   ListItemIcon,
@@ -144,11 +145,12 @@ const staticMenu = [
 ];
 
 const AppNav: React.FC<NavProps> = ({ items }) => {
-  const { variant, isOpen } = useDrawer();
+  const { variant, isOpen, toggleDrawer } = useDrawer();
 
   return (
     <Drawer
       variant={variant}
+      onClose={toggleDrawer}
       sx={{
         width: NAV_WIDTH,
       }}
@@ -162,7 +164,7 @@ const AppNav: React.FC<NavProps> = ({ items }) => {
       }}
     >
       <Toolbar />
-      <List disablePadding sx={{ p: 1 }}>
+      <List disablePadding sx={{ p: 1 }} onClick={toggleDrawer}>
         <NavItem href={pageRoutes.dashboard} title="Dashboard" />
       </List>
       <List
@@ -184,11 +186,13 @@ const AppNav: React.FC<NavProps> = ({ items }) => {
           </ListSubheader>
         }
       >
-        {items
-          .sort((a, b) => a.title.localeCompare(b.title))
-          .map(({ title, icon, uuid }) => (
-            <NodeNavItem key={uuid} uuid={uuid} title={title} icon={icon} />
-          ))}
+        <div onClick={toggleDrawer}>
+          {items
+            .sort((a, b) => a.title.localeCompare(b.title))
+            .map(({ title, icon, uuid }) => (
+              <NodeNavItem key={uuid} uuid={uuid} title={title} icon={icon} />
+            ))}
+        </div>
       </List>
       {staticMenu.map(({ header, list, cy }, index) => (
         <List
@@ -207,9 +211,11 @@ const AppNav: React.FC<NavProps> = ({ items }) => {
             </ListSubheader>
           }
         >
-          {list.map(({ title, href }) => (
-            <NavItem key={href} href={href} title={title} />
-          ))}
+          <div onClick={toggleDrawer}>
+            {list.map(({ title, href }) => (
+              <NavItem key={href} href={href} title={title} />
+            ))}
+          </div>
         </List>
       ))}
     </Drawer>
