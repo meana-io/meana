@@ -4,15 +4,24 @@ import { CreateNodeDto } from './dto/create-node.dto';
 import { UpdateNodeDto } from './dto/update-node.dto';
 import { NodeEntity } from '../../../../../../libs/shared/Entities/node.entity';
 import { FindOptions } from 'sequelize';
-import { DateTime } from 'luxon';
+import { NodeThresholdEntity } from '../../../../../../libs/shared/Entities/node-threshold.entity';
 
 @Injectable()
 export class NodesService {
-  constructor(@InjectModel(NodeEntity) private nodeModel: typeof NodeEntity) {}
+  constructor(
+    @InjectModel(NodeEntity) private nodeModel: typeof NodeEntity,
+    @InjectModel(NodeThresholdEntity)
+    private nodeThresholdModel: typeof NodeThresholdEntity
+  ) {}
   async create(createNodeDto: CreateNodeDto) {
     this.nodeModel.removeAttribute('id');
+    this.nodeThresholdModel.removeAttribute('id');
 
-    return await this.nodeModel.create({ ...createNodeDto });
+    const node = await this.nodeModel.create({ ...createNodeDto });
+
+    await this.nodeThresholdModel.create({ nodeUuid: node.uuid });
+
+    return node;
   }
 
   async findAll(findOptions: FindOptions) {
