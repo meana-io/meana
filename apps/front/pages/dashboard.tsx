@@ -6,6 +6,7 @@ import { deHashParams } from '@/utility/hashParams';
 import useDashboard from '@/hooks/useDashboard';
 import Progress from '@/components/Progress/Progress';
 import useMeasure from 'react-use-measure';
+import { useEffect } from 'react';
 
 const breakpoints = { lg: 1200, md: 996, sm: 768, xs: 480, xxs: 0 };
 
@@ -14,9 +15,9 @@ const Dashboard: NextPage = () => {
     useDashboard();
   const [ref, bounds] = useMeasure();
 
-  if (!components || components?.length === 0) {
+  useEffect(() => {
     refetch();
-  }
+  }, []);
 
   return (
     <DashboardLayout>
