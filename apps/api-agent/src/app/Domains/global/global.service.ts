@@ -44,6 +44,13 @@ export class GlobalService {
   async insert(createGlobalDto: CreateGlobalDto) {
     GlobalService.saveLog(createGlobalDto);
 
+    const cpu = {
+      ...createGlobalDto.cpu,
+      characteristics: createGlobalDto.cpu.characteristics.substring(0, 255),
+    };
+
+    createGlobalDto = { ...createGlobalDto, cpu };
+
     const detailedDto = {
       nodeUuid: createGlobalDto.nodeUuid,
       cpu: createGlobalDto.cpu,
