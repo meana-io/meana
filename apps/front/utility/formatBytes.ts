@@ -24,6 +24,10 @@ export const formatBytesGetName = (bytes: number): string => {
 
 
 export const toFormatBytesInNumber = (value: string) => {
+  if (!value.match(/^[0-9]+$/m)) {
+    return value;
+  }
+
   const parsed = parseInt(value, 10);
   return Number.isInteger(parsed) ? formatBytes(parsed) : value;
 };

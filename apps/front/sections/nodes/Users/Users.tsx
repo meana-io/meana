@@ -35,8 +35,6 @@ const UsersList: React.FC = () => {
     return <NoData />;
   }
 
-  console.log({ data });
-
   return (
     <Card variant="outlined">
       <CardHeader title="Users List" />
