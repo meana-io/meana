@@ -42,7 +42,7 @@ export class ThresholdsService {
       const userUuid = user.uuid;
       try {
         await axios.patch(`http://meana_api:3333/api/users/${userUuid}`, {
-          last_notification_at: Date.now().toLocaleString(),
+          last_notification_at: new Date().toISOString(),
         });
       } catch (e) {
         console.log(e);
