@@ -40,9 +40,13 @@ export class ThresholdsService {
 
     for (const user of users) {
       const userUuid = user.uuid;
-      await axios.patch(`http://meana_api:3333/users/${userUuid}`, {
-        last_notification_at: Date.now().toLocaleString(),
-      });
+      try {
+        await axios.patch(`http://meana_api:3333/api/users/${userUuid}`, {
+          last_notification_at: Date.now().toLocaleString(),
+        });
+      } catch (e) {
+        console.log(e);
+      }
     }
 
     // await axios.patch('http://meana_api:3333/api/users');
