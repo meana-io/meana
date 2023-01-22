@@ -35,7 +35,7 @@ export class ThresholdsService {
 
     users = users.filter(
       (user: User) =>
-        Date.parse(user.last_notification_at) + 60_000 < Date.now()
+        Date.parse(user.last_notification_at) + 900_000 < Date.now()
     );
 
     for (const user of users) {
