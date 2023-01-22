@@ -15,7 +15,7 @@ export class EmailService extends NotificationService {
 
     console.log(dto);
 
-    if (dto.to.lenght > 0) {
+    if (dto.to) {
       console.log(dto.to);
 
       const msg = {
