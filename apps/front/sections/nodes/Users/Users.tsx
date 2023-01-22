@@ -18,7 +18,7 @@ const UsersList: React.FC = () => {
       minWidth: 600,
       renderCell: (cellValues) => {
         const { groups } = cellValues.row;
-        return groups.map((groupName) => (
+        return groups?.map((groupName) => (
           <Box key={groupName} mr={2}>
             <Chip label={groupName} />
           </Box>
@@ -34,6 +34,8 @@ const UsersList: React.FC = () => {
   if (!data) {
     return <NoData />;
   }
+
+  console.log({ data });
 
   return (
     <Card variant="outlined">
