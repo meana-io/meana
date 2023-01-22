@@ -40,8 +40,8 @@ const Login: NextPage = () => {
     >
       <Formik
         initialValues={{
-          login: 'admin',
-          password: 'adminadmin',
+          login: '',
+          password: '',
         }}
         validationSchema={validationSchema}
         onSubmit={onLogin}
