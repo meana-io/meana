@@ -14,6 +14,8 @@ const RamStickkDetails: React.FC<RamStickkDetailsProps> = ({ ramSticks }) => {
   const router = useRouter();
   const nodeId = router.query.id as string;
 
+  ramSticks?.sort((a, b) => a?.locator?.localeCompare(b?.locator));
+
   return (
     <Grid container spacing={2}>
       {ramSticks?.map((ramStick, index) => (
