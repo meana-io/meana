@@ -38,6 +38,15 @@ export class ThresholdsService {
         Date.parse(user.last_notification_at) + 60_000 < Date.now()
     );
 
+    for (const user of users) {
+      const userUuid = user.uuid;
+      await axios.patch(`http://meana_api:3333/users/${userUuid}`, {
+        last_notification_at: Date.now().toLocaleString(),
+      });
+    }
+
+    // await axios.patch('http://meana_api:3333/api/users');
+
     const checkList = [
       ThresholdsService.cpuMinOver(thresholds[0].cpuMin, dto.cpu),
       ThresholdsService.cpuMaxOver(thresholds[0].cpuMax, dto.cpu),
