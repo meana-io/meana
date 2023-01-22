@@ -31,7 +31,12 @@ export class ThresholdsService {
       'http://meana_api:3333/api/users?filter[email_notifications]=true'
     );
 
-    const users = usersReqeust.data;
+    let users = usersReqeust.data;
+
+    users = users.filter(
+      (user: User) =>
+        Date.parse(user.last_notification_at) + 60_000 < Date.now()
+    );
 
     const checkList = [
       ThresholdsService.cpuMinOver(thresholds[0].cpuMin, dto.cpu),

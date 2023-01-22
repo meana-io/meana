@@ -1,9 +1,4 @@
-import {
-  MiddlewareConsumer,
-  Module,
-  NestModule,
-  RequestMethod,
-} from '@nestjs/common';
+import { Module } from '@nestjs/common';
 
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -23,10 +18,6 @@ import { NodePackageEntity } from '../../../../libs/shared/Entities/node-package
 import { NodeDeviceEntity } from '../../../../libs/shared/Entities/node-device.entity';
 import { NodeRamStickEntity } from '../../../../libs/shared/Entities/node-ram-stick.entity';
 import { NodeNetworkCardEntity } from '../../../../libs/shared/Entities/node-network-card.entity';
-import {
-  JsonBodyParserMiddleware,
-  UrlEncodedParserMiddleware,
-} from './middlewares/middleware';
 
 /* eslint-enable @nrwl/nx/enforce-module-boundaries */
 
@@ -59,13 +50,4 @@ import {
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule implements NestModule {
-  configure(middlewareConsumer: MiddlewareConsumer): void {
-    middlewareConsumer
-      .apply(JsonBodyParserMiddleware, UrlEncodedParserMiddleware)
-      .forRoutes({
-        path: '*',
-        method: RequestMethod.ALL,
-      });
-  }
-}
+export class AppModule {}
