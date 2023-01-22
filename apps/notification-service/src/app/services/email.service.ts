@@ -13,7 +13,7 @@ export class EmailService extends NotificationService {
 
     sgMail.setApiKey(process.env.SENDGRID_APIKEY);
 
-    if (dto.to) {
+    if (dto.to.lenght > 0) {
       console.log(dto.to);
 
       const msg = {
