@@ -37,23 +37,27 @@ const getProps = (domain, propertyName) => {
   return { yFormatter: formatBytes };
 };
 
+
 const ReportViewer: React.FC<ReportViewerProps> = ({ reports }) => {
   const { data: nodes } = useGetNodesList();
   const downloadAsPDF = () => {
-    const container = document.getElementById('pdf');
-    html2canvas(container).then((canvas) => {
+    const element = document.getElementById('pdf');
+    html2canvas(element).then((canvas) => {
       const img = canvas.toDataURL('image/png');
-      const pdf = new jsPDF();
-      pdf.addImage(img, 'JPEG', 0, 0, 210, 210);
-      pdf.save(`${new Date().getTime()}.pdf`);
+      const doc = new jsPDF({
+        unit: 'pt',
+        format: [canvas.width, canvas.height],
+      });
+      doc.addImage(img, 'JPEG', 0, 0, canvas.width, canvas.height);
+      doc.save(`${new Date().getTime()}.pdf`);
     });
   };
   return (
-    <Card variant="outlined" id="pdf">
+    <Card variant="outlined">
       <CardHeader
         action={<Button onClick={downloadAsPDF}>Download as PDF</Button>}
       />
-      <CardContent>
+      <CardContent id="pdf">
         <Grid container spacing={2}>
           {reports.map(({ property, result, nodeUuid }, index) => {
             result.sort(
