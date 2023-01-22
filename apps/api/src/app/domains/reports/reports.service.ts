@@ -68,7 +68,7 @@ export class ReportsService {
     from: string,
     to: string
   ): string {
-    return `SELECT time_bucket(make_interval(secs := ${aggregationPeriod}), "${property.domain}"."time") AS AGGREGATION_PERIOD, ${property.aggregationType}("${property.domain}"."${property.propertyName}"::decimal) FROM "${property.domain}" WHERE "${property.domain}"."time" >= '${from}'::date AND "${property.domain}"."time" <= '${to}'::date AND "${property.domain}"."nodeId" = '${nodeUuid}' GROUP BY AGGREGATION_PERIOD`;
+    return `SELECT time_bucket(make_interval(secs := ${aggregationPeriod}), "${property.domain}"."time") AS AGGREGATION_PERIOD, ${property.aggregationType}("${property.domain}"."${property.propertyName}"::decimal) FROM "${property.domain}" WHERE "${property.domain}"."time" >= '${from}'::TIMESTAMP WITH TIME ZONE AND "${property.domain}"."time" <= '${to}'::TIMESTAMP WITH TIME ZONE AND "${property.domain}"."nodeId" = '${nodeUuid}' GROUP BY AGGREGATION_PERIOD`;
   }
 
   private static getPartitionQuery(
@@ -79,6 +79,6 @@ export class ReportsService {
     from: string,
     to: string
   ): string {
-    return `SELECT time_bucket(make_interval(secs := ${aggregationPeriod}), "${property.domain}"."time") AS AGGREGATION_PERIOD, ${property.aggregationType}("${property.domain}"."${property.propertyName}"::decimal) FROM "${property.domain}" WHERE "${property.domain}"."time" >= '${from}'::date AND "${property.domain}"."time" <= '${to}'::date AND "${property.domain}"."diskIdentifier" = '${diskIdentifier}' AND "${property.domain}"."path" = '${path}' GROUP BY AGGREGATION_PERIOD`;
+    return `SELECT time_bucket(make_interval(secs := ${aggregationPeriod}), "${property.domain}"."time") AS AGGREGATION_PERIOD, ${property.aggregationType}("${property.domain}"."${property.propertyName}"::decimal) FROM "${property.domain}" WHERE "${property.domain}"."time" >= '${from}'::TIMESTAMP WITH TIME ZONE AND "${property.domain}"."time" <= '${to}'::TIMESTAMP WITH TIME ZONE AND "${property.domain}"."diskIdentifier" = '${diskIdentifier}' AND "${property.domain}"."path" = '${path}' GROUP BY AGGREGATION_PERIOD`;
   }
 }
