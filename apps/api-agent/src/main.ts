@@ -15,8 +15,6 @@ async function bootstrap() {
   app.setGlobalPrefix(globalPrefix);
   const port = process.env.PORT || 3334;
   await app.listen(port);
-  await app.use(bodyParser.json({ limit: '50mb' }));
-  await app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
   Logger.log(
     `🚀 Application is running on: http://localhost:${port}/${globalPrefix}`
   );
