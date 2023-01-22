@@ -28,7 +28,7 @@ const Ram: React.FC = () => {
     }
   );
 
-  const { data: ramStick, isLoading: isLoadingRamStick } = useGetNodeRamStick(
+  const { data: ramSticks, isLoading: isLoadingRamSticks } = useGetNodeRamStick(
     nodeId,
     {},
     {
@@ -36,7 +36,7 @@ const Ram: React.FC = () => {
     }
   );
 
-  if (isLoading || isLoadingRamStick) {
+  if (isLoading || isLoadingRamSticks) {
     return <Progress />;
   }
 
@@ -61,7 +61,11 @@ const Ram: React.FC = () => {
         )}
       </Grid>
       <Grid item xs={12} md={6}>
-        {ramStick ? <RamStickDetails ramStick={ramStick.at(-1)} /> : <NoData />}
+        {ramSticks && Array.isArray(ramSticks) ? (
+          <RamStickDetails ramSticks={ramSticks} />
+        ) : (
+          <NoData />
+        )}
       </Grid>
     </Grid>
   );

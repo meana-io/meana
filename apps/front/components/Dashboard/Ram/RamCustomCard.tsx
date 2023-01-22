@@ -1,5 +1,5 @@
 import { useGetNode } from '@/api/nodes';
-import { useGetNodeRam } from '@/api/ram';
+import { useGetNodeRamStick } from '@/api/ram';
 import DashboardCard from '@/components/CustomCard/DashboardCard';
 import Progress from '@/components/Progress/Progress';
 import { deHashParams } from '@/utility/hashParams';
@@ -9,20 +9,21 @@ interface RamCustomCardProps {
 }
 
 const RamCustomCard: React.FC<RamCustomCardProps> = ({ hash }) => {
-  const [_, query, title, key] = deHashParams(hash);
-  const { data, isLoading } = useGetNodeRam(query, {
-    limit: 1,
-  });
+  const [_, query, ramLocator, title, key] = deHashParams(hash);
+  const { data: ramSticks, isLoading: isLoadingRamSticks } =
+    useGetNodeRamStick(query);
 
   const { data: node, isLoading: isLoadingNodeName } = useGetNode(query);
 
-  if (isLoading || isLoadingNodeName) {
+  if (isLoadingRamSticks || isLoadingNodeName) {
     return <Progress />;
   }
 
+  const ramStick = ramSticks?.find(({ locator }) => locator === ramLocator);
+
   return (
-    <DashboardCard title={`${node.name}: ${title}`} hash={hash}>
-      {data?.at(0)[key] || 'N/A'}
+    <DashboardCard title={`${node.name}: ${ramLocator} - ${title}`} hash={hash}>
+      {(ramStick && ramStick[key]) || 'N/A'}
     </DashboardCard>
   );
 };
