@@ -86,14 +86,16 @@ const CreateNewNode: React.FC = () => {
                 >
                   Close
                 </Button>
-                <Button
-                  type="submit"
-                  fullWidth
-                  variant="contained"
-                  disabled={isLoading}
-                >
-                  Submit
-                </Button>
+                {node && node?.uuid ? null : (
+                  <Button
+                    type="submit"
+                    fullWidth
+                    variant="contained"
+                    disabled={isLoading}
+                  >
+                    Submit
+                  </Button>
+                )}
               </DialogActions>
             </Form>
           )}
