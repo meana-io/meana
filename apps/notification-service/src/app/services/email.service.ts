@@ -13,11 +13,7 @@ export class EmailService extends NotificationService {
 
     sgMail.setApiKey(process.env.SENDGRID_APIKEY);
 
-    // console.log(dto);
-
     if (dto.to.length > 0) {
-      console.log(dto.to);
-
       const msg = {
         to: dto.to,
         from: 'noreply@meana.ovh',

@@ -35,6 +35,7 @@ export class ThresholdsService {
 
     users = users.filter(
       (user: User) =>
+        user.last_notification_at === null ||
         Date.parse(user.last_notification_at) + 900_000 < Date.now()
     );
 
@@ -59,7 +60,7 @@ export class ThresholdsService {
     ];
 
     return checkList.reduce(function (carry, actual) {
-      if (actual.isOver) {
+      if (actual.isOver && users.length > 0) {
         carry.push({
           ...actual,
           nodeName: node.data[0].name,
