@@ -49,7 +49,7 @@ const Login: NextPage = () => {
         {({ values, touched, errors, handleChange }) => (
           <Form>
             <Card variant="outlined">
-              <CardHeader title="Sgin in" />
+              <CardHeader title="Sign in" />
               <CardContent>
                 <Grid container spacing={2}>
                   <Grid item xs={12}>
